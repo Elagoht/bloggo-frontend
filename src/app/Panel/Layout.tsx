@@ -3,7 +3,7 @@ import Header from "../../components/layout/Header";
 import Aside from "../../components/layout/Aside";
 import Footer from "../../components/Footer";
 
-const Layout: ParentComponent = ({ children }) => {
+const PanelLayout: ParentComponent = ({ children }) => {
   return (
     <>
       <Header />
@@ -19,4 +19,4 @@ const Layout: ParentComponent = ({ children }) => {
   );
 };
 
-export default Layout;
+export default PanelLayout;
