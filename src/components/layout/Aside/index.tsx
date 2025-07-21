@@ -14,7 +14,7 @@ const Aside: ParentComponent = () => {
             <A
               href={item.href}
               class={classNames(
-                "flex items-center whitespace-nowrap gap-4 rounded-lg py-1 px-4",
+                "flex items-center whitespace-nowrap gap-3.5 rounded-lg py-1 px-4",
                 {
                   "bg-gopher-200 text-gopher-800": location.pathname.startsWith(
                     item.href
