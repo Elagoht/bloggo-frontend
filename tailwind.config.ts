@@ -4,6 +4,10 @@ const config: Config = {
   content: ["./src/**/*.{js,jsx,ts,tsx}", "index.html"],
   theme: {
     extend: {
+      backgroundImage: {
+        "auth-day": "url('/assets/background-day.webp')",
+        "auth-night": "url('/assets/background-night.webp')",
+      },
       fontFamily: {
         outfit: "Outfit, sans-serif",
       },

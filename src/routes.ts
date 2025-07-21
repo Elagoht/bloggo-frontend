@@ -1,15 +1,25 @@
 import { lazy } from "solid-js";
 import type { RouteDefinition } from "@solidjs/router";
-import Dashboard from "./app/Panel/Dashboard";
-import Layout from "./app/Panel/Layout";
+import DashboardPage from "./app/panel/dashboard/page";
+import PanelLayout from "./app/panel/layout";
+import AuthLayout from "./app/auth/layout";
+import LoginPage from "./app/auth/login/page";
 
 export const routes: RouteDefinition[] = [
   {
     path: "/",
-    component: Layout,
+    component: PanelLayout,
     children: {
       path: "/",
-      component: Dashboard,
+      component: DashboardPage,
+    },
+  },
+  {
+    path: "auth",
+    component: AuthLayout,
+    children: {
+      path: "/login",
+      component: LoginPage,
     },
   },
 ];
