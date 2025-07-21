@@ -5,7 +5,7 @@ import ProfileMenu from "./ProfileMenu";
 
 const Header: Component = () => {
   return (
-    <header class="fixed top-0 left-0 right-0 z-20 bg-smoke-50 dark:bg-smoke-950 flex items-center justify-between border-b border-smoke-200 dark:border-smoke-900 p-3">
+    <header class="fixed top-0 left-0 right-0 z-20 bg-smoke-50 dark:bg-smoke-950 flex items-center justify-between border-b border-smoke-200 dark:border-smoke-900 p-2.5">
       <Logo />
 
       <Search />

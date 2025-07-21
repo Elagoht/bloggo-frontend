@@ -29,14 +29,14 @@ const Search: Component = () => {
         ref={(element) => (inputRef = element)}
         type="search"
         placeholder="Search  ⌘+K"
-        class="bg-smoke-900 h-9 rounded-l-full py-2 px-4 text-sm focus:outline-smoke-800 outline-none"
+        class="bg-smoke-100 dark:bg-smoke-900 placeholder:text-smoke-200 dark:placeholder:text-smoke-400 h-8 rounded-l-full py-2 px-4 text-sm focus:outline-smoke-800 outline-none"
       />
 
       <button
         type="submit"
-        class="bg-smoke-900 hover:bg-smoke-800 focus:outline-smoke-800 h-9 rounded-r-full py-2 px-4 outline-none"
+        class="bg-smoke-100 dark:bg-smoke-900 hover:bg-smoke-800 focus:outline-smoke-800 h-8 rounded-r-full py-2 px-4 outline-none"
       >
-        <IconSearch size={16} />
+        <IconSearch size={18} />
       </button>
     </form>
   );

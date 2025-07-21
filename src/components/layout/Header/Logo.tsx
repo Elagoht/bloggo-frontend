@@ -6,7 +6,7 @@ const Logo: Component<{}> = (props) => {
     <A href="/" class="flex items-center gap-2">
       <img src="/assets/bloggo.webp" width={48} height={48} alt="Bloggo" />
 
-      <strong class="text-4xl leading-none">Bloggo</strong>
+      <strong class="text-3xl leading-none">Bloggo</strong>
     </A>
   );
 };
