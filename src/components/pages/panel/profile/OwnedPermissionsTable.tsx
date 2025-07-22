@@ -1,6 +1,6 @@
+import { IconCheck, IconX } from "@tabler/icons-solidjs";
 import { Component, For } from "solid-js";
 import allPermissions from "./allPermissions";
-import { IconCheck, IconCross, IconX } from "@tabler/icons-solidjs";
 
 type OwnedPermissionsTableProps = {
   permissions: string[];
