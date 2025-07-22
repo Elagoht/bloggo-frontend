@@ -11,6 +11,9 @@ const config: Config = {
       fontFamily: {
         outfit: "Outfit, sans-serif",
       },
+      gridTemplateColumns: {
+        cards: "repeat(auto-fit, minmax(16rem,1fr))",
+      },
       colors: {
         gopher: {
           50: "#f4f7fa",

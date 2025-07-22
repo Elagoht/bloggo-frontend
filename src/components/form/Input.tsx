@@ -1,10 +1,12 @@
 import { Component, JSX } from "solid-js";
 import classNames from "classnames";
 
-interface InputProps extends JSX.InputHTMLAttributes<HTMLInputElement> {}
+interface InputProps extends JSX.InputHTMLAttributes<HTMLInputElement> {
+  label?: string;
+}
 
-const Input: Component<InputProps> = (props) => {
-  return (
+const Input: Component<InputProps> = ({ label, ...props }) => {
+  const input = (
     <input
       {...props}
       class={classNames(
@@ -12,6 +14,16 @@ const Input: Component<InputProps> = (props) => {
         props.class
       )}
     />
+  );
+
+  return label ? (
+    <label class="flex flex-col gap-0.5">
+      <span class="text-sm">{label}</span>
+
+      {input}
+    </label>
+  ) : (
+    input
   );
 };
 

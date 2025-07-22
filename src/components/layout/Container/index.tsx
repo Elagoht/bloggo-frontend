@@ -11,7 +11,7 @@ const Container: ParentComponent<ContainerProps> = ({
 }) => {
   return (
     <div
-      class={classNames("flex flex-col gap-1 mx-auto w-full", {
+      class={classNames("flex flex-col gap-2 mx-auto w-full", {
         "max-w-screen-sm": size == "sm",
         "max-w-screen-md": size == "md",
         "max-w-screen-lg": size == "lg",

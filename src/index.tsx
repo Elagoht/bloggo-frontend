@@ -10,6 +10,7 @@ import PanelLayout from "./app/panel/layout";
 import ProfilePage from "./app/panel/profile/page";
 import CategoriesPage from "./app/panel/categories/page";
 import AuthGuardLayout from "./app/panel/guard";
+import CategoryCreatePage from "./app/panel/categories/create/page";
 
 render(
   () => (
@@ -22,7 +23,11 @@ render(
         <Route path="/" component={PanelLayout}>
           <Route path="/" component={DashboardPage} />
           <Route path="/profile" component={ProfilePage} />
-          <Route path="/categories" component={CategoriesPage} />
+
+          <Route path="/categories">
+            <Route path="/" component={CategoriesPage} />
+            <Route path="/create" component={CategoryCreatePage} />
+          </Route>
         </Route>
       </Route>
     </Router>
