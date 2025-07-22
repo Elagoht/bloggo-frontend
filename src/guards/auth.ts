@@ -1,26 +1,23 @@
-import { useNavigate } from "@solidjs/router";
-import { createSignal } from "solid-js";
-import ApiCall from "../utilities/apiCaller";
-import { $auth } from "../stores/auth";
+import { type useNavigate } from "@solidjs/router";
 import { postRefresh } from "../services/auth";
+import { $auth } from "../stores/auth";
 
-export function useAuthGuard(setReady: (value: boolean) => void) {
-  const navigate = useNavigate();
+export async function useAuthGuard(
+  navigate: ReturnType<typeof useNavigate>
+): Promise<boolean> {
+  const response = await postRefresh();
 
-  postRefresh().then((response) => {
-    if (!response.success) {
-      $auth.set({
-        accessToken: null,
-        name: null,
-        role: null,
-        permissions: null,
-      });
-      navigate("/auth/login", { replace: true });
-      return;
-    }
+  if (!response.success) {
+    $auth.set({
+      accessToken: null,
+      name: null,
+      role: null,
+      permissions: null,
+    });
+    navigate("/auth/login", { replace: true });
+    return false;
+  }
 
-    $auth.set(response.data);
-
-    setReady(true); // Guard tamamlandı
-  });
+  $auth.set(response.data);
+  return true;
 }

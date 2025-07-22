@@ -1,16 +1,11 @@
-import { createSignal, onMount, ParentComponent, Show } from "solid-js";
-import { useAuthGuard } from "../../guards/auth";
-import Header from "../../components/layout/Header";
+import { ParentComponent } from "solid-js";
 import Aside from "../../components/layout/Aside";
 import Footer from "../../components/layout/Footer";
+import Header from "../../components/layout/Header";
 
 const PanelLayout: ParentComponent = ({ children }) => {
-  const [isReady, setReady] = createSignal(false);
-
-  onMount(() => useAuthGuard(setReady));
-
   return (
-    <Show when={isReady()}>
+    <>
       <Header />
       <Aside />
 
@@ -18,7 +13,7 @@ const PanelLayout: ParentComponent = ({ children }) => {
         {children}
         <Footer />
       </main>
-    </Show>
+    </>
   );
 };
 

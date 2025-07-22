@@ -8,6 +8,8 @@ import LoginPage from "./app/auth/login/page";
 import DashboardPage from "./app/panel/dashboard/page";
 import PanelLayout from "./app/panel/layout";
 import ProfilePage from "./app/panel/profile/page";
+import CategoriesPage from "./app/panel/categories/page";
+import AuthGuardLayout from "./app/panel/guard";
 
 render(
   () => (
@@ -16,9 +18,12 @@ render(
         <Route path="/login" component={LoginPage} />
       </Route>
 
-      <Route path="/" component={PanelLayout}>
-        <Route path="/" component={DashboardPage} />
-        <Route path="/profile" component={ProfilePage} />
+      <Route path="/" component={AuthGuardLayout}>
+        <Route path="/" component={PanelLayout}>
+          <Route path="/" component={DashboardPage} />
+          <Route path="/profile" component={ProfilePage} />
+          <Route path="/categories" component={CategoriesPage} />
+        </Route>
       </Route>
     </Router>
   ),
