@@ -9,7 +9,7 @@ const profileMenu = [
     icon: IconUser,
     href: "/profile",
     role: "anchor",
-    type: 0,
+    type: "default",
   },
   {
     name: "Logout",
@@ -24,7 +24,7 @@ const profileMenu = [
         authStore.set({});
       }),
     role: "button",
-    type: 1,
+    type: "danger",
   },
 ];
 

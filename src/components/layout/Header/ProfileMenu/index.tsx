@@ -75,7 +75,7 @@ const ProfileMenu: Component<ProfileMenuProps> = ({ avatar, name = "?" }) => {
                     href={item.href}
                     class={classNames(
                       "flex items-center gap-2 px-2 py-1 transition-colors",
-                      item.type === 1
+                      item.type === "danger"
                         ? "hover:bg-danger-200 dark:hover:bg-danger-800 hover:text-danger-800 hover:dark:text-danger-200"
                         : "hover:bg-smoke-100 dark:hover:bg-smoke-800"
                     )}
@@ -89,7 +89,7 @@ const ProfileMenu: Component<ProfileMenuProps> = ({ avatar, name = "?" }) => {
                     onclick={() => item.work(navigate, $auth)}
                     class={classNames(
                       "flex w-full items-center gap-2 px-2 py-1 transition-colors",
-                      item.type === 1
+                      item.type === "danger"
                         ? "hover:bg-danger-200 dark:hover:bg-danger-800 hover:text-danger-800 hover:dark:text-danger-200"
                         : "hover:bg-smoke-100 dark:hover:bg-smoke-800"
                     )}
