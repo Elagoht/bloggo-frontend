@@ -7,6 +7,7 @@ import AuthLayout from "./app/auth/layout";
 import LoginPage from "./app/auth/login/page";
 import DashboardPage from "./app/panel/dashboard/page";
 import PanelLayout from "./app/panel/layout";
+import ProfilePage from "./app/panel/profile/page";
 
 render(
   () => (
@@ -17,6 +18,7 @@ render(
 
       <Route path="/" component={PanelLayout}>
         <Route path="/" component={DashboardPage} />
+        <Route path="/profile" component={ProfilePage} />
       </Route>
     </Router>
   ),

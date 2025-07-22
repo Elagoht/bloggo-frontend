@@ -1,0 +1,26 @@
+const permission = {
+  "post:create": "Create a new post",
+  "post:edit": "Edit all posts including other authors' posts",
+  "post:edit_own": "Edit posts owned by itself",
+  "post:delete": "Delete all posts including other authors' posts",
+  "post:delete_own": "Delete posts owned by itself",
+  "post:publish": "Publish a waiting blog",
+  "post:view": "View posts from all authors",
+  "post:schedule": "schedule a post to publish automatically",
+  "tag:manage": "Manage tags",
+  "category:manage": "Manage categories",
+  "user:view": "View user list",
+  "user:create": "Create a new user",
+  "user:update": "Update a user's info",
+  "user:delete": "Delete a user account",
+  "user:change_passphrase": "Change another user's passphrase",
+  "stats:view": "See whole statistics",
+  "role:assign": "Assign a role to a user",
+  "auditlog:view": "Inspect server audit logs",
+  "schedule:create": "Create a schedule",
+  "schedule:update": "Edit an existing schedule",
+  "schedule:delete": "Cancel a schedule",
+  "schedule:view": "View programmed schedules",
+};
+
+export default permission;
