@@ -4,6 +4,7 @@ import Button from "../components/form/button";
 import ApiCall from "../utilities/apiCaller";
 import { useNavigate } from "@solidjs/router";
 import { $auth } from "../stores/auth";
+import { postLogin } from "../services/auth";
 
 const LoginForm: Component = () => {
   const navigate = useNavigate();
@@ -14,13 +15,10 @@ const LoginForm: Component = () => {
 
     const formData = new FormData(form);
 
-    const email = formData.get("email");
-    const passphrase = formData.get("passphrase");
+    const email = formData.get("email") as string;
+    const passphrase = formData.get("passphrase") as string;
 
-    const response = await ApiCall.post<ResponseAccessToken>("/auth/login", {
-      email,
-      passphrase,
-    });
+    const response = await postLogin(email, passphrase);
 
     if (!response.success) return; // TODO: Error handling
 

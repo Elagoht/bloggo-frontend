@@ -2,6 +2,7 @@ import { type Navigator } from "@solidjs/router";
 import { IconLogout, IconUser } from "@tabler/icons-solidjs";
 import ApiCall from "../../../../utilities/apiCaller";
 import { PreinitializedWritableAtom } from "nanostores";
+import { postLogout } from "../../../../services/auth";
 
 const profileMenu = [
   {
@@ -18,7 +19,7 @@ const profileMenu = [
       navigate: Navigator,
       authStore: PreinitializedWritableAtom<unknown>
     ) =>
-      ApiCall.post<void>("/auth/logout").then((response) => {
+      postLogout().then((response) => {
         if (!response.success) return;
         navigate("/auth/login", { replace: true });
         authStore.set({});

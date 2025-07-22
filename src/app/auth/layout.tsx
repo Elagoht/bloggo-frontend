@@ -15,7 +15,7 @@ const AuthLayout: ParentComponent = ({ children }) => {
       return;
     }
 
-    const response = await ApiCall.post<ResponseAccessToken>("/auth/refresh");
+    const response = await ApiCall.post<ResponseSession>("/auth/refresh");
 
     if (response.success) {
       $auth.set({
