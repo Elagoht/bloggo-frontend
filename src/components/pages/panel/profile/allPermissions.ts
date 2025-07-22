@@ -6,7 +6,7 @@ const permission = {
   "post:delete_own": "Delete posts owned by itself",
   "post:publish": "Publish a waiting blog",
   "post:view": "View posts from all authors",
-  "post:schedule": "schedule a post to publish automatically",
+  "post:schedule": "Schedule a post to publish automatically",
   "tag:manage": "Manage tags",
   "category:manage": "Manage categories",
   "user:view": "View user list",
