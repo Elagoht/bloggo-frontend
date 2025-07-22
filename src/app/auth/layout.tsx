@@ -18,12 +18,7 @@ const AuthLayout: ParentComponent = ({ children }) => {
     const response = await ApiCall.post<ResponseSession>("/auth/refresh");
 
     if (response.success) {
-      $auth.set({
-        accessToken: response.data.accessToken,
-        name: "Furkan",
-        role: "Admin",
-        permissions: [],
-      });
+      $auth.set(response.data);
 
       navigate("/", { replace: true });
     } else {

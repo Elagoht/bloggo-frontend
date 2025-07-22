@@ -19,12 +19,7 @@ export function useAuthGuard(setReady: (value: boolean) => void) {
       return;
     }
 
-    $auth.set({
-      accessToken: response.data.accessToken,
-      name: "Furkan",
-      role: "Admin",
-      permissions: [],
-    });
+    $auth.set(response.data);
 
     setReady(true); // Guard tamamlandı
   });

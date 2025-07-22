@@ -22,12 +22,7 @@ const LoginForm: Component = () => {
 
     if (!response.success) return; // TODO: Error handling
 
-    $auth.set({
-      accessToken: response.data.accessToken,
-      name: "Furkan",
-      role: "Admin",
-      permissions: [],
-    });
+    $auth.set(response.data);
 
     navigate("/", { replace: true });
   };
