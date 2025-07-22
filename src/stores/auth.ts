@@ -1,18 +1,15 @@
-import { createStore } from "solid-js/store";
-
-type UserProfile = {
-  name: string;
-  role: string;
-};
+import { atom } from "nanostores";
 
 interface AuthStore {
   accessToken: string | null;
-  profile: UserProfile | null;
+  name: string | null;
+  role: string | null;
   permissions: string[];
 }
 
-export const [auth, setAuth] = createStore<AuthStore>({
+export const $auth = atom<AuthStore>({
   accessToken: null,
-  profile: null,
+  name: null,
+  role: null,
   permissions: [],
 });

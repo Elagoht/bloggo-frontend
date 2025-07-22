@@ -1,6 +1,7 @@
 import { Component } from "solid-js";
 import Input from "../../../components/form/Input";
 import Button from "../../../components/form/button";
+import LoginForm from "../../../forms/LoginForm";
 
 const LoginPage: Component = () => {
   return (
@@ -22,18 +23,7 @@ const LoginPage: Component = () => {
         </strong>
       </hgroup>
 
-      <form class="flex flex-col gap-4" autocomplete="off">
-        <Input
-          type="email"
-          autofocus={true}
-          autocomplete="off"
-          placeholder="Email"
-        />
-
-        <Input type="password" autocomplete="off" placeholder="Password" />
-
-        <Button type="submit">Login</Button>
-      </form>
+      <LoginForm />
     </>
   );
 };

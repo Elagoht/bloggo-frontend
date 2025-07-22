@@ -1,0 +1,3 @@
+type ResponseAccessToken = {
+  accessToken: string;
+};

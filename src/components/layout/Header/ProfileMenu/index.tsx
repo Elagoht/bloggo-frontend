@@ -1,4 +1,4 @@
-import { A } from "@solidjs/router";
+import { A, useNavigate } from "@solidjs/router";
 import {
   IconLogout,
   IconSettings,
@@ -7,6 +7,7 @@ import {
 import classNames from "classnames";
 import { Component, createSignal, For, onCleanup, onMount } from "solid-js";
 import profileMenu from "./profile";
+import { $auth } from "../../../../stores/auth";
 
 type ProfileMenuProps = {
   avatar?: string;
@@ -14,6 +15,8 @@ type ProfileMenuProps = {
 };
 
 const ProfileMenu: Component<ProfileMenuProps> = ({ avatar, name = "?" }) => {
+  const navigate = useNavigate();
+
   const [menuOpen, setMenuOpen] = createSignal<boolean>(false);
   let menuRef: HTMLDivElement | undefined;
 
@@ -44,10 +47,10 @@ const ProfileMenu: Component<ProfileMenuProps> = ({ avatar, name = "?" }) => {
             alt="Profile Picture"
             width={32}
             height={32}
-            class="rounded-full border border-smoke-300 dark:border-smoke-700 shadow-sm"
+            class="rounded-full border border-smoke-300 dark:border-smoke-700 shadow-sm object-contain size-8"
           />
         ) : (
-          <IconUserCircle size={32} />
+          <IconUserCircle size={32} class="size-8" />
         )}
 
         <span class="font-medium text-smoke-800 dark:text-smoke-200 hidden sm:inline">
@@ -64,19 +67,38 @@ const ProfileMenu: Component<ProfileMenuProps> = ({ avatar, name = "?" }) => {
         )}
       >
         <For each={profileMenu}>
-          {(item) => (
-            <A
-              href={item.href}
-              class={classNames(
-                "flex items-center gap-2 px-2 py-1 transition-colors",
-                item.type === 1
-                  ? "hover:bg-danger-200 dark:hover:bg-danger-800 hover:text-danger-800 hover:dark:text-danger-200"
-                  : "hover:bg-smoke-100 dark:hover:bg-smoke-800"
-              )}
-            >
-              <item.icon size={18} /> {item.name}
-            </A>
-          )}
+          {(item) => {
+            switch (item.role) {
+              case "anchor":
+                return (
+                  <A
+                    href={item.href}
+                    class={classNames(
+                      "flex items-center gap-2 px-2 py-1 transition-colors",
+                      item.type === 1
+                        ? "hover:bg-danger-200 dark:hover:bg-danger-800 hover:text-danger-800 hover:dark:text-danger-200"
+                        : "hover:bg-smoke-100 dark:hover:bg-smoke-800"
+                    )}
+                  >
+                    <item.icon size={18} /> {item.name}
+                  </A>
+                );
+              case "button":
+                return (
+                  <button
+                    onclick={() => item.work(navigate, $auth)}
+                    class={classNames(
+                      "flex w-full items-center gap-2 px-2 py-1 transition-colors",
+                      item.type === 1
+                        ? "hover:bg-danger-200 dark:hover:bg-danger-800 hover:text-danger-800 hover:dark:text-danger-200"
+                        : "hover:bg-smoke-100 dark:hover:bg-smoke-800"
+                    )}
+                  >
+                    <item.icon size={18} /> {item.name}
+                  </button>
+                );
+            }
+          }}
         </For>
       </nav>
     </div>

@@ -18,9 +18,11 @@
     "vite-plugin-solid": "^2.11.6"
   },
   "dependencies": {
+    "@nanostores/solid": "^1.0.0",
     "@solidjs/router": "^0.15.1",
     "@tabler/icons-solidjs": "^3.34.1",
     "classnames": "^2.5.1",
+    "nanostores": "^1.0.1",
     "solid-js": "^1.9.5"
   }
 }

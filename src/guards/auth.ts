@@ -1,22 +1,24 @@
 import { useNavigate } from "@solidjs/router";
-import { setAuth } from "../stores/auth";
+import { createSignal } from "solid-js";
+import ApiCall from "../utilities/apiCaller";
+import { $auth } from "../stores/auth";
 
-export async function useAuthGuard() {
+export function useAuthGuard(setReady: (value: boolean) => void) {
   const navigate = useNavigate();
 
-  const res = await fetch("http://localhost:8723/auth/refresh", {
-    method: "POST",
-    credentials: "include",
-  });
+  ApiCall.post<ResponseAccessToken>("/auth/refresh").then((response) => {
+    if (!response.success) {
+      navigate("/auth/login", { replace: true });
+      return;
+    }
 
-  if (res.ok) {
-    const data = await res.json();
-    setAuth({
-      accessToken: data.accessToken,
-      profile: data.profile,
-      permissions: data.permissions,
+    $auth.set({
+      accessToken: response.data.accessToken,
+      name: "Furkan",
+      role: "Admin",
+      permissions: [],
     });
-  } else {
-    navigate("/auth/login", { replace: true });
-  }
+
+    setReady(true); // Guard tamamlandı
+  });
 }
