@@ -1,9 +1,12 @@
-import { ParentComponent } from "solid-js";
+import { onMount, ParentComponent } from "solid-js";
 import Header from "../../components/layout/Header";
 import Aside from "../../components/layout/Aside";
-import Footer from "../../components/Footer";
+import Footer from "../../components/layout/Footer";
+import { useAuthGuard } from "../../guards/auth";
 
 const PanelLayout: ParentComponent = ({ children }) => {
+  onMount(useAuthGuard);
+
   return (
     <>
       <Header />

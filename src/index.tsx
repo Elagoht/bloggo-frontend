@@ -3,10 +3,11 @@ import "./index.css";
 import { render } from "solid-js/web";
 
 import { Route, Router } from "@solidjs/router";
-import LoginPage from "./app/auth/login/page";
 import AuthLayout from "./app/auth/layout";
-import PanelLayout from "./app/panel/layout";
+import LoginPage from "./app/auth/login/page";
 import DashboardPage from "./app/panel/dashboard/page";
+import PanelLayout from "./app/panel/layout";
+
 render(
   () => (
     <Router>
