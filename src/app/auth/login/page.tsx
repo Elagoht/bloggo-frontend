@@ -1,6 +1,4 @@
 import { Component } from "solid-js";
-import Input from "../../../components/form/Input";
-import Button from "../../../components/form/button";
 import LoginForm from "../../../forms/LoginForm";
 
 const LoginPage: Component = () => {
