@@ -1,27 +1,37 @@
-import { Component, createResource, Show } from "solid-js";
-import Container from "../../../../../components/layout/Container";
-import H1 from "../../../../../components/typographu/H1";
 import { useNavigate, useParams } from "@solidjs/router";
-import { getCategories, getCategory } from "../../../../../services/categories";
+import { Component, createResource, Show } from "solid-js";
+import Button from "../../../../../components/form/Button";
+import Form from "../../../../../components/form/Form";
 import Input from "../../../../../components/form/Input";
-import Button from "../../../../../components/form/button";
+import Container from "../../../../../components/layout/Container";
+import H1 from "../../../../../components/typography/H1";
+import {
+  getCategory,
+  patchCategoryUpdate,
+} from "../../../../../services/categories";
 
 const CategoryEditPage: Component = () => {
-  const params = useParams();
+  const slug = useParams()["slug"];
   const navigate = useNavigate();
 
   const [category] = createResource(async () => {
-    const result = await getCategory(params["slug"]);
+    const result = await getCategory(slug);
     if (!result.success) throw navigate("/categories");
     return result.data;
   });
 
-  const handleSubmit = (event: SubmitEvent) => {
-    event.preventDefault();
-    const form = event.currentTarget as HTMLFormElement;
-    const formData = new FormData(form);
+  const handleSubmit = async (data: FormData) => {
+    const name = data.get("name") as string;
+    const spot = data.get("spot") as string;
+    const description = data.get("description") as string;
 
-    console.log(formData);
+    const response = await patchCategoryUpdate(slug, name, spot, description);
+
+    await Promise.resolve(() => setTimeout(() => {}, 4000));
+
+    if (!response.success) return;
+
+    navigate("/categories");
   };
 
   return (
@@ -29,7 +39,7 @@ const CategoryEditPage: Component = () => {
       <Container size="sm">
         <H1>Edit Category</H1>
 
-        <form class="flex flex-col gap-4" onsubmit={handleSubmit}>
+        <Form handle={handleSubmit}>
           <Input name="name" label="Name" value={category().name} required />
 
           <Input
@@ -51,7 +61,7 @@ const CategoryEditPage: Component = () => {
           />
 
           <Button type="submit">Submit</Button>
-        </form>
+        </Form>
       </Container>
     </Show>
   );

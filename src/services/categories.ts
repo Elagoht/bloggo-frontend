@@ -19,3 +19,15 @@ export const postCategoryCreate = (
     spot,
     description,
   });
+
+export const patchCategoryUpdate = (
+  slug: string,
+  name: string,
+  spot: string,
+  description: string
+) =>
+  ApiCall.patch<ResponseCategoryCreated>(`/categories/${slug}`, {
+    name,
+    spot,
+    description,
+  });

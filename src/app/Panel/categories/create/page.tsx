@@ -1,23 +1,19 @@
 import { Component } from "solid-js";
 import Container from "../../../../components/layout/Container";
 import Input from "../../../../components/form/Input";
-import Button from "../../../../components/form/button";
+import Button from "../../../../components/form/Button";
 import { postCategoryCreate } from "../../../../services/categories";
 import { useNavigate } from "@solidjs/router";
-import H1 from "../../../../components/typographu/H1";
+import H1 from "../../../../components/typography/H1";
+import Form from "../../../../components/form/Form";
 
 const CategoryCreatePage: Component = () => {
   const navigate = useNavigate();
 
-  const handleSubmit = async (event: SubmitEvent) => {
-    event.preventDefault();
-    const form = event.currentTarget as HTMLFormElement;
-    const formData = new FormData(form);
-    console.log(formData);
-
-    const name = formData.get("name") as string;
-    const spot = formData.get("spot") as string;
-    const description = formData.get("description") as string;
+  const handleSubmit = async (data: FormData) => {
+    const name = data.get("name") as string;
+    const spot = data.get("spot") as string;
+    const description = data.get("description") as string;
 
     const response = await postCategoryCreate(name, spot, description);
 
@@ -30,7 +26,7 @@ const CategoryCreatePage: Component = () => {
     <Container size="sm">
       <H1>Create Category</H1>
 
-      <form class="flex flex-col gap-4" onsubmit={handleSubmit}>
+      <Form handle={handleSubmit}>
         <Input name="name" label="Name" required />
 
         <Input
@@ -50,7 +46,7 @@ const CategoryCreatePage: Component = () => {
         />
 
         <Button type="submit">Submit</Button>
-      </form>
+      </Form>
     </Container>
   );
 };
