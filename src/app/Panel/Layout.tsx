@@ -9,7 +9,7 @@ const PanelLayout: ParentComponent = ({ children }) => {
       <Header />
       <Aside />
 
-      <main class="mt-16 flex col-span-2 p-4 flex-col gap-4 flex-1 max-w-full overflow-x-hidden">
+      <main class="mt-16 flex flex-col items-center p-4 gap-4 flex-1 max-w-full overflow-x-hidden">
         {children}
         <Footer />
       </main>
