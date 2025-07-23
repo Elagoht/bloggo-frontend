@@ -2,9 +2,10 @@ import { JSX, ParentComponent } from "solid-js";
 
 interface FormProps extends JSX.FormHTMLAttributes<HTMLFormElement> {
   handle: (formData: FormData) => Promise<void>;
+  reset?: (form: HTMLFormElement) => void;
 }
 
-const Form: ParentComponent<FormProps> = ({ handle, ...props }) => {
+const Form: ParentComponent<FormProps> = ({ handle, reset, ...props }) => {
   const handleSubmit = async (event: SubmitEvent) => {
     event.preventDefault();
     const form = event.currentTarget as HTMLFormElement;
@@ -38,8 +39,23 @@ const Form: ParentComponent<FormProps> = ({ handle, ...props }) => {
     }
   };
 
+  const handleReset = (event: Event) => {
+    event.preventDefault();
+
+    const form = event.currentTarget as HTMLFormElement;
+    form.reset();
+    if (reset) {
+      reset(form);
+    }
+  };
+
   return (
-    <form class="flex flex-col gap-4" {...props} onsubmit={handleSubmit}>
+    <form
+      class="flex flex-col gap-4"
+      {...props}
+      onReset={handleReset}
+      onsubmit={handleSubmit}
+    >
       {props.children}
     </form>
   );
