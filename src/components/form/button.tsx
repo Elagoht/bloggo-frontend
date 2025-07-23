@@ -27,13 +27,13 @@ const Button: Component<ButtonComponentProps<boolean>> = ({
         color === "primary" && variant === "default",
       "bg-danger-500 text-danger-50 focus:outline-danger-500":
         color === "danger" && variant === "default",
-      "bg-success-500 text-smoke-50 focus:outline-smoke-500":
+      "bg-success-500 text-success-50 focus:outline-success-500":
         color === "success" && variant === "default",
       "border-2 border-gopher-500 text-gopher-500 focus:outline-gopher-500":
         color === "primary" && variant === "outline",
       "border-2 border-danger-500 text-danger-500 focus:outline-danger-500":
         color === "danger" && variant === "outline",
-      "border-2 border-success-500 text-smoke-500 focus:outline-smoke-500":
+      "border-2 border-success-500 text-success-500 focus:outline-success-500":
         color === "success" && variant === "outline",
     }
   );

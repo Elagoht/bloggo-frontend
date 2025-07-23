@@ -34,3 +34,6 @@ export const patchCategoryUpdate = (
     spot,
     description,
   });
+
+export const deleteCategory = (slug: string) =>
+  ApiCall.delete(`/categories/${slug}`);

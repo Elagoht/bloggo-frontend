@@ -1,52 +1,55 @@
-import "./design/index.css";
-
-import { render } from "solid-js/web";
-
 import { Route, Router } from "@solidjs/router";
 import { lazy } from "solid-js";
+import { render } from "solid-js/web";
+import { Toaster } from "solid-toast";
+import "./design/index.css";
 
 render(
   () => (
-    <Router>
-      <Route path="/auth" component={lazy(() => import("./app/auth/layout"))}>
-        <Route
-          path="/login"
-          component={lazy(() => import("./app/auth/login/page"))}
-        />
-      </Route>
+    <>
+      <Toaster />
 
-      <Route path="/" component={lazy(() => import("./app/panel/guard"))}>
-        <Route path="/" component={lazy(() => import("./app/panel/layout"))}>
+      <Router>
+        <Route path="/auth" component={lazy(() => import("./app/auth/layout"))}>
           <Route
-            path="/"
-            component={lazy(() => import("./app/panel/dashboard/page"))}
+            path="/login"
+            component={lazy(() => import("./app/auth/login/page"))}
           />
-          <Route
-            path="/profile"
-            component={lazy(() => import("./app/panel/profile/page"))}
-          />
+        </Route>
 
-          <Route path="/categories">
+        <Route path="/" component={lazy(() => import("./app/panel/guard"))}>
+          <Route path="/" component={lazy(() => import("./app/panel/layout"))}>
             <Route
               path="/"
-              component={lazy(() => import("./app/panel/categories/page"))}
+              component={lazy(() => import("./app/panel/dashboard/page"))}
             />
             <Route
-              path="/create"
-              component={lazy(
-                () => import("./app/panel/categories/create/page")
-              )}
+              path="/profile"
+              component={lazy(() => import("./app/panel/profile/page"))}
             />
-            <Route
-              path="/edit/:slug"
-              component={lazy(
-                () => import("./app/panel/categories/edit/[slug]/page")
-              )}
-            />
+
+            <Route path="/categories">
+              <Route
+                path="/"
+                component={lazy(() => import("./app/panel/categories/page"))}
+              />
+              <Route
+                path="/create"
+                component={lazy(
+                  () => import("./app/panel/categories/create/page")
+                )}
+              />
+              <Route
+                path="/edit/:slug"
+                component={lazy(
+                  () => import("./app/panel/categories/edit/[slug]/page")
+                )}
+              />
+            </Route>
           </Route>
         </Route>
-      </Route>
-    </Router>
+      </Router>
+    </>
   ),
   document.querySelector("body")
 );

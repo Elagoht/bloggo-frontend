@@ -30,9 +30,9 @@ const ActivityDates: Component<ActivityDatesProps> = ({ dates }) => {
 
             <time
               class="bg-smoke-50 dark:bg-smoke-950 px-2 py-1 rounded-md line-clamp-1"
-              dateTime={date.time.toString()}
+              dateTime={date.time?.toString?.()}
             >
-              {formatDate(date.time)}
+              {date.time ? formatDate(date.time) : "Never"}
             </time>
           </>
         )}
