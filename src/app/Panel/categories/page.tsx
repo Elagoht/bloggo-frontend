@@ -1,19 +1,28 @@
-import { Component, createResource, For, Show, Suspense } from "solid-js";
-import { getCategories } from "../../../services/categories";
-import Button from "../../../components/form/Button";
+import { useSearchParams } from "@solidjs/router";
 import { IconPlus } from "@tabler/icons-solidjs";
+import { Component, createResource, For, Show, Suspense } from "solid-js";
+import Button from "../../../components/form/Button";
 import Container from "../../../components/layout/Container";
+import CardGrid from "../../../components/layout/Container/CardGrid";
+import ContentWithSidebar from "../../../components/layout/Container/ContentWithSidebar";
+import HeaderWithButton from "../../../components/layout/Container/HeaderWithButton";
+import Sidebar from "../../../components/layout/Container/Sidebar";
 import CategoryCard from "../../../components/pages/panel/categories/CategoryCard";
 import H1 from "../../../components/typography/H1";
-import ContentWithSidebar from "../../../components/layout/Container/ContentWithSidebar";
-import Sidebar from "../../../components/layout/Container/Sidebar";
-import CardGrid from "../../../components/layout/Container/CardGrid";
-import HeaderWithButton from "../../../components/layout/Container/HeaderWithButton";
+import H2 from "../../../components/typography/H2";
+import CategoryFiltersForm from "../../../forms/CategoryFiltersForm";
+import { getCategories } from "../../../services/categories";
 import NoCategoriesYet from "./edit/NoCampaigns";
 
 const CategoriesPage: Component = () => {
-  const [categories] = createResource(async () => {
-    const result = await getCategories();
+  const [searchParams] = useSearchParams();
+
+  const [categories, { refetch }] = createResource(async () => {
+    const result = await getCategories({
+      q: searchParams.q as string,
+      order: searchParams.order as string,
+      dir: searchParams.dir as string,
+    });
     return result.success ? result.data : [];
   });
 
@@ -24,7 +33,7 @@ const CategoriesPage: Component = () => {
           <H1>Categories</H1>
 
           <Button href="/categories/create" color="success" class="self-end">
-            Add New Category <IconPlus />
+            New Category <IconPlus />
           </Button>
         </HeaderWithButton>
 
@@ -47,7 +56,9 @@ const CategoriesPage: Component = () => {
       </Container>
 
       <Sidebar>
-        <H1>Filters</H1>
+        <H2>Filters</H2>
+
+        <CategoryFiltersForm refetch={refetch} />
       </Sidebar>
     </ContentWithSidebar>
   );
