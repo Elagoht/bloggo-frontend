@@ -27,8 +27,6 @@ const CategoryEditForm: ParentComponent<CategoryEditFormProps> = ({
       description
     );
 
-    await Promise.resolve(() => setTimeout(() => {}, 4000));
-
     if (!response.success) return;
 
     navigate("/categories");
