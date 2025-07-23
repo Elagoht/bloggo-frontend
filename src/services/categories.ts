@@ -3,7 +3,10 @@ import ApiCall from "../utilities/apiCaller";
 
 export const getCategories = (filters?: RequestCategoryFilters) =>
   ApiCall.get<ResponseCategories>(
-    `/categories${QueryString.stringify(filters, { skipNulls: true })}`
+    `/categories${QueryString.stringify(filters, {
+      skipNulls: true,
+      addQueryPrefix: true,
+    })}`
   );
 
 export const getCategory = (slug: string) =>
