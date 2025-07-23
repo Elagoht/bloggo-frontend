@@ -12,6 +12,8 @@ type CategoryCard = {
 type RequestCategoryFilters = {
   page?: number;
   take?: number;
+  order?: string;
+  dir?: string;
   q?: string;
 };
 
