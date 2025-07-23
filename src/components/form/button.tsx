@@ -4,6 +4,7 @@ import { A, AnchorProps } from "@solidjs/router";
 
 interface ButtonProps<T extends boolean = false> {
   color?: "primary" | "danger" | "success";
+  variant?: "default" | "outline";
   href?: T extends true ? string : never;
   class?: string;
 }
@@ -14,6 +15,7 @@ type ButtonComponentProps<T extends boolean> = T extends true
 
 const Button: Component<ButtonComponentProps<boolean>> = ({
   color = "primary",
+  variant = "default",
   href,
   ...props
 }) => {
@@ -22,11 +24,17 @@ const Button: Component<ButtonComponentProps<boolean>> = ({
     props.class,
     {
       "bg-gopher-500 text-gopher-50 focus:outline-gopher-500":
-        color === "primary",
+        color === "primary" && variant === "default",
       "bg-danger-500 text-danger-50 focus:outline-danger-500":
-        color === "danger",
+        color === "danger" && variant === "default",
       "bg-success-500 text-smoke-50 focus:outline-smoke-500":
-        color === "success",
+        color === "success" && variant === "default",
+      "border-2 border-gopher-500 text-gopher-500 focus:outline-gopher-500":
+        color === "primary" && variant === "outline",
+      "border-2 border-danger-500 text-danger-500 focus:outline-danger-500":
+        color === "danger" && variant === "outline",
+      "border-2 border-success-500 text-smoke-500 focus:outline-smoke-500":
+        color === "success" && variant === "outline",
     }
   );
 
