@@ -4,6 +4,7 @@ import Input from "../../../../components/form/Input";
 import Button from "../../../../components/form/button";
 import { postCategoryCreate } from "../../../../services/categories";
 import { useNavigate } from "@solidjs/router";
+import H1 from "../../../../components/typographu/H1";
 
 const CategoryCreatePage: Component = () => {
   const navigate = useNavigate();
@@ -27,7 +28,7 @@ const CategoryCreatePage: Component = () => {
 
   return (
     <Container size="sm">
-      <h1 class="text-2xl font-bold">Create Category</h1>
+      <H1>Create Category</H1>
 
       <form class="flex flex-col gap-4" onsubmit={handleSubmit}>
         <Input name="name" label="Name" required />

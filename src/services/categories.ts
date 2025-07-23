@@ -6,6 +6,9 @@ export const getCategories = (filters?: RequestCategoryFilters) =>
     `/categories${QueryString.stringify(filters, { skipNulls: true })}`
   );
 
+export const getCategory = (slug: string) =>
+  ApiCall.get<ResponseCategory>(`/categories/${slug}`);
+
 export const postCategoryCreate = (
   name: string,
   spot: string,

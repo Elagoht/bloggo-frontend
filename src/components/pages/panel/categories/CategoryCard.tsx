@@ -9,7 +9,7 @@ const CategoryCard: Component<CategoryCard> = ({
 }) => {
   return (
     <A
-      href={`/category/edit/${slug}`}
+      href={`/categories/edit/${slug}`}
       class="flex flex-col bg-smoke-0 dark:bg-smoke-950 rounded-lg p-2 gap-2"
     >
       <hgroup class="flex gap-2 items-center">

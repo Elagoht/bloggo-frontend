@@ -16,3 +16,11 @@ type RequestCategoryFilters = {
 };
 
 type ResponseCategories = CategoryCard[];
+
+type ResponseCategory = {
+  name: string;
+  slug: string;
+  spot: string;
+  description: string;
+  blogCount: number;
+};

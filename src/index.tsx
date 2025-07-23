@@ -11,6 +11,7 @@ import ProfilePage from "./app/panel/profile/page";
 import CategoriesPage from "./app/panel/categories/page";
 import AuthGuardLayout from "./app/panel/guard";
 import CategoryCreatePage from "./app/panel/categories/create/page";
+import CategoryEditPage from "./app/panel/categories/edit/[slug]/page";
 
 render(
   () => (
@@ -27,6 +28,7 @@ render(
           <Route path="/categories">
             <Route path="/" component={CategoriesPage} />
             <Route path="/create" component={CategoryCreatePage} />
+            <Route path="/edit/:slug" component={CategoryEditPage} />
           </Route>
         </Route>
       </Route>
