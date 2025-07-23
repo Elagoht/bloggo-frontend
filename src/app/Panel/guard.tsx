@@ -1,6 +1,6 @@
 import { ParentComponent, createSignal, onMount, Show } from "solid-js";
 import { useNavigate } from "@solidjs/router";
-import { postRefresh } from "../../services/auth";
+import { postRefresh } from "../../services/session";
 import { $auth } from "../../stores/auth";
 
 const AuthGuardLayout: ParentComponent = (props) => {

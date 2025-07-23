@@ -2,7 +2,7 @@ import { type Navigator } from "@solidjs/router";
 import { IconLogout, IconUser } from "@tabler/icons-solidjs";
 import ApiCall from "../../../../utilities/apiCaller";
 import { PreinitializedWritableAtom } from "nanostores";
-import { postLogout } from "../../../../services/auth";
+import { postLogout } from "../../../../services/session";
 
 const profileMenu = [
   {

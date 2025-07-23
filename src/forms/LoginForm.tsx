@@ -1,7 +1,7 @@
 import { useNavigate } from "@solidjs/router";
 import { Component } from "solid-js";
 import Input from "../components/form/Input";
-import { postLogin } from "../services/auth";
+import { postLogin } from "../services/session";
 import { $auth } from "../stores/auth";
 import Button from "../components/form/Button";
 import Form from "../components/form/Form";
