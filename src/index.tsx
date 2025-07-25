@@ -23,10 +23,20 @@ render(
               path="/"
               component={lazy(() => import("./app/panel/dashboard/page"))}
             />
-            <Route
-              path="/profile"
-              component={lazy(() => import("./app/panel/profile/page"))}
-            />
+
+            <Route path="/profile">
+              <Route
+                path="/"
+                component={lazy(() => import("./app/panel/profile/page"))}
+              />
+
+              <Route
+                path="/avatar"
+                component={lazy(
+                  () => import("./app/panel/profile/avatar/page")
+                )}
+              />
+            </Route>
 
             <Route path="/categories">
               <Route
@@ -39,6 +49,7 @@ render(
                   () => import("./app/panel/categories/create/page")
                 )}
               />
+
               <Route
                 path="/edit/:slug"
                 component={lazy(

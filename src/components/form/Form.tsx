@@ -1,7 +1,7 @@
 import { JSX, ParentComponent } from "solid-js";
 
 interface FormProps extends JSX.FormHTMLAttributes<HTMLFormElement> {
-  handle: (formData: FormData) => Promise<void>;
+  handle: (formData: FormData) => Promise<void> | void;
   reset?: (form: HTMLFormElement) => void;
 }
 

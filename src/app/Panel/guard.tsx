@@ -1,16 +1,24 @@
-import { ParentComponent, createSignal, onMount, Show } from "solid-js";
+import {
+  ParentComponent,
+  createSignal,
+  onMount,
+  Show,
+  createResource,
+} from "solid-js";
 import { useNavigate } from "@solidjs/router";
 import { postRefresh } from "../../services/session";
 import { $auth } from "../../stores/auth";
+import { getUserSelf } from "../../services/users";
+import { $profile } from "../../stores/profile";
 
 const AuthGuardLayout: ParentComponent = (props) => {
   const navigate = useNavigate();
   const [isReady, setReady] = createSignal(false);
 
   onMount(async () => {
-    const response = await postRefresh();
+    const refreshResponse = await postRefresh();
 
-    if (!response.success) {
+    if (!refreshResponse.success) {
       $auth.set({
         accessToken: null,
         name: null,
@@ -21,7 +29,13 @@ const AuthGuardLayout: ParentComponent = (props) => {
       return;
     }
 
-    $auth.set(response.data);
+    $auth.set(refreshResponse.data);
+
+    const profileResponse = await getUserSelf();
+    if (!profileResponse.success) throw navigate("/auth/login");
+
+    $profile.set(profileResponse.data);
+
     setReady(true);
   });
 
