@@ -2,7 +2,6 @@ import { A } from "@solidjs/router";
 import { IconEdit } from "@tabler/icons-solidjs";
 import { Component } from "solid-js";
 import Button from "../../form/Button";
-import Text from "../../../utilities/Text";
 import AvatarImage from "./AvatarImage";
 
 type AvatarProps = Partial<

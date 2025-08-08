@@ -17,7 +17,7 @@ const AvatarImage: Component<AvatarImageProps> = (props) => {
       }
     >
       <img
-        src={props.avatar}
+        src={import.meta.env.VITE_API_URL + props.avatar}
         alt={initials}
         width={192}
         height={192}
