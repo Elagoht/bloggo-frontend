@@ -15,6 +15,7 @@ import ButtonGroup from "../../../../components/form/ButtonGroup";
 import Form from "../../../../components/form/Form";
 import FormSection from "../../../../components/form/FormSection";
 import Input from "../../../../components/form/Input";
+import Textarea from "../../../../components/form/Textarea";
 import Container from "../../../../components/layout/Container";
 import FormCard from "../../../../components/layout/Container/FormCard";
 import PageTitleWithIcon from "../../../../components/layout/Container/PageTitle";
@@ -62,14 +63,15 @@ const CategoryCreatePage: Component = () => {
           </FormSection>
 
           <FormSection legend="SEO Metadata">
-            <Input
+            <Textarea
               name="description"
               label="Description"
               iconLeft={IconFileDescription}
-              placeholder="A detailed 70-155 characters text for search engines"
+              placeholder="A detailed description for search engines and category pages. This should be comprehensive and informative, explaining what this category covers."
               required
               minlength={70}
-              maxlength={155}
+              maxlength={500}
+              rows={4}
             />
           </FormSection>
 
