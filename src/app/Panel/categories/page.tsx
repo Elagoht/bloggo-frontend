@@ -32,8 +32,13 @@ const CategoriesPage: Component = () => {
         <HeaderWithButton>
           <H1>Categories</H1>
 
-          <Button href="/categories/create" color="success" class="self-end">
-            New Category <IconPlus />
+          <Button
+            href="/categories/create"
+            color="success"
+            class="self-end"
+            iconRight={IconPlus}
+          >
+            New Category
           </Button>
         </HeaderWithButton>
 

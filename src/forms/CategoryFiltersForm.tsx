@@ -46,9 +46,7 @@ const CategoryFiltersForm: Component<CategoryFiltersFormProps> = ({
           placeholder="Search Categories"
         />
 
-        <Button type="submit">
-          <IconFilter size={18} />
-        </Button>
+        <Button type="submit" iconLeft={IconFilter} />
       </div>
 
       <Fieldset legend="Sort By">
@@ -70,8 +68,8 @@ const CategoryFiltersForm: Component<CategoryFiltersFormProps> = ({
         />
       </Fieldset>
 
-      <Button type="reset" variant="outline">
-        <IconClearAll size={18} /> Clear Filters
+      <Button type="reset" variant="outline" iconLeft={IconClearAll}>
+        Clear Filters
       </Button>
     </Form>
   );
