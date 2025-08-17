@@ -1,5 +1,9 @@
 import { Component, For } from "solid-js";
-import Fieldset from "../../layout/Container/Fieldset";
+import {
+  IconClock,
+  IconCalendar,
+  IconCalendarClock,
+} from "@tabler/icons-solidjs";
 
 type ActivityDatesProps = {
   dates: Array<{
@@ -20,24 +24,36 @@ const ActivityDates: Component<ActivityDatesProps> = ({ dates }) => {
       weekday: "short",
     });
 
-  "I'm a string".toString();
   return (
-    <Fieldset legend="Activity">
+    <div class="flex flex-col gap-2">
       <For each={dates}>
         {(date) => (
-          <>
-            <strong class="text-sm text-smoke-500">{date.title}</strong>
+          <article class="flex items-center gap-3 px-3 py-2 bg-white dark:bg-smoke-950 border border-smoke-200 dark:border-smoke-700 rounded-lg">
+            <span class="flex-shrink-0 p-1 bg-smoke-100 dark:bg-smoke-700 rounded">
+              <IconCalendarClock
+                size={16}
+                class="text-smoke-700 dark:text-smoke-300"
+              />
+            </span>
 
-            <time
-              class="bg-smoke-50 dark:bg-smoke-950 px-2 py-1 rounded-md line-clamp-1"
-              dateTime={date.time?.toString?.()}
-            >
-              {date.time ? formatDate(date.time) : "Never"}
-            </time>
-          </>
+            <dl class="flex flex-col">
+              <dt class="text-sm font-medium text-smoke-900 dark:text-smoke-50">
+                {date.title}
+              </dt>
+
+              <dd class="leading-none">
+                <time
+                  class="text-xs text-smoke-600 dark:text-smoke-300"
+                  dateTime={date.time?.toString?.()}
+                >
+                  {date.time ? formatDate(date.time) : "Never"}
+                </time>
+              </dd>
+            </dl>
+          </article>
         )}
       </For>
-    </Fieldset>
+    </div>
   );
 };
 

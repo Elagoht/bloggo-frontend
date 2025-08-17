@@ -1,10 +1,10 @@
 import { Component, JSX } from "solid-js";
 import classNames from "classnames";
 
-interface RadioButtonProps extends JSX.InputHTMLAttributes<HTMLInputElement> {
+type RadioButtonProps = JSX.InputHTMLAttributes<HTMLInputElement> & {
   type?: "radio";
   label: string;
-}
+};
 
 const RadioButton: Component<RadioButtonProps> = ({ label, ...props }) => {
   return (

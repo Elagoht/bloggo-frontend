@@ -1,13 +1,11 @@
 import { useNavigate } from "@solidjs/router";
 import {
   IconCategory,
+  IconDeviceFloppy,
   IconFileDescription,
   IconFlame,
   IconTag,
-  IconCheck,
   IconX,
-  IconDownload,
-  IconUpload,
 } from "@tabler/icons-solidjs";
 import { Component } from "solid-js";
 import Button from "../../../../components/form/Button";
@@ -40,7 +38,7 @@ const CategoryCreatePage: Component = () => {
     <Container size="sm">
       <PageTitleWithIcon icon={IconCategory}>Create Category</PageTitleWithIcon>
 
-      <FormCard>
+      <FormCard color="default">
         <Form handle={handleSubmit}>
           <FormSection legend="Display Content">
             <Input
@@ -80,7 +78,7 @@ const CategoryCreatePage: Component = () => {
               type="submit"
               color="success"
               class="flex-1"
-              iconRight={IconUpload}
+              iconRight={IconDeviceFloppy}
             >
               Create Category
             </Button>

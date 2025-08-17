@@ -1,9 +1,9 @@
 import { JSX, ParentComponent } from "solid-js";
 
-interface FormProps extends JSX.FormHTMLAttributes<HTMLFormElement> {
+type FormProps = JSX.FormHTMLAttributes<HTMLFormElement> & {
   handle: (formData: FormData) => Promise<void> | void;
   reset?: (form: HTMLFormElement) => void;
-}
+};
 
 const Form: ParentComponent<FormProps> = ({ handle, reset, ...props }) => {
   const handleSubmit = async (event: SubmitEvent) => {

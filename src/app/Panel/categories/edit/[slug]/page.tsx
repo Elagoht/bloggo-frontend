@@ -1,11 +1,13 @@
 import { useNavigate, useParams } from "@solidjs/router";
 import { Component, createResource, Show } from "solid-js";
+import { IconCategory, IconInfoCircle, IconTrash } from "@tabler/icons-solidjs";
 import ActivityDates from "../../../../../components/common/ActivityDates";
 import Container from "../../../../../components/layout/Container";
 import ContentWithSidebar from "../../../../../components/layout/Container/ContentWithSidebar";
+import FormCard from "../../../../../components/layout/Container/FormCard";
+import PageTitleWithIcon from "../../../../../components/layout/Container/PageTitle";
 import Sidebar from "../../../../../components/layout/Container/Sidebar";
-import H1 from "../../../../../components/typography/H1";
-import H2 from "../../../../../components/typography/H2";
+import SectionHeader from "../../../../../components/layout/SectionHeader";
 import CategoryDeleteForm from "../../../../../forms/CategoryDeleteForm";
 import CategoryEditForm from "../../../../../forms/CategoryEditForm";
 import { getCategory } from "../../../../../services/categories";
@@ -26,14 +28,18 @@ const CategoryEditPage: Component = () => {
   return (
     <ContentWithSidebar>
       <Show when={category()}>
-        <Container>
-          <H1>Edit Category</H1>
+        <Container size="sm">
+          <PageTitleWithIcon icon={IconCategory}>
+            Edit Category: {category().name}
+          </PageTitleWithIcon>
 
-          <CategoryEditForm category={category()} />
+          <FormCard color="default">
+            <CategoryEditForm category={category()} />
+          </FormCard>
         </Container>
 
         <Sidebar>
-          <H2>Details</H2>
+          <SectionHeader icon={IconInfoCircle}>Details</SectionHeader>
 
           <ActivityDates
             dates={[
@@ -42,9 +48,13 @@ const CategoryEditPage: Component = () => {
             ]}
           />
 
-          <H2>Danger Zone</H2>
+          <FormCard color="danger">
+            <SectionHeader icon={IconTrash} color="danger">
+              Danger Zone
+            </SectionHeader>
 
-          <CategoryDeleteForm category={category()} />
+            <CategoryDeleteForm category={category()} />
+          </FormCard>
         </Sidebar>
       </Show>
     </ContentWithSidebar>

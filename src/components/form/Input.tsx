@@ -1,11 +1,11 @@
 import { Component, JSX } from "solid-js";
 import classNames from "classnames";
 
-interface InputProps extends JSX.InputHTMLAttributes<HTMLInputElement> {
+type InputProps = JSX.InputHTMLAttributes<HTMLInputElement> & {
   label?: string;
   iconLeft?: Component;
   iconRight?: Component;
-}
+};
 
 const Input: Component<InputProps> = ({
   label,

@@ -1,9 +1,18 @@
-import { useNavigate, useParams } from "@solidjs/router";
+import { useNavigate } from "@solidjs/router";
 import { ParentComponent } from "solid-js";
+import {
+  IconTag,
+  IconFlame,
+  IconFileDescription,
+  IconDeviceFloppy,
+  IconX,
+} from "@tabler/icons-solidjs";
 import Button from "../components/form/Button";
+import ButtonGroup from "../components/form/ButtonGroup";
 import Form from "../components/form/Form";
 import FormSection from "../components/form/FormSection";
 import Input from "../components/form/Input";
+import Textarea from "../components/form/Textarea";
 import { patchCategoryUpdate } from "../services/categories";
 
 type CategoryEditFormProps = {
@@ -34,12 +43,21 @@ const CategoryEditForm: ParentComponent<CategoryEditFormProps> = ({
 
   return (
     <Form handle={handleSubmit}>
-      <FormSection legend="Content">
-        <Input name="name" label="Name" value={category.name} required />
+      <FormSection legend="Display Content">
+        <Input
+          name="name"
+          label="Category Name"
+          iconLeft={IconTag}
+          placeholder="e.g., Technology, Travel, Food"
+          value={category.name}
+          required
+        />
 
         <Input
           name="spot"
-          label="Spot"
+          label="Spot Text"
+          iconLeft={IconFlame}
+          placeholder="A compelling 20-75 character description"
           required
           value={category.spot}
           minlength={20}
@@ -48,17 +66,38 @@ const CategoryEditForm: ParentComponent<CategoryEditFormProps> = ({
       </FormSection>
 
       <FormSection legend="SEO Metadata">
-        <Input
+        <Textarea
           name="description"
           label="Description"
+          iconLeft={IconFileDescription}
+          placeholder="A detailed description for search engines and category pages. This should be comprehensive and informative, explaining what this category covers."
           required
           value={category.description}
           minlength={70}
-          maxlength={155}
+          maxlength={500}
+          rows={4}
         />
       </FormSection>
 
-      <Button type="submit">Submit</Button>
+      <ButtonGroup layout="flex-row" alignment="start" gap="md" fullWidth>
+        <Button
+          type="submit"
+          color="success"
+          class="flex-1"
+          iconRight={IconDeviceFloppy}
+        >
+          Save Changes
+        </Button>
+
+        <Button
+          color="danger"
+          variant="outline"
+          href="/categories"
+          iconLeft={IconX}
+        >
+          Cancel
+        </Button>
+      </ButtonGroup>
     </Form>
   );
 };

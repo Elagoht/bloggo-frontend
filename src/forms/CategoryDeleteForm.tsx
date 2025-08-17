@@ -24,9 +24,12 @@ const CategoryDeleteForm: ParentComponent<CategoryDeleteFormProps> = ({
   };
 
   return (
-    <FormSection legend="Caution! This action cannot be reversed.">
+    <FormSection
+      color="danger"
+      legend="Caution! This action cannot be reversed."
+    >
       <HoldButton color="danger" onclick={handleSubmit}>
-        Submit
+        Hold to Delete
       </HoldButton>
     </FormSection>
   );
