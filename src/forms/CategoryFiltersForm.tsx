@@ -60,12 +60,12 @@ const CategoryFiltersForm: Component<CategoryFiltersFormProps> = ({
               : "name:desc"
           }
           options={[
-            { value: "name:desc", label: "Name A-Z" },
-            { value: "name:asc", label: "Name Z-A" },
-            { value: "created_at:desc", label: "First Created" },
-            { value: "created_at:asc", label: "Last Created" },
-            { value: "updated_at:desc", label: "First Updated" },
-            { value: "updated_at:asc", label: "Last Updated" },
+            { value: "name:asc", label: "Name A-Z" },
+            { value: "name:desc", label: "Name Z-A" },
+            { value: "created_at:asc", label: "First Created" },
+            { value: "created_at:desc", label: "Last Created" },
+            { value: "updated_at:asc", label: "First Updated" },
+            { value: "updated_at:desc", label: "Last Updated" },
           ]}
         />
       </Fieldset>
