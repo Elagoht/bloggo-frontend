@@ -12,7 +12,7 @@ import H1 from "../../../components/typography/H1";
 import H2 from "../../../components/typography/H2";
 import CategoryFiltersForm from "../../../forms/CategoryFiltersForm";
 import { getCategories } from "../../../services/categories";
-import NoCategoriesYet from "./edit/[slug]/NoCampaigns";
+import NoCategoriesYet from "../../../components/pages/panel/categories/NoCampaigns";
 
 const CategoriesPage: Component = () => {
   const [searchParams] = useSearchParams();
