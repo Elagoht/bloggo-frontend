@@ -20,7 +20,7 @@ const CategoryCard: Component<CategoryCard> = ({
         </span>
       </hgroup>
 
-      <p class="bg-smoke-100 dark:bg-smoke-900 px-1 rounded h-full line-clamp-2">
+      <p class="bg-smoke-100 dark:bg-smoke-900 text-smoke-600 dark:text-smoke-400 px-1 rounded h-full line-clamp-2">
         {spot}
       </p>
     </A>
