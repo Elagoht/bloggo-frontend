@@ -9,7 +9,7 @@ const FormSection: ParentComponent<FormSectionProps> = ({
   children,
 }) => {
   return (
-    <fieldset class="bg-smoke-50 dark:bg-smoke-950 rounded-lg p-4">
+    <fieldset>
       <legend class="leading-normal text-smoke-500 text-sm font-semibold">
         {legend}
       </legend>
