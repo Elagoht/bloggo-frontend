@@ -42,8 +42,19 @@ const ProfileAvatarPage: Component = () => {
     }
   };
 
-  const handleSubmit = (data: FormData) => {
-    patchUserAvatarSelf(data);
+  const handleSubmit = async (data: FormData) => {
+    const response = await patchUserAvatarSelf(data);
+
+    if (response.success === true) {
+      const currentProfile = profile();
+      $profile.set({
+        ...currentProfile,
+        avatar: avatarImage(),
+      });
+      toast.success("Avatar updated successfully!");
+    } else {
+      toast.error(response.error?.message || "Failed to update avatar");
+    }
   };
 
   return (

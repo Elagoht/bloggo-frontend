@@ -6,6 +6,12 @@ type AvatarImageProps = Partial<Pick<ResponseUser, "avatar">> &
 
 const AvatarImage: Component<AvatarImageProps> = (props) => {
   const initials = Text.getInitialLetters(props.name);
+  
+  const avatarSrc = createMemo(() => {
+    if (!props.avatar) return "";
+    if (props.avatar.startsWith("data:image")) return props.avatar;
+    return import.meta.env.VITE_API_URL + props.avatar;
+  });
 
   return (
     <Show
@@ -17,7 +23,7 @@ const AvatarImage: Component<AvatarImageProps> = (props) => {
       }
     >
       <img
-        src={import.meta.env.VITE_API_URL + props.avatar}
+        src={avatarSrc()}
         alt={initials}
         width={192}
         height={192}
