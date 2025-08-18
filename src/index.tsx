@@ -18,6 +18,7 @@ const CreateCategoryPage = lazy(
 const EditCategoryPage = lazy(
   () => import("./app/panel/categories/edit/[slug]/page")
 );
+const NotFoundPage = lazy(() => import("./app/panel/404/page"));
 
 const App = () => {
   return (
@@ -47,6 +48,9 @@ const App = () => {
 
                 <Route path="edit/:slug" element={<EditCategoryPage />} />
               </Route>
+
+              {/* Catch-all route for 404 within panel */}
+              <Route path="*" element={<NotFoundPage />} />
             </Route>
           </Route>
         </Routes>
