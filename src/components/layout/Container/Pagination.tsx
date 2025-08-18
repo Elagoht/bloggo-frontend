@@ -19,8 +19,8 @@ const Pagination: React.FC<PaginationProps> = (props) => {
     [searchParams]
   );
 
-  const totalPages = useMemo(() =>
-    Math.ceil(props.totalItems / props.itemsPerPage),
+  const totalPages = useMemo(
+    () => Math.ceil(props.totalItems / props.itemsPerPage),
     [props.totalItems, props.itemsPerPage]
   );
 
@@ -66,9 +66,7 @@ const Pagination: React.FC<PaginationProps> = (props) => {
         disabled={currentPage === 1}
         onClick={() => goToPage(currentPage - 1)}
         className="disabled:opacity-50 disabled:cursor-not-allowed"
-      >
-        Previous
-      </Button>
+      />
 
       {/* Page Numbers */}
       <div className="flex items-center gap-1">
@@ -128,9 +126,7 @@ const Pagination: React.FC<PaginationProps> = (props) => {
         disabled={currentPage === totalPages}
         onClick={() => goToPage(currentPage + 1)}
         className="disabled:opacity-50 disabled:cursor-not-allowed"
-      >
-        Next
-      </Button>
+      />
     </div>
   );
 };
