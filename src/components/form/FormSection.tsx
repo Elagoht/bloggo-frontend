@@ -1,12 +1,13 @@
-import { ParentComponent } from "solid-js";
+import React from "react";
 import classNames from "classnames";
 
 type FormSectionProps = {
   legend: string;
   color?: "default" | "primary" | "success" | "danger";
+  children: React.ReactNode;
 };
 
-const FormSection: ParentComponent<FormSectionProps> = ({
+const FormSection: React.FC<FormSectionProps> = ({
   legend,
   children,
   color = "default",
@@ -14,7 +15,7 @@ const FormSection: ParentComponent<FormSectionProps> = ({
   return (
     <fieldset>
       <legend
-        class={classNames("leading-normal text-sm font-semibold", {
+        className={classNames("leading-normal text-sm font-semibold", {
           // Default
           "text-smoke-500": color === "default",
           // Primary
@@ -28,7 +29,7 @@ const FormSection: ParentComponent<FormSectionProps> = ({
         {legend}
       </legend>
 
-      <section class="flex flex-col gap-4">{children}</section>
+      <section className="flex flex-col gap-4">{children}</section>
     </fieldset>
   );
 };

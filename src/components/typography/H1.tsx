@@ -1,7 +1,11 @@
-import { ParentComponent } from "solid-js";
+import React from "react";
 
-const H1: ParentComponent = ({ children }) => {
-  return <h1 class="text-2xl font-bold">{children}</h1>;
+interface H1Props {
+  children: React.ReactNode;
+}
+
+const H1: React.FC<H1Props> = ({ children }) => {
+  return <h1 className="text-2xl font-bold">{children}</h1>;
 };
 
 export default H1;

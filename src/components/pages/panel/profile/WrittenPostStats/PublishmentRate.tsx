@@ -1,30 +1,30 @@
 import classNames from "classnames";
-import { Component, createMemo } from "solid-js";
+import React, { useMemo } from "react";
 
 type PublishmentRateProps = Pick<
   ResponseUser,
   "publishedPostCount" | "writtenPostCount"
 >;
 
-const PublishmentRate: Component<PublishmentRateProps> = ({
+const PublishmentRate: React.FC<PublishmentRateProps> = ({
   publishedPostCount,
   writtenPostCount,
 }) => {
-  const value = createMemo(() => {
+  const value = useMemo(() => {
     const ratio = (publishedPostCount / writtenPostCount || 0) * 100;
     const normalized = Math.min(100, Math.max(0, ratio));
     return normalized;
-  });
+  }, [publishedPostCount, writtenPostCount]);
 
   return (
     <fieldset
-      class="px-4 py-2 rounded-full text-center leading-snug text-success-50"
-      style={{ "background-color": valueColor(value()) }}
+      className="px-4 py-2 rounded-full text-center leading-snug text-success-50"
+      style={{ backgroundColor: valueColor(value) }}
     >
-      <legend class="bg-smoke-200 text-smoke-900 leading-snug px-2 rounded-full">
+      <legend className="bg-smoke-200 text-smoke-900 leading-snug px-2 rounded-full">
         W/P
       </legend>
-      {value().toFixed(2)}%
+      {value.toFixed(2)}%
     </fieldset>
   );
 };

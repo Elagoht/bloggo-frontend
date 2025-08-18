@@ -1,4 +1,4 @@
-import { Component } from "solid-js";
+import React from "react";
 import PostStatCounter from "./PostStatCounter";
 import PublishmentRate from "./PublishmentRate";
 
@@ -7,12 +7,12 @@ type WrittenPostStatsProps = Pick<
   "publishedPostCount" | "writtenPostCount"
 >;
 
-const WrittenPostStats: Component<WrittenPostStatsProps> = ({
+const WrittenPostStats: React.FC<WrittenPostStatsProps> = ({
   publishedPostCount,
   writtenPostCount,
 }) => {
   return (
-    <section class="flex justify-center flex-wrap gap-4 my-4">
+    <section className="flex justify-center flex-wrap gap-4 my-4">
       <PostStatCounter label="Posts Written" value={writtenPostCount} />
 
       <PublishmentRate

@@ -1,6 +1,6 @@
-import { Component, createMemo, For } from "solid-js";
-import { useSearchParams } from "@solidjs/router";
-import { IconChevronLeft, IconChevronRight } from "@tabler/icons-solidjs";
+import React, { useMemo } from "react";
+import { useSearchParams } from "react-router-dom";
+import { IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
 import Button from "../../form/Button";
 
 interface PaginationProps {
@@ -9,23 +9,25 @@ interface PaginationProps {
   maxVisiblePages?: number;
 }
 
-const Pagination: Component<PaginationProps> = (props) => {
+const Pagination: React.FC<PaginationProps> = (props) => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const maxVisiblePages = () => props.maxVisiblePages || 5;
+  const maxVisiblePages = props.maxVisiblePages || 5;
 
   // Get current page from URL parameters instead of props
-  const currentPage = createMemo(
-    () => parseInt(searchParams.page as string) || 1
+  const currentPage = useMemo(
+    () => parseInt(searchParams.get("page") || "1"),
+    [searchParams]
   );
 
-  const totalPages = createMemo(() =>
-    Math.ceil(props.totalItems / props.itemsPerPage)
+  const totalPages = useMemo(
+    () => Math.ceil(props.totalItems / props.itemsPerPage),
+    [props.totalItems, props.itemsPerPage]
   );
 
-  const visiblePages = createMemo(() => {
-    const total = totalPages();
-    const current = currentPage();
-    const maxVisible = maxVisiblePages();
+  const visiblePages = useMemo(() => {
+    const total = totalPages;
+    const current = currentPage;
+    const maxVisible = maxVisiblePages;
 
     if (total <= maxVisible) {
       return Array.from({ length: total }, (_, i) => i + 1);
@@ -40,82 +42,77 @@ const Pagination: Component<PaginationProps> = (props) => {
     }
 
     return Array.from({ length: end - start + 1 }, (_, i) => start + i);
-  });
+  }, [totalPages, currentPage, maxVisiblePages]);
 
   const goToPage = (page: number) => {
-    if (page >= 1 && page <= totalPages()) {
-      const newParams = Object.fromEntries(
-        Object.entries(searchParams).filter(([key]) => key !== "page")
-      );
-      newParams.page = page.toString();
+    if (page >= 1 && page <= totalPages) {
+      const newParams = new URLSearchParams(searchParams);
+      newParams.set("page", page.toString());
       setSearchParams(newParams);
     }
   };
 
-  if (totalPages() <= 1) {
+  if (totalPages <= 1) {
     return null;
   }
 
   return (
-    <div class="flex items-center justify-center gap-2 mt-6">
+    <div className="flex items-center justify-center gap-2 mt-6">
       {/* Previous Button */}
       <Button
         variant="outline"
         color="primary"
         iconLeft={IconChevronLeft}
-        disabled={currentPage() === 1}
-        onClick={() => goToPage(currentPage() - 1)}
-        class="disabled:opacity-50 disabled:cursor-not-allowed"
-      >
-        Previous
-      </Button>
+        disabled={currentPage === 1}
+        onClick={() => goToPage(currentPage - 1)}
+        className="disabled:opacity-50 disabled:cursor-not-allowed"
+      />
 
       {/* Page Numbers */}
-      <div class="flex items-center gap-1">
+      <div className="flex items-center gap-1">
         {/* First page if not visible */}
-        {visiblePages()[0] > 1 && (
+        {visiblePages[0] > 1 && (
           <>
             <Button
               variant="text"
               color="primary"
               onClick={() => goToPage(1)}
-              class="w-10 h-10"
+              className="w-10 h-10"
             >
               1
             </Button>
-            {visiblePages()[0] > 2 && (
-              <span class="px-2 text-smoke-500">...</span>
+            {visiblePages[0] > 2 && (
+              <span className="px-2 text-smoke-500">...</span>
             )}
           </>
         )}
 
         {/* Visible page numbers */}
-        <For each={visiblePages()}>
-          {(pageNumber) => (
-            <Button
-              variant={pageNumber === currentPage() ? "default" : "text"}
-              color="primary"
-              onClick={() => goToPage(pageNumber)}
-              class="w-10 h-10"
-            >
-              {pageNumber}
-            </Button>
-          )}
-        </For>
+        {visiblePages.map((pageNumber) => (
+          <Button
+            key={pageNumber}
+            variant={pageNumber === currentPage ? "default" : "text"}
+            color="primary"
+            onClick={() => goToPage(pageNumber)}
+            className="w-10 h-10"
+          >
+            {pageNumber}
+          </Button>
+        ))}
 
         {/* Last page if not visible */}
-        {visiblePages()[visiblePages().length - 1] < totalPages() && (
+        {visiblePages[visiblePages.length - 1] < totalPages && (
           <>
-            {visiblePages()[visiblePages().length - 1] < totalPages() - 1 && (
-              <span class="px-2 text-smoke-500">...</span>
+            {visiblePages[visiblePages.length - 1] < totalPages - 1 && (
+              <span className="px-2 text-smoke-500">...</span>
             )}
             <Button
               variant="text"
               color="primary"
-              onClick={() => goToPage(totalPages())}
-              class="w-10 h-10"
+              onClick={() => goToPage(totalPages)}
+              className="w-10 h-10"
             >
-              {totalPages()}
+              {totalPages}
             </Button>
           </>
         )}
@@ -126,12 +123,10 @@ const Pagination: Component<PaginationProps> = (props) => {
         variant="outline"
         color="primary"
         iconRight={IconChevronRight}
-        disabled={currentPage() === totalPages()}
-        onClick={() => goToPage(currentPage() + 1)}
-        class="disabled:opacity-50 disabled:cursor-not-allowed"
-      >
-        Next
-      </Button>
+        disabled={currentPage === totalPages}
+        onClick={() => goToPage(currentPage + 1)}
+        className="disabled:opacity-50 disabled:cursor-not-allowed"
+      />
     </div>
   );
 };

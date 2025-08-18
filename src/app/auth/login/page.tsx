@@ -1,10 +1,10 @@
-import { Component } from "solid-js";
+import React from "react";
 import LoginForm from "../../../forms/LoginForm";
 
-const LoginPage: Component = () => {
+const LoginPage: React.FC = () => {
   return (
     <>
-      <hgroup class="flex flex-col gap-2 items-center">
+      <hgroup className="flex flex-col gap-2 items-center">
         <img
           src="/assets/bloggo.webp"
           width="128"
@@ -12,11 +12,11 @@ const LoginPage: Component = () => {
           alt="Bloggo Logo"
         />
 
-        <h1 class="text-3xl font-bold text-smoke-950 dark:text-gopher-50">
+        <h1 className="text-3xl font-bold text-smoke-950 dark:text-gopher-50">
           Bloggo
         </h1>
 
-        <strong class="text-smoke-900 dark:text-gopher-200 font-medium">
+        <strong className="text-smoke-900 dark:text-gopher-200 font-medium">
           Your Own Blog CMS
         </strong>
       </hgroup>

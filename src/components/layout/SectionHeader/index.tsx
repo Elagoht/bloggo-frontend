@@ -1,21 +1,23 @@
-import { Component, ParentProps } from "solid-js";
+import React from "react";
 import classNames from "classnames";
+import { Icon, IconProps } from "@tabler/icons-react";
 
-type SectionHeaderProps = ParentProps<{
-  icon?: Component;
+type SectionHeaderProps = {
+  children: React.ReactNode;
+  icon?: React.ForwardRefExoticComponent<IconProps & React.RefAttributes<Icon>>;
   color?: "default" | "primary" | "success" | "danger";
-}>;
+};
 
-const SectionHeader: Component<SectionHeaderProps> = ({
+const SectionHeader: React.FC<SectionHeaderProps> = ({
   children,
-  icon,
+  icon: Icon,
   color = "default",
 }) => {
   return (
-    <hgroup class="flex items-center gap-2">
-      {icon && (
+    <hgroup className="flex items-center gap-2">
+      {Icon && (
         <span
-          class={classNames("flex-shrink-0 p-1 rounded border", {
+          className={classNames("flex-shrink-0 p-1 rounded border", {
             // Default
             "bg-smoke-300 dark:bg-smoke-700 border-smoke-400 dark:border-smoke-600":
               color === "default",
@@ -30,9 +32,9 @@ const SectionHeader: Component<SectionHeaderProps> = ({
               color === "danger",
           })}
         >
-          {icon({
-            size: 16,
-            class: classNames({
+          <Icon
+            size={16}
+            className={classNames({
               // Default
               "text-smoke-700 dark:text-smoke-200": color === "default",
               // Primary
@@ -41,13 +43,13 @@ const SectionHeader: Component<SectionHeaderProps> = ({
               "text-success-700 dark:text-success-200": color === "success",
               // Danger
               "text-danger-700 dark:text-danger-200": color === "danger",
-            }),
-          })}
+            })}
+          />
         </span>
       )}
 
       <h2
-        class={classNames("text-base font-semibold", {
+        className={classNames("text-base font-semibold", {
           // Default
           "text-smoke-900 dark:text-smoke-50": color === "default",
           // Primary

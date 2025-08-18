@@ -1,4 +1,4 @@
-import { useNavigate } from "@solidjs/router";
+import { useNavigate } from "react-router-dom";
 import {
   IconCategory,
   IconDeviceFloppy,
@@ -6,8 +6,8 @@ import {
   IconFlame,
   IconTag,
   IconX,
-} from "@tabler/icons-solidjs";
-import { Component } from "solid-js";
+} from "@tabler/icons-react";
+import React from "react";
 import Button from "../../../../components/form/Button";
 import ButtonGroup from "../../../../components/form/ButtonGroup";
 import Form from "../../../../components/form/Form";
@@ -19,7 +19,7 @@ import FormCard from "../../../../components/layout/Container/FormCard";
 import PageTitleWithIcon from "../../../../components/layout/Container/PageTitle";
 import { postCategoryCreate } from "../../../../services/categories";
 
-const CategoryCreatePage: Component = () => {
+const CategoryCreatePage: React.FC = () => {
   const navigate = useNavigate();
 
   const handleSubmit = async (data: FormData) => {
@@ -55,8 +55,8 @@ const CategoryCreatePage: Component = () => {
               iconLeft={IconFlame}
               placeholder="A compelling 20-75 character description"
               required
-              minlength={20}
-              maxlength={75}
+              minLength={20}
+              maxLength={75}
             />
           </FormSection>
 
@@ -67,8 +67,8 @@ const CategoryCreatePage: Component = () => {
               iconLeft={IconFileDescription}
               placeholder="A detailed description for search engines and category pages. This should be comprehensive and informative, explaining what this category covers."
               required
-              minlength={70}
-              maxlength={500}
+              minLength={70}
+              maxLength={500}
               rows={4}
             />
           </FormSection>
@@ -77,7 +77,7 @@ const CategoryCreatePage: Component = () => {
             <Button
               type="submit"
               color="success"
-              class="flex-1"
+              className="flex-1"
               iconRight={IconDeviceFloppy}
             >
               Create Category

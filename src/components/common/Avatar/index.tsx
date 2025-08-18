@@ -1,6 +1,6 @@
-import { A } from "@solidjs/router";
-import { IconEdit } from "@tabler/icons-solidjs";
-import { Component } from "solid-js";
+import React from "react";
+import { Link } from "react-router-dom";
+import { IconEdit } from "@tabler/icons-react";
 import Button from "../../form/Button";
 import AvatarImage from "./AvatarImage";
 
@@ -11,7 +11,7 @@ type AvatarProps = Partial<
     editAt?: string;
   };
 
-const Avatar: Component<AvatarProps> = ({
+const Avatar: React.FC<AvatarProps> = ({
   avatar,
   name,
   email,
@@ -20,35 +20,35 @@ const Avatar: Component<AvatarProps> = ({
   editAt,
 }) => {
   return (
-    <section class="flex flex-col text-center items-center">
-      <figure class="relative">
+    <section className="flex flex-col text-center items-center">
+      <figure className="relative">
         <AvatarImage name={name} avatar={avatar} />
 
         {roleId && roleName && (
-          <div class="absolute bottom-0 left-0 right-0">
-            <A
-              href={`/roles/details/${roleId}`}
-              class="leading-snug px-2 py-1 rounded-full text-center bg-success-500"
+          <div className="absolute bottom-0 left-0 right-0">
+            <Link
+              to={`/roles/details/${roleId}`}
+              className="leading-snug px-2 py-1 rounded-full text-center bg-success-500"
             >
               {roleName}
-            </A>
+            </Link>
           </div>
         )}
 
         {editAt && (
-          <Button class="absolute top-3 right-3 rounded-full" href={editAt}>
+          <Button className="absolute top-3 right-3 rounded-full" href={editAt}>
             {<IconEdit />}
           </Button>
         )}
       </figure>
 
-      <strong class="text-3xl">{name}</strong>
+      <strong className="text-3xl">{name}</strong>
 
       {email && (
         <a
           target="_blank"
           href={`mailto:${email}`}
-          class="text-smoke-700 dark:text-smoke-300 leading-snug"
+          className="text-smoke-700 dark:text-smoke-300 leading-snug"
         >
           {email}
         </a>

@@ -1,8 +1,12 @@
-import { ParentComponent } from "solid-js";
+import React from "react";
 
-const HeaderWithButton: ParentComponent = ({ children }) => {
+interface HeaderWithButtonProps {
+  children: React.ReactNode;
+}
+
+const HeaderWithButton: React.FC<HeaderWithButtonProps> = ({ children }) => {
   return (
-    <hgroup class="flex justify-between items-center gap-4">{children}</hgroup>
+    <hgroup className="flex justify-between items-center gap-4">{children}</hgroup>
   );
 };
 

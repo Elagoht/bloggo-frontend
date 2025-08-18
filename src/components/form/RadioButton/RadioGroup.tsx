@@ -1,4 +1,4 @@
-import { Component, For } from "solid-js";
+import React from "react";
 import RadioButton from ".";
 
 type RadioGroupProps = {
@@ -10,19 +10,18 @@ type RadioGroupProps = {
   }>;
 };
 
-const RadioGroup: Component<RadioGroupProps> = ({ name, checked, options }) => {
+const RadioGroup: React.FC<RadioGroupProps> = ({ name, checked, options }) => {
   return (
-    <div class="flex flex-col gap-2">
-      <For each={options}>
-        {(option, index) => (
-          <RadioButton
-            checked={checked ? checked === option.value : index() === 0}
-            name={name}
-            value={option.value}
-            label={option.label}
-          />
-        )}
-      </For>
+    <div className="flex flex-col gap-2">
+      {options.map((option, index) => (
+        <RadioButton
+          key={option.value}
+          defaultChecked={checked ? checked === option.value : index === 0}
+          name={name}
+          value={option.value}
+          label={option.label}
+        />
+      ))}
     </div>
   );
 };

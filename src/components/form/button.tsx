@@ -1,36 +1,39 @@
-import { Component, JSX } from "solid-js";
+import React from "react";
 import classNames from "classnames";
-import { A, AnchorProps } from "@solidjs/router";
+import { Link } from "react-router-dom";
+import { Icon, IconProps } from "@tabler/icons-react";
 
-interface ButtonProps<T extends boolean = false> {
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   color?: "primary" | "danger" | "success";
   variant?: "default" | "outline" | "text";
-  href?: T extends true ? string : never;
-  class?: string;
-  iconLeft?: Component;
-  iconRight?: Component;
+  href?: string;
+  className?: string;
+  iconLeft?: React.ForwardRefExoticComponent<
+    IconProps & React.RefAttributes<Icon>
+  >;
+  iconRight?: React.ForwardRefExoticComponent<
+    IconProps & React.RefAttributes<Icon>
+  >;
+  children?: React.ReactNode;
 }
 
-type ButtonComponentProps<T extends boolean> = T extends true
-  ? ButtonProps<true> & AnchorProps
-  : ButtonProps<false> & JSX.ButtonHTMLAttributes<HTMLButtonElement>;
-
-const Button: Component<ButtonComponentProps<boolean>> = ({
+const Button: React.FC<ButtonProps> = ({
   color = "primary",
   variant = "default",
   href,
-  iconLeft,
-  iconRight,
+  iconLeft: IconLeft,
+  iconRight: IconRight,
   children,
+  className,
   ...props
 }) => {
   const classes = classNames(
     "p-2 text-xs rounded-lg cursor-pointer transition-all ease-in-out focus:outline-none hover:outline-none flex items-center justify-center text-center",
     {
-      "gap-2": !iconLeft && !iconRight, // Default gap when no icons
-      "gap-1": iconLeft || iconRight, // Smaller gap when icons are present
+      "gap-2": !IconLeft && !IconRight, // Default gap when no icons
+      "gap-1": IconLeft || IconRight, // Smaller gap when icons are present
     },
-    props.class,
+    className,
     {
       "bg-gopher-500 text-gopher-50 hover:bg-gopher-600 hover:outline-gopher-300 hover:outline-offset-2 hover:outline-2 hover:outline-gopher-600 focus:outline-2 focus:outline-offset-2 focus:outline-gopher-400":
         color === "primary" && variant === "default",
@@ -55,31 +58,30 @@ const Button: Component<ButtonComponentProps<boolean>> = ({
 
   const buttonContent = (
     <>
-      {iconLeft && (
-        <span class="flex-shrink-0 flex items-center">
-          {iconLeft({ size: 18 })}
+      {IconLeft && (
+        <span className="flex-shrink-0 flex items-center">
+          <IconLeft size={18} />
         </span>
       )}
 
-      {children && <span class="flex-grow min-w-0 truncate">{children}</span>}
+      {children && (
+        <span className="flex-grow min-w-0 truncate">{children}</span>
+      )}
 
-      {iconRight && (
-        <span class="flex-shrink-0 flex items-center">
-          {iconRight({ size: 18 })}
+      {IconRight && (
+        <span className="flex-shrink-0 flex items-center">
+          <IconRight size={18} />
         </span>
       )}
     </>
   );
 
   return href ? (
-    <A {...(props as AnchorProps)} href={href} class={classes}>
+    <Link to={href} className={classes}>
       {buttonContent}
-    </A>
+    </Link>
   ) : (
-    <button
-      {...(props as JSX.ButtonHTMLAttributes<HTMLButtonElement>)}
-      class={classes}
-    >
+    <button {...props} className={classes}>
       {buttonContent}
     </button>
   );

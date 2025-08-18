@@ -1,6 +1,6 @@
-import { useSearchParams } from "@solidjs/router";
-import { IconClearAll, IconFilter, IconSearch } from "@tabler/icons-solidjs";
-import { Component } from "solid-js";
+import { useSearchParams } from "react-router-dom";
+import { IconClearAll, IconFilter, IconSearch } from "@tabler/icons-react";
+import React from "react";
 import Button from "../components/form/Button";
 import ButtonGroup from "../components/form/ButtonGroup";
 import Form from "../components/form/Form";
@@ -8,21 +8,21 @@ import FormSection from "../components/form/FormSection";
 import Input from "../components/form/Input";
 import RadioGroup from "../components/form/RadioButton/RadioGroup";
 
-type CategoryFiltersFormProps = {
-  refetch: () => void;
-};
+type CategoryFiltersFormProps = {};
 
-const CategoryFiltersForm: Component<CategoryFiltersFormProps> = ({
-  refetch,
-}) => {
+const CategoryFiltersForm: React.FC<CategoryFiltersFormProps> = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const handleSubmit = async (data: FormData) => {
     const q = data.get("q") as string;
     const [order, dir] = (data.get("sort") as string).split(":");
 
-    setSearchParams({ q, order, dir }, { replace: true });
-    queueMicrotask(refetch);
+    const newParams = new URLSearchParams(searchParams);
+    newParams.set("q", q);
+    newParams.set("order", order);
+    newParams.set("dir", dir);
+    setSearchParams(newParams, { replace: true });
+    // No need to call refetch - parent useEffect will trigger automatically
   };
 
   const handleReset = (form: HTMLFormElement) => {
@@ -30,21 +30,21 @@ const CategoryFiltersForm: Component<CategoryFiltersFormProps> = ({
     const sortInput = form.querySelector(
       "[value='name:asc']"
     ) as HTMLInputElement;
-    sortInput.checked = true;
-    nameInput.value = "";
-    setSearchParams({ q: "", order: "", dir: "" }, { replace: true });
-    queueMicrotask(refetch);
+    if (sortInput) sortInput.checked = true;
+    if (nameInput) nameInput.value = "";
+    const newParams = new URLSearchParams();
+    setSearchParams(newParams, { replace: true });
   };
 
   return (
     <Form handle={handleSubmit} reset={handleReset}>
       <FormSection legend="Search">
-        <div class="flex items-center gap-2">
+        <div className="flex items-center gap-2">
           <Input
             type="search"
             name="q"
-            class="flex-1"
-            value={searchParams.q || ""}
+            className="flex-1"
+            defaultValue={searchParams.get("q") || ""}
             placeholder="Search Categories"
             iconLeft={IconSearch}
           />
@@ -59,8 +59,8 @@ const CategoryFiltersForm: Component<CategoryFiltersFormProps> = ({
         <RadioGroup
           name="sort"
           checked={
-            searchParams.order && searchParams.dir
-              ? `${searchParams.order}:${searchParams.dir}`
+            searchParams.get("order") && searchParams.get("dir")
+              ? `${searchParams.get("order")}:${searchParams.get("dir")}`
               : "name:asc"
           }
           options={[
@@ -79,7 +79,7 @@ const CategoryFiltersForm: Component<CategoryFiltersFormProps> = ({
         variant="outline"
         color="danger"
         iconLeft={IconClearAll}
-        class="w-full"
+        className="w-full"
       >
         Clear Filters
       </Button>

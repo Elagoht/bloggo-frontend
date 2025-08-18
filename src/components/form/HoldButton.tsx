@@ -1,78 +1,76 @@
-import { Component, createSignal, onCleanup, JSX } from "solid-js";
+import React, { useState, useRef, useEffect } from "react";
 import classNames from "classnames";
 
-type HoldButtonProps = JSX.ButtonHTMLAttributes<HTMLButtonElement> & {
+type HoldButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   color?: "primary" | "danger" | "success";
-  class?: string;
+  onClick?: (e: MouseEvent | TouchEvent | KeyboardEvent) => void;
 };
 
-const HoldButton: Component<HoldButtonProps> = ({
+const HoldButton: React.FC<HoldButtonProps> = ({
   color = "primary",
   type = "button",
-  onclick,
+  onClick,
+  className,
   ...props
 }) => {
-  const [progress, setProgress] = createSignal(100);
+  const [progress, setProgress] = useState(100);
   const holdDuration = 2000;
 
-  let startTime: number | null = null;
-  let rafId: number;
-  let holdEvent: MouseEvent | TouchEvent | KeyboardEvent | null = null;
-  let done = false;
-  let isHolding = false;
+  const startTimeRef = useRef<number | null>(null);
+  const rafIdRef = useRef<number>(0);
+  const holdEventRef = useRef<MouseEvent | TouchEvent | KeyboardEvent | null>(null);
+  const doneRef = useRef(false);
+  const isHoldingRef = useRef(false);
 
   const clearState = () => {
-    startTime = null;
-    holdEvent = null;
-    done = false;
+    startTimeRef.current = null;
+    holdEventRef.current = null;
+    doneRef.current = false;
   };
 
   const reset = () => {
-    cancelAnimationFrame(rafId);
+    cancelAnimationFrame(rafIdRef.current);
     clearState();
     setProgress(100);
   };
 
   const updateProgress = (timestamp: number) => {
-    if (startTime === null) startTime = timestamp;
-    const elapsed = timestamp - startTime;
+    if (startTimeRef.current === null) startTimeRef.current = timestamp;
+    const elapsed = timestamp - startTimeRef.current;
     const percent = Math.max(0, 100 - (elapsed / holdDuration) * 100);
     setProgress(percent);
 
-    if (elapsed >= holdDuration && !done && onclick && holdEvent) {
-      done = true;
-      // setProgress(0); // kaldır
+    if (elapsed >= holdDuration && !doneRef.current && onClick && holdEventRef.current) {
+      doneRef.current = true;
       requestAnimationFrame(() => {
         setTimeout(() => {
-          // @ts-expect-error
-          onclick(holdEvent);
-          // reset(); // kaldır
-          isHolding = true;
+          onClick(holdEventRef.current!);
+          isHoldingRef.current = true;
         }, 100);
       });
-    } else if (!done) {
-      rafId = requestAnimationFrame(updateProgress);
+    } else if (!doneRef.current) {
+      rafIdRef.current = requestAnimationFrame(updateProgress);
     }
   };
 
-  const handleStart = (e: MouseEvent | TouchEvent | KeyboardEvent) => {
-    if (isHolding) return;
-    isHolding = true;
-    cancelAnimationFrame(rafId);
+  const handleStart = (e: React.MouseEvent | React.TouchEvent | React.KeyboardEvent) => {
+    if (isHoldingRef.current) return;
+    isHoldingRef.current = true;
+    cancelAnimationFrame(rafIdRef.current);
     clearState();
-    holdEvent = e;
-    rafId = requestAnimationFrame(updateProgress);
+    holdEventRef.current = e.nativeEvent as MouseEvent | TouchEvent | KeyboardEvent;
+    rafIdRef.current = requestAnimationFrame(updateProgress);
   };
 
   const handleCancel = () => {
-    isHolding = false;
-    done = false;
+    isHoldingRef.current = false;
+    doneRef.current = false;
     reset();
   };
 
   const classes = classNames(
     "p-2 text-xs rounded cursor-pointer transition-all ease-in-out focus:outline-none flex items-center justify-center gap-2 text-center w-full relative overflow-hidden",
-    props.class,
+    className,
     {
       "border-2 border-gopher-500 text-gopher-500 focus:outline-gopher-500":
         color === "primary",
@@ -83,16 +81,18 @@ const HoldButton: Component<HoldButtonProps> = ({
     }
   );
 
-  onCleanup(() => cancelAnimationFrame(rafId));
+  useEffect(() => {
+    return () => cancelAnimationFrame(rafIdRef.current);
+  }, []);
 
   return (
     <button
       {...props}
       type={type}
-      class={classes}
-      onclick={undefined}
-      onMouseDown={(event) => handleStart(event)}
-      onTouchStart={(event) => handleStart(event)}
+      className={classes}
+      onClick={undefined}
+      onMouseDown={handleStart}
+      onTouchStart={handleStart}
       onMouseUp={handleCancel}
       onMouseLeave={handleCancel}
       onTouchEnd={handleCancel}
@@ -106,7 +106,7 @@ const HoldButton: Component<HoldButtonProps> = ({
       onKeyUp={handleCancel}
     >
       <div
-        class={classNames(
+        className={classNames(
           "absolute inset-0 rounded-sm mix-blend-color-burn dark:mix-blend-difference transition-all duration-200 ease-linear",
           {
             "bg-gopher-900 dark:bg-gopher-500": color === "primary",
@@ -114,7 +114,7 @@ const HoldButton: Component<HoldButtonProps> = ({
             "bg-success-900 dark:bg-success-500": color === "success",
           }
         )}
-        style={{ right: `${progress()}%` }}
+        style={{ right: `${progress}%` }}
       />
       {props.children}
     </button>

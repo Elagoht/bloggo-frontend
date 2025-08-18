@@ -1,9 +1,13 @@
-import { ParentComponent } from "solid-js";
+import React from "react";
 
-const InfoCard: ParentComponent = ({ children }) => {
+interface InfoCardProps {
+  children: React.ReactNode;
+}
+
+const InfoCard: React.FC<InfoCardProps> = ({ children }) => {
   return (
-    <aside class="bg-smoke-50 dark:bg-smoke-900 rounded-lg p-6">
-      <section class="text-smoke-600 dark:text-smoke-400 text-sm leading-relaxed">
+    <aside className="bg-smoke-50 dark:bg-smoke-900 rounded-lg p-6">
+      <section className="text-smoke-600 dark:text-smoke-400 text-sm leading-relaxed">
         {children}
       </section>
     </aside>

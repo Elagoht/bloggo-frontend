@@ -1,33 +1,36 @@
-import { useStore } from "@nanostores/solid";
-import { Component } from "solid-js";
+import React from "react";
 import Avatar from "../../../components/common/Avatar";
 import Container from "../../../components/layout/Container";
 import OwnedPermissionsTable from "../../../components/pages/panel/profile/OwnedPermissionsTable";
 import WrittenPostStats from "../../../components/pages/panel/profile/WrittenPostStats";
-import { $auth } from "../../../stores/auth";
-import { $profile } from "../../../stores/profile";
+import { useAuthStore } from "../../../stores/auth";
+import { useProfileStore } from "../../../stores/profile";
 
-const ProfilePage: Component = () => {
-  const auth = useStore($auth);
-  const profile = useStore($profile);
+const ProfilePage: React.FC = () => {
+  const { permissions } = useAuthStore();
+  const { profile } = useProfileStore();
+
+  if (!profile) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <Container>
       <Avatar
         editAt="/profile/avatar"
-        name={profile().name}
-        email={profile().email}
-        avatar={profile().avatar}
-        roleName={profile().roleName}
-        roleId={profile().roleId}
+        name={profile.name}
+        email={profile.email}
+        avatar={profile.avatar}
+        roleName={profile.roleName}
+        roleId={profile.roleId}
       />
 
       <WrittenPostStats
-        publishedPostCount={profile().publishedPostCount}
-        writtenPostCount={profile().writtenPostCount}
+        publishedPostCount={profile.publishedPostCount}
+        writtenPostCount={profile.writtenPostCount}
       />
 
-      <OwnedPermissionsTable permissions={auth().permissions} />
+      <OwnedPermissionsTable permissions={permissions} />
     </Container>
   );
 };

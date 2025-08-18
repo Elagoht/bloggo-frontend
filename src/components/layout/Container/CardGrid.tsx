@@ -1,7 +1,11 @@
-import { ParentComponent } from "solid-js";
+import React from "react";
 
-const CardGrid: ParentComponent = ({ children }) => {
-  return <div class="grid grid-cols-cards gap-4">{children}</div>;
+interface CardGridProps {
+  children: React.ReactNode;
+}
+
+const CardGrid: React.FC<CardGridProps> = ({ children }) => {
+  return <div className="grid grid-cols-cards gap-4">{children}</div>;
 };
 
 export default CardGrid;

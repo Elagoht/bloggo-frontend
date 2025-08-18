@@ -1,9 +1,9 @@
-import { Component, For } from "solid-js";
+import React from "react";
 import {
   IconClock,
   IconCalendar,
   IconCalendarClock,
-} from "@tabler/icons-solidjs";
+} from "@tabler/icons-react";
 
 type ActivityDatesProps = {
   dates: Array<{
@@ -12,7 +12,7 @@ type ActivityDatesProps = {
   }>;
 };
 
-const ActivityDates: Component<ActivityDatesProps> = ({ dates }) => {
+const ActivityDates: React.FC<ActivityDatesProps> = ({ dates }) => {
   const formatDate = (timestamp: string | Date) =>
     new Date(timestamp).toLocaleDateString(navigator.language, {
       day: "numeric",
@@ -25,34 +25,32 @@ const ActivityDates: Component<ActivityDatesProps> = ({ dates }) => {
     });
 
   return (
-    <div class="flex flex-col gap-2">
-      <For each={dates}>
-        {(date) => (
-          <article class="flex items-center gap-3 px-3 py-2 bg-white dark:bg-smoke-950 border border-smoke-200 dark:border-smoke-700 rounded-lg">
-            <span class="flex-shrink-0 p-1 bg-smoke-100 dark:bg-smoke-700 rounded">
-              <IconCalendarClock
-                size={16}
-                class="text-smoke-700 dark:text-smoke-300"
-              />
-            </span>
+    <div className="flex flex-col gap-2">
+      {dates.map((date, index) => (
+        <article key={index} className="flex items-center gap-3 px-3 py-2 bg-white dark:bg-smoke-950 border border-smoke-200 dark:border-smoke-700 rounded-lg">
+          <span className="flex-shrink-0 p-1 bg-smoke-100 dark:bg-smoke-700 rounded">
+            <IconCalendarClock
+              size={16}
+              className="text-smoke-700 dark:text-smoke-300"
+            />
+          </span>
 
-            <dl class="flex flex-col">
-              <dt class="text-sm font-medium text-smoke-900 dark:text-smoke-50">
-                {date.title}
-              </dt>
+          <dl className="flex flex-col">
+            <dt className="text-sm font-medium text-smoke-900 dark:text-smoke-50">
+              {date.title}
+            </dt>
 
-              <dd class="leading-none">
-                <time
-                  class="text-xs text-smoke-600 dark:text-smoke-300"
-                  dateTime={date.time?.toString?.()}
-                >
-                  {date.time ? formatDate(date.time) : "Never"}
-                </time>
-              </dd>
-            </dl>
-          </article>
-        )}
-      </For>
+            <dd className="leading-none">
+              <time
+                className="text-xs text-smoke-600 dark:text-smoke-300"
+                dateTime={date.time?.toString?.()}
+              >
+                {date.time ? formatDate(date.time) : "Never"}
+              </time>
+            </dd>
+          </dl>
+        </article>
+      ))}
     </div>
   );
 };

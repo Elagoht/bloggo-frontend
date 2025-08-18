@@ -1,6 +1,6 @@
-import { useNavigate, useParams } from "@solidjs/router";
-import { Component, createResource, Show } from "solid-js";
-import { IconCategory, IconInfoCircle, IconTrash } from "@tabler/icons-solidjs";
+import { useNavigate, useParams } from "react-router-dom";
+import React, { useCallback, useEffect, useState } from "react";
+import { IconCategory, IconInfoCircle, IconTrash } from "@tabler/icons-react";
 import ActivityDates from "../../../../../components/common/ActivityDates";
 import Container from "../../../../../components/layout/Container";
 import ContentWithSidebar from "../../../../../components/layout/Container/ContentWithSidebar";
@@ -12,51 +12,70 @@ import CategoryDeleteForm from "../../../../../forms/CategoryDeleteForm";
 import CategoryEditForm from "../../../../../forms/CategoryEditForm";
 import { getCategory } from "../../../../../services/categories";
 
-const CategoryEditPage: Component = () => {
+const CategoryEditPage: React.FC = () => {
   const navigate = useNavigate();
+  const { slug } = useParams<{ slug: string }>();
+  const [category, setCategory] = useState<any>(null);
+  const [loading, setLoading] = useState(false);
 
-  const slug = useParams()["slug"];
+  const fetchCategory = useCallback(async () => {
+    if (!slug) return;
+    
+    try {
+      setLoading(true);
+      const result = await getCategory(slug);
 
-  const [category] = createResource(async () => {
-    const result = await getCategory(slug);
+      if (!result.success) {
+        navigate("/categories");
+        return;
+      }
 
-    if (!result.success) throw navigate("/categories");
+      setCategory(result.data);
+    } catch (error) {
+      navigate("/categories");
+    } finally {
+      setLoading(false);
+    }
+  }, [slug, navigate]);
 
-    return result.data;
-  });
+  useEffect(() => {
+    fetchCategory();
+  }, [fetchCategory]);
+
+  if (loading || !category) {
+    return null;
+  }
 
   return (
     <ContentWithSidebar>
-      <Show when={category()}>
-        <Container size="sm">
-          <PageTitleWithIcon icon={IconCategory}>
-            Edit Category: {category().name}
-          </PageTitleWithIcon>
+      <Container size="sm">
+        <PageTitleWithIcon icon={IconCategory}>
+          Edit Category: {category.name}
+        </PageTitleWithIcon>
 
-          <FormCard color="default">
-            <CategoryEditForm category={category()} />
-          </FormCard>
-        </Container>
+        <FormCard color="default">
+          <CategoryEditForm category={category} />
+        </FormCard>
+      </Container>
 
-        <Sidebar>
-          <SectionHeader icon={IconInfoCircle}>Details</SectionHeader>
+      <Sidebar>
+        <SectionHeader icon={IconInfoCircle}>Details</SectionHeader>
 
-          <ActivityDates
-            dates={[
-              { time: category().createdAt, title: "Created At" },
-              { time: category().updatedAt, title: "Updated At" },
-            ]}
-          />
+        <ActivityDates
+          dates={[
+            { time: category.createdAt, title: "Created At" },
+            { time: category.updatedAt, title: "Updated At" },
+          ]}
+        />
 
-          <FormCard color="danger">
-            <SectionHeader icon={IconTrash} color="danger">
-              Danger Zone
-            </SectionHeader>
+        <FormCard color="danger">
+          <SectionHeader icon={IconTrash} color="danger">
+            Danger Zone
+          </SectionHeader>
 
-            <CategoryDeleteForm category={category()} />
-          </FormCard>
-        </Sidebar>
-      </Show>
+          <CategoryDeleteForm category={category} />
+        </FormCard>
+      </Sidebar>
     </ContentWithSidebar>
   );
 };

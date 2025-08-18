@@ -1,12 +1,12 @@
-import { useNavigate } from "@solidjs/router";
-import { ParentComponent } from "solid-js";
+import { useNavigate } from "react-router-dom";
+import React from "react";
 import {
   IconTag,
   IconFlame,
   IconFileDescription,
   IconDeviceFloppy,
   IconX,
-} from "@tabler/icons-solidjs";
+} from "@tabler/icons-react";
 import Button from "../components/form/Button";
 import ButtonGroup from "../components/form/ButtonGroup";
 import Form from "../components/form/Form";
@@ -17,9 +17,10 @@ import { patchCategoryUpdate } from "../services/categories";
 
 type CategoryEditFormProps = {
   category: ResponseCategory;
+  children?: React.ReactNode;
 };
 
-const CategoryEditForm: ParentComponent<CategoryEditFormProps> = ({
+const CategoryEditForm: React.FC<CategoryEditFormProps> = ({
   category,
 }) => {
   const navigate = useNavigate();
@@ -49,7 +50,7 @@ const CategoryEditForm: ParentComponent<CategoryEditFormProps> = ({
           label="Category Name"
           iconLeft={IconTag}
           placeholder="e.g., Technology, Travel, Food"
-          value={category.name}
+          defaultValue={category.name}
           required
         />
 
@@ -59,9 +60,9 @@ const CategoryEditForm: ParentComponent<CategoryEditFormProps> = ({
           iconLeft={IconFlame}
           placeholder="A compelling 20-75 character description"
           required
-          value={category.spot}
-          minlength={20}
-          maxlength={75}
+          defaultValue={category.spot}
+          minLength={20}
+          maxLength={75}
         />
       </FormSection>
 
@@ -72,9 +73,9 @@ const CategoryEditForm: ParentComponent<CategoryEditFormProps> = ({
           iconLeft={IconFileDescription}
           placeholder="A detailed description for search engines and category pages. This should be comprehensive and informative, explaining what this category covers."
           required
-          value={category.description}
-          minlength={70}
-          maxlength={500}
+          defaultValue={category.description}
+          minLength={70}
+          maxLength={500}
           rows={4}
         />
       </FormSection>
@@ -83,7 +84,7 @@ const CategoryEditForm: ParentComponent<CategoryEditFormProps> = ({
         <Button
           type="submit"
           color="success"
-          class="flex-1"
+          className="flex-1"
           iconRight={IconDeviceFloppy}
         >
           Save Changes

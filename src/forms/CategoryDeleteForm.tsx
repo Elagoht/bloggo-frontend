@@ -1,15 +1,16 @@
-import { useNavigate } from "@solidjs/router";
-import { ParentComponent } from "solid-js";
-import toast from "solid-toast";
+import { useNavigate } from "react-router-dom";
+import React from "react";
+import toast from "react-hot-toast";
 import FormSection from "../components/form/FormSection";
 import HoldButton from "../components/form/HoldButton";
 import { deleteCategory } from "../services/categories";
 
 type CategoryDeleteFormProps = {
   category: ResponseCategory;
+  children?: React.ReactNode;
 };
 
-const CategoryDeleteForm: ParentComponent<CategoryDeleteFormProps> = ({
+const CategoryDeleteForm: React.FC<CategoryDeleteFormProps> = ({
   category,
 }) => {
   const navigate = useNavigate();
@@ -28,7 +29,7 @@ const CategoryDeleteForm: ParentComponent<CategoryDeleteFormProps> = ({
       color="danger"
       legend="Caution! This action cannot be reversed."
     >
-      <HoldButton color="danger" onclick={handleSubmit}>
+      <HoldButton color="danger" onClick={handleSubmit}>
         Hold to Delete
       </HoldButton>
     </FormSection>

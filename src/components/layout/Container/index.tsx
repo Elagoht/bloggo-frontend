@@ -1,21 +1,22 @@
+import React from "react";
 import classNames from "classnames";
-import { ParentComponent } from "solid-js";
 
-type ContainerProps = {
+interface ContainerProps {
   size?: "sm" | "md" | "lg" | "xl";
-};
+  children: React.ReactNode;
+}
 
-const Container: ParentComponent<ContainerProps> = ({
+const Container: React.FC<ContainerProps> = ({
   size = "lg",
   children,
 }) => {
   return (
     <div
-      class={classNames("flex flex-col gap-2 w-full", {
-        "max-w-screen-sm": size == "sm",
-        "max-w-screen-md": size == "md",
-        "max-w-screen-lg": size == "lg",
-        "max-w-screen-xl": size == "xl",
+      className={classNames("flex flex-col gap-2 w-full", {
+        "max-w-screen-sm": size === "sm",
+        "max-w-screen-md": size === "md",
+        "max-w-screen-lg": size === "lg",
+        "max-w-screen-xl": size === "xl",
       })}
     >
       {children}

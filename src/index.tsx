@@ -1,66 +1,68 @@
-import { Route, Router } from "@solidjs/router";
-import { lazy } from "solid-js";
-import { render } from "solid-js/web";
-import { Toaster } from "solid-toast";
+import { lazy, Suspense } from "react";
+import { createRoot } from "react-dom/client";
+import { Toaster } from "react-hot-toast";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./design/index.css";
 
-render(
-  () => (
-    <>
+const AuthLayout = lazy(() => import("./app/auth/layout"));
+const LoginPage = lazy(() => import("./app/auth/login/page"));
+const Guard = lazy(() => import("./app/panel/guard"));
+const PanelLayout = lazy(() => import("./app/panel/Layout"));
+const DashboardPage = lazy(() => import("./app/panel/dashboard/page"));
+const ProfilePage = lazy(() => import("./app/panel/profile/page"));
+const AvatarPage = lazy(() => import("./app/panel/profile/avatar/page"));
+const CategoriesPage = lazy(() => import("./app/panel/categories/page"));
+const CreateCategoryPage = lazy(
+  () => import("./app/panel/categories/create/page")
+);
+const EditCategoryPage = lazy(
+  () => import("./app/panel/categories/edit/[slug]/page")
+);
+const NotFoundPage = lazy(() => import("./app/panel/404/page"));
+
+const App = () => {
+  return (
+    <BrowserRouter>
       <Toaster />
 
-      <Router>
-        <Route path="/auth" component={lazy(() => import("./app/auth/layout"))}>
-          <Route
-            path="/login"
-            component={lazy(() => import("./app/auth/login/page"))}
-          />
-        </Route>
+      <Suspense fallback={<div>Loading...</div>}>
+        <Routes>
+          <Route path="/auth" element={<AuthLayout />}>
+            <Route path="login" element={<LoginPage />} />
+          </Route>
 
-        <Route path="/" component={lazy(() => import("./app/panel/guard"))}>
-          <Route path="/" component={lazy(() => import("./app/panel/layout"))}>
-            <Route
-              path="/"
-              component={lazy(() => import("./app/panel/dashboard/page"))}
-            />
+          <Route path="/" element={<Guard />}>
+            <Route path="/" element={<PanelLayout />}>
+              <Route index element={<DashboardPage />} />
 
-            <Route path="/profile">
-              <Route
-                path="/"
-                component={lazy(() => import("./app/panel/profile/page"))}
-              />
+              <Route path="profile">
+                <Route index element={<ProfilePage />} />
 
-              <Route
-                path="/avatar"
-                component={lazy(
-                  () => import("./app/panel/profile/avatar/page")
-                )}
-              />
-            </Route>
+                <Route path="avatar" element={<AvatarPage />} />
+              </Route>
 
-            <Route path="/categories">
-              <Route
-                path="/"
-                component={lazy(() => import("./app/panel/categories/page"))}
-              />
-              <Route
-                path="/create"
-                component={lazy(
-                  () => import("./app/panel/categories/create/page")
-                )}
-              />
+              <Route path="categories">
+                <Route index element={<CategoriesPage />} />
 
-              <Route
-                path="/edit/:slug"
-                component={lazy(
-                  () => import("./app/panel/categories/edit/[slug]/page")
-                )}
-              />
+                <Route path="create" element={<CreateCategoryPage />} />
+
+                <Route path="edit/:slug" element={<EditCategoryPage />} />
+              </Route>
+
+              {/* Catch-all route for 404 within panel */}
+              <Route path="*" element={<NotFoundPage />} />
             </Route>
           </Route>
-        </Route>
-      </Router>
-    </>
-  ),
-  document.querySelector("body")
-);
+        </Routes>
+      </Suspense>
+    </BrowserRouter>
+  );
+};
+
+const container = document.querySelector("body");
+if (!container) {
+  throw new Error("Root element not found");
+}
+
+const root = createRoot(container);
+root.render(<App />);

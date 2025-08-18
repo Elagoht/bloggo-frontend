@@ -1,13 +1,14 @@
-import { ParentComponent } from "solid-js";
+import React from "react";
 
-type FieldsetProps = {
+interface FieldsetProps {
   legend: string;
-};
+  children: React.ReactNode;
+}
 
-const Fieldset: ParentComponent<FieldsetProps> = ({ legend, children }) => {
+const Fieldset: React.FC<FieldsetProps> = ({ legend, children }) => {
   return (
-    <fieldset class="border-2 border-smoke-200 dark:border-smoke-800 rounded-md p-2">
-      <legend class="bg-smoke-300 dark:bg-smoke-700 rounded-md px-2 leading-normal">
+    <fieldset className="border-2 border-smoke-200 dark:border-smoke-800 rounded-md p-2">
+      <legend className="bg-smoke-300 dark:bg-smoke-700 rounded-md px-2 leading-normal">
         {legend}
       </legend>
 
