@@ -1,13 +1,13 @@
-import React, { lazy, Suspense } from "react";
+import { lazy, Suspense } from "react";
 import { createRoot } from "react-dom/client";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./design/index.css";
 
 const AuthLayout = lazy(() => import("./app/auth/layout"));
 const LoginPage = lazy(() => import("./app/auth/login/page"));
 const Guard = lazy(() => import("./app/panel/guard"));
-const PanelLayout = lazy(() => import("./app/panel/layout"));
+const PanelLayout = lazy(() => import("./app/panel/Layout"));
 const DashboardPage = lazy(() => import("./app/panel/dashboard/page"));
 const ProfilePage = lazy(() => import("./app/panel/profile/page"));
 const AvatarPage = lazy(() => import("./app/panel/profile/avatar/page"));
@@ -55,7 +55,7 @@ const App = () => {
   );
 };
 
-const container = document.getElementById("root");
+const container = document.querySelector("body");
 if (!container) {
   throw new Error("Root element not found");
 }
