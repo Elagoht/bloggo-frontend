@@ -66,8 +66,8 @@ const ProfileAvatarPage: React.FC = () => {
           onChange={handleFileChange}
         />
 
-        <Button type="submit">
-          <IconUpload /> Update Avatar
+        <Button iconRight={IconUpload} type="submit">
+          Update Avatar
         </Button>
       </Form>
     </Container>
