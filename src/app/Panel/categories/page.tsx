@@ -1,6 +1,6 @@
 import { useSearchParams } from "@solidjs/router";
 import { IconCategory, IconFilter, IconPlus } from "@tabler/icons-solidjs";
-import { Component, createResource, For, Show, Suspense } from "solid-js";
+import { Component, createMemo, createResource, For, Show, Suspense } from "solid-js";
 import Button from "../../../components/form/Button";
 import Container from "../../../components/layout/Container";
 import CardGrid from "../../../components/layout/Container/CardGrid";
@@ -8,6 +8,7 @@ import ContentWithSidebar from "../../../components/layout/Container/ContentWith
 import PageTitleWithIcon from "../../../components/layout/Container/PageTitle";
 import Sidebar from "../../../components/layout/Container/Sidebar";
 import SectionHeader from "../../../components/layout/SectionHeader";
+import Pagination from "../../../components/layout/Container/Pagination";
 import CategoryCard from "../../../components/pages/panel/categories/CategoryCard";
 import CategoryFiltersForm from "../../../forms/CategoryFiltersForm";
 import { getCategories } from "../../../services/categories";
@@ -16,14 +17,22 @@ import NoCategoriesYet from "../../../components/pages/panel/categories/NoCampai
 const CategoriesPage: Component = () => {
   const [searchParams] = useSearchParams();
 
-  const [categories, { refetch }] = createResource(async () => {
-    const result = await getCategories({
-      q: searchParams.q as string,
-      order: searchParams.order as string,
-      dir: searchParams.dir as string,
-    });
-    return result.success ? result.data : [];
-  });
+  // Create a reactive memo for search params that will trigger resource updates
+  const searchFilters = createMemo(() => ({
+    q: searchParams.q as string,
+    order: searchParams.order as string,
+    dir: searchParams.dir as string,
+    page: parseInt(searchParams.page as string) || 1,
+    take: parseInt(searchParams.take as string) || 10,
+  }));
+
+  const [categoriesResponse, { refetch }] = createResource(
+    searchFilters,
+    async (filters) => {
+      const result = await getCategories(filters);
+      return result.success ? result.data : null;
+    }
+  );
 
   return (
     <ContentWithSidebar>
@@ -41,9 +50,12 @@ const CategoriesPage: Component = () => {
         </div>
 
         <Suspense>
-          <Show when={!categories.error}>
+          <Show when={!categoriesResponse.error && categoriesResponse()}>
             <CardGrid>
-              <For each={categories()} fallback={<NoCategoriesYet />}>
+              <For
+                each={categoriesResponse()?.data || []}
+                fallback={<NoCategoriesYet />}
+              >
                 {(category) => (
                   <CategoryCard
                     name={category.name}
@@ -54,6 +66,13 @@ const CategoriesPage: Component = () => {
                 )}
               </For>
             </CardGrid>
+
+            <Show when={categoriesResponse()}>
+              <Pagination
+                totalItems={categoriesResponse()?.total || 0}
+                itemsPerPage={categoriesResponse()?.take || 10}
+              />
+            </Show>
           </Show>
         </Suspense>
       </Container>
