@@ -1,15 +1,14 @@
 import { useSearchParams } from "@solidjs/router";
-import { IconPlus } from "@tabler/icons-solidjs";
+import { IconCategory, IconFilter, IconPlus } from "@tabler/icons-solidjs";
 import { Component, createResource, For, Show, Suspense } from "solid-js";
 import Button from "../../../components/form/Button";
 import Container from "../../../components/layout/Container";
 import CardGrid from "../../../components/layout/Container/CardGrid";
 import ContentWithSidebar from "../../../components/layout/Container/ContentWithSidebar";
-import HeaderWithButton from "../../../components/layout/Container/HeaderWithButton";
+import PageTitleWithIcon from "../../../components/layout/Container/PageTitle";
 import Sidebar from "../../../components/layout/Container/Sidebar";
+import SectionHeader from "../../../components/layout/SectionHeader";
 import CategoryCard from "../../../components/pages/panel/categories/CategoryCard";
-import H1 from "../../../components/typography/H1";
-import H2 from "../../../components/typography/H2";
 import CategoryFiltersForm from "../../../forms/CategoryFiltersForm";
 import { getCategories } from "../../../services/categories";
 import NoCategoriesYet from "../../../components/pages/panel/categories/NoCampaigns";
@@ -29,18 +28,17 @@ const CategoriesPage: Component = () => {
   return (
     <ContentWithSidebar>
       <Container>
-        <HeaderWithButton>
-          <H1>Categories</H1>
+        <div class="flex items-center justify-between">
+          <PageTitleWithIcon icon={IconCategory}>Categories</PageTitleWithIcon>
 
           <Button
             href="/categories/create"
             color="success"
-            class="self-end"
             iconRight={IconPlus}
           >
             New Category
           </Button>
-        </HeaderWithButton>
+        </div>
 
         <Suspense>
           <Show when={!categories.error}>
@@ -61,7 +59,7 @@ const CategoriesPage: Component = () => {
       </Container>
 
       <Sidebar>
-        <H2>Filters</H2>
+        <SectionHeader icon={IconFilter}>Filters</SectionHeader>
 
         <CategoryFiltersForm refetch={refetch} />
       </Sidebar>

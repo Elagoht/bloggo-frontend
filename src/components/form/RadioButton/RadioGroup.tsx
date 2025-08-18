@@ -12,16 +12,18 @@ type RadioGroupProps = {
 
 const RadioGroup: Component<RadioGroupProps> = ({ name, checked, options }) => {
   return (
-    <For each={options}>
-      {(option, index) => (
-        <RadioButton
-          checked={checked ? checked === option.value : index() === 0}
-          name={name}
-          value={option.value}
-          label={option.label}
-        />
-      )}
-    </For>
+    <div class="flex flex-col gap-2">
+      <For each={options}>
+        {(option, index) => (
+          <RadioButton
+            checked={checked ? checked === option.value : index() === 0}
+            name={name}
+            value={option.value}
+            label={option.label}
+          />
+        )}
+      </For>
+    </div>
   );
 };
 

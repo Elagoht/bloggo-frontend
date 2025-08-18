@@ -1,11 +1,12 @@
 import { useSearchParams } from "@solidjs/router";
-import { IconClearAll, IconFilter } from "@tabler/icons-solidjs";
+import { IconClearAll, IconFilter, IconSearch } from "@tabler/icons-solidjs";
 import { Component } from "solid-js";
 import Button from "../components/form/Button";
+import ButtonGroup from "../components/form/ButtonGroup";
 import Form from "../components/form/Form";
+import FormSection from "../components/form/FormSection";
 import Input from "../components/form/Input";
 import RadioGroup from "../components/form/RadioButton/RadioGroup";
-import Fieldset from "../components/layout/Container/Fieldset";
 
 type CategoryFiltersFormProps = {
   refetch: () => void;
@@ -27,7 +28,7 @@ const CategoryFiltersForm: Component<CategoryFiltersFormProps> = ({
   const handleReset = (form: HTMLFormElement) => {
     const nameInput = form.querySelector("[name=q]") as HTMLInputElement;
     const sortInput = form.querySelector(
-      "[value='name:desc']"
+      "[value='name:asc']"
     ) as HTMLInputElement;
     sortInput.checked = true;
     nameInput.value = "";
@@ -37,25 +38,30 @@ const CategoryFiltersForm: Component<CategoryFiltersFormProps> = ({
 
   return (
     <Form handle={handleSubmit} reset={handleReset}>
-      <div class="flex items-center gap-1">
-        <Input
-          type="search"
-          name="q"
-          class="grow"
-          value={searchParams.q || ""}
-          placeholder="Search Categories"
-        />
+      <FormSection legend="Search">
+        <div class="flex items-center gap-2">
+          <Input
+            type="search"
+            name="q"
+            class="flex-1"
+            value={searchParams.q || ""}
+            placeholder="Search Categories"
+            iconLeft={IconSearch}
+          />
 
-        <Button type="submit" iconLeft={IconFilter} />
-      </div>
+          <Button type="submit" color="primary" iconLeft={IconFilter}>
+            Filter
+          </Button>
+        </div>
+      </FormSection>
 
-      <Fieldset legend="Sort By">
+      <FormSection legend="Sort By">
         <RadioGroup
           name="sort"
           checked={
             searchParams.order && searchParams.dir
               ? `${searchParams.order}:${searchParams.dir}`
-              : "name:desc"
+              : "name:asc"
           }
           options={[
             { value: "name:asc", label: "Name A-Z" },
@@ -66,9 +72,15 @@ const CategoryFiltersForm: Component<CategoryFiltersFormProps> = ({
             { value: "updated_at:desc", label: "Last Updated" },
           ]}
         />
-      </Fieldset>
+      </FormSection>
 
-      <Button type="reset" variant="outline" iconLeft={IconClearAll}>
+      <Button
+        type="reset"
+        variant="outline"
+        color="danger"
+        iconLeft={IconClearAll}
+        class="w-full"
+      >
         Clear Filters
       </Button>
     </Form>
