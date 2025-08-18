@@ -6,7 +6,7 @@ type AvatarImageProps = Partial<Pick<ResponseUser, "avatar">> &
 
 const AvatarImage: React.FC<AvatarImageProps> = (props) => {
   const initials = Text.getInitialLetters(props.name);
-  
+
   const avatarSrc = useMemo(() => {
     if (!props.avatar) return "";
     if (props.avatar.startsWith("data:image")) return props.avatar;

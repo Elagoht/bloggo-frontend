@@ -8,7 +8,7 @@ import { useProfileStore } from "../../../../stores/profile";
 import toast from "react-hot-toast";
 import Button from "../../../../components/form/Button";
 import { IconUpload } from "@tabler/icons-react";
-import { patchUserAvatarSelf } from "../../../../services/users";
+import { patchUserAvatarSelf, getUserSelf } from "../../../../services/users";
 
 const ProfileAvatarPage: React.FC = () => {
   const { profile, updateProfile } = useProfileStore();
@@ -45,7 +45,12 @@ const ProfileAvatarPage: React.FC = () => {
     const response = await patchUserAvatarSelf(data);
 
     if (response.success === true) {
-      updateProfile({ avatar: avatarImage });
+      // Fetch the updated profile to get the new avatar URL from server
+      const profileResponse = await getUserSelf();
+      if (profileResponse.success) {
+        updateProfile({ avatar: profileResponse.data.avatar });
+        setAvatarImage(profileResponse.data.avatar || "");
+      }
       toast.success("Avatar updated successfully!");
     } else {
       toast.error(response.error?.message || "Failed to update avatar");

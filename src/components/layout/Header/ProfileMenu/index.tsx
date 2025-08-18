@@ -3,14 +3,15 @@ import { Link, useNavigate } from "react-router-dom";
 import { IconUserCircle } from "@tabler/icons-react";
 import classNames from "classnames";
 import profileMenu from "./profile";
+import { useProfileStore } from "../../../../stores/profile";
 
 interface ProfileMenuProps {
-  avatar?: string;
   name: string;
 }
 
-const ProfileMenu: React.FC<ProfileMenuProps> = ({ avatar, name = "?" }) => {
+const ProfileMenu: React.FC<ProfileMenuProps> = ({ name = "?" }) => {
   const navigate = useNavigate();
+  const { profile } = useProfileStore();
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -33,13 +34,13 @@ const ProfileMenu: React.FC<ProfileMenuProps> = ({ avatar, name = "?" }) => {
         onClick={() => setMenuOpen((prev) => !prev)}
         aria-label="Open profile menu"
       >
-        {avatar ? (
+        {profile?.avatar ? (
           <img
-            src={avatar}
+            src={import.meta.env.VITE_API_URL + profile.avatar}
             alt="Profile Picture"
             width={28}
             height={28}
-            className="rounded-full border-2 border-gopher-200 dark:border-gopher-700 shadow-sm object-contain size-7 group-hover:border-gopher-300 dark:group-hover:border-gopher-600 transition-colors duration-200"
+            className="rounded-full border-2 border-gopher-200 dark:border-gopher-700 shadow-sm object-cover size-7 group-hover:border-gopher-300 dark:group-hover:border-gopher-600 transition-colors duration-200"
           />
         ) : (
           <div className="size-7 bg-gradient-to-br from-gopher-500 to-gopher-600 dark:from-gopher-400 dark:to-gopher-500 rounded-full flex items-center justify-center shadow-sm">
