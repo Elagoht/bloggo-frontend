@@ -8,8 +8,8 @@ const profileMenu = [
     name: "Profile",
     icon: IconUser,
     href: "/profile",
-    role: "anchor" as const,
-    type: "default" as const,
+    role: "anchor",
+    type: "default",
   },
   {
     name: "Logout",
@@ -20,8 +20,8 @@ const profileMenu = [
         useAuthStore.getState().clearAuth();
         navigate("/auth/login", { replace: true });
       }),
-    role: "button" as const,
-    type: "danger" as const,
+    role: "button",
+    type: "danger",
   },
 ];
 

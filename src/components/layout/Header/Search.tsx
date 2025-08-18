@@ -21,22 +21,28 @@ const Search: React.FC = () => {
 
   return (
     <form
-      className="flex items-center"
+      className="flex items-center w-full max-w-md group"
       onSubmit={(event) => event.preventDefault()}
     >
-      <input
-        ref={inputRef}
-        type="search"
-        placeholder="Search  ⌘+K"
-        className="bg-smoke-100 dark:bg-smoke-900 placeholder:text-smoke-200 dark:placeholder:text-smoke-400 h-8 rounded-l-full py-2 px-4 text-sm focus:outline-smoke-800 outline-none"
-      />
+      <div className="relative flex items-center w-full bg-smoke-100 dark:bg-smoke-900 rounded-full shadow-sm border border-smoke-200/50 dark:border-smoke-700/50 group-focus-within:border-gopher-300 dark:group-focus-within:border-gopher-600 group-focus-within:shadow-md transition-all">
+        <input
+          ref={inputRef}
+          type="search"
+          placeholder="Search posts, categories..."
+          className="flex-1 bg-transparent placeholder:text-smoke-400 dark:placeholder:text-smoke-500 h-8 rounded-l-full py-2 px-3 text-sm focus:outline-none"
+        />
 
-      <button
-        type="submit"
-        className="bg-smoke-100 dark:bg-smoke-900 hover:bg-smoke-800 focus:outline-smoke-800 h-8 rounded-r-full py-2 px-4 outline-none"
-      >
-        <IconSearch size={18} />
-      </button>
+        <span className="flex items-center px-2 text-smoke-400 dark:text-smoke-500 text-xs font-medium">
+          ⌘K
+        </span>
+
+        <button
+          type="submit"
+          className="bg-gopher-600 hover:bg-gopher-700 dark:bg-gopher-500 dark:hover:bg-gopher-400 text-white h-6 w-6 rounded-full mr-1 flex items-center justify-center transition-colors shadow-sm hover:shadow-md"
+        >
+          <IconSearch size={16} />
+        </button>
+      </div>
     </form>
   );
 };
