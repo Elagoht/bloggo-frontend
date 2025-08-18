@@ -2,7 +2,7 @@ import QueryString from "qs";
 import ApiCall from "../utilities/apiCaller";
 
 export const getCategories = (filters?: RequestCategoryFilters) =>
-  ApiCall.get<ResponseCategories>(
+  ApiCall.get<ResponsePaginated<CategoryCard[]>>(
     `/categories${QueryString.stringify(filters, {
       skipNulls: true,
       addQueryPrefix: true,
