@@ -17,8 +17,6 @@ type RequestCategoryFilters = {
   q?: string;
 };
 
-type ResponseCategories = CategoryCard[];
-
 type ResponseCategory = {
   id: string;
   name: string;
