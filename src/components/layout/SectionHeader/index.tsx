@@ -6,15 +6,19 @@ type SectionHeaderProps = {
   children: React.ReactNode;
   icon?: React.ForwardRefExoticComponent<IconProps & React.RefAttributes<Icon>>;
   color?: "default" | "primary" | "success" | "danger";
+  topMargin?: boolean;
 };
 
 const SectionHeader: React.FC<SectionHeaderProps> = ({
   children,
   icon: Icon,
+  topMargin,
   color = "default",
 }) => {
   return (
-    <hgroup className="flex items-center gap-2">
+    <hgroup
+      className={classNames("flex items-center gap-2", { "mt-14": topMargin })}
+    >
       {Icon && (
         <span
           className={classNames("flex-shrink-0 p-1 rounded border", {

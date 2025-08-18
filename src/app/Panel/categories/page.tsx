@@ -93,7 +93,9 @@ const CategoriesPage: React.FC = () => {
       </Container>
 
       <Sidebar>
-        <SectionHeader icon={IconFilter}>Filters</SectionHeader>
+        <SectionHeader topMargin icon={IconFilter}>
+          Filters
+        </SectionHeader>
 
         <CategoryFiltersForm />
       </Sidebar>

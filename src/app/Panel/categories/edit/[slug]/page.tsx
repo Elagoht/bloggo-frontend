@@ -20,7 +20,7 @@ const CategoryEditPage: React.FC = () => {
 
   const fetchCategory = useCallback(async () => {
     if (!slug) return;
-    
+
     try {
       setLoading(true);
       const result = await getCategory(slug);
@@ -59,7 +59,9 @@ const CategoryEditPage: React.FC = () => {
       </Container>
 
       <Sidebar>
-        <SectionHeader icon={IconInfoCircle}>Details</SectionHeader>
+        <SectionHeader topMargin icon={IconInfoCircle}>
+          Details
+        </SectionHeader>
 
         <ActivityDates
           dates={[
