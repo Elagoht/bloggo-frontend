@@ -45,10 +45,6 @@ const CategoriesPage: React.FC = () => {
     }
   }, []);
 
-  const refetch = useCallback(() => {
-    fetchCategories(searchFilters);
-  }, [fetchCategories, searchFilters]);
-
   useEffect(() => {
     fetchCategories(searchFilters);
   }, [fetchCategories, searchFilters]);
@@ -99,7 +95,7 @@ const CategoriesPage: React.FC = () => {
       <Sidebar>
         <SectionHeader icon={IconFilter}>Filters</SectionHeader>
 
-        <CategoryFiltersForm refetch={refetch} />
+        <CategoryFiltersForm />
       </Sidebar>
     </ContentWithSidebar>
   );

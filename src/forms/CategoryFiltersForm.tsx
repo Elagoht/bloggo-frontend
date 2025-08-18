@@ -8,13 +8,9 @@ import FormSection from "../components/form/FormSection";
 import Input from "../components/form/Input";
 import RadioGroup from "../components/form/RadioButton/RadioGroup";
 
-type CategoryFiltersFormProps = {
-  refetch: () => void;
-};
+type CategoryFiltersFormProps = {};
 
-const CategoryFiltersForm: React.FC<CategoryFiltersFormProps> = ({
-  refetch,
-}) => {
+const CategoryFiltersForm: React.FC<CategoryFiltersFormProps> = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const handleSubmit = async (data: FormData) => {
@@ -26,7 +22,7 @@ const CategoryFiltersForm: React.FC<CategoryFiltersFormProps> = ({
     newParams.set("order", order);
     newParams.set("dir", dir);
     setSearchParams(newParams, { replace: true });
-    setTimeout(refetch, 0);
+    // No need to call refetch - parent useEffect will trigger automatically
   };
 
   const handleReset = (form: HTMLFormElement) => {
@@ -38,7 +34,6 @@ const CategoryFiltersForm: React.FC<CategoryFiltersFormProps> = ({
     if (nameInput) nameInput.value = "";
     const newParams = new URLSearchParams();
     setSearchParams(newParams, { replace: true });
-    setTimeout(refetch, 0);
   };
 
   return (
