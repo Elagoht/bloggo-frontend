@@ -1,7 +1,6 @@
-import React from "react";
 import { IconHome, IconSearch } from "@tabler/icons-react";
+import React from "react";
 import Button from "../../../components/form/Button";
-import Container from "../../../components/layout/Container";
 import H1 from "../../../components/typography/H1";
 
 const NotFoundPage: React.FC = () => {
