@@ -12,7 +12,7 @@ import Pagination from "../../../components/layout/Container/Pagination";
 import CategoryCard from "../../../components/pages/panel/categories/CategoryCard";
 import CategoryFiltersForm from "../../../forms/CategoryFiltersForm";
 import { getCategories } from "../../../services/categories";
-import NoCategoriesYet from "../../../components/pages/panel/categories/NoCampaigns";
+import NoCategoriesYet from "../../../components/pages/panel/categories/NoCategoriesYet";
 
 const CategoriesPage: React.FC = () => {
   const [searchParams] = useSearchParams();
