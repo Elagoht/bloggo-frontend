@@ -1,28 +1,27 @@
-import { useStore } from "@nanostores/solid";
-import { Component, createEffect, createSignal } from "solid-js";
+import React, { useEffect, useState } from "react";
 import AvatarImage from "../../../../components/common/Avatar/AvatarImage";
 import Form from "../../../../components/form/Form";
 import Input from "../../../../components/form/Input";
 import Container from "../../../../components/layout/Container";
 import H1 from "../../../../components/typography/H1";
-import { $profile } from "../../../../stores/profile";
-import toast from "solid-toast";
+import { useProfileStore } from "../../../../stores/profile";
+import toast from "react-hot-toast";
 import Button from "../../../../components/form/Button";
-import { IconUpload } from "@tabler/icons-solidjs";
+import { IconUpload } from "@tabler/icons-react";
 import { patchUserAvatarSelf } from "../../../../services/users";
 
-const ProfileAvatarPage: Component = () => {
-  const profile = useStore($profile);
+const ProfileAvatarPage: React.FC = () => {
+  const { profile, updateProfile } = useProfileStore();
+  const [avatarImage, setAvatarImage] = useState<string>("");
 
-  const [avatarImage, setAvatarImage] = createSignal<string>();
+  useEffect(() => {
+    if (profile?.avatar) {
+      setAvatarImage(profile.avatar);
+    }
+  }, [profile?.avatar]);
 
-  createEffect(() => {
-    if (avatarImage()) return;
-    setAvatarImage(profile().avatar || "");
-  });
-
-  const handleFileChange = (event: Event) => {
-    const input = event.target as HTMLInputElement;
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const input = event.target;
     if (input.files && input.files[0]) {
       const file = input.files[0];
       if (file.size > 5 * 1024 * 1024) {
@@ -46,11 +45,7 @@ const ProfileAvatarPage: Component = () => {
     const response = await patchUserAvatarSelf(data);
 
     if (response.success === true) {
-      const currentProfile = profile();
-      $profile.set({
-        ...currentProfile,
-        avatar: avatarImage(),
-      });
+      updateProfile({ avatar: avatarImage });
       toast.success("Avatar updated successfully!");
     } else {
       toast.error(response.error?.message || "Failed to update avatar");
@@ -62,13 +57,13 @@ const ProfileAvatarPage: Component = () => {
       <H1>Change Your Avatar</H1>
 
       <Form handle={handleSubmit}>
-        <AvatarImage name={profile().name} avatar={avatarImage()} />
+        <AvatarImage name={profile?.name || ""} avatar={avatarImage} />
 
         <Input
           type="file"
           name="avatar"
           accept="image/*"
-          onchange={handleFileChange}
+          onChange={handleFileChange}
         />
 
         <Button type="submit">

@@ -1,8 +1,12 @@
-import { ParentComponent } from "solid-js";
+import React from "react";
 
-const H3: ParentComponent = ({ children }) => {
+interface H3Props {
+  children: React.ReactNode;
+}
+
+const H3: React.FC<H3Props> = ({ children }) => {
   return (
-    <h3 class="text-lg font-bold text-smoke-700 dark:text-smoke-300">
+    <h3 className="text-lg font-bold text-smoke-700 dark:text-smoke-300">
       {children}
     </h3>
   );

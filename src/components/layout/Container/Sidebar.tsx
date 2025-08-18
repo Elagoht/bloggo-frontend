@@ -1,7 +1,11 @@
-import { ParentComponent } from "solid-js";
+import React from "react";
 
-const Sidebar: ParentComponent = ({ children }) => {
-  return <div class="flex flex-col gap-2 w-full md:max-w-80">{children}</div>;
+interface SidebarProps {
+  children: React.ReactNode;
+}
+
+const Sidebar: React.FC<SidebarProps> = ({ children }) => {
+  return <div className="flex flex-col gap-2 w-full md:max-w-80">{children}</div>;
 };
 
 export default Sidebar;

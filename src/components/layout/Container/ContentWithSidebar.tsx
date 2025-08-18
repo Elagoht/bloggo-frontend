@@ -1,8 +1,12 @@
-import { ParentComponent } from "solid-js";
+import React from "react";
 
-const ContentWithSidebar: ParentComponent = ({ children }) => {
+interface ContentWithSidebarProps {
+  children: React.ReactNode;
+}
+
+const ContentWithSidebar: React.FC<ContentWithSidebarProps> = ({ children }) => {
   return (
-    <div class="flex max-md:flex-col-reverse justify-center w-full mx-auto gap-4">
+    <div className="flex max-md:flex-col-reverse justify-center w-full mx-auto gap-4">
       {children}
     </div>
   );

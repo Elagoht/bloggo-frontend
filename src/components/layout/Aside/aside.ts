@@ -12,7 +12,7 @@ import {
   IconTag,
   IconUsers,
   IconWritingSign,
-} from "@tabler/icons-solidjs";
+} from "@tabler/icons-react";
 
 export const asideMenu = [
   {

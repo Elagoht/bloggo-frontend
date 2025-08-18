@@ -1,39 +1,43 @@
-import { useNavigate } from "@solidjs/router";
-import { onMount, ParentComponent, createSignal, Show } from "solid-js";
-import { $auth } from "../../stores/auth";
-import { useStore } from "@nanostores/solid";
+import React, { useEffect, useState } from "react";
+import { useNavigate, Outlet } from "react-router-dom";
+import { useAuthStore } from "../../stores/auth";
 import ApiCall from "../../utilities/apiCaller";
 
-const AuthLayout: ParentComponent = ({ children }) => {
+const AuthLayout: React.FC = () => {
   const navigate = useNavigate();
-  const auth = useStore($auth);
-  const [isChecking, setChecking] = createSignal(true);
+  const { accessToken, setAuth } = useAuthStore();
+  const [isChecking, setChecking] = useState(true);
 
-  onMount(async () => {
-    if (auth().accessToken) {
-      navigate("/", { replace: true });
-      return;
-    }
+  useEffect(() => {
+    const checkAuth = async () => {
+      if (accessToken) {
+        navigate("/", { replace: true });
+        return;
+      }
 
-    const response = await ApiCall.post<ResponseSession>("/auth/refresh");
+      const response = await ApiCall.post<ResponseSession>("/auth/refresh");
 
-    if (response.success) {
-      $auth.set(response.data);
+      if (response.success) {
+        setAuth(response.data);
+        navigate("/", { replace: true });
+      } else {
+        setChecking(false);
+      }
+    };
 
-      navigate("/", { replace: true });
-    } else {
-      setChecking(false);
-    }
-  });
+    checkAuth();
+  }, [accessToken, navigate, setAuth]);
+
+  if (isChecking) {
+    return null;
+  }
 
   return (
-    <Show when={!isChecking()}>
-      <main class="w-full bg-center bg-no-repeat bg-auth-day dark:bg-auth-night bg-cover grid place-items-center">
-        <div class="flex flex-col gap-8 w-full max-w-96 bg-white dark:bg-black bg-opacity-35 dark:bg-opacity-35 backdrop-blur p-8 rounded-lg border-2 border-white dark:border-smoke-100 border-opacity-20 dark:border-opacity-10">
-          {children}
-        </div>
-      </main>
-    </Show>
+    <main className="w-full bg-center bg-no-repeat bg-auth-day dark:bg-auth-night bg-cover grid place-items-center">
+      <div className="flex flex-col gap-8 w-full max-w-96 bg-white dark:bg-black bg-opacity-35 dark:bg-opacity-35 backdrop-blur p-8 rounded-lg border-2 border-white dark:border-smoke-100 border-opacity-20 dark:border-opacity-10">
+        <Outlet />
+      </div>
+    </main>
   );
 };
 

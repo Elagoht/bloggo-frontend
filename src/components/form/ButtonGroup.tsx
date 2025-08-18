@@ -1,8 +1,8 @@
-import { Component, JSX, children } from "solid-js";
+import React from "react";
 import classNames from "classnames";
 
 interface ButtonGroupProps {
-  children: JSX.Element;
+  children: React.ReactNode;
 
   // Layout configurations
   layout?: "flex-row" | "flex-col" | "grid-2x1" | "grid-1x2" | "grid-2x2";
@@ -53,7 +53,7 @@ interface ButtonGroupProps {
   };
 
   // Container styling
-  class?: string;
+  className?: string;
 
   // Direction for flex layouts
   reverse?: boolean;
@@ -65,7 +65,7 @@ interface ButtonGroupProps {
   fullWidth?: boolean;
 }
 
-const ButtonGroup: Component<ButtonGroupProps> = ({
+const ButtonGroup: React.FC<ButtonGroupProps> = ({
   children,
   layout = "flex-row",
   alignment = "start",
@@ -75,7 +75,7 @@ const ButtonGroup: Component<ButtonGroupProps> = ({
   grouped = false,
   rounded = "md",
   responsive,
-  class: className,
+  className,
   reverse = false,
   wrap = false,
   fullWidth = false,
@@ -180,7 +180,7 @@ const ButtonGroup: Component<ButtonGroupProps> = ({
   );
 
 
-  return <div class={containerClasses}>{children}</div>;
+  return <div className={containerClasses}>{children}</div>;
 };
 
 export default ButtonGroup;

@@ -1,8 +1,8 @@
-import { Component } from "solid-js";
+import React from "react";
 
-const Footer: Component = () => {
+const Footer: React.FC = () => {
   return (
-    <footer class="p-4 text-center mt-auto text-sm text-gopher-500">
+    <footer className="p-4 text-center mt-auto text-sm text-gopher-500">
       <p>
         Made with <a href="https://wikipedia.org/wiki/love">🩷</a> and{" "}
         <a href="https://go.dev">Go</a> by{" "}

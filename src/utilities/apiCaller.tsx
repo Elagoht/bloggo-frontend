@@ -1,8 +1,10 @@
-import { useStore } from "@nanostores/solid";
-import { $auth } from "../stores/auth";
-
 class ApiCall {
   static apiUrl = import.meta.env.VITE_API_URL || "http://localhost:8723";
+  static authToken: string | null = null;
+
+  static setAuthToken(token: string | null) {
+    this.authToken = token;
+  }
 
   static async request<T>(
     path: string,
@@ -19,10 +21,8 @@ class ApiCall {
       finalBody = JSON.stringify(body);
     }
 
-    const auth = useStore($auth);
-
-    if (auth().accessToken) {
-      headers["Authorization"] = `Bearer ${auth().accessToken}`;
+    if (this.authToken) {
+      headers["Authorization"] = `Bearer ${this.authToken}`;
     }
 
     const res = await fetch(`${this.apiUrl}${path}`, {

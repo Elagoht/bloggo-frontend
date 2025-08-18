@@ -1,45 +1,46 @@
-import {
-  ParentComponent,
-  createSignal,
-  onMount,
-  Show,
-  createResource,
-} from "solid-js";
-import { useNavigate } from "@solidjs/router";
+import React, { useEffect, useState } from "react";
+import { useNavigate, Outlet } from "react-router-dom";
 import { postRefresh } from "../../services/session";
-import { $auth } from "../../stores/auth";
+import { useAuthStore } from "../../stores/auth";
 import { getUserSelf } from "../../services/users";
-import { $profile } from "../../stores/profile";
+import { useProfileStore } from "../../stores/profile";
 
-const AuthGuardLayout: ParentComponent = (props) => {
+const AuthGuardLayout: React.FC = () => {
   const navigate = useNavigate();
-  const [isReady, setReady] = createSignal(false);
+  const [isReady, setReady] = useState(false);
+  const { setAuth, clearAuth } = useAuthStore();
+  const { setProfile } = useProfileStore();
 
-  onMount(async () => {
-    const refreshResponse = await postRefresh();
+  useEffect(() => {
+    const initAuth = async () => {
+      const refreshResponse = await postRefresh();
 
-    if (!refreshResponse.success) {
-      $auth.set({
-        accessToken: null,
-        name: null,
-        role: null,
-        permissions: null,
-      });
-      navigate("/auth/login", { replace: true });
-      return;
-    }
+      if (!refreshResponse.success) {
+        clearAuth();
+        navigate("/auth/login", { replace: true });
+        return;
+      }
 
-    $auth.set(refreshResponse.data);
+      setAuth(refreshResponse.data);
 
-    const profileResponse = await getUserSelf();
-    if (!profileResponse.success) throw navigate("/auth/login");
+      const profileResponse = await getUserSelf();
+      if (!profileResponse.success) {
+        navigate("/auth/login", { replace: true });
+        return;
+      }
 
-    $profile.set(profileResponse.data);
+      setProfile(profileResponse.data);
+      setReady(true);
+    };
 
-    setReady(true);
-  });
+    initAuth();
+  }, [navigate, setAuth, clearAuth, setProfile]);
 
-  return <Show when={isReady()}>{props.children}</Show>;
+  if (!isReady) {
+    return <div>Loading...</div>;
+  }
+
+  return <Outlet />;
 };
 
 export default AuthGuardLayout;

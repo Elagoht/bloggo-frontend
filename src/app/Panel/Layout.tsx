@@ -1,16 +1,19 @@
-import { ParentComponent } from "solid-js";
+import React from "react";
+import { Outlet } from "react-router-dom";
 import Aside from "../../components/layout/Aside";
 import Footer from "../../components/layout/Footer";
 import Header from "../../components/layout/Header";
 
-const PanelLayout: ParentComponent = ({ children }) => {
+const PanelLayout: React.FC = () => {
   return (
     <>
       <Header />
+
       <Aside />
 
-      <main class="mt-16 flex flex-col items-center p-4 gap-4 flex-1 max-w-full overflow-x-hidden">
-        {children}
+      <main className="mt-16 flex flex-col items-center p-4 gap-4 flex-1 max-w-full overflow-x-hidden">
+        <Outlet />
+
         <Footer />
       </main>
     </>

@@ -1,14 +1,15 @@
-import { ParentComponent } from "solid-js";
+import React from "react";
 import classNames from "classnames";
 
-type FormCardProps = ParentComponent<{
+type FormCardProps = {
+  children: React.ReactNode;
   color?: "default" | "primary" | "success" | "danger";
-}>;
+};
 
-const FormCard: FormCardProps = ({ children, color = "default" }) => {
+const FormCard: React.FC<FormCardProps> = ({ children, color = "default" }) => {
   return (
     <article
-      class={classNames("rounded-lg border p-3 flex flex-col gap-3", {
+      className={classNames("rounded-lg border p-3 flex flex-col gap-3", {
         // Default
         "bg-white dark:bg-smoke-950 border-smoke-200 dark:border-smoke-800":
           color === "default",
