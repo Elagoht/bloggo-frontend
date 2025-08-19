@@ -54,7 +54,7 @@ const UsersPage: React.FC<UsersPageProps> = () => {
   }, [fetchUsers, searchFilters]);
 
   return (
-    <RouteGuard permission="user:view" redirectTo="/panel/dashboard">
+    <RouteGuard permission="user:view" redirectTo="/dashboard">
       <ContentWithSidebar>
         <Container>
           <div className="flex items-center justify-between">

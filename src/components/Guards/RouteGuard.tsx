@@ -18,9 +18,10 @@ export default function RouteGuard({
   requireAll = false,
   redirectTo,
   fallback = null,
-  children
+  children,
 }: RouteGuardProps) {
-  const { hasPermission, hasAllPermissions, hasRole, isAuthenticated } = useAuth();
+  const { hasPermission, hasAllPermissions, hasRole, isAuthenticated } =
+    useAuth();
   const navigate = useNavigate();
 
   const hasAccess = () => {
@@ -55,8 +56,8 @@ export default function RouteGuard({
   }, [hasAccess(), redirectTo, navigate]);
 
   if (!hasAccess()) {
-    return <>{fallback}</>;
+    return fallback;
   }
 
-  return <>{children}</>;
+  return children;
 }

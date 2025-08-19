@@ -13,6 +13,7 @@ export type Permission =
   | "user:create"
   | "user:update"
   | "user:delete"
+  | "user:assign_role"
   | "user:change_passphrase"
   | "statistics:view-all"
   | "statistics:view-self"

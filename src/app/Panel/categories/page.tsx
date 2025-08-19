@@ -52,7 +52,7 @@ const CategoriesPage: React.FC = () => {
   }, [fetchCategories, searchFilters]);
 
   return (
-    <RouteGuard permission="category:manage" redirectTo="/panel/dashboard">
+    <RouteGuard permission="category:manage" redirectTo="/dashboard">
       <ContentWithSidebar>
         <Container>
           <div className="flex items-center justify-between">

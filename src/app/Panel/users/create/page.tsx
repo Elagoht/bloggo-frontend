@@ -63,13 +63,13 @@ const UserCreatePage: React.FC<UserCreatePageProps> = () => {
     navigate("/users");
   };
 
-  const roleOptions = roles.map(role => ({
+  const roleOptions = roles.map((role) => ({
     value: role.id,
-    label: role.name.charAt(0).toUpperCase() + role.name.slice(1)
+    label: role.name.charAt(0).toUpperCase() + role.name.slice(1),
   }));
 
   return (
-    <RouteGuard permission="user:create" redirectTo="/panel/users">
+    <RouteGuard permission="user:create" redirectTo="/users">
       <Container size="sm">
         <PageTitleWithIcon icon={IconUsers}>Create User</PageTitleWithIcon>
 

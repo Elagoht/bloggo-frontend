@@ -63,7 +63,9 @@ const Input: React.FC<InputProps> = ({
 
   return label ? (
     <label className="flex flex-col gap-1">
-      <span className="text-sm font-medium text-smoke-700 dark:text-smoke-300">{label}</span>
+      <span className="text-sm font-medium text-smoke-700 dark:text-smoke-300">
+        {label}
+      </span>
       {input}
     </label>
   ) : (
