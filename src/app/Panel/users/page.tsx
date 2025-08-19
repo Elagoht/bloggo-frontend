@@ -1,6 +1,6 @@
-import { useSearchParams } from "react-router-dom";
-import { IconCategory, IconFilter, IconPlus } from "@tabler/icons-react";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "react-router-dom";
+import { IconUsers, IconFilter, IconPlus } from "@tabler/icons-react";
 import Button from "../../../components/form/Button";
 import Container from "../../../components/layout/Container";
 import CardGrid from "../../../components/layout/Container/CardGrid";
@@ -9,16 +9,18 @@ import PageTitleWithIcon from "../../../components/layout/Container/PageTitle";
 import Sidebar from "../../../components/layout/Container/Sidebar";
 import SectionHeader from "../../../components/layout/SectionHeader";
 import Pagination from "../../../components/layout/Container/Pagination";
-import CategoryCard from "../../../components/pages/panel/categories/CategoryCard";
-import CategoryFiltersForm from "../../../forms/CategoryFiltersForm";
-import { getCategories } from "../../../services/categories";
-import NoCategoriesYet from "../../../components/pages/panel/categories/NoCategoriesYet";
+import UserCard from "../../../components/pages/panel/users/UserCard";
+import UserFiltersForm from "../../../forms/UserFiltersForm";
+import { getUsers } from "../../../services/users";
+import NoUsersYet from "../../../components/pages/panel/users/NoUsersYet";
 import RouteGuard from "../../../components/Guards/RouteGuard";
 import PermissionGuard from "../../../components/Guards/PermissionGuard";
 
-const CategoriesPage: React.FC = () => {
+interface UsersPageProps {}
+
+const UsersPage: React.FC<UsersPageProps> = () => {
   const [searchParams] = useSearchParams();
-  const [categoriesResponse, setCategoriesResponse] = useState<any>(null);
+  const [usersResponse, setUsersResponse] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
 
@@ -34,12 +36,12 @@ const CategoriesPage: React.FC = () => {
     [searchParams]
   );
 
-  const fetchCategories = useCallback(async (filters: typeof searchFilters) => {
+  const fetchUsers = useCallback(async (filters: typeof searchFilters) => {
     try {
       setLoading(true);
       setError(null);
-      const result = await getCategories(filters);
-      setCategoriesResponse(result.success ? result.data : null);
+      const result = await getUsers(filters);
+      setUsersResponse(result.success ? result.data : null);
     } catch (err) {
       setError(err as Error);
     } finally {
@@ -48,52 +50,48 @@ const CategoriesPage: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    fetchCategories(searchFilters);
-  }, [fetchCategories, searchFilters]);
+    fetchUsers(searchFilters);
+  }, [fetchUsers, searchFilters]);
 
   return (
-    <RouteGuard permission="category:manage" redirectTo="/panel/dashboard">
+    <RouteGuard permission="user:view" redirectTo="/panel/dashboard">
       <ContentWithSidebar>
         <Container>
           <div className="flex items-center justify-between">
-            <PageTitleWithIcon icon={IconCategory}>
-              Categories
-            </PageTitleWithIcon>
+            <PageTitleWithIcon icon={IconUsers}>Users</PageTitleWithIcon>
 
-            <PermissionGuard permission="category:manage">
-              <Button
-                href="/categories/create"
-                color="success"
-                iconRight={IconPlus}
-              >
-                New Category
+            <PermissionGuard permission="user:create">
+              <Button href="/users/create" color="success" iconRight={IconPlus}>
+                New User
               </Button>
             </PermissionGuard>
           </div>
 
-          {!loading && !error && categoriesResponse && (
+          {!loading && !error && usersResponse && (
             <>
               <CardGrid>
-                {categoriesResponse.data &&
-                categoriesResponse.data.length > 0 ? (
-                  categoriesResponse.data.map((category: any) => (
-                    <CategoryCard
-                      key={category.slug}
-                      name={category.name}
-                      slug={category.slug}
-                      spot={category.spot}
-                      blogCount={category.blogCount}
+                {usersResponse.data && usersResponse.data.length > 0 ? (
+                  usersResponse.data.map((user: ResponseUserCard) => (
+                    <UserCard
+                      key={user.id}
+                      id={user.id}
+                      name={user.name}
+                      email={user.email}
+                      avatar={user.avatar}
+                      roleName={user.roleName}
+                      writtenPostCount={user.writtenPostCount}
+                      publishedPostCount={user.publishedPostCount}
                     />
                   ))
                 ) : (
-                  <NoCategoriesYet />
+                  <NoUsersYet />
                 )}
               </CardGrid>
 
-              {categoriesResponse && (
+              {usersResponse && (
                 <Pagination
-                  totalItems={categoriesResponse.total || 0}
-                  itemsPerPage={categoriesResponse.take || 10}
+                  totalItems={usersResponse.total || 0}
+                  itemsPerPage={usersResponse.take || 10}
                 />
               )}
             </>
@@ -105,11 +103,11 @@ const CategoriesPage: React.FC = () => {
             Filters
           </SectionHeader>
 
-          <CategoryFiltersForm />
+          <UserFiltersForm />
         </Sidebar>
       </ContentWithSidebar>
     </RouteGuard>
   );
 };
 
-export default CategoriesPage;
+export default UsersPage;

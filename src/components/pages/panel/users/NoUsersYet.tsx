@@ -1,0 +1,40 @@
+import React from "react";
+import { IconUsers, IconPlus } from "@tabler/icons-react";
+import Button from "../../../form/Button";
+import PermissionGuard from "../../../Guards/PermissionGuard";
+
+interface NoUsersYetProps {}
+
+const NoUsersYet: React.FC<NoUsersYetProps> = () => {
+  return (
+    <div className="bg-white dark:bg-smoke-950 rounded-lg border border-smoke-200 dark:border-smoke-800 p-8 text-center">
+      <div className="flex flex-col items-center gap-4">
+        <div className="p-4 bg-smoke-100 dark:bg-smoke-900 text-smoke-500 dark:text-smoke-400 rounded-full">
+          <IconUsers size={32} />
+        </div>
+
+        <div className="flex flex-col">
+          <h3 className="font-semibold text-smoke-900 dark:text-smoke-100">
+            No users found
+          </h3>
+          <p className="text-smoke-600 dark:text-smoke-400 text-sm">
+            Create your first user or adjust your search filters
+          </p>
+        </div>
+
+        <PermissionGuard permission="user:create">
+          <Button
+            href="/users/create"
+            iconRight={IconPlus}
+            color="success"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-gopher-500 text-white rounded-lg hover:bg-gopher-600 transition-colors"
+          >
+            Create User
+          </Button>
+        </PermissionGuard>
+      </div>
+    </div>
+  );
+};
+
+export default NoUsersYet;

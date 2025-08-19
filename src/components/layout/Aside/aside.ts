@@ -31,7 +31,7 @@ export const asideMenu = [
     name: "Blogs",
     icon: IconBlockquote,
     href: "/blogs",
-    requries: "post:view",
+    perm: "post:view",
   },
   {
     name: "Awaiting",
@@ -50,13 +50,13 @@ export const asideMenu = [
     name: "Tags",
     icon: IconTag,
     href: "/tags",
-    perm: "tags:manage",
+    perm: "tag:manage",
   },
   {
     name: "Statistics",
     icon: IconChartPie,
     href: "/statistics",
-    perm: "statistics:view",
+    perm: "statistics:view-all",
   },
   {
     name: "Schedules",
@@ -68,6 +68,6 @@ export const asideMenu = [
     name: "Users",
     icon: IconUsers,
     href: "/users",
-    perm: "tags:manage",
+    perm: "user:view",
   },
 ];
