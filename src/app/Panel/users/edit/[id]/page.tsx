@@ -12,7 +12,9 @@ import RouteGuard from "../../../../../components/Guards/RouteGuard";
 import UserEditForm from "../../../../../forms/UserEditForm";
 import UserDeleteForm from "../../../../../forms/UserDeleteForm";
 import UserRoleAssignForm from "../../../../../forms/UserRoleAssignForm";
+import UserAvatarForm from "../../../../../forms/UserAvatarForm";
 import { getUser } from "../../../../../services/users";
+import PermissionGuard from "../../../../../components/Guards/PermissionGuard";
 
 const UserEditPage: React.FC = () => {
   const navigate = useNavigate();
@@ -56,15 +58,13 @@ const UserEditPage: React.FC = () => {
             Edit User: {user.name}
           </PageTitleWithIcon>
 
-          <FormCard color="default">
-            <UserEditForm user={user} onUpdate={fetchUser} />
-          </FormCard>
+          <UserAvatarForm user={user} onUpdate={fetchUser} />
 
-          <FormCard color="default">
-            <SectionHeader icon={IconUser}>Role Assignment</SectionHeader>
-
+          <PermissionGuard permission={"role:assign"}>
             <UserRoleAssignForm user={user} onUpdate={fetchUser} />
-          </FormCard>
+          </PermissionGuard>
+
+          <UserEditForm user={user} onUpdate={fetchUser} />
         </Container>
 
         <Sidebar>

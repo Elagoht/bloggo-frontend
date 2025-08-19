@@ -8,6 +8,7 @@ import Select from "../components/form/Select";
 import PermissionGuard from "../components/Guards/PermissionGuard";
 import { patchUserAssignRole } from "../services/users";
 import { getRoles } from "../services/roles";
+import FormCard from "../components/layout/Container/FormCard";
 
 interface UserRoleAssignFormProps {
   user: ResponseUserDetails;
@@ -58,7 +59,7 @@ const UserRoleAssignForm: React.FC<UserRoleAssignFormProps> = ({
   }));
 
   return (
-    <PermissionGuard permission={"role:assign"}>
+    <FormCard>
       <Form handle={handleSubmit}>
         <FormSection legend="Role Assignment">
           <Select
@@ -81,7 +82,7 @@ const UserRoleAssignForm: React.FC<UserRoleAssignFormProps> = ({
           Update Role
         </Button>
       </Form>
-    </PermissionGuard>
+    </FormCard>
   );
 };
 

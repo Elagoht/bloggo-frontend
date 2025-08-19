@@ -13,6 +13,7 @@ import FormSection from "../components/form/FormSection";
 import Input from "../components/form/Input";
 import PermissionGuard from "../components/Guards/PermissionGuard";
 import { patchUserUpdate } from "../services/users";
+import FormCard from "../components/layout/Container/FormCard";
 
 interface UserEditFormProps {
   user: ResponseUserDetails;
@@ -38,30 +39,30 @@ const UserEditForm: React.FC<UserEditFormProps> = ({ user, onUpdate }) => {
   };
 
   return (
-    <PermissionGuard permission={["user:update"]}>
-      <Form handle={handleSubmit}>
-        <FormSection legend="User Information">
-          <Input
-            name="name"
-            label="Full Name"
-            iconLeft={IconUser}
-            placeholder="e.g., John Doe"
-            defaultValue={user.name}
-            required
-          />
+    <FormCard>
+      <PermissionGuard permission={["user:update"]}>
+        <Form handle={handleSubmit}>
+          <FormSection legend="User Information">
+            <Input
+              name="name"
+              label="Full Name"
+              iconLeft={IconUser}
+              placeholder="e.g., John Doe"
+              defaultValue={user.name}
+              required
+            />
 
-          <Input
-            name="email"
-            label="Email Address"
-            type="email"
-            iconLeft={IconMail}
-            placeholder="e.g., john@example.com"
-            defaultValue={user.email}
-            required
-          />
-        </FormSection>
+            <Input
+              name="email"
+              label="Email Address"
+              type="email"
+              iconLeft={IconMail}
+              placeholder="e.g., john@example.com"
+              defaultValue={user.email}
+              required
+            />
+          </FormSection>
 
-        <ButtonGroup layout="flex-row" alignment="start" gap="md" fullWidth>
           <Button
             type="submit"
             color="success"
@@ -70,18 +71,9 @@ const UserEditForm: React.FC<UserEditFormProps> = ({ user, onUpdate }) => {
           >
             Save Changes
           </Button>
-
-          <Button
-            color="danger"
-            variant="outline"
-            href="/users"
-            iconLeft={IconX}
-          >
-            Cancel
-          </Button>
-        </ButtonGroup>
-      </Form>
-    </PermissionGuard>
+        </Form>
+      </PermissionGuard>
+    </FormCard>
   );
 };
 

@@ -25,6 +25,9 @@ export const postUserCreate = (userData: RequestUserCreate) =>
 export const patchUserUpdate = (id: number, userData: RequestUserUpdate) =>
   ApiCall.patch<void>(`/users/${id}`, userData);
 
+export const patchUserAvatar = (id: number, form: FormData) =>
+  ApiCall.patch<void>(`/users/${id}/avatar`, form);
+
 export const patchUserAssignRole = (
   id: number,
   roleData: RequestUserAssignRole
