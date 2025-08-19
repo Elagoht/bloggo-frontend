@@ -15,6 +15,7 @@ export type Permission =
   | "user:delete"
   | "user:assign_role"
   | "user:change_passphrase"
+  | "user:manage_self_avatar"
   | "statistics:view-all"
   | "statistics:view-self"
   | "role:assign"

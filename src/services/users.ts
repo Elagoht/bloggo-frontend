@@ -7,6 +7,9 @@ export const getUserSelf = () => ApiCall.get<ResponseUserDetails>("/users/me");
 export const patchUserAvatarSelf = (form: FormData) =>
   ApiCall.patch<void>("/users/me/avatar", form);
 
+export const deleteUserAvatarSelf = () =>
+  ApiCall.delete<void>("/users/me/avatar");
+
 // Users management operations
 export const getUsers = (filters?: RequestUserFilters) =>
   ApiCall.get<ResponsePaginated<ResponseUserCard>>(

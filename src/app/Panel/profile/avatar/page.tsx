@@ -7,8 +7,14 @@ import H1 from "../../../../components/typography/H1";
 import { useProfileStore } from "../../../../stores/profile";
 import toast from "react-hot-toast";
 import Button from "../../../../components/form/Button";
-import { IconUpload } from "@tabler/icons-react";
-import { patchUserAvatarSelf, getUserSelf } from "../../../../services/users";
+import { IconUpload, IconTrash } from "@tabler/icons-react";
+import {
+  patchUserAvatarSelf,
+  getUserSelf,
+  deleteUserAvatarSelf,
+} from "../../../../services/users";
+import PermissionGuard from "../../../../components/Guards/PermissionGuard";
+import ButtonGroup from "../../../../components/form/ButtonGroup";
 
 const ProfileAvatarPage: React.FC = () => {
   const { profile, updateProfile } = useProfileStore();
@@ -57,6 +63,19 @@ const ProfileAvatarPage: React.FC = () => {
     }
   };
 
+  const handleDeleteAvatar = async () => {
+    const response = await deleteUserAvatarSelf();
+
+    if (response.success === true) {
+      // Update profile state and UI
+      updateProfile({ avatar: null });
+      setAvatarImage("");
+      toast.success("Avatar deleted successfully!");
+    } else {
+      toast.error(response.error?.message || "Failed to delete avatar");
+    }
+  };
+
   return (
     <Container size="sm">
       <H1>Change Your Avatar</H1>
@@ -71,9 +90,23 @@ const ProfileAvatarPage: React.FC = () => {
           onChange={handleFileChange}
         />
 
-        <Button iconRight={IconUpload} type="submit">
-          Update Avatar
-        </Button>
+        <ButtonGroup layout="flex-row" alignment="start" gap="md" fullWidth>
+          <Button iconRight={IconUpload} type="submit" className="flex-1">
+            Update Avatar
+          </Button>
+
+          {avatarImage && (
+            <Button
+              iconLeft={IconTrash}
+              color="danger"
+              variant="outline"
+              onClick={handleDeleteAvatar}
+              type="button"
+            >
+              Delete
+            </Button>
+          )}
+        </ButtonGroup>
       </Form>
     </Container>
   );

@@ -63,12 +63,7 @@ const UserEditForm: React.FC<UserEditFormProps> = ({ user, onUpdate }) => {
             />
           </FormSection>
 
-          <Button
-            type="submit"
-            color="success"
-            className="flex-1"
-            iconRight={IconDeviceFloppy}
-          >
+          <Button type="submit" color="success" iconRight={IconDeviceFloppy}>
             Save Changes
           </Button>
         </Form>
