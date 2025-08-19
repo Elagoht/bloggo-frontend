@@ -23,12 +23,7 @@ const NoUsersYet: React.FC<NoUsersYetProps> = () => {
         </div>
 
         <PermissionGuard permission="user:create">
-          <Button
-            href="/users/create"
-            iconRight={IconPlus}
-            color="success"
-            className="inline-flex items-center gap-2 px-4 py-2 bg-gopher-500 text-white rounded-lg hover:bg-gopher-600 transition-colors"
-          >
+          <Button href="/users/create" iconRight={IconPlus} color="success">
             Create User
           </Button>
         </PermissionGuard>

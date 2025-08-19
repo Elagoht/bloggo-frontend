@@ -20,12 +20,7 @@ const NoCategoriesYet: React.FC = () => {
           </p>
         </div>
 
-        <Button
-          href="/categories/create"
-          iconRight={IconPlus}
-          color="success"
-          className="inline-flex items-center gap-2 px-4 py-2 bg-gopher-500 text-white rounded-lg hover:bg-gopher-600 transition-colors"
-        >
+        <Button href="/categories/create" iconRight={IconPlus} color="success">
           Create Category
         </Button>
       </div>

@@ -48,3 +48,9 @@ type ResponseUserDetails = {
   writtenPostCount: number;
   publishedPostCount: number;
 };
+
+// Role Types
+type Role = {
+  id: number;
+  name: string;
+};

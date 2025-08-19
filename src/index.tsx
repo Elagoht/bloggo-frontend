@@ -19,6 +19,7 @@ const EditCategoryPage = lazy(
   () => import("./app/panel/categories/edit/[slug]/page")
 );
 const UsersPage = lazy(() => import("./app/panel/users/page"));
+const CreateUserPage = lazy(() => import("./app/panel/users/create/page"));
 const NotFoundPage = lazy(() => import("./app/panel/404/page"));
 
 const App = () => {
@@ -52,6 +53,8 @@ const App = () => {
 
               <Route path="/users">
                 <Route index element={<UsersPage />} />
+
+                <Route path="create" element={<CreateUserPage />} />
               </Route>
 
               {/* Catch-all route for 404 within panel */}
