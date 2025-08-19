@@ -36,4 +36,7 @@ export const patchUserAssignRole = (
   roleData: RequestUserAssignRole
 ) => ApiCall.patch<void>(`/users/${id}/role`, roleData);
 
+export const deleteUserAvatar = (id: number) =>
+  ApiCall.delete<void>(`/users/${id}/avatar`);
+
 export const deleteUser = (id: number) => ApiCall.delete(`/users/${id}`);

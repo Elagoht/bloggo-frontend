@@ -73,7 +73,7 @@ const CategoryCreatePage: React.FC = () => {
             />
           </FormSection>
 
-          <ButtonGroup layout="flex-row" alignment="start" gap="md" fullWidth>
+          <ButtonGroup>
             <Button
               type="submit"
               color="success"

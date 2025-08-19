@@ -120,7 +120,7 @@ const UserCreatePage: React.FC<UserCreatePageProps> = () => {
               />
             </FormSection>
 
-            <ButtonGroup layout="flex-row" alignment="start" gap="md" fullWidth>
+            <ButtonGroup>
               <Button
                 type="submit"
                 color="success"

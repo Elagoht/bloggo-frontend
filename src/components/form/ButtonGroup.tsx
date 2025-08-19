@@ -121,7 +121,8 @@ const ButtonGroup: React.FC<ButtonGroupProps> = ({
       "justify-items-start": alignment === "start" && layout.includes("grid"),
       "justify-items-center": alignment === "center" && layout.includes("grid"),
       "justify-items-end": alignment === "end" && layout.includes("grid"),
-      "justify-items-stretch": alignment === "stretch" && layout.includes("grid"),
+      "justify-items-stretch":
+        alignment === "stretch" && layout.includes("grid"),
     },
 
     // Gap classes
@@ -141,9 +142,7 @@ const ButtonGroup: React.FC<ButtonGroupProps> = ({
     },
 
     // Full width
-    {
-      "w-full": fullWidth,
-    },
+    { "w-full": fullWidth },
 
     // Responsive classes
     responsive?.sm && {
@@ -178,7 +177,6 @@ const ButtonGroup: React.FC<ButtonGroupProps> = ({
 
     className
   );
-
 
   return <div className={containerClasses}>{children}</div>;
 };

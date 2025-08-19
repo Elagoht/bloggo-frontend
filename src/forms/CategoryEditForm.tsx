@@ -20,9 +20,7 @@ type CategoryEditFormProps = {
   children?: React.ReactNode;
 };
 
-const CategoryEditForm: React.FC<CategoryEditFormProps> = ({
-  category,
-}) => {
+const CategoryEditForm: React.FC<CategoryEditFormProps> = ({ category }) => {
   const navigate = useNavigate();
 
   const handleSubmit = async (data: FormData) => {
@@ -80,7 +78,7 @@ const CategoryEditForm: React.FC<CategoryEditFormProps> = ({
         />
       </FormSection>
 
-      <ButtonGroup layout="flex-row" alignment="start" gap="md" fullWidth>
+      <ButtonGroup>
         <Button
           type="submit"
           color="success"

@@ -90,7 +90,7 @@ const ProfileAvatarPage: React.FC = () => {
           onChange={handleFileChange}
         />
 
-        <ButtonGroup layout="flex-row" alignment="start" gap="md" fullWidth>
+        <ButtonGroup>
           <Button iconRight={IconUpload} type="submit" className="flex-1">
             Update Avatar
           </Button>
