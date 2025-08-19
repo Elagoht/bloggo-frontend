@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Link } from "react-router-dom";
 import {
   IconUser,
@@ -26,6 +26,12 @@ const UserCard: React.FC<UserCardProps> = ({
   writtenPostCount,
   publishedPostCount,
 }) => {
+  const avatarSrc = useMemo(() => {
+    if (!avatar) return "";
+    if (avatar.startsWith("data:image")) return avatar;
+    if (avatar.startsWith("/")) return import.meta.env.VITE_API_URL + avatar;
+    return import.meta.env.VITE_API_URL + avatar;
+  }, [avatar]);
   return (
     <Link
       to={`/users/edit/${id}`}
@@ -36,7 +42,7 @@ const UserCard: React.FC<UserCardProps> = ({
           <div className="relative">
             {avatar ? (
               <img
-                src={avatar}
+                src={avatarSrc}
                 alt={name}
                 className="w-10 h-10 rounded-lg object-cover border border-smoke-200 dark:border-smoke-700"
               />
