@@ -45,7 +45,7 @@ const ActivityDates: React.FC<ActivityDatesProps> = ({ dates }) => {
                 className="text-xs text-smoke-600 dark:text-smoke-300"
                 dateTime={date.time?.toString?.()}
               >
-                {date.time ? formatDate(date.time) : "Never"}
+                {date.time && date.time !== "Never" ? formatDate(date.time) : "Never"}
               </time>
             </dd>
           </dl>

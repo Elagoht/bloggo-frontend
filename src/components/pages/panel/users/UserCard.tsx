@@ -37,9 +37,9 @@ const UserCard: React.FC<UserCardProps> = ({
       to={`/users/edit/${id}`}
       className="group flex flex-col bg-smoke-0 dark:bg-smoke-950 rounded-xl border border-smoke-200 dark:border-smoke-800 p-4 gap-3 hover:border-gopher-300 dark:hover:border-gopher-700 hover:shadow-md transition-all duration-200"
     >
-      <header className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="relative">
+      <header className="flex items-center justify-between gap-3">
+        <div className="flex items-center gap-3 min-w-0 flex-1">
+          <div className="relative flex-shrink-0">
             {avatar ? (
               <img
                 src={avatarSrc}
@@ -62,7 +62,7 @@ const UserCard: React.FC<UserCardProps> = ({
           </div>
         </div>
 
-        <div className="flex items-center gap-1 px-2 py-1 bg-smoke-100 dark:bg-smoke-900 text-smoke-600 dark:text-smoke-400 rounded-full text-xs font-medium">
+        <div className="flex items-center gap-1 px-2 py-1 bg-smoke-100 dark:bg-smoke-900 text-smoke-600 dark:text-smoke-400 rounded-full text-xs font-medium flex-shrink-0">
           <IconShield size={12} />
           <span className="capitalize">{roleName}</span>
         </div>
