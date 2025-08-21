@@ -60,7 +60,7 @@ const UsersPage: React.FC<UsersPageProps> = () => {
           <div className="flex items-center justify-between">
             <PageTitleWithIcon icon={IconUsers}>Users</PageTitleWithIcon>
 
-            <PermissionGuard permission="user:create">
+            <PermissionGuard permission="user:register">
               <Button href="/users/create" color="success" iconRight={IconPlus}>
                 New User
               </Button>

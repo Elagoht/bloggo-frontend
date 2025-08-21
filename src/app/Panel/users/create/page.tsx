@@ -69,7 +69,7 @@ const UserCreatePage: React.FC<UserCreatePageProps> = () => {
   }));
 
   return (
-    <RouteGuard permission="user:create" redirectTo="/users">
+    <RouteGuard permission="user:register" redirectTo="/users">
       <Container size="sm">
         <PageTitleWithIcon icon={IconUsers}>Create User</PageTitleWithIcon>
 

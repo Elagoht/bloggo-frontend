@@ -72,7 +72,7 @@ const UserEditPage: React.FC = () => {
             <UserEditForm user={user} onUpdate={fetchUser} />
           </PermissionGuard>
 
-          <PermissionGuard permission={"role:assign"}>
+          <PermissionGuard permission={"user:assign_role"}>
             <UserRoleAssignForm user={user} onUpdate={fetchUser} />
           </PermissionGuard>
         </Container>
