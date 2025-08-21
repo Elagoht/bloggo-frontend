@@ -1,5 +1,6 @@
 import classNames from "classnames";
 import React from "react";
+import Container from ".";
 
 interface SidebarProps {
   children: React.ReactNode;
@@ -8,13 +9,14 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ children, topMargin }) => {
   return (
-    <div
-      className={classNames("flex flex-col gap-2 w-full md:max-w-80", {
-        "mt-14": topMargin,
+    <Container
+      size="sm"
+      className={classNames("flex flex-col gap-2 w-full lg:max-w-80", {
+        "lg:mt-14": topMargin,
       })}
     >
       {children}
-    </div>
+    </Container>
   );
 };
 

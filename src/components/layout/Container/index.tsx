@@ -1,23 +1,24 @@
-import React from "react";
+import React, { FC, HTMLAttributes } from "react";
 import classNames from "classnames";
 
-interface ContainerProps {
+type ContainerProps = HTMLAttributes<HTMLInputElement> & {
   size?: "sm" | "md" | "lg" | "xl";
-  children: React.ReactNode;
-}
+};
 
-const Container: React.FC<ContainerProps> = ({
-  size = "lg",
-  children,
-}) => {
+const Container: FC<ContainerProps> = ({ size = "lg", children, ...props }) => {
   return (
     <div
-      className={classNames("flex flex-col gap-2 w-full", {
-        "max-w-screen-sm": size === "sm",
-        "max-w-screen-md": size === "md",
-        "max-w-screen-lg": size === "lg",
-        "max-w-screen-xl": size === "xl",
-      })}
+      {...props}
+      className={classNames(
+        "flex flex-col gap-2 w-full",
+        {
+          "max-w-screen-sm": size === "sm",
+          "max-w-screen-md": size === "md",
+          "max-w-screen-lg": size === "lg",
+          "max-w-screen-xl": size === "xl",
+        },
+        props.className
+      )}
     >
       {children}
     </div>

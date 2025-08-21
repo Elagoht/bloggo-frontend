@@ -1,28 +1,22 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { IconInfoCircle, IconUser } from "@tabler/icons-react";
 import React, { useCallback, useEffect, useState } from "react";
-import {
-  IconUser,
-  IconInfoCircle,
-  IconTrash,
-  IconFilter,
-} from "@tabler/icons-react";
+import { useNavigate, useParams } from "react-router-dom";
 import ActivityDates from "../../../../../components/common/ActivityDates";
 import UserStatsBar from "../../../../../components/common/UserStatsBar";
+import UserViewCard from "../../../../../components/common/UserViewCard";
+import PermissionGuard from "../../../../../components/Guards/PermissionGuard";
+import RouteGuard from "../../../../../components/Guards/RouteGuard";
 import Container from "../../../../../components/layout/Container";
 import ContentWithSidebar from "../../../../../components/layout/Container/ContentWithSidebar";
-import FormCard from "../../../../../components/layout/Container/FormCard";
 import PageTitleWithIcon from "../../../../../components/layout/Container/PageTitle";
 import Sidebar from "../../../../../components/layout/Container/Sidebar";
 import SectionHeader from "../../../../../components/layout/SectionHeader";
-import RouteGuard from "../../../../../components/Guards/RouteGuard";
-import UserEditForm from "../../../../../forms/UserEditForm";
-import UserDeleteForm from "../../../../../forms/UserDeleteForm";
-import UserRoleAssignForm from "../../../../../forms/UserRoleAssignForm";
 import UserAvatarForm from "../../../../../forms/UserAvatarForm";
 import UserChangePasswordForm from "../../../../../forms/UserChangePasswordForm";
-import UserViewCard from "../../../../../components/common/UserViewCard";
+import UserDeleteForm from "../../../../../forms/UserDeleteForm";
+import UserEditForm from "../../../../../forms/UserEditForm";
+import UserRoleAssignForm from "../../../../../forms/UserRoleAssignForm";
 import { getUser } from "../../../../../services/users";
-import PermissionGuard from "../../../../../components/Guards/PermissionGuard";
 
 const UserEditPage: React.FC = () => {
   const navigate = useNavigate();
@@ -62,9 +56,7 @@ const UserEditPage: React.FC = () => {
     <RouteGuard permission={["user:view"]}>
       <ContentWithSidebar>
         <Container size="sm">
-          <PageTitleWithIcon icon={IconUser}>
-            Edit User: {user.name}
-          </PageTitleWithIcon>
+          <PageTitleWithIcon icon={IconUser}>User Details</PageTitleWithIcon>
 
           <UserAvatarForm user={user} onUpdate={fetchUser} />
 
