@@ -86,7 +86,7 @@ const Dialog: React.FC<DialogProps> = ({
         </div>
 
         {/* Content */}
-        <div className="p-2 font-light leading-snug text-gray-700 dark:text-gray-300">
+        <div className="p-2 font-light leading-snug text-smoke-700 dark:text-smoke-300">
           {children}
         </div>
 
