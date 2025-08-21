@@ -23,9 +23,9 @@ export function useAuth() {
   });
 
   const isAuthenticated = () => !!accessToken;
-  const isAdmin = () => hasRole("admin");
-  const isEditor = () => hasRole("editor");
-  const isAuthor = () => hasRole("author");
+  const isAdmin = () => hasRole("Admin");
+  const isEditor = () => hasRole("Editor");
+  const isAuthor = () => hasRole("Author");
 
   return {
     user,

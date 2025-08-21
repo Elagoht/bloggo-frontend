@@ -31,9 +31,9 @@ export function usePermissions() {
     }, [role, roles]);
   };
 
-  const isAdmin = useMemo(() => role === "admin", [role]);
-  const isEditor = useMemo(() => role === "editor", [role]);
-  const isAuthor = useMemo(() => role === "author", [role]);
+  const isAdmin = useMemo(() => role === "Admin", [role]);
+  const isEditor = useMemo(() => role === "Editor", [role]);
+  const isAuthor = useMemo(() => role === "Author", [role]);
 
   return {
     userPermissions,
