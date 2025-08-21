@@ -56,8 +56,8 @@ const UserStatsBar: React.FC<UserStatsBarProps> = ({
             }
           )}
         >
-          <dt className="flex items-center gap-2">
-            <datum.icon size={20} />
+          <dt className="flex flex-wrap items-center gap-2">
+            <datum.icon size={20} className="shrink-0" />
 
             <small className="leading-snug font-medium">{datum.title}</small>
           </dt>
