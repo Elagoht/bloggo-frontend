@@ -19,7 +19,7 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({
         <span
           className={classNames("flex-shrink-0 p-1 rounded border", {
             // Default
-            "bg-smoke-300 dark:bg-smoke-700 border-smoke-400 dark:border-smoke-600":
+            "bg-gray-300 dark:bg-gray-700 border-gray-400 dark:border-gray-600":
               color === "default",
             // Primary
             "bg-gopher-200 dark:bg-gopher-800 border-gopher-300 dark:border-gopher-700":
@@ -39,7 +39,7 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({
             size={16}
             className={classNames({
               // Default
-              "text-smoke-700 dark:text-smoke-200": color === "default",
+              "text-gray-700 dark:text-gray-200": color === "default",
               // Primary
               "text-gopher-700 dark:text-gopher-200": color === "primary",
               // Success
@@ -56,7 +56,7 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({
       <h2
         className={classNames("text-base font-semibold", {
           // Default
-          "text-smoke-900 dark:text-smoke-50": color === "default",
+          "text-gray-900 dark:text-gray-50": color === "default",
           // Primary
           "text-gopher-900 dark:text-gopher-50": color === "primary",
           // Success
