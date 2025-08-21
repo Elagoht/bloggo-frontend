@@ -2,6 +2,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import React, { useCallback, useEffect, useState } from "react";
 import { IconUser, IconInfoCircle, IconTrash } from "@tabler/icons-react";
 import ActivityDates from "../../../../../components/common/ActivityDates";
+import UserStatsBar from "../../../../../components/common/UserStatsBar";
 import Container from "../../../../../components/layout/Container";
 import ContentWithSidebar from "../../../../../components/layout/Container/ContentWithSidebar";
 import FormCard from "../../../../../components/layout/Container/FormCard";
@@ -58,19 +59,24 @@ const UserEditPage: React.FC = () => {
             Edit User: {user.name}
           </PageTitleWithIcon>
 
-          <UserAvatarForm user={user} onUpdate={fetchUser} />
+          <UserStatsBar
+            writtenPostCount={user.writtenPostCount + 124}
+            publishedPostCount={user.publishedPostCount + 13}
+          />
+
+          <UserEditForm user={user} onUpdate={fetchUser} />
 
           <PermissionGuard permission={"role:assign"}>
             <UserRoleAssignForm user={user} onUpdate={fetchUser} />
           </PermissionGuard>
-
-          <UserEditForm user={user} onUpdate={fetchUser} />
         </Container>
 
         <Sidebar>
           <SectionHeader topMargin icon={IconInfoCircle}>
             Details
           </SectionHeader>
+
+          <UserAvatarForm user={user} onUpdate={fetchUser} />
 
           <ActivityDates
             dates={[
