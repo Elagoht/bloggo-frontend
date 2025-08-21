@@ -52,7 +52,7 @@ const UserEditPage: React.FC = () => {
   }
 
   return (
-    <RouteGuard permission={["user:view", "user:update"]}>
+    <RouteGuard permission={["user:view"]}>
       <ContentWithSidebar>
         <Container size="sm">
           <PageTitleWithIcon icon={IconUser}>
@@ -64,7 +64,9 @@ const UserEditPage: React.FC = () => {
             publishedPostCount={user.publishedPostCount + 13}
           />
 
-          <UserEditForm user={user} onUpdate={fetchUser} />
+          <PermissionGuard permission={"user:update"}>
+            <UserEditForm user={user} onUpdate={fetchUser} />
+          </PermissionGuard>
 
           <PermissionGuard permission={"role:assign"}>
             <UserRoleAssignForm user={user} onUpdate={fetchUser} />
