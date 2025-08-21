@@ -113,10 +113,9 @@ const UserCreatePage: React.FC<UserCreatePageProps> = () => {
               <Select
                 name="roleId"
                 label="User Role"
-                iconLeft={IconShield}
-                placeholder="Select a role"
-                required
+                icon={IconShield}
                 options={roleOptions}
+                required
               />
             </FormSection>
 
