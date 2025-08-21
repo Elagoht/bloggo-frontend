@@ -1,12 +1,10 @@
-import React from "react";
+import { FC, PropsWithChildren } from "react";
 
-interface HeaderWithButtonProps {
-  children: React.ReactNode;
-}
-
-const HeaderWithButton: React.FC<HeaderWithButtonProps> = ({ children }) => {
+const HeaderWithButton: FC<PropsWithChildren> = ({ children }) => {
   return (
-    <hgroup className="flex justify-between items-center gap-4">{children}</hgroup>
+    <hgroup className="flex justify-between items-center gap-4">
+      {children}
+    </hgroup>
   );
 };
 

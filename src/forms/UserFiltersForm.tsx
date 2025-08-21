@@ -9,7 +9,7 @@ import RadioGroup from "../components/form/RadioButton/RadioGroup";
 
 interface UserFiltersFormProps {}
 
-const UserFiltersForm: React.FC<UserFiltersFormProps> = () => {
+const UserFiltersForm: FC<UserFiltersFormProps> = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const handleSubmit = async (data: FormData) => {

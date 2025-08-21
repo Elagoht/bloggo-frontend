@@ -12,7 +12,7 @@ type UserViewCardProps = {
   user: UserDetails;
 };
 
-const UserViewCard: React.FC<UserViewCardProps> = ({ user }) => {
+const UserViewCard: FC<UserViewCardProps> = ({ user }) => {
   const data = [
     { icon: IconUser, value: user.name },
     { icon: IconMail, value: user.email },

@@ -1,9 +1,7 @@
-import React from "react";
 import classNames from "classnames";
+import { FC, PropsWithChildren } from "react";
 
-interface ButtonGroupProps {
-  children: React.ReactNode;
-
+type ButtonGroupProps = PropsWithChildren & {
   // Layout configurations
   layout?: "flex-row" | "flex-col" | "grid-2x1" | "grid-1x2" | "grid-2x2";
 
@@ -63,9 +61,9 @@ interface ButtonGroupProps {
 
   // Full width
   fullWidth?: boolean;
-}
+};
 
-const ButtonGroup: React.FC<ButtonGroupProps> = ({
+const ButtonGroup: FC<ButtonGroupProps> = ({
   children,
   layout = "flex-row",
   alignment = "start",

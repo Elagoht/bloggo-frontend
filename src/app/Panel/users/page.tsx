@@ -1,24 +1,24 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { IconFilter, IconPlus, IconUsers } from "@tabler/icons-react";
+import { FC, useCallback, useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { IconUsers, IconFilter, IconPlus } from "@tabler/icons-react";
 import Button from "../../../components/form/Button";
+import PermissionGuard from "../../../components/Guards/PermissionGuard";
+import RouteGuard from "../../../components/Guards/RouteGuard";
 import Container from "../../../components/layout/Container";
 import CardGrid from "../../../components/layout/Container/CardGrid";
 import ContentWithSidebar from "../../../components/layout/Container/ContentWithSidebar";
 import PageTitleWithIcon from "../../../components/layout/Container/PageTitle";
+import Pagination from "../../../components/layout/Container/Pagination";
 import Sidebar from "../../../components/layout/Container/Sidebar";
 import SectionHeader from "../../../components/layout/SectionHeader";
-import Pagination from "../../../components/layout/Container/Pagination";
+import NoUsersYet from "../../../components/pages/panel/users/NoUsersYet";
 import UserCard from "../../../components/pages/panel/users/UserCard";
 import UserFiltersForm from "../../../forms/UserFiltersForm";
 import { getUsers } from "../../../services/users";
-import NoUsersYet from "../../../components/pages/panel/users/NoUsersYet";
-import RouteGuard from "../../../components/Guards/RouteGuard";
-import PermissionGuard from "../../../components/Guards/PermissionGuard";
 
 interface UsersPageProps {}
 
-const UsersPage: React.FC<UsersPageProps> = () => {
+const UsersPage: FC<UsersPageProps> = () => {
   const [searchParams] = useSearchParams();
   const [usersResponse, setUsersResponse] = useState<any>(null);
   const [loading, setLoading] = useState(false);

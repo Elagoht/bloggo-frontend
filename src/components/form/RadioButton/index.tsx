@@ -1,12 +1,12 @@
-import React from "react";
 import classNames from "classnames";
+import { FC, InputHTMLAttributes } from "react";
 
-type RadioButtonProps = React.InputHTMLAttributes<HTMLInputElement> & {
+type RadioButtonProps = InputHTMLAttributes<HTMLInputElement> & {
   type?: "radio";
   label: string;
 };
 
-const RadioButton: React.FC<RadioButtonProps> = ({ label, ...props }) => {
+const RadioButton: FC<RadioButtonProps> = ({ label, ...props }) => {
   return (
     <label className="flex items-center gap-2 py-1 px-2 rounded hover:bg-smoke-50 dark:hover:bg-smoke-900/50 transition-all duration-200 cursor-pointer group">
       <input

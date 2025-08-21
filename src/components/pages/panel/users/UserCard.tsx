@@ -1,11 +1,11 @@
-import React, { useMemo } from "react";
-import { Link } from "react-router-dom";
 import {
-  IconUser,
-  IconFileText,
   IconClock,
+  IconFileText,
   IconShield,
+  IconUser,
 } from "@tabler/icons-react";
+import { FC, useMemo } from "react";
+import { Link } from "react-router-dom";
 
 interface UserCardProps {
   id: number;
@@ -17,7 +17,7 @@ interface UserCardProps {
   publishedPostCount: number;
 }
 
-const UserCard: React.FC<UserCardProps> = ({
+const UserCard: FC<UserCardProps> = ({
   id,
   name,
   email,

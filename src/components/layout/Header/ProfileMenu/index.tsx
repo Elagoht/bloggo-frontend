@@ -1,15 +1,15 @@
-import React, { useState, useRef, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import { IconUserCircle } from "@tabler/icons-react";
 import classNames from "classnames";
-import profileMenu from "./profile";
+import { FC, useEffect, useRef, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useProfileStore } from "../../../../stores/profile";
+import profileMenu from "./profile";
 
 interface ProfileMenuProps {
   name: string;
 }
 
-const ProfileMenu: React.FC<ProfileMenuProps> = ({ name = "?" }) => {
+const ProfileMenu: FC<ProfileMenuProps> = ({ name = "?" }) => {
   const navigate = useNavigate();
   const { profile } = useProfileStore();
   const [menuOpen, setMenuOpen] = useState<boolean>(false);

@@ -1,18 +1,18 @@
-import React, { act, useEffect, useRef } from "react";
 import { IconX } from "@tabler/icons-react";
 import classNames from "classnames";
+import { FC, ReactNode, useEffect, useRef } from "react";
 import Button, { ButtonProps } from "../../form/Button";
 
 type DialogProps = {
   isOpen: boolean;
   onClose: () => void;
   title: string;
-  children: React.ReactNode;
+  children: ReactNode;
   actions?: ButtonProps[];
   size?: "sm" | "md" | "lg";
 };
 
-const Dialog: React.FC<DialogProps> = ({
+const Dialog: FC<DialogProps> = ({
   isOpen,
   onClose,
   title,

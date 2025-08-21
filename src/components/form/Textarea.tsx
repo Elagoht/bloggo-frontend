@@ -1,20 +1,21 @@
-import React from "react";
-import classNames from "classnames";
 import { Icon, IconProps } from "@tabler/icons-react";
+import classNames from "classnames";
+import {
+  createElement,
+  FC,
+  ForwardRefExoticComponent,
+  RefAttributes,
+  TextareaHTMLAttributes,
+} from "react";
 
-interface TextareaProps
-  extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
+interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   label?: string;
-  iconLeft?: React.ForwardRefExoticComponent<
-    IconProps & React.RefAttributes<Icon>
-  >;
-  iconRight?: React.ForwardRefExoticComponent<
-    IconProps & React.RefAttributes<Icon>
-  >;
+  iconLeft?: ForwardRefExoticComponent<IconProps & RefAttributes<Icon>>;
+  iconRight?: ForwardRefExoticComponent<IconProps & RefAttributes<Icon>>;
   rows?: number;
 }
 
-const Textarea: React.FC<TextareaProps> = ({
+const Textarea: FC<TextareaProps> = ({
   label,
   iconLeft,
   iconRight,
@@ -28,7 +29,7 @@ const Textarea: React.FC<TextareaProps> = ({
     <div className="relative">
       {iconLeft && (
         <div className="absolute left-2.5 top-2.5 text-smoke-400 dark:text-smoke-500 pointer-events-none">
-          {React.createElement(iconLeft, { size: 16 })}
+          {createElement(iconLeft, { size: 16 })}
         </div>
       )}
 
@@ -47,7 +48,7 @@ const Textarea: React.FC<TextareaProps> = ({
 
       {iconRight && (
         <div className="absolute right-2.5 top-2.5 text-smoke-400 dark:text-smoke-500 pointer-events-none">
-          {React.createElement(iconRight, { size: 16 })}
+          {createElement(iconRight, { size: 16 })}
         </div>
       )}
     </div>
@@ -64,7 +65,9 @@ const Textarea: React.FC<TextareaProps> = ({
 
   return label ? (
     <label className="flex flex-col gap-1">
-      <span className="text-sm font-medium text-smoke-700 dark:text-smoke-300">{label}</span>
+      <span className="text-sm font-medium text-smoke-700 dark:text-smoke-300">
+        {label}
+      </span>
       {textarea}
     </label>
   ) : (

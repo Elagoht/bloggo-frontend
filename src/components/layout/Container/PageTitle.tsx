@@ -1,17 +1,18 @@
-import React from "react";
-import H1 from "../../typography/H1";
-import IconBadge from "../../common/IconBadge";
 import { Icon, IconProps } from "@tabler/icons-react";
+import {
+  FC,
+  ForwardRefExoticComponent,
+  PropsWithChildren,
+  RefAttributes,
+} from "react";
+import IconBadge from "../../common/IconBadge";
+import H1 from "../../typography/H1";
 
-type PageTitleWithIconProps = {
-  children: React.ReactNode;
-  icon: React.ForwardRefExoticComponent<IconProps & React.RefAttributes<Icon>>;
+type PageTitleWithIconProps = PropsWithChildren & {
+  icon: ForwardRefExoticComponent<IconProps & RefAttributes<Icon>>;
 };
 
-const PageTitleWithIcon: React.FC<PageTitleWithIconProps> = ({
-  children,
-  icon,
-}) => {
+const PageTitleWithIcon: FC<PageTitleWithIconProps> = ({ children, icon }) => {
   return (
     <hgroup className="flex items-center gap-2 mb-2">
       <IconBadge icon={icon} />

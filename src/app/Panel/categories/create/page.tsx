@@ -19,7 +19,7 @@ import FormCard from "../../../../components/layout/Container/FormCard";
 import PageTitleWithIcon from "../../../../components/layout/Container/PageTitle";
 import { postCategoryCreate } from "../../../../services/categories";
 
-const CategoryCreatePage: React.FC = () => {
+const CategoryCreatePage: FC = () => {
   const navigate = useNavigate();
 
   const handleSubmit = async (data: FormData) => {

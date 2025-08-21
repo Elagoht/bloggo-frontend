@@ -4,7 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 import classNames from "classnames";
 import PermissionGuard from "../../Guards/PermissionGuard";
 
-const Aside: React.FC = () => {
+const Aside: FC = () => {
   const location = useLocation();
 
   const isActive = (href: string) =>

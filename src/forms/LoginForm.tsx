@@ -6,7 +6,7 @@ import { useAuthStore } from "../stores/auth";
 import Button from "../components/form/Button";
 import Form from "../components/form/Form";
 
-const LoginForm: React.FC = () => {
+const LoginForm: FC = () => {
   const navigate = useNavigate();
   const { setAuth } = useAuthStore();
 

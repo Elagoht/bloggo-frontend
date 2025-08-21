@@ -1,21 +1,20 @@
-import React, { useEffect, useState } from "react";
-import { IconShield, IconDeviceFloppy } from "@tabler/icons-react";
+import { IconDeviceFloppy, IconShield } from "@tabler/icons-react";
+import { FC, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import Button from "../components/form/Button";
 import Form from "../components/form/Form";
 import FormSection from "../components/form/FormSection";
 import Select from "../components/form/Select";
-import PermissionGuard from "../components/Guards/PermissionGuard";
-import { patchUserAssignRole } from "../services/users";
-import { getRoles } from "../services/roles";
 import FormCard from "../components/layout/Container/FormCard";
+import { getRoles } from "../services/roles";
+import { patchUserAssignRole } from "../services/users";
 
 interface UserRoleAssignFormProps {
   user: UserDetails;
   onUpdate?: () => void;
 }
 
-const UserRoleAssignForm: React.FC<UserRoleAssignFormProps> = ({
+const UserRoleAssignForm: FC<UserRoleAssignFormProps> = ({
   user,
   onUpdate,
 }) => {

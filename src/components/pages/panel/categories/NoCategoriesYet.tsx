@@ -1,9 +1,9 @@
-import { Link } from "react-router-dom";
 import { IconCategory, IconPlus } from "@tabler/icons-react";
-import React from "react";
+import { FC } from "react";
 import Button from "../../../form/Button";
+import PermissionGuard from "../../../Guards/PermissionGuard";
 
-const NoCategoriesYet: React.FC = () => {
+const NoCategoriesYet: FC = () => {
   return (
     <div className="bg-white dark:bg-smoke-950 rounded-lg border border-smoke-200 dark:border-smoke-800 p-8 text-center">
       <div className="flex flex-col items-center gap-4">
@@ -15,14 +15,26 @@ const NoCategoriesYet: React.FC = () => {
           <h3 className="font-semibold text-smoke-900 dark:text-smoke-100">
             No categories yet
           </h3>
+
           <p className="text-smoke-600 dark:text-smoke-400 text-sm">
-            Create your first category to organize your blog posts
+            <PermissionGuard
+              permission="category:create"
+              fallback="Contact an editor or admin to create a category."
+            >
+              Create your first category to organize your blog posts
+            </PermissionGuard>
           </p>
         </div>
 
-        <Button href="/categories/create" iconRight={IconPlus} color="success">
-          Create Category
-        </Button>
+        <PermissionGuard permission="category:create">
+          <Button
+            href="/categories/create"
+            iconRight={IconPlus}
+            color="success"
+          >
+            Create Category
+          </Button>
+        </PermissionGuard>
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 import { IconInfoCircle, IconUser } from "@tabler/icons-react";
-import React, { useCallback, useEffect, useState } from "react";
+import { FC, useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import ActivityDates from "../../../../../components/common/ActivityDates";
 import UserStatsBar from "../../../../../components/common/UserStatsBar";
@@ -18,7 +18,7 @@ import UserEditForm from "../../../../../forms/UserEditForm";
 import UserRoleAssignForm from "../../../../../forms/UserRoleAssignForm";
 import { getUser } from "../../../../../services/users";
 
-const UserEditPage: React.FC = () => {
+const UserEditPage: FC = () => {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
   const [user, setUser] = useState<UserDetails | null>(null);

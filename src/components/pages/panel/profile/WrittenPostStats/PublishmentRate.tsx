@@ -1,12 +1,12 @@
 import classNames from "classnames";
-import React, { useMemo } from "react";
+import { FC, useMemo } from "react";
 
 type PublishmentRateProps = Pick<
-  ResponseUser,
+  UserDetails,
   "publishedPostCount" | "writtenPostCount"
 >;
 
-const PublishmentRate: React.FC<PublishmentRateProps> = ({
+const PublishmentRate: FC<PublishmentRateProps> = ({
   publishedPostCount,
   writtenPostCount,
 }) => {

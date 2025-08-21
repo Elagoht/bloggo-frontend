@@ -1,27 +1,25 @@
-import React, { useEffect, useState, useRef } from "react";
 import {
-  IconTrash,
-  IconPencil,
   IconDeviceFloppy,
+  IconPencil,
+  IconTrash,
   IconX,
-  IconEdit,
 } from "@tabler/icons-react";
+import { ChangeEvent, FC, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 import AvatarImage from "../components/common/Avatar/AvatarImage";
+import Dialog from "../components/common/Dialog";
+import Button from "../components/form/Button";
 import Form from "../components/form/Form";
 import PermissionGuard from "../components/Guards/PermissionGuard";
 import { deleteUserAvatar, patchUserAvatar } from "../services/users";
-import FormCard from "../components/layout/Container/FormCard";
-import Button from "../components/form/Button";
-import Dialog from "../components/common/Dialog";
-import { useNavigate } from "react-router-dom";
 
 interface UserAvatarFormProps {
   user: UserDetails;
   onUpdate?: () => void;
 }
 
-const UserAvatarForm: React.FC<UserAvatarFormProps> = ({ user, onUpdate }) => {
+const UserAvatarForm: FC<UserAvatarFormProps> = ({ user, onUpdate }) => {
   const navigation = useNavigate();
 
   const [avatarImage, setAvatarImage] = useState<string>("");
@@ -36,7 +34,7 @@ const UserAvatarForm: React.FC<UserAvatarFormProps> = ({ user, onUpdate }) => {
     }
   }, [user?.avatar]);
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const input = event.target;
     if (input.files && input.files[0]) {
       const file = input.files[0];

@@ -1,7 +1,7 @@
-import React, { useRef, useEffect } from "react";
 import { IconSearch } from "@tabler/icons-react";
+import { FC, useEffect, useRef } from "react";
 
-const Search: React.FC = () => {
+const Search: FC = () => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {

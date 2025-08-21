@@ -1,15 +1,14 @@
-import React, { useEffect } from "react";
+import { PropsWithChildren, ReactNode, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 
-interface RouteGuardProps {
+type RouteGuardProps = PropsWithChildren & {
   permission?: Permission | Permission[];
   role?: string | string[];
   requireAll?: boolean;
   redirectTo?: string;
-  fallback?: React.ReactNode;
-  children: React.ReactNode;
-}
+  fallback?: ReactNode;
+};
 
 export default function RouteGuard({
   permission,

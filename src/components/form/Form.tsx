@@ -1,13 +1,13 @@
-import React from "react";
+import { FC, FormEvent, FormHTMLAttributes, PropsWithChildren } from "react";
 
-interface FormProps extends React.FormHTMLAttributes<HTMLFormElement> {
-  handle: (formData: FormData) => Promise<void> | void;
-  reset?: (form: HTMLFormElement) => void;
-  children: React.ReactNode;
-}
+type FormProps = FormHTMLAttributes<HTMLFormElement> &
+  PropsWithChildren & {
+    handle: (formData: FormData) => Promise<void> | void;
+    reset?: (form: HTMLFormElement) => void;
+  };
 
-const Form: React.FC<FormProps> = ({ handle, reset, children, ...props }) => {
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+const Form: FC<FormProps> = ({ handle, reset, children, ...props }) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const form = event.currentTarget as HTMLFormElement;
     const formData = new FormData(form);
@@ -40,7 +40,7 @@ const Form: React.FC<FormProps> = ({ handle, reset, children, ...props }) => {
     }
   };
 
-  const handleReset = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleReset = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const form = event.currentTarget as HTMLFormElement;

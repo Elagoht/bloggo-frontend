@@ -1,23 +1,25 @@
-import React from "react";
-import classNames from "classnames";
-import { Link } from "react-router-dom";
 import { Icon, IconProps } from "@tabler/icons-react";
+import classNames from "classnames";
+import {
+  ButtonHTMLAttributes,
+  FC,
+  ForwardRefExoticComponent,
+  PropsWithChildren,
+  RefAttributes,
+} from "react";
+import { Link } from "react-router-dom";
 
-export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
-  color?: "primary" | "danger" | "success" | "warning";
-  variant?: "default" | "outline" | "text";
-  href?: string;
-  className?: string;
-  iconLeft?: React.ForwardRefExoticComponent<
-    IconProps & React.RefAttributes<Icon>
-  >;
-  iconRight?: React.ForwardRefExoticComponent<
-    IconProps & React.RefAttributes<Icon>
-  >;
-  children?: React.ReactNode;
-};
+export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> &
+  PropsWithChildren & {
+    color?: "primary" | "danger" | "success" | "warning";
+    variant?: "default" | "outline" | "text";
+    href?: string;
+    className?: string;
+    iconLeft?: ForwardRefExoticComponent<IconProps & RefAttributes<Icon>>;
+    iconRight?: ForwardRefExoticComponent<IconProps & RefAttributes<Icon>>;
+  };
 
-const Button: React.FC<ButtonProps> = ({
+const Button: FC<ButtonProps> = ({
   color = "primary",
   variant = "default",
   type = "button",

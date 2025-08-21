@@ -1,6 +1,11 @@
 import { Icon, IconProps } from "@tabler/icons-react";
 import classNames from "classnames";
-import React, { createElement } from "react";
+import {
+  createElement,
+  FC,
+  ForwardRefExoticComponent,
+  RefAttributes,
+} from "react";
 
 interface SelectOption {
   value: string | number;
@@ -15,12 +20,12 @@ interface SelectProps {
   required?: boolean;
   disabled?: boolean;
   className?: string;
-  icon?: React.ForwardRefExoticComponent<IconProps & React.RefAttributes<Icon>>;
+  icon?: ForwardRefExoticComponent<IconProps & RefAttributes<Icon>>;
   options: SelectOption[];
   defaultValue?: string | number;
 }
 
-const Select: React.FC<SelectProps> = ({
+const Select: FC<SelectProps> = ({
   name,
   label,
   placeholder,

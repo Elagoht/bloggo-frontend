@@ -1,22 +1,22 @@
-import { useSearchParams } from "react-router-dom";
 import { IconCategory, IconFilter, IconPlus } from "@tabler/icons-react";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { FC, useCallback, useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import Button from "../../../components/form/Button";
+import PermissionGuard from "../../../components/Guards/PermissionGuard";
+import RouteGuard from "../../../components/Guards/RouteGuard";
 import Container from "../../../components/layout/Container";
 import CardGrid from "../../../components/layout/Container/CardGrid";
 import ContentWithSidebar from "../../../components/layout/Container/ContentWithSidebar";
 import PageTitleWithIcon from "../../../components/layout/Container/PageTitle";
+import Pagination from "../../../components/layout/Container/Pagination";
 import Sidebar from "../../../components/layout/Container/Sidebar";
 import SectionHeader from "../../../components/layout/SectionHeader";
-import Pagination from "../../../components/layout/Container/Pagination";
 import CategoryCard from "../../../components/pages/panel/categories/CategoryCard";
+import NoCategoriesYet from "../../../components/pages/panel/categories/NoCategoriesYet";
 import CategoryFiltersForm from "../../../forms/CategoryFiltersForm";
 import { getCategories } from "../../../services/categories";
-import NoCategoriesYet from "../../../components/pages/panel/categories/NoCategoriesYet";
-import RouteGuard from "../../../components/Guards/RouteGuard";
-import PermissionGuard from "../../../components/Guards/PermissionGuard";
 
-const CategoriesPage: React.FC = () => {
+const CategoriesPage: FC = () => {
   const [searchParams] = useSearchParams();
   const [categoriesResponse, setCategoriesResponse] = useState<any>(null);
   const [loading, setLoading] = useState(false);

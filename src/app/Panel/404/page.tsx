@@ -3,7 +3,7 @@ import React from "react";
 import Button from "../../../components/form/Button";
 import H1 from "../../../components/typography/H1";
 
-const NotFoundPage: React.FC = () => {
+const NotFoundPage: FC = () => {
   return (
     <div className="flex items-center justify-center min-h-[calc(100vh-12rem)] w-full">
       <div className="flex flex-col text-center items-center gap-6 max-w-md mx-auto">

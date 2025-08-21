@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   IconUsers,
@@ -25,7 +25,7 @@ import toast from "react-hot-toast";
 
 interface UserCreatePageProps {}
 
-const UserCreatePage: React.FC<UserCreatePageProps> = () => {
+const UserCreatePage: FC<UserCreatePageProps> = () => {
   const navigate = useNavigate();
   const [roles, setRoles] = useState<Role[]>([]);
 

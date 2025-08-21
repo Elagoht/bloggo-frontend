@@ -1,21 +1,26 @@
-import React from "react";
-import classNames from "classnames";
 import { Icon, IconProps } from "@tabler/icons-react";
+import classNames from "classnames";
+import {
+  createElement,
+  FC,
+  ForwardRefExoticComponent,
+  PropsWithChildren,
+  RefAttributes,
+} from "react";
 
-type SectionHeaderProps = {
-  children: React.ReactNode;
-  icon?: React.ForwardRefExoticComponent<IconProps & React.RefAttributes<Icon>>;
+type SectionHeaderProps = PropsWithChildren & {
+  icon?: ForwardRefExoticComponent<IconProps & RefAttributes<Icon>>;
   color?: "default" | "primary" | "success" | "danger" | "warning";
 };
 
-const SectionHeader: React.FC<SectionHeaderProps> = ({
+const SectionHeader: FC<SectionHeaderProps> = ({
   children,
-  icon: Icon,
+  icon,
   color = "default",
 }) => {
   return (
     <hgroup className="flex items-center gap-2">
-      {Icon && (
+      {icon && (
         <span
           className={classNames("flex-shrink-0 p-1 rounded border", {
             // Default
@@ -35,9 +40,9 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({
               color === "warning",
           })}
         >
-          <Icon
-            size={16}
-            className={classNames({
+          {createElement(icon, {
+            size: 16,
+            className: classNames({
               // Default
               "text-smoke-700 dark:text-smoke-200": color === "default",
               // Primary
@@ -48,8 +53,8 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({
               "text-danger-700 dark:text-danger-200": color === "danger",
               // Warning
               "text-warning-700 dark:text-warning-200": color === "warning",
-            })}
-          />
+            }),
+          })}
         </span>
       )}
 

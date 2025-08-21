@@ -1,7 +1,7 @@
 import React from "react";
 import LoginForm from "../../../forms/LoginForm";
 
-const LoginPage: React.FC = () => {
+const LoginPage: FC = () => {
   return (
     <>
       <hgroup className="flex flex-col gap-2 items-center">

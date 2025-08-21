@@ -5,7 +5,7 @@ import PermissionGuard from "../../../Guards/PermissionGuard";
 
 interface NoUsersYetProps {}
 
-const NoUsersYet: React.FC<NoUsersYetProps> = () => {
+const NoUsersYet: FC<NoUsersYetProps> = () => {
   return (
     <div className="bg-white dark:bg-smoke-950 rounded-lg border border-smoke-200 dark:border-smoke-800 p-8 text-center">
       <div className="flex flex-col items-center gap-4">

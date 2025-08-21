@@ -1,5 +1,5 @@
-import React, { FC, HTMLAttributes } from "react";
 import classNames from "classnames";
+import { FC, HTMLAttributes } from "react";
 
 type ContainerProps = HTMLAttributes<HTMLInputElement> & {
   size?: "sm" | "md" | "lg" | "xl";

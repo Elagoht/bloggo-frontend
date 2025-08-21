@@ -22,7 +22,7 @@ interface UserEditFormProps {
   onUpdate?: () => void;
 }
 
-const UserEditForm: React.FC<UserEditFormProps> = ({ user, onUpdate }) => {
+const UserEditForm: FC<UserEditFormProps> = ({ user, onUpdate }) => {
   const handleSubmit = async (data: FormData) => {
     const name = data.get("name") as string;
     const email = data.get("email") as string;

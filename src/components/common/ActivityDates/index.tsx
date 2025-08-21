@@ -12,7 +12,7 @@ type ActivityDatesProps = {
   }>;
 };
 
-const ActivityDates: React.FC<ActivityDatesProps> = ({ dates }) => {
+const ActivityDates: FC<ActivityDatesProps> = ({ dates }) => {
   const formatDate = (timestamp: string | Date) =>
     new Date(timestamp).toLocaleDateString(navigator.language, {
       day: "numeric",

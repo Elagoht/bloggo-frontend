@@ -1,22 +1,21 @@
-import React, { useEffect, useState } from "react";
+import { IconTrash, IconUpload } from "@tabler/icons-react";
+import { ChangeEvent, FC, useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import AvatarImage from "../../../../components/common/Avatar/AvatarImage";
+import Button from "../../../../components/form/Button";
+import ButtonGroup from "../../../../components/form/ButtonGroup";
 import Form from "../../../../components/form/Form";
 import Input from "../../../../components/form/Input";
 import Container from "../../../../components/layout/Container";
 import H1 from "../../../../components/typography/H1";
-import { useProfileStore } from "../../../../stores/profile";
-import toast from "react-hot-toast";
-import Button from "../../../../components/form/Button";
-import { IconUpload, IconTrash } from "@tabler/icons-react";
 import {
-  patchUserAvatarSelf,
-  getUserSelf,
   deleteUserAvatarSelf,
+  getUserSelf,
+  patchUserAvatarSelf,
 } from "../../../../services/users";
-import PermissionGuard from "../../../../components/Guards/PermissionGuard";
-import ButtonGroup from "../../../../components/form/ButtonGroup";
+import { useProfileStore } from "../../../../stores/profile";
 
-const ProfileAvatarPage: React.FC = () => {
+const ProfileAvatarPage: FC = () => {
   const { profile, updateProfile } = useProfileStore();
   const [avatarImage, setAvatarImage] = useState<string>("");
 
@@ -26,7 +25,7 @@ const ProfileAvatarPage: React.FC = () => {
     }
   }, [profile?.avatar]);
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const input = event.target;
     if (input.files && input.files[0]) {
       const file = input.files[0];
@@ -68,7 +67,7 @@ const ProfileAvatarPage: React.FC = () => {
 
     if (response.success === true) {
       // Update profile state and UI
-      updateProfile({ avatar: null });
+      updateProfile({ avatar: undefined });
       setAvatarImage("");
       toast.success("Avatar deleted successfully!");
     } else {

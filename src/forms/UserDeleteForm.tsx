@@ -13,7 +13,7 @@ interface UserDeleteFormProps {
   user: UserDetails;
 }
 
-const UserDeleteForm: React.FC<UserDeleteFormProps> = ({ user }) => {
+const UserDeleteForm: FC<UserDeleteFormProps> = ({ user }) => {
   const navigate = useNavigate();
 
   const handleSubmit = async () => {

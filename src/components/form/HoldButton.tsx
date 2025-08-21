@@ -1,12 +1,12 @@
-import React, { useState, useRef, useEffect } from "react";
 import classNames from "classnames";
+import { ButtonHTMLAttributes, FC, useEffect, useRef, useState } from "react";
 
-type HoldButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
+type HoldButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   color?: "primary" | "danger" | "success";
   onClick?: (e: MouseEvent | TouchEvent | KeyboardEvent) => void;
 };
 
-const HoldButton: React.FC<HoldButtonProps> = ({
+const HoldButton: FC<HoldButtonProps> = ({
   color = "primary",
   type = "button",
   onClick,
@@ -61,13 +61,13 @@ const HoldButton: React.FC<HoldButtonProps> = ({
   };
 
   const handleStart = (
-    e: React.MouseEvent | React.TouchEvent | React.KeyboardEvent
+    event: React.MouseEvent | React.TouchEvent | React.KeyboardEvent
   ) => {
     if (isHoldingRef.current) return;
     isHoldingRef.current = true;
     cancelAnimationFrame(rafIdRef.current);
     clearState();
-    holdEventRef.current = e.nativeEvent as
+    holdEventRef.current = event.nativeEvent as
       | MouseEvent
       | TouchEvent
       | KeyboardEvent;

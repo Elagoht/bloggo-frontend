@@ -1,31 +1,33 @@
-import React from "react";
-import classNames from "classnames";
 import { Icon, IconProps } from "@tabler/icons-react";
+import classNames from "classnames";
+import {
+  createElement,
+  FC,
+  ForwardRefExoticComponent,
+  InputHTMLAttributes,
+  RefAttributes,
+} from "react";
 
-interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+type InputProps = InputHTMLAttributes<HTMLInputElement> & {
   label?: string;
-  iconLeft?: React.ForwardRefExoticComponent<
-    IconProps & React.RefAttributes<Icon>
-  >;
-  iconRight?: React.ForwardRefExoticComponent<
-    IconProps & React.RefAttributes<Icon>
-  >;
-}
+  iconLeft?: ForwardRefExoticComponent<IconProps & RefAttributes<Icon>>;
+  iconRight?: ForwardRefExoticComponent<IconProps & RefAttributes<Icon>>;
+};
 
-const Input: React.FC<InputProps> = ({
+const Input: FC<InputProps> = ({
   label,
-  iconLeft: IconLeft,
-  iconRight: IconRight,
+  iconLeft,
+  iconRight,
   className,
   ...props
 }) => {
-  const hasIcons = IconLeft || IconRight;
+  const hasIcons = iconLeft || iconRight;
 
   const input = hasIcons ? (
     <div className="relative">
-      {IconLeft && (
+      {iconLeft && (
         <div className="absolute left-2.5 top-1/2 transform -translate-y-1/2 text-smoke-400 dark:text-smoke-500 pointer-events-none">
-          <IconLeft size={16} />
+          {createElement(iconLeft, { size: 16 })}
         </div>
       )}
       <input
@@ -35,15 +37,15 @@ const Input: React.FC<InputProps> = ({
           {
             "h-8": props.type !== "file",
             "h-[2.375rem]": props.type === "file",
-            "pl-8": IconLeft,
-            "pr-8": IconRight,
+            "pl-8": iconLeft,
+            "pr-8": iconRight,
           },
           className
         )}
       />
-      {IconRight && (
+      {iconRight && (
         <div className="absolute right-2.5 top-1/2 transform -translate-y-1/2 text-smoke-400 dark:text-smoke-500 pointer-events-none">
-          <IconRight size={16} />
+          {createElement(iconRight, { size: 16 })}
         </div>
       )}
     </div>

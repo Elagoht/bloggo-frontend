@@ -1,12 +1,11 @@
-import React, { useState } from "react";
 import { IconExclamationCircle, IconKey, IconLock } from "@tabler/icons-react";
+import { FC, useState } from "react";
 import toast from "react-hot-toast";
 import Button from "../components/form/Button";
 import Form from "../components/form/Form";
 import Input from "../components/form/Input";
 import FormCard from "../components/layout/Container/FormCard";
 import SectionHeader from "../components/layout/SectionHeader";
-import PermissionGuard from "../components/Guards/PermissionGuard";
 import { patchUserChangePassword } from "../services/users";
 
 interface UserChangePasswordFormProps {
@@ -14,7 +13,7 @@ interface UserChangePasswordFormProps {
   onUpdate?: () => void;
 }
 
-const UserChangePasswordForm: React.FC<UserChangePasswordFormProps> = ({
+const UserChangePasswordForm: FC<UserChangePasswordFormProps> = ({
   user,
   onUpdate,
 }) => {

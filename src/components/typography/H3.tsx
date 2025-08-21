@@ -1,10 +1,10 @@
-import React from "react";
+import { FC, ReactNode } from "react";
 
 interface H3Props {
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
-const H3: React.FC<H3Props> = ({ children }) => {
+const H3: FC<H3Props> = ({ children }) => {
   return (
     <h3 className="text-lg font-bold text-smoke-700 dark:text-smoke-300">
       {children}

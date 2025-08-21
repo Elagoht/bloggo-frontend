@@ -1,10 +1,6 @@
-import React from "react";
+import { FC, PropsWithChildren } from "react";
 
-interface CardGridProps {
-  children: React.ReactNode;
-}
-
-const CardGrid: React.FC<CardGridProps> = ({ children }) => {
+const CardGrid: FC<PropsWithChildren> = ({ children }) => {
   return <div className="grid grid-cols-cards gap-4">{children}</div>;
 };
 

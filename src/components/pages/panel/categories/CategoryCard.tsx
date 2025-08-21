@@ -2,12 +2,7 @@ import { Link } from "react-router-dom";
 import { IconCategory, IconFileText } from "@tabler/icons-react";
 import React from "react";
 
-const CategoryCard: React.FC<CategoryCard> = ({
-  name,
-  slug,
-  spot,
-  blogCount,
-}) => {
+const CategoryCard: FC<CategoryCard> = ({ name, slug, spot, blogCount }) => {
   return (
     <Link
       to={`/categories/details/${slug}`}

@@ -1,6 +1,6 @@
-import { useNavigate, useParams } from "react-router-dom";
-import React, { useCallback, useEffect, useState } from "react";
 import { IconCategory, IconInfoCircle, IconTrash } from "@tabler/icons-react";
+import { FC, useCallback, useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import ActivityDates from "../../../../../components/common/ActivityDates";
 import Container from "../../../../../components/layout/Container";
 import ContentWithSidebar from "../../../../../components/layout/Container/ContentWithSidebar";
@@ -12,7 +12,7 @@ import CategoryDeleteForm from "../../../../../forms/CategoryDeleteForm";
 import CategoryEditForm from "../../../../../forms/CategoryEditForm";
 import { getCategory } from "../../../../../services/categories";
 
-const CategoryEditPage: React.FC = () => {
+const CategoryEditPage: FC = () => {
   const navigate = useNavigate();
   const { slug } = useParams<{ slug: string }>();
   const [category, setCategory] = useState<any>(null);

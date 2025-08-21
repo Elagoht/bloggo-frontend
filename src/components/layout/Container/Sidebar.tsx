@@ -1,13 +1,12 @@
 import classNames from "classnames";
-import React from "react";
+import { FC, PropsWithChildren } from "react";
 import Container from ".";
 
-interface SidebarProps {
-  children: React.ReactNode;
+type SidebarProps = PropsWithChildren & {
   topMargin?: boolean;
-}
+};
 
-const Sidebar: React.FC<SidebarProps> = ({ children, topMargin }) => {
+const Sidebar: FC<SidebarProps> = ({ children, topMargin }) => {
   return (
     <Container
       size="sm"

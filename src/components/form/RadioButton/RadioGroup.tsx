@@ -10,7 +10,7 @@ type RadioGroupProps = {
   }>;
 };
 
-const RadioGroup: React.FC<RadioGroupProps> = ({ name, checked, options }) => {
+const RadioGroup: FC<RadioGroupProps> = ({ name, checked, options }) => {
   return (
     <div className="flex flex-col gap-0.5">
       {options.map((option, index) => (

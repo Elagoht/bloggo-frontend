@@ -1,6 +1,6 @@
-import React, { useMemo } from "react";
-import { useSearchParams } from "react-router-dom";
 import { IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
+import { FC, useMemo } from "react";
+import { useSearchParams } from "react-router-dom";
 import Button from "../../form/Button";
 
 interface PaginationProps {
@@ -9,7 +9,7 @@ interface PaginationProps {
   maxVisiblePages?: number;
 }
 
-const Pagination: React.FC<PaginationProps> = (props) => {
+const Pagination: FC<PaginationProps> = (props) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const maxVisiblePages = props.maxVisiblePages || 5;
 

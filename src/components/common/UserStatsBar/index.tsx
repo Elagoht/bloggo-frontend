@@ -12,7 +12,7 @@ type UserStatsBarProps = {
   publishedPostCount: number;
 };
 
-const UserStatsBar: React.FC<UserStatsBarProps> = ({
+const UserStatsBar: FC<UserStatsBarProps> = ({
   writtenPostCount,
   publishedPostCount,
 }) => {

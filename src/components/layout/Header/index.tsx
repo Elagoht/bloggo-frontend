@@ -4,7 +4,7 @@ import Search from "./Search";
 import ProfileMenu from "./ProfileMenu";
 import { useAuthStore } from "../../../stores/auth";
 
-const Header: React.FC = () => {
+const Header: FC = () => {
   const { name } = useAuthStore();
 
   return (

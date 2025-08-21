@@ -1,11 +1,11 @@
 import classNames from "classnames";
-import React, { PropsWithChildren } from "react";
+import { FC, PropsWithChildren } from "react";
 
 type ContentWithSidebarProps = PropsWithChildren & {
   reverse?: boolean;
 };
 
-const ContentWithSidebar: React.FC<ContentWithSidebarProps> = ({
+const ContentWithSidebar: FC<ContentWithSidebarProps> = ({
   children,
   reverse,
 }) => {

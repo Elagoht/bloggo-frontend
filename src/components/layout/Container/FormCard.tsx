@@ -1,12 +1,11 @@
-import React from "react";
 import classNames from "classnames";
+import { FC, PropsWithChildren } from "react";
 
-type FormCardProps = {
-  children: React.ReactNode;
+type FormCardProps = PropsWithChildren & {
   color?: "default" | "primary" | "success" | "danger" | "warning";
 };
 
-const FormCard: React.FC<FormCardProps> = ({ children, color = "default" }) => {
+const FormCard: FC<FormCardProps> = ({ children, color = "default" }) => {
   return (
     <article
       className={classNames("rounded-lg border p-3 flex flex-col gap-3", {

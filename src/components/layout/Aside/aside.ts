@@ -10,10 +10,11 @@ import {
   IconUsers,
   IconWritingSign,
 } from "@tabler/icons-react";
+import { ForwardRefExoticComponent, RefAttributes } from "react";
 
 export const asideMenu: Array<{
   name: string;
-  icon: React.ForwardRefExoticComponent<IconProps & React.RefAttributes<Icon>>;
+  icon: ForwardRefExoticComponent<IconProps & RefAttributes<Icon>>;
   href: string;
   perm?: Permission;
 }> = [
