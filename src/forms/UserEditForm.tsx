@@ -4,6 +4,7 @@ import {
   IconMail,
   IconDeviceFloppy,
   IconX,
+  IconKey,
 } from "@tabler/icons-react";
 import toast from "react-hot-toast";
 import Button from "../components/form/Button";
@@ -14,6 +15,7 @@ import Input from "../components/form/Input";
 import PermissionGuard from "../components/Guards/PermissionGuard";
 import { patchUserUpdate } from "../services/users";
 import FormCard from "../components/layout/Container/FormCard";
+import SectionHeader from "../components/layout/SectionHeader";
 
 interface UserEditFormProps {
   user: ResponseUserDetails;
@@ -40,27 +42,27 @@ const UserEditForm: React.FC<UserEditFormProps> = ({ user, onUpdate }) => {
 
   return (
     <FormCard>
-      <Form handle={handleSubmit}>
-        <FormSection legend="User Information">
-          <Input
-            name="name"
-            label="Full Name"
-            iconLeft={IconUser}
-            placeholder="e.g., John Doe"
-            defaultValue={user.name}
-            required
-          />
+      <SectionHeader icon={IconUser}>User Info</SectionHeader>
 
-          <Input
-            name="email"
-            label="Email Address"
-            type="email"
-            iconLeft={IconMail}
-            placeholder="e.g., john@example.com"
-            defaultValue={user.email}
-            required
-          />
-        </FormSection>
+      <Form handle={handleSubmit}>
+        <Input
+          name="name"
+          label="Full Name"
+          iconLeft={IconUser}
+          placeholder="e.g., John Doe"
+          defaultValue={user.name}
+          required
+        />
+
+        <Input
+          name="email"
+          label="Email Address"
+          type="email"
+          iconLeft={IconMail}
+          placeholder="e.g., john@example.com"
+          defaultValue={user.email}
+          required
+        />
 
         <Button type="submit" color="success" iconRight={IconDeviceFloppy}>
           Save Changes
