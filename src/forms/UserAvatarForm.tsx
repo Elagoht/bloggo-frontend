@@ -114,6 +114,7 @@ const UserAvatarForm: React.FC<UserAvatarFormProps> = ({ user, onUpdate }) => {
         <PermissionGuard permission={"user:update"}>
           {selectedFile ? (
             <Button
+              type="submit"
               className="!rounded-full top-3.5 right-3.5 absolute !p-2"
               color="success"
               title="Save avatar"

@@ -15,7 +15,7 @@ export default function PermissionGuard({
   role,
   requireAll = false,
   fallback = null,
-  children
+  children,
 }: PermissionGuardProps) {
   const { hasPermission, hasAllPermissions, hasRole } = useAuth();
 

@@ -36,6 +36,11 @@ export const patchUserAssignRole = (
   roleData: RequestUserAssignRole
 ) => ApiCall.patch<void>(`/users/${id}/role`, roleData);
 
+export const patchUserChangePassword = (
+  id: number,
+  passwordData: { newPassword: string }
+) => ApiCall.patch<void>(`/users/${id}/password`, passwordData);
+
 export const deleteUserAvatar = (id: number) =>
   ApiCall.delete<void>(`/users/${id}/avatar`);
 

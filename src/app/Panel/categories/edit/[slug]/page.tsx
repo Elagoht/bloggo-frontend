@@ -58,10 +58,8 @@ const CategoryEditPage: React.FC = () => {
         </FormCard>
       </Container>
 
-      <Sidebar>
-        <SectionHeader topMargin icon={IconInfoCircle}>
-          Details
-        </SectionHeader>
+      <Sidebar topMargin>
+        <SectionHeader icon={IconInfoCircle}>Details</SectionHeader>
 
         <ActivityDates
           dates={[

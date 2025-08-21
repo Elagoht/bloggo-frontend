@@ -5,6 +5,9 @@ import FormSection from "../components/form/FormSection";
 import HoldButton from "../components/form/HoldButton";
 import PermissionGuard from "../components/Guards/PermissionGuard";
 import { deleteUser } from "../services/users";
+import FormCard from "../components/layout/Container/FormCard";
+import SectionHeader from "../components/layout/SectionHeader";
+import { IconTrash } from "@tabler/icons-react";
 
 interface UserDeleteFormProps {
   user: ResponseUserDetails;
@@ -25,11 +28,15 @@ const UserDeleteForm: React.FC<UserDeleteFormProps> = ({ user }) => {
   };
 
   return (
-    <PermissionGuard permission={["user:delete"]}>
+    <FormCard color="danger">
+      <SectionHeader icon={IconTrash} color="danger">
+        Danger Zone
+      </SectionHeader>
+
       <HoldButton color="danger" onClick={handleSubmit}>
         Hold to Delete
       </HoldButton>
-    </PermissionGuard>
+    </FormCard>
   );
 };
 

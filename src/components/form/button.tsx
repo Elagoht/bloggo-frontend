@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { Icon, IconProps } from "@tabler/icons-react";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  color?: "primary" | "danger" | "success";
+  color?: "primary" | "danger" | "success" | "warning";
   variant?: "default" | "outline" | "text";
   href?: string;
   className?: string;
@@ -45,6 +45,9 @@ const Button: React.FC<ButtonProps> = ({
       // Success default
       "bg-success-500 text-white hover:bg-success-600 focus:ring-1 focus:ring-success-200 dark:focus:ring-success-800 border border-success-500 hover:border-success-600":
         color === "success" && variant === "default",
+      // Warning default
+      "bg-warning-500 text-white hover:bg-warning-600 focus:ring-1 focus:ring-warning-200 dark:focus:ring-warning-800 border border-warning-500 hover:border-warning-600":
+        color === "warning" && variant === "default",
       // Primary outline
       "border border-gopher-500 text-gopher-600 dark:text-gopher-400 bg-transparent hover:bg-gopher-50 dark:hover:bg-gopher-900/20 focus:ring-1 focus:ring-gopher-200 dark:focus:ring-gopher-800":
         color === "primary" && variant === "outline",
@@ -54,6 +57,9 @@ const Button: React.FC<ButtonProps> = ({
       // Success outline
       "border border-success-500 text-success-600 dark:text-success-400 bg-transparent hover:bg-success-50 dark:hover:bg-success-900/20 focus:ring-1 focus:ring-success-200 dark:focus:ring-success-800":
         color === "success" && variant === "outline",
+      // Warning outline
+      "border border-warning-500 text-warning-600 dark:text-warning-400 bg-transparent hover:bg-warning-50 dark:hover:bg-warning-900/20 focus:ring-1 focus:ring-warning-200 dark:focus:ring-warning-800":
+        color === "warning" && variant === "outline",
       // Primary text
       "text-gopher-600 dark:text-gopher-400 bg-transparent hover:bg-gopher-50 dark:hover:bg-gopher-900/20 focus:ring-1 focus:ring-gopher-200 dark:focus:ring-gopher-800 border border-transparent":
         color === "primary" && variant === "text",
@@ -63,6 +69,9 @@ const Button: React.FC<ButtonProps> = ({
       // Success text
       "text-success-600 dark:text-success-400 bg-transparent hover:bg-success-50 dark:hover:bg-success-900/20 focus:ring-1 focus:ring-success-200 dark:focus:ring-success-800 border border-transparent":
         color === "success" && variant === "text",
+      // Warning text
+      "text-warning-600 dark:text-warning-400 bg-transparent hover:bg-warning-50 dark:hover:bg-warning-900/20 focus:ring-1 focus:ring-warning-200 dark:focus:ring-warning-800 border border-transparent":
+        color === "warning" && variant === "text",
     }
   );
 

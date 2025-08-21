@@ -3,7 +3,7 @@ import classNames from "classnames";
 
 type FormCardProps = {
   children: React.ReactNode;
-  color?: "default" | "primary" | "success" | "danger";
+  color?: "default" | "primary" | "success" | "danger" | "warning";
 };
 
 const FormCard: React.FC<FormCardProps> = ({ children, color = "default" }) => {
@@ -22,6 +22,9 @@ const FormCard: React.FC<FormCardProps> = ({ children, color = "default" }) => {
         // Danger
         "bg-danger-50 dark:bg-danger-950 border-danger-200 dark:border-danger-800":
           color === "danger",
+        // Warning
+        "bg-warning-50 dark:bg-warning-950 border-warning-200 dark:border-warning-800":
+          color === "warning",
       })}
     >
       {children}

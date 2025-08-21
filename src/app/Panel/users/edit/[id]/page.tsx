@@ -1,6 +1,11 @@
 import { useNavigate, useParams } from "react-router-dom";
 import React, { useCallback, useEffect, useState } from "react";
-import { IconUser, IconInfoCircle, IconTrash } from "@tabler/icons-react";
+import {
+  IconUser,
+  IconInfoCircle,
+  IconTrash,
+  IconFilter,
+} from "@tabler/icons-react";
 import ActivityDates from "../../../../../components/common/ActivityDates";
 import UserStatsBar from "../../../../../components/common/UserStatsBar";
 import Container from "../../../../../components/layout/Container";
@@ -14,6 +19,7 @@ import UserEditForm from "../../../../../forms/UserEditForm";
 import UserDeleteForm from "../../../../../forms/UserDeleteForm";
 import UserRoleAssignForm from "../../../../../forms/UserRoleAssignForm";
 import UserAvatarForm from "../../../../../forms/UserAvatarForm";
+import UserChangePasswordForm from "../../../../../forms/UserChangePasswordForm";
 import { getUser } from "../../../../../services/users";
 import PermissionGuard from "../../../../../components/Guards/PermissionGuard";
 
@@ -59,6 +65,8 @@ const UserEditPage: React.FC = () => {
             Edit User: {user.name}
           </PageTitleWithIcon>
 
+          <UserAvatarForm user={user} onUpdate={fetchUser} />
+
           <UserStatsBar
             writtenPostCount={user.writtenPostCount + 124}
             publishedPostCount={user.publishedPostCount + 13}
@@ -74,7 +82,7 @@ const UserEditPage: React.FC = () => {
         </Container>
 
         <Sidebar topMargin>
-          <UserAvatarForm user={user} onUpdate={fetchUser} />
+          <SectionHeader icon={IconInfoCircle}>Details</SectionHeader>
 
           <ActivityDates
             dates={[
@@ -83,13 +91,13 @@ const UserEditPage: React.FC = () => {
             ]}
           />
 
-          <FormCard color="danger">
-            <SectionHeader icon={IconTrash} color="danger">
-              Danger Zone
-            </SectionHeader>
+          <PermissionGuard permission="user:change_passphrase">
+            <UserChangePasswordForm user={user} onUpdate={fetchUser} />
+          </PermissionGuard>
 
+          <PermissionGuard permission={"user:delete"}>
             <UserDeleteForm user={user} />
-          </FormCard>
+          </PermissionGuard>
         </Sidebar>
       </ContentWithSidebar>
     </RouteGuard>

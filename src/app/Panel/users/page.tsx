@@ -98,10 +98,8 @@ const UsersPage: React.FC<UsersPageProps> = () => {
           )}
         </Container>
 
-        <Sidebar>
-          <SectionHeader topMargin icon={IconFilter}>
-            Filters
-          </SectionHeader>
+        <Sidebar topMargin>
+          <SectionHeader icon={IconFilter}>Filters</SectionHeader>
 
           <UserFiltersForm />
         </Sidebar>

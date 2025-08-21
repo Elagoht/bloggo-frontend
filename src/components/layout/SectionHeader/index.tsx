@@ -5,20 +5,16 @@ import { Icon, IconProps } from "@tabler/icons-react";
 type SectionHeaderProps = {
   children: React.ReactNode;
   icon?: React.ForwardRefExoticComponent<IconProps & React.RefAttributes<Icon>>;
-  color?: "default" | "primary" | "success" | "danger";
-  topMargin?: boolean;
+  color?: "default" | "primary" | "success" | "danger" | "warning";
 };
 
 const SectionHeader: React.FC<SectionHeaderProps> = ({
   children,
   icon: Icon,
-  topMargin,
   color = "default",
 }) => {
   return (
-    <hgroup
-      className={classNames("flex items-center gap-2", { "mt-14": topMargin })}
-    >
+    <hgroup className="flex items-center gap-2">
       {Icon && (
         <span
           className={classNames("flex-shrink-0 p-1 rounded border", {
@@ -34,6 +30,9 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({
             // Danger
             "bg-danger-200 dark:bg-danger-800 border-danger-300 dark:border-danger-700":
               color === "danger",
+            // Warning
+            "bg-warning-200 dark:bg-warning-800 border-warning-300 dark:border-warning-700":
+              color === "warning",
           })}
         >
           <Icon
@@ -47,6 +46,8 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({
               "text-success-700 dark:text-success-200": color === "success",
               // Danger
               "text-danger-700 dark:text-danger-200": color === "danger",
+              // Warning
+              "text-warning-700 dark:text-warning-200": color === "warning",
             })}
           />
         </span>
@@ -62,6 +63,8 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({
           "text-success-900 dark:text-success-50": color === "success",
           // Danger
           "text-danger-900 dark:text-danger-50": color === "danger",
+          // Warning
+          "text-warning-900 dark:text-warning-50": color === "warning",
         })}
       >
         {children}
