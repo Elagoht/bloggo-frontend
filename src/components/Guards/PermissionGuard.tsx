@@ -1,6 +1,5 @@
 import React from "react";
 import { useAuth } from "../../hooks/useAuth";
-import { Permission } from "../../utilities/permissions";
 
 interface PermissionGuardProps {
   permission?: Permission | Permission[];
