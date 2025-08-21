@@ -20,6 +20,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 const Button: React.FC<ButtonProps> = ({
   color = "primary",
   variant = "default",
+  type = "button",
   href,
   iconLeft: IconLeft,
   iconRight: IconRight,
@@ -90,7 +91,7 @@ const Button: React.FC<ButtonProps> = ({
       {buttonContent}
     </Link>
   ) : (
-    <button {...props} className={classes}>
+    <button {...props} type={type} className={classes}>
       {buttonContent}
     </button>
   );

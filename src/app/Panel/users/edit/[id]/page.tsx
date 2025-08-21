@@ -73,11 +73,7 @@ const UserEditPage: React.FC = () => {
           </PermissionGuard>
         </Container>
 
-        <Sidebar>
-          <SectionHeader topMargin icon={IconInfoCircle}>
-            Details
-          </SectionHeader>
-
+        <Sidebar topMargin>
           <UserAvatarForm user={user} onUpdate={fetchUser} />
 
           <ActivityDates

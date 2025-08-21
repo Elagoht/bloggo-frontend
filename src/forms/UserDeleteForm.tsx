@@ -26,14 +26,9 @@ const UserDeleteForm: React.FC<UserDeleteFormProps> = ({ user }) => {
 
   return (
     <PermissionGuard permission={["user:delete"]}>
-      <FormSection
-        color="danger"
-        legend="Caution! This action cannot be reversed."
-      >
-        <HoldButton color="danger" onClick={handleSubmit}>
-          Hold to Delete
-        </HoldButton>
-      </FormSection>
+      <HoldButton color="danger" onClick={handleSubmit}>
+        Hold to Delete
+      </HoldButton>
     </PermissionGuard>
   );
 };
