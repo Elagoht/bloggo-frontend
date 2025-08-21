@@ -3,7 +3,7 @@ import classNames from "classnames";
 import { Link } from "react-router-dom";
 import { Icon, IconProps } from "@tabler/icons-react";
 
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   color?: "primary" | "danger" | "success" | "warning";
   variant?: "default" | "outline" | "text";
   href?: string;
@@ -15,7 +15,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     IconProps & React.RefAttributes<Icon>
   >;
   children?: React.ReactNode;
-}
+};
 
 const Button: React.FC<ButtonProps> = ({
   color = "primary",

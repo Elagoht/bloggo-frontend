@@ -57,7 +57,7 @@ const Aside: React.FC = () => {
 
           if (item.perm) {
             return (
-              <PermissionGuard key={index} permission={item.perm as any}>
+              <PermissionGuard key={index} permission={item.perm}>
                 {MenuItem}
               </PermissionGuard>
             );

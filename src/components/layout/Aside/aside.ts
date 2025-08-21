@@ -1,4 +1,5 @@
 import {
+  Icon,
   IconAlarm,
   IconBlockquote,
   IconCategory,
@@ -7,6 +8,7 @@ import {
   IconDashboard,
   IconPencilCheck,
   IconProgressCheck,
+  IconProps,
   icons,
   IconSignature,
   IconTag,
@@ -14,12 +16,16 @@ import {
   IconWritingSign,
 } from "@tabler/icons-react";
 
-export const asideMenu = [
+export const asideMenu: Array<{
+  name: string;
+  icon: React.ForwardRefExoticComponent<IconProps & React.RefAttributes<Icon>>;
+  href: string;
+  perm?: Permission;
+}> = [
   {
     name: "Dashboard",
     icon: IconDashboard,
     href: "/",
-    perm: null,
   },
   {
     name: "Write",

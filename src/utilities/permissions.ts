@@ -1,30 +1,3 @@
-export type Permission =
-  | "post:create"
-  | "post:edit"
-  | "post:edit_own"
-  | "post:delete"
-  | "post:delete_own"
-  | "post:publish"
-  | "post:view"
-  | "post:schedule"
-  | "tag:manage"
-  | "category:manage"
-  | "user:view"
-  | "user:create"
-  | "user:update"
-  | "user:delete"
-  | "user:assign_role"
-  | "user:change_passphrase"
-  | "user:manage_self_avatar"
-  | "statistics:view-all"
-  | "statistics:view-self"
-  | "role:assign"
-  | "auditlog:view"
-  | "schedule:create"
-  | "schedule:update"
-  | "schedule:delete"
-  | "schedule:view";
-
 export function hasPermission(
   userPermissions: string[],
   requiredPermission: Permission | Permission[]
