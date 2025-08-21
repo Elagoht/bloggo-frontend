@@ -131,7 +131,7 @@ const UserAvatarForm: React.FC<UserAvatarFormProps> = ({ user, onUpdate }) => {
         </PermissionGuard>
 
         {/* Delete button - bottom left when avatar exists */}
-        {(user?.avatar || avatarImage) && (
+        {user?.avatar && (
           <PermissionGuard permission={"user:update"}>
             <Button
               onClick={handleDeleteAvatar}
