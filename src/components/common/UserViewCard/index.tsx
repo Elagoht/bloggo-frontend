@@ -14,13 +14,14 @@ type UserViewCardProps = {
 
 const UserViewCard: React.FC<UserViewCardProps> = ({ user }) => {
   const data = [
+    { icon: IconUser, value: user.name },
     { icon: IconMail, value: user.email },
     { icon: IconShield, value: user.roleName },
   ];
 
   return (
     <FormCard>
-      <SectionHeader icon={IconInfoCircle}>User Information</SectionHeader>
+      <SectionHeader icon={IconInfoCircle}>User Info</SectionHeader>
 
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-2">
         {data.map((datum) => (

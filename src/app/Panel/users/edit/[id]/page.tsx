@@ -69,12 +69,12 @@ const UserEditPage: React.FC = () => {
           <UserAvatarForm user={user} onUpdate={fetchUser} />
 
           <UserStatsBar
-            writtenPostCount={user.writtenPostCount + 124}
-            publishedPostCount={user.publishedPostCount + 13}
+            writtenPostCount={user.writtenPostCount}
+            publishedPostCount={user.publishedPostCount}
           />
 
-          <PermissionGuard 
-            permission={"user:update"} 
+          <PermissionGuard
+            permission={"user:update"}
             fallback={<UserViewCard user={user} />}
           >
             <UserEditForm user={user} onUpdate={fetchUser} />
