@@ -56,6 +56,7 @@ const UserRoleAssignForm: React.FC<UserRoleAssignFormProps> = ({
   const roleOptions = roles.map((role) => ({
     value: role.id.toString(),
     label: role.name,
+    selected: role.id === user.roleId,
   }));
 
   return (
@@ -65,9 +66,8 @@ const UserRoleAssignForm: React.FC<UserRoleAssignFormProps> = ({
           <Select
             name="roleId"
             label="User Role"
-            iconLeft={IconShield}
+            icon={IconShield}
             options={roleOptions}
-            defaultValue={user.roleId.toString()}
             disabled={loading}
             required
           />
