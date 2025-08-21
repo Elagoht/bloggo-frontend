@@ -9,12 +9,12 @@ export interface RoutePermissionConfig {
 export const routePermissions: RoutePermissionConfig[] = [
   {
     path: "/panel/users",
-    permission: "user:view",
+    permission: "user:list",
     redirectTo: "/panel/dashboard",
   },
   {
     path: "/panel/users/create",
-    permission: "user:create",
+    permission: "user:register",
     redirectTo: "/panel/dashboard",
   },
   {
@@ -24,27 +24,27 @@ export const routePermissions: RoutePermissionConfig[] = [
   },
   {
     path: "/panel/categories",
-    permission: "category:manage",
+    permission: "category:list",
     redirectTo: "/panel/dashboard",
   },
   {
     path: "/panel/categories/create",
-    permission: "category:manage",
+    permission: "category:create",
     redirectTo: "/panel/dashboard",
   },
   {
     path: "/panel/categories/edit",
-    permission: "category:manage",
+    permission: "category:view",
     redirectTo: "/panel/dashboard",
   },
   {
     path: "/panel/tags",
-    permission: "tag:manage",
+    permission: "tag:list",
     redirectTo: "/panel/dashboard",
   },
   {
     path: "/panel/statistics",
-    permission: ["statistics:view-all", "statistics:view-self"],
+    permission: "statistics:view-total",
     redirectTo: "/panel/dashboard",
   },
   {
@@ -54,17 +54,12 @@ export const routePermissions: RoutePermissionConfig[] = [
   },
   {
     path: "/panel/blogs",
-    permission: "post:view",
+    permission: "post:list",
     redirectTo: "/panel/dashboard",
   },
   {
     path: "/panel/drafts",
     permission: "post:publish",
-    redirectTo: "/panel/dashboard",
-  },
-  {
-    path: "/panel/schedules",
-    permission: "schedule:view",
     redirectTo: "/panel/dashboard",
   },
 ];

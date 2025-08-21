@@ -1,27 +1,27 @@
-export function hasPermission(
+export const hasPermission = (
   userPermissions: string[],
   requiredPermission: Permission | Permission[]
-): boolean {
+): boolean => {
   if (Array.isArray(requiredPermission)) {
     return requiredPermission.some((permission) =>
       userPermissions.includes(permission)
     );
   }
   return userPermissions.includes(requiredPermission);
-}
+};
 
-export function hasAllPermissions(
+export const hasAllPermissions = (
   userPermissions: string[],
   requiredPermissions: Permission[]
-): boolean {
+): boolean => {
   return requiredPermissions.every((permission) =>
     userPermissions.includes(permission)
   );
-}
+};
 
-export function checkPermission(
+export const checkPermission = (
   userPermissions: string[],
   requiredPermission: Permission | Permission[]
-): boolean {
+): boolean => {
   return hasPermission(userPermissions, requiredPermission);
-}
+};

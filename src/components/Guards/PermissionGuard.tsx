@@ -1,13 +1,12 @@
-import React from "react";
+import React, { PropsWithChildren, ReactNode } from "react";
 import { useAuth } from "../../hooks/useAuth";
 
-interface PermissionGuardProps {
+type PermissionGuardProps = PropsWithChildren & {
   permission?: Permission | Permission[];
   role?: string | string[];
   requireAll?: boolean;
-  fallback?: React.ReactNode;
-  children: React.ReactNode;
-}
+  fallback?: ReactNode;
+};
 
 export default function PermissionGuard({
   permission,
