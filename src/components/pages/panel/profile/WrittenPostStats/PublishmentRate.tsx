@@ -46,12 +46,12 @@ const valueColor = (value: number): string => {
   ];
 
   if (value < 0 || value > 100 || isNaN(value)) {
-    return "bg-gray-500";
+    return "bg-smoke-500";
   }
 
   const determinedColor =
     colors.find(({ min, max }) => value >= min && value <= max)?.color ||
-    "bg-gray-500";
+    "bg-smoke-500";
 
   return determinedColor;
 };

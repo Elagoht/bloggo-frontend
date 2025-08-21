@@ -20,6 +20,7 @@ import UserDeleteForm from "../../../../../forms/UserDeleteForm";
 import UserRoleAssignForm from "../../../../../forms/UserRoleAssignForm";
 import UserAvatarForm from "../../../../../forms/UserAvatarForm";
 import UserChangePasswordForm from "../../../../../forms/UserChangePasswordForm";
+import UserViewCard from "../../../../../components/common/UserViewCard";
 import { getUser } from "../../../../../services/users";
 import PermissionGuard from "../../../../../components/Guards/PermissionGuard";
 
@@ -72,7 +73,10 @@ const UserEditPage: React.FC = () => {
             publishedPostCount={user.publishedPostCount + 13}
           />
 
-          <PermissionGuard permission={"user:update"}>
+          <PermissionGuard 
+            permission={"user:update"} 
+            fallback={<UserViewCard user={user} />}
+          >
             <UserEditForm user={user} onUpdate={fetchUser} />
           </PermissionGuard>
 
