@@ -25,7 +25,7 @@ type RequestUserAssignRole = {
 };
 
 // Response Types
-type ResponseUserCard = {
+type UserCard = {
   id: number;
   name: string;
   email: string;
@@ -36,7 +36,7 @@ type ResponseUserCard = {
   publishedPostCount: number;
 };
 
-type ResponseUserDetails = {
+type UserDetails = {
   id: number;
   name: string;
   email: string;
@@ -47,10 +47,4 @@ type ResponseUserDetails = {
   roleName: string;
   writtenPostCount: number;
   publishedPostCount: number;
-};
-
-// Role Types
-type Role = {
-  id: number;
-  name: string;
 };

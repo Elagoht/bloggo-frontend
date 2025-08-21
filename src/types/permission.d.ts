@@ -27,3 +27,11 @@ type Permission =
   | "statistics:view-others"
   | "statistics:view-self"
   | "auditlog:view";
+
+type RoutePermissionConfig = {
+  path: string;
+  permission?: Permission | Permission[];
+  role?: string | string[];
+  requireAll?: boolean;
+  redirectTo?: string;
+};

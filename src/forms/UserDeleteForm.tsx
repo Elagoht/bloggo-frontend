@@ -10,7 +10,7 @@ import SectionHeader from "../components/layout/SectionHeader";
 import { IconTrash } from "@tabler/icons-react";
 
 interface UserDeleteFormProps {
-  user: ResponseUserDetails;
+  user: UserDetails;
 }
 
 const UserDeleteForm: React.FC<UserDeleteFormProps> = ({ user }) => {

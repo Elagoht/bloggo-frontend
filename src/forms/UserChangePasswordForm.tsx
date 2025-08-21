@@ -10,7 +10,7 @@ import PermissionGuard from "../components/Guards/PermissionGuard";
 import { patchUserChangePassword } from "../services/users";
 
 interface UserChangePasswordFormProps {
-  user: ResponseUserDetails;
+  user: UserDetails;
   onUpdate?: () => void;
 }
 

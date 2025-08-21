@@ -18,7 +18,7 @@ import FormCard from "../components/layout/Container/FormCard";
 import SectionHeader from "../components/layout/SectionHeader";
 
 interface UserEditFormProps {
-  user: ResponseUserDetails;
+  user: UserDetails;
   onUpdate?: () => void;
 }
 

@@ -9,7 +9,7 @@ import FormCard from "../../layout/Container/FormCard";
 import SectionHeader from "../../layout/SectionHeader";
 
 type UserViewCardProps = {
-  user: ResponseUserDetails;
+  user: UserDetails;
 };
 
 const UserViewCard: React.FC<UserViewCardProps> = ({ user }) => {

@@ -17,7 +17,7 @@ import Dialog from "../components/common/Dialog";
 import { useNavigate } from "react-router-dom";
 
 interface UserAvatarFormProps {
-  user: ResponseUserDetails;
+  user: UserDetails;
   onUpdate?: () => void;
 }
 

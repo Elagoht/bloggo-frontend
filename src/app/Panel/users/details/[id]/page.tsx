@@ -21,7 +21,7 @@ import { getUser } from "../../../../../services/users";
 const UserEditPage: React.FC = () => {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
-  const [user, setUser] = useState<ResponseUserDetails | null>(null);
+  const [user, setUser] = useState<UserDetails | null>(null);
   const [loading, setLoading] = useState(false);
 
   const fetchUser = useCallback(async () => {

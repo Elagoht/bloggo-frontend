@@ -11,7 +11,7 @@ import { getRoles } from "../services/roles";
 import FormCard from "../components/layout/Container/FormCard";
 
 interface UserRoleAssignFormProps {
-  user: ResponseUserDetails;
+  user: UserDetails;
   onUpdate?: () => void;
 }
 

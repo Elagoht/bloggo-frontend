@@ -1,11 +1,3 @@
-export interface RoutePermissionConfig {
-  path: string;
-  permission?: Permission | Permission[];
-  role?: string | string[];
-  requireAll?: boolean;
-  redirectTo?: string;
-}
-
 export const routePermissions: RoutePermissionConfig[] = [
   {
     path: "/panel/users",
@@ -18,8 +10,8 @@ export const routePermissions: RoutePermissionConfig[] = [
     redirectTo: "/panel/dashboard",
   },
   {
-    path: "/panel/users/edit",
-    permission: "user:update",
+    path: "/panel/users/details",
+    permission: "user:view",
     redirectTo: "/panel/dashboard",
   },
   {
@@ -33,7 +25,7 @@ export const routePermissions: RoutePermissionConfig[] = [
     redirectTo: "/panel/dashboard",
   },
   {
-    path: "/panel/categories/edit",
+    path: "/panel/categories/details",
     permission: "category:view",
     redirectTo: "/panel/dashboard",
   },

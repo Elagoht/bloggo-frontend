@@ -52,7 +52,7 @@ const CategoriesPage: React.FC = () => {
   }, [fetchCategories, searchFilters]);
 
   return (
-    <RouteGuard permission="category:manage" redirectTo="/dashboard">
+    <RouteGuard permission="category:list" redirectTo="/dashboard">
       <ContentWithSidebar>
         <Container>
           <div className="flex items-center justify-between">
@@ -60,7 +60,7 @@ const CategoriesPage: React.FC = () => {
               Categories
             </PageTitleWithIcon>
 
-            <PermissionGuard permission="category:manage">
+            <PermissionGuard permission="category:create">
               <Button
                 href="/categories/create"
                 color="success"
@@ -93,7 +93,7 @@ const CategoriesPage: React.FC = () => {
               {categoriesResponse && (
                 <Pagination
                   totalItems={categoriesResponse.total || 0}
-                  itemsPerPage={categoriesResponse.take || 10}
+                  itemsPerPage={categoriesResponse.take || 12}
                 />
               )}
             </>

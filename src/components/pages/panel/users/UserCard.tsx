@@ -34,7 +34,7 @@ const UserCard: React.FC<UserCardProps> = ({
   }, [avatar]);
   return (
     <Link
-      to={`/users/edit/${id}`}
+      to={`/users/details/${id}`}
       className="group flex flex-col bg-smoke-0 dark:bg-smoke-950 rounded-xl border border-smoke-200 dark:border-smoke-800 p-4 gap-3 hover:border-gopher-300 dark:hover:border-gopher-700 hover:shadow-md transition-all duration-200"
     >
       <header className="flex items-center justify-between gap-3">

@@ -71,7 +71,7 @@ const UsersPage: React.FC<UsersPageProps> = () => {
             <>
               <CardGrid>
                 {usersResponse.data && usersResponse.data.length > 0 ? (
-                  usersResponse.data.map((user: ResponseUserCard) => (
+                  usersResponse.data.map((user: UserCard) => (
                     <UserCard
                       key={user.id}
                       id={user.id}
@@ -91,7 +91,7 @@ const UsersPage: React.FC<UsersPageProps> = () => {
               {usersResponse && (
                 <Pagination
                   totalItems={usersResponse.total || 0}
-                  itemsPerPage={usersResponse.take || 10}
+                  itemsPerPage={usersResponse.take || 12}
                 />
               )}
             </>
