@@ -1,6 +1,6 @@
 import { IconX } from "@tabler/icons-react";
 import classNames from "classnames";
-import { FC, ReactNode, useEffect, useRef } from "react";
+import { FC, ReactNode, useEffect, useState } from "react";
 import Button, { ButtonProps } from "../../form/Button";
 
 type DialogProps = {
@@ -20,18 +20,21 @@ const Dialog: FC<DialogProps> = ({
   actions,
   size = "md",
 }) => {
-  const dialogRef = useRef<HTMLDialogElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
 
   useEffect(() => {
-    const dialog = dialogRef.current;
-    if (!dialog) return;
-
     if (isOpen) {
-      dialog.showModal();
+      setIsVisible(true);
       document.body.style.overflow = "hidden";
+      setTimeout(() => setIsAnimating(true), 10);
     } else {
-      dialog.close();
-      document.body.style.overflow = "unset";
+      setIsAnimating(false);
+      const timer = setTimeout(() => {
+        setIsVisible(false);
+        document.body.style.overflow = "unset";
+      }, 200);
+      return () => clearTimeout(timer);
     }
 
     return () => {
@@ -40,36 +43,46 @@ const Dialog: FC<DialogProps> = ({
   }, [isOpen]);
 
   useEffect(() => {
-    const dialog = dialogRef.current;
-    if (!dialog) return;
-
-    const handleClose = () => {
-      onClose();
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape" && isOpen) {
+        onClose();
+      }
     };
 
-    dialog.addEventListener("close", handleClose);
-    return () => dialog.removeEventListener("close", handleClose);
-  }, [onClose]);
+    if (isOpen) {
+      document.addEventListener("keydown", handleKeyDown);
+    }
 
-  if (!isOpen) return null;
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isOpen, onClose]);
+
+  if (!isVisible) return null;
 
   return (
-    <dialog
-      ref={dialogRef}
-      className={classNames(
-        "backdrop:bg-black backdrop:bg-opacity-50 bg-transparent p-0 rounded-lg shadow-xl w-full",
-        {
-          "max-w-sm": size === "sm",
-          "max-w-md": size === "md",
-          "max-w-lg": size === "lg",
-        }
-      )}
-      onCancel={(event) => {
-        event.preventDefault();
-        onClose();
-      }}
-    >
-      <div className="rounded-lg overflow-hidden border bg-white dark:bg-smoke-950 border-smoke-200 dark:border-smoke-800">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+      <div 
+        className={classNames(
+          "fixed inset-0 bg-black backdrop-blur-sm transition-opacity duration-200",
+          isAnimating ? "bg-opacity-80" : "bg-opacity-0"
+        )}
+        onClick={onClose}
+      />
+      <div 
+        className={classNames(
+          "relative rounded-lg shadow-xl w-full transition-all duration-200 transform",
+          {
+            "max-w-sm": size === "sm",
+            "max-w-md": size === "md",
+            "max-w-lg": size === "lg",
+          },
+          isAnimating 
+            ? "scale-100 translate-y-0 opacity-100" 
+            : "scale-95 translate-y-4 opacity-0"
+        )}
+      >
+        <div className="rounded-lg overflow-hidden border bg-white dark:bg-smoke-950 border-smoke-200 dark:border-smoke-800">
         {/* Header */}
         <div className="p-2 border-b flex items-center justify-between border-smoke-200 dark:border-smoke-800">
           <h2 className="text-lg font-semibold text-smoke-900 dark:text-smoke-50">
@@ -98,8 +111,9 @@ const Dialog: FC<DialogProps> = ({
             ))}
           </div>
         )}
+        </div>
       </div>
-    </dialog>
+    </div>
   );
 };
 
