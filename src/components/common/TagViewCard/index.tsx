@@ -15,10 +15,7 @@ type TagViewCardProps = {
 const TagViewCard: FC<TagViewCardProps> = ({ tag }) => {
   const data = [
     { icon: IconTag, value: tag.name },
-    {
-      icon: IconArticle,
-      value: `${tag.blogCount || 0} posts`,
-    },
+    { icon: IconArticle, value: tag.blogCount },
   ];
 
   return (
