@@ -2,17 +2,19 @@ import { IconTag, IconInfoCircle, IconTrash } from "@tabler/icons-react";
 import { FC, useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import ActivityDates from "../../../../../components/common/ActivityDates";
+import TagViewCard from "../../../../../components/common/TagViewCard";
 import Container from "../../../../../components/layout/Container";
 import ContentWithSidebar from "../../../../../components/layout/Container/ContentWithSidebar";
 import FormCard from "../../../../../components/layout/Container/FormCard";
 import PageTitleWithIcon from "../../../../../components/layout/Container/PageTitle";
 import Sidebar from "../../../../../components/layout/Container/Sidebar";
 import SectionHeader from "../../../../../components/layout/SectionHeader";
+import PermissionGuard from "../../../../../components/Guards/PermissionGuard";
 import TagDeleteForm from "../../../../../forms/TagDeleteForm";
 import TagEditForm from "../../../../../forms/TagEditForm";
 import { getTag } from "../../../../../services/tags";
 
-const TagEditPage: FC = () => {
+const TagDetailPage: FC = () => {
   const navigate = useNavigate();
   const { slug } = useParams<{ slug: string }>();
   const [tag, setTag] = useState<any>(null);
@@ -49,13 +51,27 @@ const TagEditPage: FC = () => {
   return (
     <ContentWithSidebar>
       <Container size="sm">
-        <PageTitleWithIcon icon={IconTag}>
-          Edit Tag: {tag.name}
-        </PageTitleWithIcon>
+        <PermissionGuard
+          permission="tag:update"
+          fallback={
+            <PageTitleWithIcon icon={IconTag}>
+              Tag: {tag.name}
+            </PageTitleWithIcon>
+          }
+        >
+          <PageTitleWithIcon icon={IconTag}>
+            Edit Tag: {tag.name}
+          </PageTitleWithIcon>
+        </PermissionGuard>
 
-        <FormCard color="default">
-          <TagEditForm tag={tag} />
-        </FormCard>
+        <PermissionGuard
+          permission="tag:update"
+          fallback={<TagViewCard tag={tag} />}
+        >
+          <FormCard color="default">
+            <TagEditForm tag={tag} />
+          </FormCard>
+        </PermissionGuard>
       </Container>
 
       <Sidebar topMargin>
@@ -68,16 +84,18 @@ const TagEditPage: FC = () => {
           ]}
         />
 
-        <FormCard color="danger">
-          <SectionHeader icon={IconTrash} color="danger">
-            Danger Zone
-          </SectionHeader>
+        <PermissionGuard permission="tag:delete">
+          <FormCard color="danger">
+            <SectionHeader icon={IconTrash} color="danger">
+              Danger Zone
+            </SectionHeader>
 
-          <TagDeleteForm tag={tag} />
-        </FormCard>
+            <TagDeleteForm tag={tag} />
+          </FormCard>
+        </PermissionGuard>
       </Sidebar>
     </ContentWithSidebar>
   );
 };
 
-export default TagEditPage;
+export default TagDetailPage;

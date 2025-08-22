@@ -1,27 +1,29 @@
+import React, { FC } from "react";
 import {
+  IconTag,
+  IconHash,
+  IconArticle,
   IconInfoCircle,
-  IconMail,
-  IconShield,
-  IconUser,
 } from "@tabler/icons-react";
-import { FC } from "react";
 import FormCard from "../../layout/Container/FormCard";
 import SectionHeader from "../../layout/SectionHeader";
 
-type UserViewCardProps = {
-  user: UserDetails;
+type TagViewCardProps = {
+  tag: ResponseTag;
 };
 
-const UserViewCard: FC<UserViewCardProps> = ({ user }) => {
+const TagViewCard: FC<TagViewCardProps> = ({ tag }) => {
   const data = [
-    { icon: IconUser, value: user.name },
-    { icon: IconMail, value: user.email },
-    { icon: IconShield, value: user.roleName },
+    { icon: IconTag, value: tag.name },
+    {
+      icon: IconArticle,
+      value: `${tag.blogCount || 0} posts`,
+    },
   ];
 
   return (
     <FormCard>
-      <SectionHeader icon={IconInfoCircle}>User Info</SectionHeader>
+      <SectionHeader icon={IconInfoCircle}>Tag Info</SectionHeader>
 
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-2">
         {data.map((datum) => (
@@ -40,4 +42,4 @@ const UserViewCard: FC<UserViewCardProps> = ({ user }) => {
   );
 };
 
-export default UserViewCard;
+export default TagViewCard;

@@ -2,17 +2,19 @@ import { IconCategory, IconInfoCircle, IconTrash } from "@tabler/icons-react";
 import { FC, useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import ActivityDates from "../../../../../components/common/ActivityDates";
+import CategoryViewCard from "../../../../../components/common/CategoryViewCard";
 import Container from "../../../../../components/layout/Container";
 import ContentWithSidebar from "../../../../../components/layout/Container/ContentWithSidebar";
 import FormCard from "../../../../../components/layout/Container/FormCard";
 import PageTitleWithIcon from "../../../../../components/layout/Container/PageTitle";
 import Sidebar from "../../../../../components/layout/Container/Sidebar";
 import SectionHeader from "../../../../../components/layout/SectionHeader";
+import PermissionGuard from "../../../../../components/Guards/PermissionGuard";
 import CategoryDeleteForm from "../../../../../forms/CategoryDeleteForm";
 import CategoryEditForm from "../../../../../forms/CategoryEditForm";
 import { getCategory } from "../../../../../services/categories";
 
-const CategoryEditPage: FC = () => {
+const CategoryDetailPage: FC = () => {
   const navigate = useNavigate();
   const { slug } = useParams<{ slug: string }>();
   const [category, setCategory] = useState<any>(null);
@@ -49,13 +51,27 @@ const CategoryEditPage: FC = () => {
   return (
     <ContentWithSidebar>
       <Container size="sm">
-        <PageTitleWithIcon icon={IconCategory}>
-          Edit Category: {category.name}
-        </PageTitleWithIcon>
+        <PermissionGuard
+          permission="category:update"
+          fallback={
+            <PageTitleWithIcon icon={IconCategory}>
+              Category: {category.name}
+            </PageTitleWithIcon>
+          }
+        >
+          <PageTitleWithIcon icon={IconCategory}>
+            Edit Category: {category.name}
+          </PageTitleWithIcon>
+        </PermissionGuard>
 
-        <FormCard color="default">
-          <CategoryEditForm category={category} />
-        </FormCard>
+        <PermissionGuard
+          permission="category:update"
+          fallback={<CategoryViewCard category={category} />}
+        >
+          <FormCard color="default">
+            <CategoryEditForm category={category} />
+          </FormCard>
+        </PermissionGuard>
       </Container>
 
       <Sidebar topMargin>
@@ -68,16 +84,18 @@ const CategoryEditPage: FC = () => {
           ]}
         />
 
-        <FormCard color="danger">
-          <SectionHeader icon={IconTrash} color="danger">
-            Danger Zone
-          </SectionHeader>
+        <PermissionGuard permission="category:delete">
+          <FormCard color="danger">
+            <SectionHeader icon={IconTrash} color="danger">
+              Danger Zone
+            </SectionHeader>
 
-          <CategoryDeleteForm category={category} />
-        </FormCard>
+            <CategoryDeleteForm category={category} />
+          </FormCard>
+        </PermissionGuard>
       </Sidebar>
     </ContentWithSidebar>
   );
 };
 
-export default CategoryEditPage;
+export default CategoryDetailPage;
