@@ -2,12 +2,15 @@ import QueryString from "qs";
 import ApiCall from "../utilities/apiCaller";
 
 export const getCategories = (filters?: RequestCategoryFilters) =>
-  ApiCall.get<ResponsePaginated<CategoryCard[]>>(
+  ApiCall.get<ResponsePaginated<CategoryCard>>(
     `/categories${QueryString.stringify(filters, {
       skipNulls: true,
       addQueryPrefix: true,
     })}`
   );
+
+export const getCategoriesList = () =>
+  ApiCall.get<CategoryListItem[]>(`/categories/list`);
 
 export const getCategory = (slug: string) =>
   ApiCall.get<ResponseCategory>(`/categories/${slug}`);

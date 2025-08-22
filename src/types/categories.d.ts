@@ -2,6 +2,11 @@ type ResponseCategoryCreated = {
   id: number;
 };
 
+type CategoryListItem = {
+  id: string;
+  name: string;
+};
+
 type CategoryCard = {
   name: string;
   slug: string;
