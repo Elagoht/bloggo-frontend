@@ -1,25 +1,27 @@
 import {
-  IconAlarm,
+  Icon,
   IconBlockquote,
   IconCategory,
   IconChartPie,
-  IconClock,
   IconDashboard,
-  IconPencilCheck,
   IconProgressCheck,
-  icons,
-  IconSignature,
+  IconProps,
   IconTag,
   IconUsers,
   IconWritingSign,
 } from "@tabler/icons-react";
+import { ForwardRefExoticComponent, RefAttributes } from "react";
 
-export const asideMenu = [
+export const asideMenu: Array<{
+  name: string;
+  icon: ForwardRefExoticComponent<IconProps & RefAttributes<Icon>>;
+  href: string;
+  perm?: Permission;
+}> = [
   {
     name: "Dashboard",
     icon: IconDashboard,
     href: "/",
-    perm: null,
   },
   {
     name: "Write",
@@ -31,7 +33,7 @@ export const asideMenu = [
     name: "Blogs",
     icon: IconBlockquote,
     href: "/blogs",
-    requries: "post:view",
+    perm: "post:view",
   },
   {
     name: "Awaiting",
@@ -43,31 +45,25 @@ export const asideMenu = [
     name: "Categories",
     icon: IconCategory,
     href: "/categories",
-    perm: "category:manage",
+    perm: "category:list",
   },
 
   {
     name: "Tags",
     icon: IconTag,
     href: "/tags",
-    perm: "tags:manage",
+    perm: "tag:list",
   },
   {
     name: "Statistics",
     icon: IconChartPie,
     href: "/statistics",
-    perm: "statistics:view",
-  },
-  {
-    name: "Schedules",
-    icon: IconAlarm,
-    href: "/schedules",
-    perm: "schedule:view",
+    perm: "statistics:view-total",
   },
   {
     name: "Users",
     icon: IconUsers,
     href: "/users",
-    perm: "tags:manage",
+    perm: "user:list",
   },
 ];

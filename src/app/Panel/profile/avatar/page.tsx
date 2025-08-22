@@ -1,16 +1,21 @@
-import React, { useEffect, useState } from "react";
+import { IconTrash, IconUpload } from "@tabler/icons-react";
+import { ChangeEvent, FC, useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import AvatarImage from "../../../../components/common/Avatar/AvatarImage";
+import Button from "../../../../components/form/Button";
+import ButtonGroup from "../../../../components/form/ButtonGroup";
 import Form from "../../../../components/form/Form";
 import Input from "../../../../components/form/Input";
 import Container from "../../../../components/layout/Container";
 import H1 from "../../../../components/typography/H1";
+import {
+  deleteUserAvatarSelf,
+  getUserSelf,
+  patchUserAvatarSelf,
+} from "../../../../services/users";
 import { useProfileStore } from "../../../../stores/profile";
-import toast from "react-hot-toast";
-import Button from "../../../../components/form/Button";
-import { IconUpload } from "@tabler/icons-react";
-import { patchUserAvatarSelf } from "../../../../services/users";
 
-const ProfileAvatarPage: React.FC = () => {
+const ProfileAvatarPage: FC = () => {
   const { profile, updateProfile } = useProfileStore();
   const [avatarImage, setAvatarImage] = useState<string>("");
 
@@ -20,7 +25,7 @@ const ProfileAvatarPage: React.FC = () => {
     }
   }, [profile?.avatar]);
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const input = event.target;
     if (input.files && input.files[0]) {
       const file = input.files[0];
@@ -45,10 +50,28 @@ const ProfileAvatarPage: React.FC = () => {
     const response = await patchUserAvatarSelf(data);
 
     if (response.success === true) {
-      updateProfile({ avatar: avatarImage });
+      // Fetch the updated profile to get the new avatar URL from server
+      const profileResponse = await getUserSelf();
+      if (profileResponse.success) {
+        updateProfile({ avatar: profileResponse.data.avatar });
+        setAvatarImage(profileResponse.data.avatar || "");
+      }
       toast.success("Avatar updated successfully!");
     } else {
       toast.error(response.error?.message || "Failed to update avatar");
+    }
+  };
+
+  const handleDeleteAvatar = async () => {
+    const response = await deleteUserAvatarSelf();
+
+    if (response.success === true) {
+      // Update profile state and UI
+      updateProfile({ avatar: undefined });
+      setAvatarImage("");
+      toast.success("Avatar deleted successfully!");
+    } else {
+      toast.error(response.error?.message || "Failed to delete avatar");
     }
   };
 
@@ -66,9 +89,23 @@ const ProfileAvatarPage: React.FC = () => {
           onChange={handleFileChange}
         />
 
-        <Button type="submit">
-          <IconUpload /> Update Avatar
-        </Button>
+        <ButtonGroup>
+          <Button iconRight={IconUpload} type="submit" className="flex-1">
+            Update Avatar
+          </Button>
+
+          {avatarImage && (
+            <Button
+              iconLeft={IconTrash}
+              color="danger"
+              variant="outline"
+              onClick={handleDeleteAvatar}
+              type="button"
+            >
+              Delete
+            </Button>
+          )}
+        </ButtonGroup>
       </Form>
     </Container>
   );

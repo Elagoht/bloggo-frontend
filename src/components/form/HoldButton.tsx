@@ -1,12 +1,12 @@
-import React, { useState, useRef, useEffect } from "react";
 import classNames from "classnames";
+import { ButtonHTMLAttributes, FC, useEffect, useRef, useState } from "react";
 
-type HoldButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
+type HoldButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   color?: "primary" | "danger" | "success";
   onClick?: (e: MouseEvent | TouchEvent | KeyboardEvent) => void;
 };
 
-const HoldButton: React.FC<HoldButtonProps> = ({
+const HoldButton: FC<HoldButtonProps> = ({
   color = "primary",
   type = "button",
   onClick,
@@ -18,7 +18,9 @@ const HoldButton: React.FC<HoldButtonProps> = ({
 
   const startTimeRef = useRef<number | null>(null);
   const rafIdRef = useRef<number>(0);
-  const holdEventRef = useRef<MouseEvent | TouchEvent | KeyboardEvent | null>(null);
+  const holdEventRef = useRef<MouseEvent | TouchEvent | KeyboardEvent | null>(
+    null
+  );
   const doneRef = useRef(false);
   const isHoldingRef = useRef(false);
 
@@ -40,7 +42,12 @@ const HoldButton: React.FC<HoldButtonProps> = ({
     const percent = Math.max(0, 100 - (elapsed / holdDuration) * 100);
     setProgress(percent);
 
-    if (elapsed >= holdDuration && !doneRef.current && onClick && holdEventRef.current) {
+    if (
+      elapsed >= holdDuration &&
+      !doneRef.current &&
+      onClick &&
+      holdEventRef.current
+    ) {
       doneRef.current = true;
       requestAnimationFrame(() => {
         setTimeout(() => {
@@ -53,12 +60,17 @@ const HoldButton: React.FC<HoldButtonProps> = ({
     }
   };
 
-  const handleStart = (e: React.MouseEvent | React.TouchEvent | React.KeyboardEvent) => {
+  const handleStart = (
+    event: React.MouseEvent | React.TouchEvent | React.KeyboardEvent
+  ) => {
     if (isHoldingRef.current) return;
     isHoldingRef.current = true;
     cancelAnimationFrame(rafIdRef.current);
     clearState();
-    holdEventRef.current = e.nativeEvent as MouseEvent | TouchEvent | KeyboardEvent;
+    holdEventRef.current = event.nativeEvent as
+      | MouseEvent
+      | TouchEvent
+      | KeyboardEvent;
     rafIdRef.current = requestAnimationFrame(updateProgress);
   };
 

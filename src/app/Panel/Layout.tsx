@@ -4,7 +4,7 @@ import Aside from "../../components/layout/Aside";
 import Footer from "../../components/layout/Footer";
 import Header from "../../components/layout/Header";
 
-const PanelLayout: React.FC = () => {
+const PanelLayout: FC = () => {
   return (
     <>
       <Header />

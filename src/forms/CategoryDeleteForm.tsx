@@ -1,18 +1,16 @@
-import { useNavigate } from "react-router-dom";
-import React from "react";
+import { FC, ReactNode } from "react";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 import FormSection from "../components/form/FormSection";
 import HoldButton from "../components/form/HoldButton";
 import { deleteCategory } from "../services/categories";
 
 type CategoryDeleteFormProps = {
   category: ResponseCategory;
-  children?: React.ReactNode;
+  children?: ReactNode;
 };
 
-const CategoryDeleteForm: React.FC<CategoryDeleteFormProps> = ({
-  category,
-}) => {
+const CategoryDeleteForm: FC<CategoryDeleteFormProps> = ({ category }) => {
   const navigate = useNavigate();
 
   const handleSubmit = async () => {

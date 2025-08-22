@@ -1,12 +1,12 @@
-import React, { useMemo } from "react";
+import { FC, useMemo } from "react";
 import Text from "../../../utilities/Text";
 
-type AvatarImageProps = Partial<Pick<ResponseUser, "avatar">> &
-  Pick<ResponseUser, "name">;
+type AvatarImageProps = Partial<Pick<UserDetails, "avatar">> &
+  Pick<UserDetails, "name">;
 
-const AvatarImage: React.FC<AvatarImageProps> = (props) => {
+const AvatarImage: FC<AvatarImageProps> = (props) => {
   const initials = Text.getInitialLetters(props.name);
-  
+
   const avatarSrc = useMemo(() => {
     if (!props.avatar) return "";
     if (props.avatar.startsWith("data:image")) return props.avatar;

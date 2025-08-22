@@ -7,7 +7,7 @@ type WrittenPostStatsProps = Pick<
   "publishedPostCount" | "writtenPostCount"
 >;
 
-const WrittenPostStats: React.FC<WrittenPostStatsProps> = ({
+const WrittenPostStats: FC<WrittenPostStatsProps> = ({
   publishedPostCount,
   writtenPostCount,
 }) => {

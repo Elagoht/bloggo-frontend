@@ -10,7 +10,7 @@ import RadioGroup from "../components/form/RadioButton/RadioGroup";
 
 type CategoryFiltersFormProps = {};
 
-const CategoryFiltersForm: React.FC<CategoryFiltersFormProps> = () => {
+const CategoryFiltersForm: FC<CategoryFiltersFormProps> = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const handleSubmit = async (data: FormData) => {

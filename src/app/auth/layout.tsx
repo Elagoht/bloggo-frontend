@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { useNavigate, Outlet } from "react-router-dom";
 import { useAuthStore } from "../../stores/auth";
 import ApiCall from "../../utilities/apiCaller";
 
-const AuthLayout: React.FC = () => {
+const AuthLayout: FC = () => {
   const navigate = useNavigate();
   const { accessToken, setAuth } = useAuthStore();
   const [isChecking, setChecking] = useState(true);

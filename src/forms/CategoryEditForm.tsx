@@ -1,12 +1,12 @@
-import { useNavigate } from "react-router-dom";
-import React from "react";
 import {
-  IconTag,
-  IconFlame,
-  IconFileDescription,
   IconDeviceFloppy,
+  IconFileDescription,
+  IconFlame,
+  IconTag,
   IconX,
 } from "@tabler/icons-react";
+import { FC, ReactNode } from "react";
+import { useNavigate } from "react-router-dom";
 import Button from "../components/form/Button";
 import ButtonGroup from "../components/form/ButtonGroup";
 import Form from "../components/form/Form";
@@ -17,12 +17,10 @@ import { patchCategoryUpdate } from "../services/categories";
 
 type CategoryEditFormProps = {
   category: ResponseCategory;
-  children?: React.ReactNode;
+  children?: ReactNode;
 };
 
-const CategoryEditForm: React.FC<CategoryEditFormProps> = ({
-  category,
-}) => {
+const CategoryEditForm: FC<CategoryEditFormProps> = ({ category }) => {
   const navigate = useNavigate();
 
   const handleSubmit = async (data: FormData) => {
@@ -80,7 +78,7 @@ const CategoryEditForm: React.FC<CategoryEditFormProps> = ({
         />
       </FormSection>
 
-      <ButtonGroup layout="flex-row" alignment="start" gap="md" fullWidth>
+      <ButtonGroup>
         <Button
           type="submit"
           color="success"

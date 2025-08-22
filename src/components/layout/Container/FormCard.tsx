@@ -1,12 +1,11 @@
-import React from "react";
 import classNames from "classnames";
+import { FC, PropsWithChildren } from "react";
 
-type FormCardProps = {
-  children: React.ReactNode;
-  color?: "default" | "primary" | "success" | "danger";
+type FormCardProps = PropsWithChildren & {
+  color?: "default" | "primary" | "success" | "danger" | "warning";
 };
 
-const FormCard: React.FC<FormCardProps> = ({ children, color = "default" }) => {
+const FormCard: FC<FormCardProps> = ({ children, color = "default" }) => {
   return (
     <article
       className={classNames("rounded-lg border p-3 flex flex-col gap-3", {
@@ -22,6 +21,9 @@ const FormCard: React.FC<FormCardProps> = ({ children, color = "default" }) => {
         // Danger
         "bg-danger-50 dark:bg-danger-950 border-danger-200 dark:border-danger-800":
           color === "danger",
+        // Warning
+        "bg-warning-50 dark:bg-warning-950 border-warning-200 dark:border-warning-800":
+          color === "warning",
       })}
     >
       {children}

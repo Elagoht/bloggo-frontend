@@ -1,11 +1,22 @@
-import React from "react";
+import classNames from "classnames";
+import { FC, PropsWithChildren } from "react";
+import Container from ".";
 
-interface SidebarProps {
-  children: React.ReactNode;
-}
+type SidebarProps = PropsWithChildren & {
+  topMargin?: boolean;
+};
 
-const Sidebar: React.FC<SidebarProps> = ({ children }) => {
-  return <div className="flex flex-col gap-2 w-full md:max-w-80">{children}</div>;
+const Sidebar: FC<SidebarProps> = ({ children, topMargin }) => {
+  return (
+    <Container
+      size="sm"
+      className={classNames("flex flex-col gap-2 w-full lg:max-w-80", {
+        "lg:mt-14": topMargin,
+      })}
+    >
+      {children}
+    </Container>
+  );
 };
 
 export default Sidebar;

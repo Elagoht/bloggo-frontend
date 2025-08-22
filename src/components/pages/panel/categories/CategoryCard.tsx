@@ -2,15 +2,10 @@ import { Link } from "react-router-dom";
 import { IconCategory, IconFileText } from "@tabler/icons-react";
 import React from "react";
 
-const CategoryCard: React.FC<CategoryCard> = ({
-  name,
-  slug,
-  spot,
-  blogCount,
-}) => {
+const CategoryCard: FC<CategoryCard> = ({ name, slug, spot, blogCount }) => {
   return (
     <Link
-      to={`/categories/edit/${slug}`}
+      to={`/categories/details/${slug}`}
       className="group flex flex-col bg-smoke-0 dark:bg-smoke-950 rounded-xl border border-smoke-200 dark:border-smoke-800 p-4 gap-3 hover:border-gopher-300 dark:hover:border-gopher-700 hover:shadow-md transition-all duration-200"
     >
       <header className="flex items-center justify-between">

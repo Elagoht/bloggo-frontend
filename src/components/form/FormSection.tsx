@@ -1,13 +1,12 @@
-import React from "react";
 import classNames from "classnames";
+import { FC, PropsWithChildren } from "react";
 
-type FormSectionProps = {
+type FormSectionProps = PropsWithChildren & {
   legend: string;
   color?: "default" | "primary" | "success" | "danger";
-  children: React.ReactNode;
 };
 
-const FormSection: React.FC<FormSectionProps> = ({
+const FormSection: FC<FormSectionProps> = ({
   legend,
   children,
   color = "default",

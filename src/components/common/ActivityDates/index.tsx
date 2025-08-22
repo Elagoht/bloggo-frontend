@@ -12,7 +12,7 @@ type ActivityDatesProps = {
   }>;
 };
 
-const ActivityDates: React.FC<ActivityDatesProps> = ({ dates }) => {
+const ActivityDates: FC<ActivityDatesProps> = ({ dates }) => {
   const formatDate = (timestamp: string | Date) =>
     new Date(timestamp).toLocaleDateString(navigator.language, {
       day: "numeric",
@@ -27,7 +27,10 @@ const ActivityDates: React.FC<ActivityDatesProps> = ({ dates }) => {
   return (
     <div className="flex flex-col gap-2">
       {dates.map((date, index) => (
-        <article key={index} className="flex items-center gap-3 px-3 py-2 bg-white dark:bg-smoke-950 border border-smoke-200 dark:border-smoke-700 rounded-lg">
+        <article
+          key={index}
+          className="flex items-center gap-3 px-3 py-2 bg-white dark:bg-smoke-950 border border-smoke-200 dark:border-smoke-700 rounded-lg"
+        >
           <span className="flex-shrink-0 p-1 bg-smoke-100 dark:bg-smoke-700 rounded">
             <IconCalendarClock
               size={16}
@@ -45,7 +48,9 @@ const ActivityDates: React.FC<ActivityDatesProps> = ({ dates }) => {
                 className="text-xs text-smoke-600 dark:text-smoke-300"
                 dateTime={date.time?.toString?.()}
               >
-                {date.time ? formatDate(date.time) : "Never"}
+                {date.time && date.time !== "Never"
+                  ? formatDate(date.time)
+                  : "Never"}
               </time>
             </dd>
           </dl>

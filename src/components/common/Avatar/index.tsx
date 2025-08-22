@@ -11,7 +11,7 @@ type AvatarProps = Partial<
     editAt?: string;
   };
 
-const Avatar: React.FC<AvatarProps> = ({
+const Avatar: FC<AvatarProps> = ({
   avatar,
   name,
   email,

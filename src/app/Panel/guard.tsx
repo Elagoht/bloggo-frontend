@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate, Outlet } from "react-router-dom";
+import { FC, useEffect, useState } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
 import { postRefresh } from "../../services/session";
-import { useAuthStore } from "../../stores/auth";
 import { getUserSelf } from "../../services/users";
+import { useAuthStore } from "../../stores/auth";
 import { useProfileStore } from "../../stores/profile";
 
-const AuthGuardLayout: React.FC = () => {
+const AuthGuardLayout: FC = () => {
   const navigate = useNavigate();
   const [isReady, setReady] = useState(false);
   const { setAuth, clearAuth } = useAuthStore();

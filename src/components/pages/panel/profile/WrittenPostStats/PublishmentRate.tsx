@@ -1,12 +1,12 @@
 import classNames from "classnames";
-import React, { useMemo } from "react";
+import { FC, useMemo } from "react";
 
 type PublishmentRateProps = Pick<
-  ResponseUser,
+  UserDetails,
   "publishedPostCount" | "writtenPostCount"
 >;
 
-const PublishmentRate: React.FC<PublishmentRateProps> = ({
+const PublishmentRate: FC<PublishmentRateProps> = ({
   publishedPostCount,
   writtenPostCount,
 }) => {
@@ -46,12 +46,12 @@ const valueColor = (value: number): string => {
   ];
 
   if (value < 0 || value > 100 || isNaN(value)) {
-    return "bg-gray-500";
+    return "bg-smoke-500";
   }
 
   const determinedColor =
     colors.find(({ min, max }) => value >= min && value <= max)?.color ||
-    "bg-gray-500";
+    "bg-smoke-500";
 
   return determinedColor;
 };

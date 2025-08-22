@@ -6,7 +6,7 @@ import WrittenPostStats from "../../../components/pages/panel/profile/WrittenPos
 import { useAuthStore } from "../../../stores/auth";
 import { useProfileStore } from "../../../stores/profile";
 
-const ProfilePage: React.FC = () => {
+const ProfilePage: FC = () => {
   const { permissions } = useAuthStore();
   const { profile } = useProfileStore();
 

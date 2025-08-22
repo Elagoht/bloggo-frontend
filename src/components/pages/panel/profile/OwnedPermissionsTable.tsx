@@ -6,7 +6,7 @@ type OwnedPermissionsTableProps = {
   permissions: string[];
 };
 
-const OwnedPermissionsTable: React.FC<OwnedPermissionsTableProps> = ({
+const OwnedPermissionsTable: FC<OwnedPermissionsTableProps> = ({
   permissions,
 }) => {
   allPermissions;
