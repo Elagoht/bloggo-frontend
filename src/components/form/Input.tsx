@@ -27,7 +27,7 @@ const Input: FC<InputProps> = ({
     <div className="relative">
       {iconLeft && (
         <div className="absolute left-2.5 top-1/2 transform -translate-y-1/2 text-smoke-400 dark:text-smoke-500 pointer-events-none">
-          {createElement(iconLeft, { size: 16 })}
+          {createElement(iconLeft, { size: 20 })}
         </div>
       )}
       <input
@@ -45,7 +45,7 @@ const Input: FC<InputProps> = ({
       />
       {iconRight && (
         <div className="absolute right-2.5 top-1/2 transform -translate-y-1/2 text-smoke-400 dark:text-smoke-500 pointer-events-none">
-          {createElement(iconRight, { size: 16 })}
+          {createElement(iconRight, { size: 20 })}
         </div>
       )}
     </div>

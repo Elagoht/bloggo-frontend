@@ -2,6 +2,7 @@ import { Icon, IconProps } from "@tabler/icons-react";
 import classNames from "classnames";
 import {
   ButtonHTMLAttributes,
+  createElement,
   FC,
   ForwardRefExoticComponent,
   PropsWithChildren,
@@ -24,8 +25,8 @@ const Button: FC<ButtonProps> = ({
   variant = "default",
   type = "button",
   href,
-  iconLeft: IconLeft,
-  iconRight: IconRight,
+  iconLeft,
+  iconRight,
   children,
   className,
   ...props
@@ -33,8 +34,8 @@ const Button: FC<ButtonProps> = ({
   const classes = classNames(
     "px-2.5 py-2 h-8 text-sm font-medium rounded-lg cursor-pointer transition-all duration-200 focus:outline-none flex items-center justify-center text-center shadow-sm hover:shadow",
     {
-      "gap-2": !IconLeft && !IconRight,
-      "gap-1.5": IconLeft || IconRight,
+      "gap-2": !iconLeft && !iconRight,
+      "gap-1.5": iconLeft || iconRight,
     },
     className,
     {
@@ -79,21 +80,21 @@ const Button: FC<ButtonProps> = ({
 
   const buttonContent = (
     <>
-      {IconLeft && (
-        <span className="flex-shrink-0 flex items-center">
-          <IconLeft size={16} />
-        </span>
-      )}
+      {iconLeft &&
+        createElement(iconLeft, {
+          className: "flex-shrink-0 flex items-center",
+          size: 20,
+        })}
 
       {children && (
         <span className="flex-grow min-w-0 truncate">{children}</span>
       )}
 
-      {IconRight && (
-        <span className="flex-shrink-0 flex items-center">
-          <IconRight size={16} />
-        </span>
-      )}
+      {iconRight &&
+        createElement(iconRight, {
+          className: "flex-shrink-0 flex items-center",
+          size: 20,
+        })}
     </>
   );
 

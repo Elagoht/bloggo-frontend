@@ -53,7 +53,7 @@ const Select: FC<SelectProps> = ({
         {icon && (
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
             {createElement(icon, {
-              size: 16,
+              size: 20,
               className: "text-smoke-400 dark:text-smoke-500",
             })}
           </div>
@@ -78,12 +78,8 @@ const Select: FC<SelectProps> = ({
               {placeholder}
             </option>
           )}
-          {options.map((option) => (
-            <option
-              key={option.value}
-              value={option.value}
-              selected={option.selected}
-            >
+          {options.map((option, index) => (
+            <option key={index} value={option.value} selected={option.selected}>
               {option.label}
             </option>
           ))}
