@@ -69,7 +69,7 @@ const UserChangePasswordForm: FC<UserChangePasswordFormProps> = ({
           label="New Password"
           type="password"
           value={newPassword}
-          onChange={(e) => setNewPassword(e.target.value)}
+          onChange={(event) => setNewPassword(event.target.value)}
           required
           minLength={12}
           iconLeft={IconLock}
@@ -80,7 +80,7 @@ const UserChangePasswordForm: FC<UserChangePasswordFormProps> = ({
           label="Confirm New Password"
           type="password"
           value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
+          onChange={(event) => setConfirmPassword(event.target.value)}
           required
           minLength={12}
           iconLeft={IconLock}
