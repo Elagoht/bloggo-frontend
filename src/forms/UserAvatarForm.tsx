@@ -20,12 +20,9 @@ interface UserAvatarFormProps {
 }
 
 const UserAvatarForm: FC<UserAvatarFormProps> = ({ user, onUpdate }) => {
-  const navigation = useNavigate();
-
   const [avatarImage, setAvatarImage] = useState<string>("");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
-  const [deleteLoading, setDeleteLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -81,7 +78,6 @@ const UserAvatarForm: FC<UserAvatarFormProps> = ({ user, onUpdate }) => {
 
   const handleDeleteAvatar = async () => {
     try {
-      setDeleteLoading(true);
       const response = await deleteUserAvatar(user.id);
 
       if (response.success === true) {
@@ -94,8 +90,6 @@ const UserAvatarForm: FC<UserAvatarFormProps> = ({ user, onUpdate }) => {
       }
     } catch (error) {
       toast.error("Failed to delete avatar");
-    } finally {
-      setDeleteLoading(false);
     }
   };
 
@@ -183,7 +177,8 @@ const UserAvatarForm: FC<UserAvatarFormProps> = ({ user, onUpdate }) => {
           },
         ]}
       >
-        {`Are you sure you want to delete ${user?.name}'s avatar? This action cannot be undone.`}
+        Are you sure you want to delete {user?.name}'s avatar? This action
+        cannot be undone.
       </Dialog>
     </>
   );
