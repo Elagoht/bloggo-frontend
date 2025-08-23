@@ -29,7 +29,7 @@ const CategoriesPage: FC = () => {
       order: searchParams.get("order") || "",
       dir: searchParams.get("dir") || "",
       page: parseInt(searchParams.get("page") || "1"),
-      take: parseInt(searchParams.get("take") || "10"),
+      take: parseInt(searchParams.get("take") || "12"),
     }),
     [searchParams]
   );

@@ -38,7 +38,7 @@ const PostsPage: FC = () => {
         ? parseInt(searchParams.get("authorId")!)
         : undefined,
       page: parseInt(searchParams.get("page") || "1"),
-      take: parseInt(searchParams.get("take") || "10"),
+      take: parseInt(searchParams.get("take") || "12"),
     }),
     [searchParams]
   );

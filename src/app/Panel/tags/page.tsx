@@ -18,7 +18,8 @@ import { getTags } from "../../../services/tags";
 
 const TagsPage: FC = () => {
   const [searchParams] = useSearchParams();
-  const [tagsResponse, setTagsResponse] = useState<ResponsePaginated<TagCard> | null>(null);
+  const [tagsResponse, setTagsResponse] =
+    useState<ResponsePaginated<TagCard> | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
 
@@ -28,7 +29,7 @@ const TagsPage: FC = () => {
       order: searchParams.get("order") || "",
       dir: searchParams.get("dir") || "",
       page: parseInt(searchParams.get("page") || "1"),
-      take: parseInt(searchParams.get("take") || "10"),
+      take: parseInt(searchParams.get("take") || "12"),
     }),
     [searchParams]
   );
