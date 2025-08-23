@@ -93,6 +93,7 @@ const WritePage: FC = () => {
             <Input
               type="file"
               name="cover"
+              label="Cover Image"
               accept="image/*"
               iconLeft={IconPhoto}
               onChange={async (event) => {
