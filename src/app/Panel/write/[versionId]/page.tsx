@@ -225,7 +225,11 @@ const EditVersionPage: FC = () => {
           {coverPreview && (
             <img
               className="aspect-video object-fill rounded-lg"
-              src={import.meta.env.VITE_API_URL + coverPreview}
+              src={
+                coverPreview.startsWith("data:image/")
+                  ? coverPreview
+                  : import.meta.env.VITE_API_URL + coverPreview
+              }
             />
           )}
 
