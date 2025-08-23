@@ -22,8 +22,8 @@ const PostDetails: FC<PostDetails> = (post) => {
       icon: <IconCategory />,
       title: "Category",
       value: post.category.name,
-      href: post.category.id
-        ? `/cartegories/details/${post.category.id}`
+      href: post.category.slug
+        ? `/categories/details/${post.category.slug}`
         : undefined,
     },
     { icon: <IconEye />, title: "Views", value: post.readCount },
