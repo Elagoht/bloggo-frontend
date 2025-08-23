@@ -3,6 +3,9 @@ import {
   IconDeviceFloppy,
   IconEdit,
   IconFileDescription,
+  IconHeading,
+  IconPhoto,
+  IconSignature,
   IconTag,
   IconTextCaption,
 } from "@tabler/icons-react";
@@ -72,6 +75,7 @@ const WritePage: FC = () => {
             <Input
               name="title"
               label="Title"
+              iconLeft={IconHeading}
               type="text"
               placeholder="Enter post title..."
               required
@@ -81,6 +85,7 @@ const WritePage: FC = () => {
               type="file"
               name="avatar"
               accept="image/*"
+              iconLeft={IconPhoto}
               onChange={async (event) => {
                 const file = event.currentTarget?.files?.[0];
 
@@ -99,6 +104,7 @@ const WritePage: FC = () => {
             <Textarea
               name="content"
               label="Content (Markdown)"
+              iconLeft={IconSignature}
               placeholder="Write your post content using Markdown..."
               rows={20}
               className="font-mono"

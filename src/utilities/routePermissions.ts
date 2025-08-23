@@ -45,7 +45,7 @@ export const routePermissions: RoutePermissionConfig[] = [
     redirectTo: "/panel/dashboard",
   },
   {
-    path: "/panel/blogs",
+    path: "/panel/posts",
     permission: "post:list",
     redirectTo: "/panel/dashboard",
   },

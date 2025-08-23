@@ -30,9 +30,9 @@ export const asideMenu: Array<{
     perm: "post:create",
   },
   {
-    name: "Blogs",
+    name: "Posts",
     icon: IconBlockquote,
-    href: "/blogs",
+    href: "/Posts",
     perm: "post:view",
   },
   {

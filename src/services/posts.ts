@@ -1,3 +1,4 @@
+import QueryString from "qs";
 import ApiCall from "../utilities/apiCaller";
 
 export interface PostCreateData {
@@ -13,6 +14,39 @@ export interface PostCreatedResponse {
   id: number;
 }
 
+export const getPosts = (filters?: RequestPostFilters) =>
+  ApiCall.get<ResponsePaginated<PostCard>>(
+    `/posts${QueryString.stringify(filters, {
+      skipNulls: true,
+      addQueryPrefix: true,
+    })}`
+  );
+
+export const getPost = (slug: string) =>
+  ApiCall.get<PostDetails>(`/posts/${slug}`);
+
+export const getPostVersions = (postId: number) =>
+  ApiCall.get<ResponsePostVersions>(`/posts/${postId}/versions`);
+
 export const createPost = (data: FormData) => {
   return ApiCall.post<PostCreatedResponse>("/posts", data);
 };
+
+export const updatePost = (postId: number, data: {
+  title?: string;
+  content?: string;
+  spot?: string;
+  description?: string;
+  categoryId?: string;
+  coverImage?: string;
+}) =>
+  ApiCall.patch<ResponsePostCreated>(`/posts/${postId}`, data);
+
+export const deletePost = (postId: number) =>
+  ApiCall.delete(`/posts/${postId}`);
+
+export const changePostStatus = (postId: number, status: number, note?: string) =>
+  ApiCall.patch<ResponsePostCreated>(`/posts/${postId}/status`, {
+    status,
+    note
+  });
