@@ -18,7 +18,7 @@ type PostCard = {
   createdAt: string;
   updatedAt: string;
   category: {
-    id?: string;
+    id?: number;
     name?: string;
     slug?: string;
   };
@@ -43,7 +43,7 @@ type PostDetails = {
   createdAt?: string;
   updatedAt?: string;
   category: {
-    id?: string;
+    id?: number;
     name?: string;
     slug?: string;
   };
@@ -66,7 +66,7 @@ enum PostStatus {
   APPROVED = 2,
   REJECTED = 3,
   SCHEDULED = 4,
-  PUBLISHED = 5
+  PUBLISHED = 5,
 }
 
 type PostVersionCard = {
