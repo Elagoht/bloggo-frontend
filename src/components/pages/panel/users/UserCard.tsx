@@ -38,8 +38,8 @@ const UserCard: FC<UserCardProps> = ({
       className="group flex flex-col bg-smoke-0 dark:bg-smoke-950 rounded-xl border border-smoke-200 dark:border-smoke-800 p-4 gap-3 hover:border-gopher-300 dark:hover:border-gopher-700 hover:shadow-md transition-all duration-200"
     >
       <div className="flex items-center justify-between gap-3">
-        <div className="flex items-center gap-3 min-w-0 flex-1">
-          <div className="relative flex-shrink-0">
+        <div className="flex items-center gap-3 flex-1">
+          <figure className="relative flex-shrink-0">
             {avatar ? (
               <img
                 src={avatarSrc}
@@ -51,11 +51,13 @@ const UserCard: FC<UserCardProps> = ({
                 <IconUser size={18} />
               </div>
             )}
-          </div>
-          <div className="min-w-0 flex-1">
+          </figure>
+
+          <div className="flex-1">
             <h3 className="font-semibold text-smoke-900 dark:text-smoke-100 truncate">
               {name}
             </h3>
+
             <p className="text-sm text-smoke-600 dark:text-smoke-400 truncate">
               {email}
             </p>
@@ -64,21 +66,25 @@ const UserCard: FC<UserCardProps> = ({
 
         <div className="flex items-center gap-1 px-2 py-1 bg-smoke-100 dark:bg-smoke-900 text-smoke-600 dark:text-smoke-400 rounded-full text-xs font-medium flex-shrink-0">
           <IconShield size={12} />
+
           <span className="capitalize">{roleName}</span>
         </div>
       </div>
 
       <div className="flex items-center justify-between pt-2 border-t border-smoke-100 dark:border-smoke-800">
-        <div className="flex items-center gap-4">
-          <div className="flex items-center gap-1 text-sm text-smoke-600 dark:text-smoke-400">
+        <dl className="flex items-center gap-4">
+          <dt className="flex items-center gap-1 text-sm text-smoke-600 dark:text-smoke-400">
             <IconFileText size={14} />
-            <span>{writtenPostCount} written</span>
-          </div>
-          <div className="flex items-center gap-1 text-sm text-smoke-600 dark:text-smoke-400">
+
+            <dd>{writtenPostCount} written</dd>
+          </dt>
+
+          <dt className="flex items-center gap-1 text-sm text-smoke-600 dark:text-smoke-400">
             <IconClock size={14} />
-            <span>{publishedPostCount} published</span>
-          </div>
-        </div>
+
+            <dd>{publishedPostCount} published</dd>
+          </dt>
+        </dl>
       </div>
     </Link>
   );
