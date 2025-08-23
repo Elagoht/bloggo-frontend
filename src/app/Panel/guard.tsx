@@ -14,7 +14,8 @@ const AuthGuardLayout: FC = () => {
   useEffect(() => {
     const initAuth = async () => {
       const currentAuth = useAuthStore.getState();
-      
+      const currentProfile = useProfileStore.getState().profile;
+
       // Only refresh if we don't have an access token
       if (!currentAuth.accessToken) {
         const refreshResponse = await postRefresh();
@@ -28,13 +29,36 @@ const AuthGuardLayout: FC = () => {
         setAuth(refreshResponse.data);
       }
 
-      const profileResponse = await getUserSelf();
-      if (!profileResponse.success) {
-        navigate("/auth/login", { replace: true });
-        return;
+      // Only fetch profile if we don't have it cached
+      if (!currentProfile) {
+        const profileResponse = await getUserSelf();
+
+        if (!profileResponse.success) {
+          // If profile fetch fails, try refreshing tokens once
+          const refreshResponse = await postRefresh();
+
+          if (!refreshResponse.success) {
+            clearAuth();
+            navigate("/auth/login", { replace: true });
+            return;
+          }
+
+          setAuth(refreshResponse.data);
+
+          // Retry profile fetch with new token
+          const retryProfileResponse = await getUserSelf();
+          if (!retryProfileResponse.success) {
+            clearAuth();
+            navigate("/auth/login", { replace: true });
+            return;
+          }
+
+          setProfile(retryProfileResponse.data);
+        } else {
+          setProfile(profileResponse.data);
+        }
       }
 
-      setProfile(profileResponse.data);
       setReady(true);
     };
 
