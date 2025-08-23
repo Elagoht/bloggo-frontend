@@ -13,7 +13,7 @@ const config: Config = {
         outfit: "Outfit, sans-serif",
       },
       gridTemplateColumns: {
-        cards: "repeat(auto-fit, minmax(16rem,1fr))",
+        cards: "repeat(auto-fit, minmax(16rem, 24rem))",
       },
       colors: {
         gopher: {

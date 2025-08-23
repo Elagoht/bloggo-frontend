@@ -38,7 +38,7 @@ const UserCard: FC<UserCardProps> = ({
       className="group flex flex-col bg-smoke-0 dark:bg-smoke-950 rounded-xl border border-smoke-200 dark:border-smoke-800 p-4 gap-3 hover:border-gopher-300 dark:hover:border-gopher-700 hover:shadow-md transition-all duration-200"
     >
       <div className="flex items-center justify-between gap-3">
-        <div className="flex items-center gap-3 flex-1">
+        <div className="flex items-center gap-3 flex-1 truncate">
           <figure className="relative flex-shrink-0">
             {avatar ? (
               <img
@@ -53,7 +53,7 @@ const UserCard: FC<UserCardProps> = ({
             )}
           </figure>
 
-          <div className="flex-1">
+          <div className="flex-1 truncate">
             <h3 className="font-semibold text-smoke-900 dark:text-smoke-100 truncate">
               {name}
             </h3>

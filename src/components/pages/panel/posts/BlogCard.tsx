@@ -1,4 +1,5 @@
 import {
+  IconCategory,
   IconClock,
   IconEye,
   IconFileText,
@@ -77,7 +78,7 @@ const PostCard: FC<PostCard> = ({
 
         {/* Status Badge - Top Left */}
         <div
-          className={`absolute top-1 left-1 flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-semibold backdrop-blur-md shadow-lg ${getStatusColor(
+          className={`absolute top-1 left-1 flex items-center gap-1 p-1.5 rounded-full text-xs font-semibold backdrop-blur-md shadow-lg ${getStatusColor(
             status
           )}`}
         >
@@ -85,8 +86,9 @@ const PostCard: FC<PostCard> = ({
         </div>
 
         {/* View Count - Top Right */}
-        <div className="absolute top-1 right-1 flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-black/50 text-white backdrop-blur-md shadow-lg">
-          <IconEye size={13} />
+        <div className="absolute top-1 right-1 flex items-center gap-1.5 pr-2.5 p-1.5 rounded-full text-xs font-medium bg-black/50 text-white backdrop-blur-md shadow-lg">
+          <IconEye size={16} />
+
           <span>{readCount}</span>
         </div>
 
@@ -94,10 +96,11 @@ const PostCard: FC<PostCard> = ({
         {category.name && (
           <Link
             to={`/categories/${category.id}`}
-            className="absolute bottom-1 left-1 flex items-center gap-1.5 px-3 py-1.5 rounded-full rounded-bl-none text-xs font-medium bg-black/50 text-white backdrop-blur-md shadow-lg hover:bg-black/60 transition-colors duration-200"
+            className="absolute bottom-1 left-1 flex items-center gap-1.5 pr-2.5 p-1.5 rounded-full rounded-bl-none text-xs font-medium bg-black/50 text-white backdrop-blur-md shadow-lg hover:bg-black/60 transition-colors duration-200"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="w-2 h-2 bg-white rounded-full" />
+            <IconCategory size={16} />
+
             <span>{category.name}</span>
           </Link>
         )}
@@ -136,7 +139,7 @@ const PostCard: FC<PostCard> = ({
           </Link>
 
           <div className="flex items-center gap-1.5 text-xs text-smoke-500 dark:text-smoke-500">
-            <IconClock size={12} className="text-gopher-500" />
+            <IconClock size={16} className="text-gopher-500" />
             <time className="font-medium">
               {new Date(updatedAt).toLocaleDateString()}
             </time>
