@@ -75,11 +75,11 @@ const WritePage: FC = () => {
   };
 
   return (
-    <Container size="xl" className="p-6">
-      <Form handle={handleFormSubmit}>
-        <PageTitleWithIcon icon={IconEdit}>Write New Post</PageTitleWithIcon>
+    <Form handle={handleFormSubmit} className="w-full mx-auto">
+      <ContentWithSidebar>
+        <Container size="lg">
+          <PageTitleWithIcon icon={IconEdit}>Write New Post</PageTitleWithIcon>
 
-        <ContentWithSidebar>
           <FormCard>
             <Input
               name="title"
@@ -119,55 +119,55 @@ const WritePage: FC = () => {
               className="font-mono"
             />
           </FormCard>
+        </Container>
 
-          <Sidebar>
-            <SectionHeader icon={IconDatabase}>SEO & Metadata</SectionHeader>
+        <Sidebar topMargin>
+          <SectionHeader icon={IconDatabase}>SEO & Metadata</SectionHeader>
 
-            <Input
-              name="spot"
-              iconLeft={IconTextCaption}
-              label="Spot (Teaser)"
-              type="text"
-              placeholder="Short teaser text (max 75 chars)"
-              maxLength={75}
-            />
+          <Input
+            name="spot"
+            iconLeft={IconTextCaption}
+            label="Spot (Teaser)"
+            type="text"
+            placeholder="Short teaser text (max 75 chars)"
+            maxLength={75}
+          />
 
-            <Textarea
-              iconLeft={IconFileDescription}
-              name="description"
-              label="Meta Description"
-              placeholder="Brief description for search engines (max 155 chars)"
-              rows={3}
-              maxLength={155}
-            />
+          <Textarea
+            iconLeft={IconFileDescription}
+            name="description"
+            label="Meta Description"
+            placeholder="Brief description for search engines (max 155 chars)"
+            rows={3}
+            maxLength={155}
+          />
 
-            <Select
-              name="categoryId"
-              label="Category"
-              icon={IconTag}
-              placeholder="Select a category"
-              options={categories.map((category) => ({
-                value: category.id.toString(),
-                label: category.name,
-              }))}
-            />
+          <Select
+            name="categoryId"
+            label="Category"
+            icon={IconTag}
+            placeholder="Select a category"
+            options={categories.map((category) => ({
+              value: category.id.toString(),
+              label: category.name,
+            }))}
+          />
 
-            {coverPreview && (
-              <img className="aspect-video object-fill" src={coverPreview} />
-            )}
+          {coverPreview && (
+            <img className="aspect-video object-fill" src={coverPreview} />
+          )}
 
-            <Button
-              type="submit"
-              color="success"
-              iconRight={IconDeviceFloppy}
-              disabled={isSubmitting}
-            >
-              {isSubmitting ? "Creating..." : "Create Draft"}
-            </Button>
-          </Sidebar>
-        </ContentWithSidebar>
-      </Form>
-    </Container>
+          <Button
+            type="submit"
+            color="success"
+            iconRight={IconDeviceFloppy}
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? "Creating..." : "Create Draft"}
+          </Button>
+        </Sidebar>
+      </ContentWithSidebar>
+    </Form>
   );
 };
 

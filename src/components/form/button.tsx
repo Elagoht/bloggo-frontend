@@ -32,7 +32,7 @@ const Button: FC<ButtonProps> = ({
   ...props
 }) => {
   const classes = classNames(
-    "px-2.5 py-2 h-8 text-sm font-medium rounded-lg cursor-pointer transition-all duration-200 focus:outline-none flex items-center justify-center text-center shadow-sm hover:shadow",
+    "px-2.5 py-2 h-8 text-sm font-medium rounded-lg cursor-pointer transition-all duration-200 focus:outline-none flex items-center justify-center text-center",
     {
       "gap-2": !iconLeft && !iconRight,
       "gap-1.5": iconLeft || iconRight,
@@ -82,7 +82,7 @@ const Button: FC<ButtonProps> = ({
     <>
       {iconLeft &&
         createElement(iconLeft, {
-          className: "flex-shrink-0 flex items-center",
+          className: "flex-shrink-0 flex items-center -ml-1",
           size: 20,
         })}
 
@@ -92,7 +92,7 @@ const Button: FC<ButtonProps> = ({
 
       {iconRight &&
         createElement(iconRight, {
-          className: "flex-shrink-0 flex items-center",
+          className: "flex-shrink-0 flex items-center -mr-1",
           size: 20,
         })}
     </>
