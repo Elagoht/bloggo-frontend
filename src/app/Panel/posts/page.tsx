@@ -11,7 +11,7 @@ import PageTitleWithIcon from "../../../components/layout/Container/PageTitle";
 import Pagination from "../../../components/layout/Container/Pagination";
 import Sidebar from "../../../components/layout/Container/Sidebar";
 import SectionHeader from "../../../components/layout/SectionHeader";
-import BlogCard from "../../../components/pages/panel/posts/BlogCard";
+import PostCard from "../../../components/pages/panel/posts/BlogCard";
 import NoPostsYet from "../../../components/pages/panel/posts/NoPostsYet";
 import PostFiltersForm from "../../../forms/PostFiltersForm";
 import { getPosts } from "../../../services/posts";
@@ -81,20 +81,7 @@ const PostsPage: FC = () => {
                 postsResponse.data &&
                 postsResponse.data.length > 0 ? (
                   postsResponse.data.map((post: PostCard) => (
-                    <BlogCard
-                      key={post.postId}
-                      postId={post.postId}
-                      author={post.author}
-                      title={post.title}
-                      slug={post.slug}
-                      coverImage={post.coverImage}
-                      spot={post.spot}
-                      status={post.status}
-                      readCount={post.readCount}
-                      createdAt={post.createdAt}
-                      updatedAt={post.updatedAt}
-                      category={post.category}
-                    />
+                    <PostCard key={post.postId} {...post} />
                   ))
                 ) : (
                   <NoPostsYet />
