@@ -11,7 +11,6 @@ import { FC } from "react";
 import { createVersionFromLatest } from "../../../../services/posts";
 import Button from "../../../form/Button";
 import PermissionGuard from "../../../Guards/PermissionGuard";
-import SectionHeader from "../../../layout/SectionHeader";
 
 interface PostVersionCardProps {
   version: PostVersionCard;
@@ -40,59 +39,90 @@ const PostVersionCard: FC<PostVersionCardProps> = ({
     }
   };
 
+  const data = [
+    {
+      icon: <IconUser size={20} />,
+      title: "Author",
+      value: version.versionAuthor.name,
+    },
+    {
+      icon: <IconClock size={20} />,
+      title: "Updated",
+      value: new Date(version.updatedAt).toLocaleDateString(),
+    },
+  ];
+
   return (
-    <section
+    <div
       className={classNames(
-        "bg-smoke-0 dark:bg-smoke-950 rounded-xl border transition-all duration-200",
+        "bg-smoke-50 dark:bg-smoke-950 rounded-xl border border-smoke-200 dark:border-smoke-800 p-3 gap-3 flex flex-col transition-all duration-200",
         {
           "border-green-200 dark:border-green-800 bg-green-50/30 dark:bg-green-950/30":
             isPublished,
-          "border-smoke-200 dark:border-smoke-800 hover:border-gopher-300 dark:hover:border-gopher-700":
-            !isPublished,
+          "hover:border-gopher-300 dark:hover:border-gopher-700": !isPublished,
         }
       )}
     >
-      <div className="flex flex-col items-start justify-between p-4 gap-4">
-        <SectionHeader
-          icon={IconVersions}
-          color={isPublished ? "success" : "primary"}
+      <div className="flex items-center gap-4">
+        <div
+          className={classNames(
+            "p-2 rounded-lg transition-colors flex-shrink-0",
+            {
+              "bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-400":
+                isPublished,
+              "bg-gopher-100 dark:bg-gopher-900 text-gopher-600 dark:text-gopher-400":
+                !isPublished,
+            }
+          )}
         >
-          {version.title} {isPublished && "(Current)"}
-        </SectionHeader>
+          <IconVersions size={20} />
+        </div>
 
-        <dl className="flex items-center gap-4 text-sm text-smoke-500">
-          <dt className="flex items-center gap-1">
-            <IconUser size={14} />
+        <h3 className="font-semibold text-smoke-900 dark:text-smoke-100 line-clamp-1 flex-1">
+          {version.title}
+        </h3>
 
-            <dd>{version.versionAuthor.name}</dd>
-          </dt>
-
-          <dt className="flex items-center gap-1">
-            <IconClock size={14} />
-
-            <dd>{new Date(version.updatedAt).toLocaleDateString()}</dd>
-          </dt>
-        </dl>
+        {isPublished && (
+          <span className="text-sm text-green-600 dark:text-green-400 font-medium bg-green-100 dark:bg-green-900 px-2 py-1 rounded-full flex-shrink-0">
+            Current
+          </span>
+        )}
       </div>
 
-      <span
+      <div
         className={classNames(
-          "flex items-center gap-1 px-4 py-2 text-xs font-medium",
+          "-mx-3 px-3 py-1 text-xs font-medium text-center",
           getStatusColor(version.status)
         )}
       >
         {getStatusText(version.status)}
-      </span>
+      </div>
 
-      <div className="flex items-stretch overflow-hidden p-1 gap-1">
+      <div className="grid grid-cols-2 gap-2">
+        {data.map((datum, index) => (
+          <div
+            key={index}
+            className="flex items-center py-2 px-3 gap-2 rounded-lg text-sm bg-smoke-100 dark:bg-smoke-800 text-smoke-600 dark:text-smoke-400"
+          >
+            {datum.icon}
+
+            <div>
+              <div className="text-xs opacity-75">{datum.title}</div>
+
+              <div className="font-medium">{datum.value}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="flex items-center justify-between gap-3 pt-3 border-t border-smoke-100 dark:border-smoke-800">
         {canEdit ? (
           <PermissionGuard permission="post:edit">
             <Button
               href={`/posts/${postId}/versions/${version.id}/edit`}
               color="warning"
-              variant="text"
               iconRight={IconEdit}
-              className="grow"
+              className="flex-1"
             >
               Edit
             </Button>
@@ -101,10 +131,9 @@ const PostVersionCard: FC<PostVersionCardProps> = ({
           <PermissionGuard permission="post:create">
             <Button
               color="success"
-              variant="text"
               iconRight={IconCopy}
               onClick={handleDuplicate}
-              className="grow"
+              className="flex-1"
             >
               Duplicate
             </Button>
@@ -114,13 +143,13 @@ const PostVersionCard: FC<PostVersionCardProps> = ({
         <Button
           href={`/posts/${postId}/versions/${version.id}`}
           color="primary"
-          className="grow"
           iconRight={IconEye}
+          className="flex-1"
         >
           View
         </Button>
       </div>
-    </section>
+    </div>
   );
 };
 
@@ -129,19 +158,19 @@ export default PostVersionCard;
 const getStatusColor = (status: number) => {
   switch (status) {
     case 0: // DRAFT
-      return "bg-smoke-100 dark:bg-smoke-900 text-smoke-600 dark:text-smoke-400";
+      return "bg-smoke-200 dark:bg-smoke-800 text-smoke-600 dark:text-smoke-400";
     case 1: // PENDING
-      return "bg-yellow-100 dark:bg-yellow-900 text-yellow-600 dark:text-yellow-400";
+      return "bg-yellow-200 dark:bg-yellow-800 text-yellow-600 dark:text-yellow-400";
     case 2: // APPROVED
-      return "bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400";
+      return "bg-blue-200 dark:bg-blue-800 text-blue-600 dark:text-blue-400";
     case 3: // REJECTED
-      return "bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-400";
+      return "bg-red-200 dark:bg-red-800 text-red-600 dark:text-red-400";
     case 4: // SCHEDULED
-      return "bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-400";
+      return "bg-purple-200 dark:bg-purple-800 text-purple-600 dark:text-purple-400";
     case 5: // PUBLISHED
-      return "bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-400";
+      return "bg-green-200 dark:bg-green-800 text-green-600 dark:text-green-400";
     default:
-      return "bg-smoke-100 dark:bg-smoke-900 text-smoke-600 dark:text-smoke-400";
+      return "bg-smoke-200 dark:bg-smoke-800 text-smoke-600 dark:text-smoke-400";
   }
 };
 
