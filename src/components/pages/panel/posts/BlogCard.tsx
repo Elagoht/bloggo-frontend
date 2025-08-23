@@ -45,10 +45,10 @@ const getStatusText = (status: number) => {
   }
 };
 
-const BlogCard: FC<PostCard> = ({
+const PostCard: FC<PostCard> = ({
+  postId,
   author,
   title,
-  slug,
   coverImage,
   spot,
   status,
@@ -58,7 +58,7 @@ const BlogCard: FC<PostCard> = ({
 }) => {
   return (
     <Link
-      to={`/posts/details/${slug}`}
+      to={`/posts/details/${postId}`}
       className="group flex flex-col bg-smoke-0 dark:bg-smoke-950 rounded-xl border border-smoke-200 dark:border-smoke-800 p-4 gap-3 hover:border-gopher-300 dark:hover:border-gopher-700 hover:shadow-md transition-all duration-200"
     >
       {coverImage && (
@@ -119,7 +119,8 @@ const BlogCard: FC<PostCard> = ({
 
           <div className="flex items-center gap-1">
             <IconClock size={12} />
-            <span>{new Date(updatedAt).toLocaleDateString()}</span>
+
+            <time>{new Date(updatedAt).toLocaleDateString()}</time>
           </div>
         </div>
       </div>
@@ -127,4 +128,4 @@ const BlogCard: FC<PostCard> = ({
   );
 };
 
-export default BlogCard;
+export default PostCard;
