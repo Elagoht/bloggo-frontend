@@ -1,11 +1,6 @@
-import React from "react";
-import {
-  IconFileText,
-  IconEye,
-  IconPercentage,
-  icons,
-} from "@tabler/icons-react";
+import { IconEye, IconFileText, IconPercentage } from "@tabler/icons-react";
 import classNames from "classnames";
+import { FC } from "react";
 
 type UserStatsBarProps = {
   writtenPostCount: number;

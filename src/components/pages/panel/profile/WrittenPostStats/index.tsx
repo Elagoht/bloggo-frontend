@@ -1,9 +1,9 @@
-import React from "react";
+import React, { FC } from "react";
 import PostStatCounter from "./PostStatCounter";
 import PublishmentRate from "./PublishmentRate";
 
 type WrittenPostStatsProps = Pick<
-  ResponseUser,
+  UserDetails,
   "publishedPostCount" | "writtenPostCount"
 >;
 
