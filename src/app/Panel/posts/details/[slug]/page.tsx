@@ -107,7 +107,7 @@ const PostDetailsPage: FC = () => {
       <Container>
         <div className="flex items-center justify-between">
           <PageTitleWithIcon icon={IconFileText}>
-            {post.title}
+            Post Details
           </PageTitleWithIcon>
 
           <div className="flex items-center gap-3">
