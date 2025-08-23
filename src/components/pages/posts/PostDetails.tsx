@@ -22,7 +22,9 @@ const PostDetails: FC<PostDetails> = (post) => {
       icon: <IconCategory />,
       title: "Category",
       value: post.category.name,
-      href: `/cartegories/details/${post.category.id}`,
+      href: post.category.id
+        ? `/cartegories/details/${post.category.id}`
+        : undefined,
     },
     { icon: <IconEye />, title: "Views", value: post.readCount },
     {
@@ -78,7 +80,7 @@ const PostDetails: FC<PostDetails> = (post) => {
                     {datum.title}
                   </dt>
 
-                  <dd className="text-sm">{datum.value}</dd>
+                  <dd className="text-sm">{datum.value || "N/A"}</dd>
                 </dl>
               </li>
             );
