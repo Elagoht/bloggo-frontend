@@ -66,14 +66,7 @@ export const createVersionFromLatest = (postId: number) =>
 export const updatePostVersion = (
   postId: number,
   versionId: string,
-  data: {
-    title?: string;
-    content?: string;
-    spot?: string;
-    description?: string;
-    categoryId?: string;
-    coverImage?: string;
-  }
+  data: FormData
 ) =>
   ApiCall.patch<ResponsePostCreated>(
     `/posts/${postId}/versions/${versionId}`,

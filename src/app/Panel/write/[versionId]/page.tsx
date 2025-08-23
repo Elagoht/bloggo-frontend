@@ -10,36 +10,73 @@ import {
   IconTextCaption,
 } from "@tabler/icons-react";
 import { FC, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import Button from "../../../components/form/Button";
-import Form from "../../../components/form/Form";
-import Input from "../../../components/form/Input";
-import Select from "../../../components/form/Select";
-import Textarea from "../../../components/form/Textarea";
-import Container from "../../../components/layout/Container";
-import ContentWithSidebar from "../../../components/layout/Container/ContentWithSidebar";
-import FormCard from "../../../components/layout/Container/FormCard";
-import PageTitleWithIcon from "../../../components/layout/Container/PageTitle";
-import Sidebar from "../../../components/layout/Container/Sidebar";
-import SectionHeader from "../../../components/layout/SectionHeader";
-import { getCategoriesList } from "../../../services/categories";
-import { createPost } from "../../../services/posts";
+import { useNavigate, useParams } from "react-router-dom";
+import Button from "../../../../components/form/Button";
+import Form from "../../../../components/form/Form";
+import Input from "../../../../components/form/Input";
+import Select from "../../../../components/form/Select";
+import Textarea from "../../../../components/form/Textarea";
+import Container from "../../../../components/layout/Container";
+import ContentWithSidebar from "../../../../components/layout/Container/ContentWithSidebar";
+import FormCard from "../../../../components/layout/Container/FormCard";
+import PageTitleWithIcon from "../../../../components/layout/Container/PageTitle";
+import Sidebar from "../../../../components/layout/Container/Sidebar";
+import SectionHeader from "../../../../components/layout/SectionHeader";
+import VersionDeleteForm from "../../../../forms/VersionDeleteForm";
+import { getCategoriesList } from "../../../../services/categories";
+import { getPostVersion, updatePostVersion } from "../../../../services/posts";
 
-const WritePage: FC = () => {
+const EditVersionPage: FC = () => {
   const navigate = useNavigate();
+  const { postId, versionId } = useParams<{
+    postId: string;
+    versionId: string;
+  }>();
   const [categories, setCategories] = useState<CategoryListItem[]>([]);
   const [coverPreview, setCoverPreview] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [versionData, setVersionData] = useState<PostDetails | null>(null);
 
   useEffect(() => {
-    getCategoriesList().then((response) => {
-      if (!response.success) return;
-      setCategories(response.data);
-    });
-  }, []);
+    const loadData = async () => {
+      try {
+        setIsLoading(true);
+
+        // Load categories
+        const categoriesResponse = await getCategoriesList();
+        if (categoriesResponse.success) {
+          setCategories(categoriesResponse.data);
+        }
+
+        // Load version data
+        if (postId && versionId) {
+          const versionResponse = await getPostVersion(
+            parseInt(postId),
+            versionId
+          );
+          if (versionResponse.success) {
+            setVersionData(versionResponse.data);
+            // Set cover preview if exists
+            if (versionResponse.data.coverImage) {
+              setCoverPreview(versionResponse.data.coverImage);
+            }
+          }
+        }
+      } catch (error) {
+        console.error("Failed to load data:", error);
+        alert("Failed to load version data");
+        navigate("/posts");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadData();
+  }, [postId, versionId, navigate]);
 
   const handleFormSubmit = async (data: FormData) => {
-    if (isSubmitting) return;
+    if (isSubmitting || !versionData || !postId || !versionId) return;
 
     try {
       setIsSubmitting(true);
@@ -59,26 +96,52 @@ const WritePage: FC = () => {
       if (spot) form.append("spot", spot);
       if (categoryId) form.append("categoryId", categoryId);
 
-      const response = await createPost(form);
+      const response = await updatePostVersion(
+        parseInt(postId),
+        versionId,
+        form
+      );
 
       if (response.success) {
-        navigate("/posts", { replace: true });
+        navigate(`/posts/details/${postId}`, { replace: true });
       } else {
         throw new Error(response.error.message);
       }
     } catch (error) {
-      console.error("Failed to create post:", error);
-      alert("Failed to create post: " + (error as Error).message);
+      console.error("Failed to update version:", error);
+      alert("Failed to update version: " + (error as Error).message);
     } finally {
       setIsSubmitting(false);
     }
   };
 
+  if (isLoading) {
+    return (
+      <Container size="lg">
+        <div className="flex items-center justify-center py-12">
+          <div className="text-lg">Loading version data...</div>
+        </div>
+      </Container>
+    );
+  }
+
+  if (!versionData) {
+    return (
+      <Container size="lg">
+        <div className="flex items-center justify-center py-12">
+          <div className="text-lg text-red-500">Version not found</div>
+        </div>
+      </Container>
+    );
+  }
+
   return (
     <Form handle={handleFormSubmit} className="w-full mx-auto">
       <ContentWithSidebar>
         <Container size="lg">
-          <PageTitleWithIcon icon={IconEdit}>Write New Post</PageTitleWithIcon>
+          <PageTitleWithIcon icon={IconEdit}>
+            Edit Version - {versionData.title}
+          </PageTitleWithIcon>
 
           <FormCard>
             <Input
@@ -87,6 +150,7 @@ const WritePage: FC = () => {
               iconLeft={IconHeading}
               type="text"
               placeholder="Enter post title..."
+              defaultValue={versionData.title}
               required
             />
 
@@ -106,7 +170,7 @@ const WritePage: FC = () => {
                   };
                   reader.readAsDataURL(file);
                 } else {
-                  setCoverPreview(null);
+                  setCoverPreview(versionData.coverImage || null);
                 }
               }}
             />
@@ -118,6 +182,7 @@ const WritePage: FC = () => {
               placeholder="Write your post content using Markdown..."
               rows={20}
               className="font-mono"
+              defaultValue={versionData.content}
             />
           </FormCard>
         </Container>
@@ -132,6 +197,7 @@ const WritePage: FC = () => {
             type="text"
             placeholder="Short teaser text (max 75 chars)"
             maxLength={75}
+            defaultValue={versionData.spot || ""}
           />
 
           <Textarea
@@ -141,6 +207,7 @@ const WritePage: FC = () => {
             placeholder="Brief description for search engines (max 155 chars)"
             rows={3}
             maxLength={155}
+            defaultValue={versionData.description || ""}
           />
 
           <Select
@@ -151,6 +218,7 @@ const WritePage: FC = () => {
             options={categories.map((category) => ({
               value: category.id.toString(),
               label: category.name,
+              selected: category.id === versionData.category.id,
             }))}
           />
 
@@ -167,12 +235,19 @@ const WritePage: FC = () => {
             iconRight={IconDeviceFloppy}
             disabled={isSubmitting}
           >
-            {isSubmitting ? "Creating..." : "Create Draft"}
+            {isSubmitting ? "Saving..." : "Save Changes"}
           </Button>
+
+          <VersionDeleteForm
+            postId={parseInt(postId!)}
+            versionId={versionId!}
+            versionTitle={versionData.title || "Untitled"}
+            versionSlug={versionData.slug}
+          />
         </Sidebar>
       </ContentWithSidebar>
     </Form>
   );
 };
 
-export default WritePage;
+export default EditVersionPage;
