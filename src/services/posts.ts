@@ -32,21 +32,53 @@ export const createPost = (data: FormData) => {
   return ApiCall.post<PostCreatedResponse>("/posts", data);
 };
 
-export const updatePost = (postId: number, data: {
-  title?: string;
-  content?: string;
-  spot?: string;
-  description?: string;
-  categoryId?: string;
-  coverImage?: string;
-}) =>
-  ApiCall.patch<ResponsePostCreated>(`/posts/${postId}`, data);
+export const updatePost = (
+  postId: number,
+  data: {
+    title?: string;
+    content?: string;
+    spot?: string;
+    description?: string;
+    categoryId?: string;
+    coverImage?: string;
+  }
+) => ApiCall.patch<ResponsePostCreated>(`/posts/${postId}`, data);
 
 export const deletePost = (postId: number) =>
   ApiCall.delete(`/posts/${postId}`);
 
-export const changePostStatus = (postId: number, status: number, note?: string) =>
+export const changePostStatus = (
+  postId: number,
+  status: number,
+  note?: string
+) =>
   ApiCall.patch<ResponsePostCreated>(`/posts/${postId}/status`, {
     status,
-    note
+    note,
   });
+
+export const getPostVersion = (postId: number, versionId: string) =>
+  ApiCall.get<PostDetails>(`/posts/${postId}/versions/${versionId}`);
+
+export const createVersionFromLatest = (postId: number) =>
+  ApiCall.post<ResponsePostCreated>(`/posts/${postId}/versions`);
+
+export const updatePostVersion = (
+  postId: number,
+  versionId: string,
+  data: {
+    title?: string;
+    content?: string;
+    spot?: string;
+    description?: string;
+    categoryId?: string;
+    coverImage?: string;
+  }
+) =>
+  ApiCall.patch<ResponsePostCreated>(
+    `/posts/${postId}/versions/${versionId}`,
+    data
+  );
+
+export const deletePostVersion = (postId: number, versionId: string) =>
+  ApiCall.delete(`/posts/${postId}/versions/${versionId}`);

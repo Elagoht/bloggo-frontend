@@ -59,17 +59,19 @@ const PostCard: FC<PostCard> = ({
   return (
     <Link
       to={`/posts/details/${postId}`}
-      className="group flex flex-col bg-smoke-0 dark:bg-smoke-950 rounded-xl border border-smoke-200 dark:border-smoke-800 p-4 gap-3 hover:border-gopher-300 dark:hover:border-gopher-700 hover:shadow-md transition-all duration-200"
+      className="group flex flex-col bg-smoke-0 dark:bg-smoke-950 rounded-xl border border-smoke-200 dark:border-smoke-800 p-3 gap-3 hover:border-gopher-300 dark:hover:border-gopher-700 hover:shadow-md transition-all duration-200"
     >
-      {coverImage && (
-        <div className="aspect-video w-full bg-smoke-100 dark:bg-smoke-900 rounded-lg overflow-hidden -mx-1 -mt-1 mb-1">
-          <img
-            src={import.meta.env.VITE_API_URL + coverImage}
-            alt={title || "Blog post cover"}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
-          />
-        </div>
-      )}
+      <figure className="aspect-video w-full bg-smoke-100 dark:bg-smoke-900 rounded-lg overflow-hidden">
+        <img
+          src={
+            coverImage
+              ? import.meta.env.VITE_API_URL + coverImage
+              : "/assets/placeholder.webp"
+          }
+          alt="Blog post cover"
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200 flex items-center justify-center"
+        />
+      </figure>
 
       <div className="flex items-start justify-between gap-2">
         <div className="flex items-center gap-2 min-w-0 flex-1">

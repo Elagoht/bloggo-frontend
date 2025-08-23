@@ -91,7 +91,7 @@ const PostVersionCard: FC<PostVersionCardProps> = ({
               href={`/posts/${postId}/versions/${version.id}/edit`}
               color="warning"
               variant="text"
-              iconLeft={IconEdit}
+              iconRight={IconEdit}
               className="grow"
             >
               Edit
@@ -102,7 +102,7 @@ const PostVersionCard: FC<PostVersionCardProps> = ({
             <Button
               color="success"
               variant="text"
-              iconLeft={IconCopy}
+              iconRight={IconCopy}
               onClick={handleDuplicate}
               className="grow"
             >
@@ -114,9 +114,8 @@ const PostVersionCard: FC<PostVersionCardProps> = ({
         <Button
           href={`/posts/${postId}/versions/${version.id}`}
           color="primary"
-          variant="text"
           className="grow"
-          iconLeft={IconEye}
+          iconRight={IconEye}
         >
           View
         </Button>
