@@ -13,15 +13,20 @@ const AuthGuardLayout: FC = () => {
 
   useEffect(() => {
     const initAuth = async () => {
-      const refreshResponse = await postRefresh();
+      const currentAuth = useAuthStore.getState();
+      
+      // Only refresh if we don't have an access token
+      if (!currentAuth.accessToken) {
+        const refreshResponse = await postRefresh();
 
-      if (!refreshResponse.success) {
-        clearAuth();
-        navigate("/auth/login", { replace: true });
-        return;
+        if (!refreshResponse.success) {
+          clearAuth();
+          navigate("/auth/login", { replace: true });
+          return;
+        }
+
+        setAuth(refreshResponse.data);
       }
-
-      setAuth(refreshResponse.data);
 
       const profileResponse = await getUserSelf();
       if (!profileResponse.success) {
