@@ -94,7 +94,7 @@ const PostCard: FC<PostCard> = ({
         {category.name && (
           <Link
             to={`/categories/${category.id}`}
-            className="absolute bottom-1 left-1 flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-black/50 text-white backdrop-blur-md shadow-lg hover:bg-black/60 transition-colors duration-200"
+            className="absolute bottom-1 left-1 flex items-center gap-1.5 px-3 py-1.5 rounded-full rounded-bl-none text-xs font-medium bg-black/50 text-white backdrop-blur-md shadow-lg hover:bg-black/60 transition-colors duration-200"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="w-2 h-2 bg-white rounded-full" />
