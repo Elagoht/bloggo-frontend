@@ -1,6 +1,11 @@
+import {
+  IconClock,
+  IconEye,
+  IconFileText,
+  IconUser,
+} from "@tabler/icons-react";
+import { FC } from "react";
 import { Link } from "react-router-dom";
-import { IconFileText, IconEye, IconClock, IconUser } from "@tabler/icons-react";
-import React from "react";
 
 const getStatusColor = (status: number) => {
   switch (status) {
@@ -23,18 +28,24 @@ const getStatusColor = (status: number) => {
 
 const getStatusText = (status: number) => {
   switch (status) {
-    case 0: return "Draft";
-    case 1: return "Pending";
-    case 2: return "Approved";
-    case 3: return "Rejected";
-    case 4: return "Scheduled";
-    case 5: return "Published";
-    default: return "Unknown";
+    case 0:
+      return "Draft";
+    case 1:
+      return "Pending";
+    case 2:
+      return "Approved";
+    case 3:
+      return "Rejected";
+    case 4:
+      return "Scheduled";
+    case 5:
+      return "Published";
+    default:
+      return "Unknown";
   }
 };
 
 const BlogCard: FC<PostCard> = ({
-  postId,
   author,
   title,
   slug,
@@ -42,9 +53,8 @@ const BlogCard: FC<PostCard> = ({
   spot,
   status,
   readCount,
-  createdAt,
   updatedAt,
-  category
+  category,
 }) => {
   return (
     <Link
@@ -54,7 +64,7 @@ const BlogCard: FC<PostCard> = ({
       {coverImage && (
         <div className="aspect-video w-full bg-smoke-100 dark:bg-smoke-900 rounded-lg overflow-hidden -mx-1 -mt-1 mb-1">
           <img
-            src={coverImage}
+            src={import.meta.env.VITE_API_URL + coverImage}
             alt={title || "Blog post cover"}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
           />
@@ -71,7 +81,11 @@ const BlogCard: FC<PostCard> = ({
           </h3>
         </div>
 
-        <div className={`flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(status)}`}>
+        <div
+          className={`flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(
+            status
+          )}`}
+        >
           <span>{getStatusText(status)}</span>
         </div>
       </div>
@@ -88,7 +102,7 @@ const BlogCard: FC<PostCard> = ({
             <IconUser size={12} />
             <span>{author.name}</span>
           </div>
-          
+
           {category.name && (
             <div className="flex items-center gap-1">
               <span className="w-2 h-2 bg-gopher-400 rounded-full"></span>
@@ -102,7 +116,7 @@ const BlogCard: FC<PostCard> = ({
             <IconEye size={12} />
             <span>{readCount}</span>
           </div>
-          
+
           <div className="flex items-center gap-1">
             <IconClock size={12} />
             <span>{new Date(updatedAt).toLocaleDateString()}</span>

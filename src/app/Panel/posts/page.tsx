@@ -31,7 +31,9 @@ const PostsPage: FC = () => {
       status: searchParams.get("status")
         ? parseInt(searchParams.get("status")!)
         : undefined,
-      categoryId: searchParams.get("categoryId") ? parseInt(searchParams.get("categoryId")!) : undefined,
+      categoryId: searchParams.get("categoryId")
+        ? parseInt(searchParams.get("categoryId")!)
+        : undefined,
       authorId: searchParams.get("authorId")
         ? parseInt(searchParams.get("authorId")!)
         : undefined,

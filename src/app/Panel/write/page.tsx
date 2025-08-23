@@ -10,6 +10,7 @@ import {
   IconTextCaption,
 } from "@tabler/icons-react";
 import { FC, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Button from "../../../components/form/Button";
 import Form from "../../../components/form/Form";
 import Input from "../../../components/form/Input";
@@ -25,8 +26,10 @@ import { getCategoriesList } from "../../../services/categories";
 import { createPost } from "../../../services/posts";
 
 const WritePage: FC = () => {
+  const navigate = useNavigate();
   const [categories, setCategories] = useState<CategoryListItem[]>([]);
   const [coverPreview, setCoverPreview] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     getCategoriesList().then((response) => {
@@ -36,7 +39,10 @@ const WritePage: FC = () => {
   }, []);
 
   const handleFormSubmit = async (data: FormData) => {
+    if (isSubmitting) return;
+
     try {
+      setIsSubmitting(true);
       const form = new FormData();
 
       const title = data.get("title");
@@ -48,7 +54,7 @@ const WritePage: FC = () => {
 
       if (title) form.append("title", title);
       if (content) form.append("content", content);
-      if (cover) form.append("cover", cover);
+      if (cover && (cover as File).size > 0) form.append("cover", cover);
       if (description) form.append("description", description);
       if (spot) form.append("spot", spot);
       if (categoryId) form.append("categoryId", categoryId);
@@ -56,12 +62,15 @@ const WritePage: FC = () => {
       const response = await createPost(form);
 
       if (response.success) {
-        console.log("Post created:", response.data);
+        navigate("/posts", { replace: true });
       } else {
         throw new Error(response.error.message);
       }
     } catch (error) {
       console.error("Failed to create post:", error);
+      alert("Failed to create post: " + (error as Error).message);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -83,7 +92,7 @@ const WritePage: FC = () => {
 
             <Input
               type="file"
-              name="avatar"
+              name="cover"
               accept="image/*"
               iconLeft={IconPhoto}
               onChange={async (event) => {
@@ -138,7 +147,7 @@ const WritePage: FC = () => {
               icon={IconTag}
               placeholder="Select a category"
               options={categories.map((category) => ({
-                value: category.id,
+                value: category.id.toString(),
                 label: category.name,
               }))}
             />
@@ -147,8 +156,13 @@ const WritePage: FC = () => {
               <img className="aspect-video object-fill" src={coverPreview} />
             )}
 
-            <Button type="submit" color="success" iconRight={IconDeviceFloppy}>
-              Create Draft
+            <Button
+              type="submit"
+              color="success"
+              iconRight={IconDeviceFloppy}
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? "Creating..." : "Create Draft"}
             </Button>
           </Sidebar>
         </ContentWithSidebar>
