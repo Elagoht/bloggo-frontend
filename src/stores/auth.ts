@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
 import ApiCall from "../utilities/apiCaller";
+import { useProfileStore } from "./profile";
 
 interface AuthState {
   accessToken: string | null;
@@ -45,6 +46,8 @@ export const useAuthStore = create<AuthStore>()(
             role: null,
             permissions: [],
           });
+          // Clear profile store when logging out
+          useProfileStore.getState().setProfile(null);
         },
 
         setToken: (token: string) => {
