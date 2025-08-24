@@ -30,7 +30,6 @@ const PostVersionCard: FC<PostVersionCardProps> = ({
   const isDraft = version.status === 0;
   const canEdit = isDraft && profile?.id === version.versionAuthor.id;
 
-
   const data = [
     {
       icon: (
@@ -132,7 +131,7 @@ const PostVersionCard: FC<PostVersionCardProps> = ({
         })}
       </div>
 
-      <div className="flex items-center justify-between gap-3 pt-3 border-t border-smoke-100 dark:border-smoke-800">
+      <div className="flex items-center justify-between gap-3 pt-3 border-t mt-auto border-smoke-100 dark:border-smoke-800">
         {canEdit ? (
           <Button
             href={`/posts/${postId}/versions/${version.id}/edit`}
