@@ -63,10 +63,6 @@ const App = () => {
                   path=":postId/versions/:versionId/duplicate"
                   element={<DuplicateVersionPage />}
                 />
-                <Route
-                  path=":postId/versions/:versionId/edit"
-                  element={<EditVersionPage />}
-                />
               </Route>
 
               <Route path="profile">
@@ -83,7 +79,7 @@ const App = () => {
                 <Route path="details/:slug" element={<EditCategoryPage />} />
               </Route>
 
-              <Route path=" users">
+              <Route path="users">
                 <Route index element={<UsersPage />} />
 
                 <Route path="create" element={<CreateUserPage />} />
