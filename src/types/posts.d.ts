@@ -79,6 +79,12 @@ type PostVersionCard = {
   title?: string;
   status: number;
   updatedAt: string;
+  coverImage?: string;
+  category?: {
+    id?: number;
+    name?: string;
+    slug?: string;
+  };
 };
 
 type ResponsePostVersions = {
