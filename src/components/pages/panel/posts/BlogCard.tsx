@@ -60,7 +60,7 @@ const PostCard: FC<PostCard> = ({
   return (
     <Link
       to={`/posts/details/${postId}`}
-      className="group relative flex flex-col bg-smoke-0 dark:bg-smoke-950 rounded-2xl border border-smoke-200 dark:border-smoke-800 overflow-hidden hover:border-gopher-300 dark:hover:border-gopher-700 hover:shadow-xl hover:shadow-gopher-500/10 dark:hover:shadow-gopher-400/10 transition-all duration-300 hover:-translate-y-1"
+      className="group relative flex flex-col bg-smoke-0 dark:bg-smoke-950 rounded-2xl border border-smoke-200 dark:border-smoke-800 overflow-hidden hover:border-gopher-300 dark:hover:border-gopher-700 transition-all duration-300"
     >
       <div className="absolute inset-1 bg-gradien1-to-br from-gopher-50/50 to-transparent dark:from-gopher-950/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
