@@ -1,6 +1,6 @@
+import { IconFileText, IconTag } from "@tabler/icons-react";
+import { FC } from "react";
 import { Link } from "react-router-dom";
-import { IconTag, IconFileText } from "@tabler/icons-react";
-import React from "react";
 
 const TagCard: FC<TagCard> = ({ name, slug, blogCount }) => {
   return (

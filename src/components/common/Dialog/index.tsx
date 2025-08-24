@@ -62,14 +62,14 @@ const Dialog: FC<DialogProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      <div 
+      <div
         className={classNames(
           "fixed inset-0 bg-black backdrop-blur-sm transition-opacity duration-200",
           isAnimating ? "bg-opacity-80" : "bg-opacity-0"
         )}
         onClick={onClose}
       />
-      <div 
+      <div
         className={classNames(
           "relative rounded-lg shadow-xl w-full transition-all duration-200 transform",
           {
@@ -77,40 +77,40 @@ const Dialog: FC<DialogProps> = ({
             "max-w-md": size === "md",
             "max-w-lg": size === "lg",
           },
-          isAnimating 
-            ? "scale-100 translate-y-0 opacity-100" 
+          isAnimating
+            ? "scale-100 translate-y-0 opacity-100"
             : "scale-95 translate-y-4 opacity-0"
         )}
       >
         <div className="rounded-lg overflow-hidden border bg-white dark:bg-smoke-950 border-smoke-200 dark:border-smoke-800">
-        {/* Header */}
-        <div className="p-2 border-b flex items-center justify-between border-smoke-200 dark:border-smoke-800">
-          <h2 className="text-lg font-semibold text-smoke-900 dark:text-smoke-50">
-            {title}
-          </h2>
+          {/* Header */}
+          <div className="p-2 border-b flex items-center justify-between border-smoke-200 dark:border-smoke-800">
+            <h2 className="text-lg font-semibold text-smoke-900 dark:text-smoke-50">
+              {title}
+            </h2>
 
-          <Button
-            onClick={onClose}
-            variant="text"
-            color="danger"
-            className="!rounded-full !p-2"
-            iconLeft={IconX}
-          />
-        </div>
-
-        {/* Content */}
-        <div className="p-2 font-light leading-snug text-smoke-700 dark:text-smoke-300">
-          {children}
-        </div>
-
-        {/* Actions */}
-        {actions && (
-          <div className="p-2 border-t flex gap-3 justify-end border-smoke-200 dark:border-smoke-800">
-            {actions.map((action) => (
-              <Button {...action} />
-            ))}
+            <Button
+              onClick={onClose}
+              variant="text"
+              color="danger"
+              className="!rounded-full !p-2"
+              iconLeft={IconX}
+            />
           </div>
-        )}
+
+          {/* Content */}
+          <div className="p-2 font-light leading-snug text-smoke-700 dark:text-smoke-300">
+            {children}
+          </div>
+
+          {/* Actions */}
+          {actions && (
+            <div className="p-2 border-t flex gap-3 justify-end border-smoke-200 dark:border-smoke-800">
+              {actions.map((action) => (
+                <Button {...action} />
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>

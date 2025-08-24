@@ -11,6 +11,7 @@ import { FC } from "react";
 import { createVersionFromLatest } from "../../../../services/posts";
 import Button from "../../../form/Button";
 import PermissionGuard from "../../../Guards/PermissionGuard";
+import { Link } from "react-router-dom";
 
 interface PostVersionCardProps {
   version: PostVersionCard;
@@ -41,8 +42,16 @@ const PostVersionCard: FC<PostVersionCardProps> = ({
 
   const data = [
     {
-      icon: <IconUser size={20} />,
+      icon: (
+        <img
+          width={20}
+          height={20}
+          className="rounded-full"
+          src={import.meta.env.VITE_API_URL + version.versionAuthor.avatar}
+        />
+      ),
       title: "Author",
+      href: `/users/details/${version.versionAuthor.id}`,
       value: version.versionAuthor.name,
     },
     {
@@ -99,20 +108,37 @@ const PostVersionCard: FC<PostVersionCardProps> = ({
       </div>
 
       <div className="grid grid-cols-2 gap-2">
-        {data.map((datum, index) => (
-          <div
-            key={index}
-            className="flex items-center py-2 px-3 gap-2 rounded-lg text-sm bg-smoke-100 dark:bg-smoke-800 text-smoke-600 dark:text-smoke-400"
-          >
-            {datum.icon}
+        {data.map((datum, index) => {
+          const content = (
+            <div
+              key={index}
+              className={classNames(
+                "flex items-center py-2 px-3 gap-2 rounded-lg text-sm transition-colors duration-200",
+                {
+                  "bg-smoke-100 dark:bg-smoke-800 text-smoke-600 dark:text-smoke-400":
+                    !datum.href,
+                  "bg-gopher-100 dark:bg-gopher-800 text-gopher-600 dark:text-gopher-400 hover:bg-gopher-200 dark:hover:bg-gopher-700":
+                    datum.href,
+                }
+              )}
+            >
+              {datum.icon}
 
-            <div>
-              <div className="text-xs opacity-75">{datum.title}</div>
+              <div>
+                <div className="text-xs opacity-75">{datum.title}</div>
 
-              <div className="font-medium">{datum.value}</div>
+                <div className="font-medium">{datum.value}</div>
+              </div>
             </div>
-          </div>
-        ))}
+          );
+          if (datum.href)
+            return (
+              <Link key={index} to={datum.href}>
+                {content}
+              </Link>
+            );
+          return content;
+        })}
       </div>
 
       <div className="flex items-center justify-between gap-3 pt-3 border-t border-smoke-100 dark:border-smoke-800">

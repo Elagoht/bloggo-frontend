@@ -1,16 +1,14 @@
-import React, { FC } from "react";
 import {
-  IconCategory,
-  IconTag,
   IconArticle,
+  IconCategory,
+  IconFileDescription,
   IconInfoCircle,
   IconTextCaption,
-  IconTextDecrease,
-  IconFileDescription,
 } from "@tabler/icons-react";
+import classNames from "classnames";
+import { FC } from "react";
 import FormCard from "../../layout/Container/FormCard";
 import SectionHeader from "../../layout/SectionHeader";
-import classNames from "classnames";
 
 type CategoryViewCardProps = {
   category: ResponseCategory;

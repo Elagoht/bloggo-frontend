@@ -1,5 +1,5 @@
 import { IconHome, IconSearch } from "@tabler/icons-react";
-import React from "react";
+import { FC } from "react";
 import Button from "../../../components/form/Button";
 import H1 from "../../../components/typography/H1";
 

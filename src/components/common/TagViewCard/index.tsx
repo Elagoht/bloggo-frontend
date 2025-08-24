@@ -1,10 +1,5 @@
-import React, { FC } from "react";
-import {
-  IconTag,
-  IconHash,
-  IconArticle,
-  IconInfoCircle,
-} from "@tabler/icons-react";
+import { IconArticle, IconInfoCircle, IconTag } from "@tabler/icons-react";
+import { FC } from "react";
 import FormCard from "../../layout/Container/FormCard";
 import SectionHeader from "../../layout/SectionHeader";
 

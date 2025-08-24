@@ -1,8 +1,8 @@
-import React from "react";
-import { asideMenu } from "./aside";
-import { Link, useLocation } from "react-router-dom";
 import classNames from "classnames";
+import { FC } from "react";
+import { Link, useLocation } from "react-router-dom";
 import PermissionGuard from "../../Guards/PermissionGuard";
+import { asideMenu } from "./aside";
 
 const Aside: FC = () => {
   const location = useLocation();

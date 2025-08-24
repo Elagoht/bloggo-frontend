@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import PostStatCounter from "./PostStatCounter";
 import PublishmentRate from "./PublishmentRate";
 
