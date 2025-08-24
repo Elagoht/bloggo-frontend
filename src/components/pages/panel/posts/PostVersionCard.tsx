@@ -153,15 +153,6 @@ const PostVersionCard: FC<PostVersionCardProps> = ({
             </Button>
           </PermissionGuard>
         )}
-
-        <Button
-          href={`/posts/${postId}/versions/${version.id}`}
-          color="primary"
-          iconRight={IconEye}
-          className="flex-1"
-        >
-          View
-        </Button>
       </div>
     </div>
   );
