@@ -1,7 +1,5 @@
 type Permission =
   | "post:create"
-  | "post:edit"
-  | "post:edit_own"
   | "post:delete"
   | "post:publish"
   | "post:view"

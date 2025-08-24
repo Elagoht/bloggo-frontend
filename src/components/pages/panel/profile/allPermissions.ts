@@ -1,7 +1,5 @@
 const permission = {
   "post:create": "Create a new post",
-  "post:edit": "Edit all posts including other authors' posts",
-  "post:edit_own": "Edit posts owned by itself",
   "post:delete": "Delete all posts including other authors' posts",
   "post:publish": "Publish a waiting blog",
   "post:view": "View posts from all authors",
