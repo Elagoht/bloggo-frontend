@@ -59,10 +59,11 @@ const App = () => {
 
                 <Route path="details/:slug" element={<PostDetailsPage />} />
 
-                <Route
-                  path=":postId/versions/:versionId/duplicate"
-                  element={<DuplicateVersionPage />}
-                />
+                <Route path=":postId/versions/:versionId">
+                  <Route path="duplicate" element={<DuplicateVersionPage />} />
+
+                  <Route path="edit" element={<EditVersionPage />} />
+                </Route>
               </Route>
 
               <Route path="profile">
