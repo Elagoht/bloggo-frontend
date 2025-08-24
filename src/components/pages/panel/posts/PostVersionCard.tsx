@@ -8,10 +8,11 @@ import {
 } from "@tabler/icons-react";
 import classNames from "classnames";
 import { FC } from "react";
+import { Link } from "react-router-dom";
 import { createVersionFromLatest } from "../../../../services/posts";
+import { useProfileStore } from "../../../../stores/profile";
 import Button from "../../../form/Button";
 import PermissionGuard from "../../../Guards/PermissionGuard";
-import { Link } from "react-router-dom";
 
 interface PostVersionCardProps {
   version: PostVersionCard;
@@ -26,8 +27,9 @@ const PostVersionCard: FC<PostVersionCardProps> = ({
   isPublished,
   onRefresh,
 }) => {
+  const { profile } = useProfileStore();
   const isDraft = version.status === 0;
-  const canEdit = isDraft;
+  const canEdit = isDraft && profile?.id === version.versionAuthor.id;
 
   const handleDuplicate = async () => {
     try {
@@ -143,16 +145,14 @@ const PostVersionCard: FC<PostVersionCardProps> = ({
 
       <div className="flex items-center justify-between gap-3 pt-3 border-t border-smoke-100 dark:border-smoke-800">
         {canEdit ? (
-          <PermissionGuard permission="post:edit">
-            <Button
-              href={`/posts/${postId}/versions/${version.id}/edit`}
-              color="warning"
-              iconRight={IconEdit}
-              className="flex-1"
-            >
-              Edit
-            </Button>
-          </PermissionGuard>
+          <Button
+            href={`/posts/${postId}/versions/${version.id}/edit`}
+            color="warning"
+            iconRight={IconEdit}
+            className="flex-1"
+          >
+            Edit
+          </Button>
         ) : (
           <PermissionGuard permission="post:create">
             <Button
