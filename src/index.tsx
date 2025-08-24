@@ -10,7 +10,6 @@ const Guard = lazy(() => import("./app/panel/guard"));
 const PanelLayout = lazy(() => import("./app/panel/Layout"));
 const DashboardPage = lazy(() => import("./app/panel/dashboard/page"));
 const WritePage = lazy(() => import("./app/panel/write/page"));
-const EditVersionPage = lazy(() => import("./app/panel/write/[versionId]/page"));
 const PostsPage = lazy(() => import("./app/panel/posts/page"));
 const PostDetailsPage = lazy(
   () => import("./app/panel/posts/details/[slug]/page")
@@ -56,10 +55,11 @@ const App = () => {
                 <Route index element={<PostsPage />} />
 
                 <Route path="details/:slug" element={<PostDetailsPage />} />
-                
-                <Route path=":postId/versions/:versionId/edit" element={<EditVersionPage />} />
-                
-                <Route path=":postId/versions/:versionId/duplicate" element={<DuplicateVersionPage />} />
+
+                <Route
+                  path=":postId/versions/:versionId/duplicate"
+                  element={<DuplicateVersionPage />}
+                />
               </Route>
 
               <Route path="profile">
