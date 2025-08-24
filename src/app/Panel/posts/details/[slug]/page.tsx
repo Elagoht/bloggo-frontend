@@ -109,14 +109,6 @@ const PostDetailsPage: FC = () => {
           <PageTitleWithIcon icon={IconFileText}>
             Post Details
           </PageTitleWithIcon>
-
-          <div className="flex items-center gap-3">
-            <PermissionGuard permission="post:create">
-              <Button href="/write" color="success" iconRight={IconEdit}>
-                New Version
-              </Button>
-            </PermissionGuard>
-          </div>
         </div>
 
         <PostDetails {...post} />

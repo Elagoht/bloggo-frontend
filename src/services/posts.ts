@@ -63,6 +63,9 @@ export const getPostVersion = (postId: number, versionId: string) =>
 export const createVersionFromLatest = (postId: number) =>
   ApiCall.post<ResponsePostCreated>(`/posts/${postId}/versions`);
 
+export const createVersionFromSpecificVersion = (versionId: number) =>
+  ApiCall.post<ResponsePostCreated>(`/posts/versions/${versionId}/duplicate`);
+
 export const updatePostVersion = (
   postId: number,
   versionId: string,

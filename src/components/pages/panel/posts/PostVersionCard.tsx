@@ -9,7 +9,6 @@ import {
 import classNames from "classnames";
 import { FC } from "react";
 import { Link } from "react-router-dom";
-import { createVersionFromLatest } from "../../../../services/posts";
 import { useProfileStore } from "../../../../stores/profile";
 import Button from "../../../form/Button";
 import PermissionGuard from "../../../Guards/PermissionGuard";
@@ -31,16 +30,6 @@ const PostVersionCard: FC<PostVersionCardProps> = ({
   const isDraft = version.status === 0;
   const canEdit = isDraft && profile?.id === version.versionAuthor.id;
 
-  const handleDuplicate = async () => {
-    try {
-      const result = await createVersionFromLatest(postId);
-      if (result.success) {
-        onRefresh();
-      }
-    } catch (error) {
-      console.error("Failed to duplicate version:", error);
-    }
-  };
 
   const data = [
     {
@@ -156,9 +145,9 @@ const PostVersionCard: FC<PostVersionCardProps> = ({
         ) : (
           <PermissionGuard permission="post:create">
             <Button
+              href={`/posts/${postId}/versions/${version.id}/duplicate`}
               color="success"
               iconRight={IconCopy}
-              onClick={handleDuplicate}
               className="flex-1"
             >
               Duplicate

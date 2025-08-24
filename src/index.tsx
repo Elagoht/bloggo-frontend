@@ -15,6 +15,9 @@ const PostsPage = lazy(() => import("./app/panel/posts/page"));
 const PostDetailsPage = lazy(
   () => import("./app/panel/posts/details/[slug]/page")
 );
+const DuplicateVersionPage = lazy(
+  () => import("./app/panel/posts/[postId]/versions/[versionId]/duplicate/page")
+);
 const ProfilePage = lazy(() => import("./app/panel/profile/page"));
 const AvatarPage = lazy(() => import("./app/panel/profile/avatar/page"));
 const CategoriesPage = lazy(() => import("./app/panel/categories/page"));
@@ -55,6 +58,8 @@ const App = () => {
                 <Route path="details/:slug" element={<PostDetailsPage />} />
                 
                 <Route path=":postId/versions/:versionId/edit" element={<EditVersionPage />} />
+                
+                <Route path=":postId/versions/:versionId/duplicate" element={<DuplicateVersionPage />} />
               </Route>
 
               <Route path="profile">
