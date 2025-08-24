@@ -30,7 +30,7 @@ const VersionDeleteForm: FC<VersionDeleteFormProps> = ({
     }
 
     if (versionSlug) {
-      navigate(`/posts/details/${versionSlug}`);
+      navigate(`/posts/details/${postId}`);
     } else {
       navigate("/posts");
     }
