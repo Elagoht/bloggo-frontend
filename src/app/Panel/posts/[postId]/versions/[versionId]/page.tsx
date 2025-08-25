@@ -1,7 +1,10 @@
 import {
   IconCalendar,
   IconClock,
+  IconDetails,
   IconEye,
+  IconInfoCircle,
+  IconNote,
   IconTag,
   IconUser,
   IconVersions,
@@ -112,7 +115,7 @@ const ViewVersionPage: FC = () => {
         </Container>
 
         <Sidebar topMargin>
-          <SectionHeader>Version Details</SectionHeader>
+          <SectionHeader icon={IconInfoCircle}>Version Details</SectionHeader>
 
           {/* Status */}
           <DetailsItem icon={IconVersions} title="Status">
