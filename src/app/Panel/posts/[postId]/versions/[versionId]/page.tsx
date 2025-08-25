@@ -139,7 +139,7 @@ const ViewVersionPage: FC = () => {
           )}
 
           {/* Content */}
-          <div className="prose prose-lg dark:prose-invert max-w-none">
+          <div className="prose prose-lg dark:prose-invert">
             <div
               dangerouslySetInnerHTML={{
                 __html: marked(version.content || ""),
