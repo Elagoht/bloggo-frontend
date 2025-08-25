@@ -83,12 +83,6 @@ const PostVersionCard: FC<PostVersionCardProps> = ({
         <h3 className="font-semibold text-smoke-900 dark:text-smoke-100 line-clamp-1 flex-1">
           {version.title}
         </h3>
-
-        {isPublished && (
-          <span className="text-sm text-green-600 dark:text-green-400 font-medium bg-green-100 dark:bg-green-900 px-2 py-1 rounded-full flex-shrink-0">
-            Current
-          </span>
-        )}
       </div>
 
       {version.coverImage && (
