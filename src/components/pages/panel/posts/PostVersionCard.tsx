@@ -1,4 +1,10 @@
-import { IconCopy, IconEdit, IconEye, IconTag, IconVersions } from "@tabler/icons-react";
+import {
+  IconCopy,
+  IconEdit,
+  IconEye,
+  IconTag,
+  IconVersions,
+} from "@tabler/icons-react";
 import classNames from "classnames";
 import { FC } from "react";
 import { Link } from "react-router-dom";
@@ -161,7 +167,7 @@ const PostVersionCard: FC<PostVersionCardProps> = ({
             View
           </Button>
         </PermissionGuard>
-        
+
         {canEdit ? (
           <Button
             href={`/posts/${postId}/versions/${version.id}/edit`}
