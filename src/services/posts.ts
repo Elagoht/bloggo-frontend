@@ -58,7 +58,7 @@ export const changePostStatus = (
   });
 
 export const getPostVersion = (postId: number, versionId: string) =>
-  ApiCall.get<PostDetails>(`/posts/${postId}/versions/${versionId}`);
+  ApiCall.get<PostVersionDetails>(`/posts/${postId}/versions/${versionId}`);
 
 export const createVersionFromLatest = (postId: number) =>
   ApiCall.post<ResponsePostCreated>(`/posts/${postId}/versions`);

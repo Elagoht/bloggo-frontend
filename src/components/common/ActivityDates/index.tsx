@@ -1,9 +1,5 @@
-import React from "react";
-import {
-  IconClock,
-  IconCalendar,
-  IconCalendarClock,
-} from "@tabler/icons-react";
+import { IconCalendarClock } from "@tabler/icons-react";
+import { FC } from "react";
 
 type ActivityDatesProps = {
   dates: Array<{

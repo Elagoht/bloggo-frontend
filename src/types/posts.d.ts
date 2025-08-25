@@ -32,7 +32,7 @@ type PostDetails = {
     name: string;
     avatar?: string;
   };
-  title?: string;
+  title: string;
   slug?: string;
   content?: string;
   coverImage?: string;
@@ -96,4 +96,31 @@ type ResponsePostVersions = {
     avatar?: string;
   };
   versions: PostVersionCard[];
+};
+
+type PostVersionDetails = {
+  versionId: number;
+  duplicatedFrom: null | number;
+  versionAuthor: {
+    id: number;
+    name: string;
+    avatar: string;
+  };
+  title: string;
+  slug: string;
+  content: string;
+  coverImage: string;
+  description: string;
+  spot: string;
+  status: number;
+  statusChangedAt: string | null;
+  statusChangedBy: string | null;
+  statusChangeNote: string | null;
+  createdAt: string;
+  updatedAt: string;
+  category: {
+    id: string;
+    name: string;
+    slug: string;
+  };
 };

@@ -27,6 +27,7 @@ import {
   getPostVersion,
   updatePostVersion,
 } from "../../../../../../../services/posts";
+import VersionDeleteForm from "../../../../../../../forms/VersionDeleteForm";
 
 const EditVersionPage: FC = () => {
   const navigate = useNavigate();
@@ -228,6 +229,15 @@ const EditVersionPage: FC = () => {
           >
             {isSubmitting ? "Updating..." : "Update Version"}
           </Button>
+
+          {version.status === 0 && postId && versionId && (
+            <VersionDeleteForm
+              postId={parseInt(postId)}
+              versionId={versionId}
+              versionTitle={version.title}
+              versionSlug={version.slug}
+            />
+          )}
         </Sidebar>
       </ContentWithSidebar>
     </Form>

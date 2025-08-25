@@ -17,6 +17,9 @@ const PostDetailsPage = lazy(
 const DuplicateVersionPage = lazy(
   () => import("./app/panel/posts/[postId]/versions/[versionId]/duplicate/page")
 );
+const ViewVersionPage = lazy(
+  () => import("./app/panel/posts/[postId]/versions/[versionId]/page")
+);
 const EditVersionPage = lazy(
   () => import("./app/panel/posts/[postId]/versions/[versionId]/edit/page")
 );
@@ -60,6 +63,8 @@ const App = () => {
                 <Route path="details/:slug" element={<PostDetailsPage />} />
 
                 <Route path=":postId/versions/:versionId">
+                  <Route index element={<ViewVersionPage />} />
+
                   <Route path="duplicate" element={<DuplicateVersionPage />} />
 
                   <Route path="edit" element={<EditVersionPage />} />

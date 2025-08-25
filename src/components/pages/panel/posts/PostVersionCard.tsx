@@ -1,4 +1,4 @@
-import { IconCopy, IconEdit, IconTag, IconVersions } from "@tabler/icons-react";
+import { IconCopy, IconEdit, IconEye, IconTag, IconVersions } from "@tabler/icons-react";
 import classNames from "classnames";
 import { FC } from "react";
 import { Link } from "react-router-dom";
@@ -150,7 +150,18 @@ const PostVersionCard: FC<PostVersionCardProps> = ({
         })}
       </div>
 
-      <div className="flex items-center justify-between gap-2 pt-2 border-t mt-auto border-smoke-100 dark:border-smoke-800">
+      <div className="flex items-center gap-2 pt-2 border-t mt-auto border-smoke-100 dark:border-smoke-800">
+        <PermissionGuard permission="post:view">
+          <Button
+            href={`/posts/${postId}/versions/${version.id}`}
+            color="primary"
+            iconRight={IconEye}
+            className="flex-1"
+          >
+            View
+          </Button>
+        </PermissionGuard>
+        
         {canEdit ? (
           <Button
             href={`/posts/${postId}/versions/${version.id}/edit`}

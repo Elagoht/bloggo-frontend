@@ -11,7 +11,7 @@ import PageTitleWithIcon from "../../../components/layout/Container/PageTitle";
 import Pagination from "../../../components/layout/Container/Pagination";
 import Sidebar from "../../../components/layout/Container/Sidebar";
 import SectionHeader from "../../../components/layout/SectionHeader";
-import PostCard from "../../../components/pages/panel/posts/BlogCard";
+import PostCard from "../../../components/pages/panel/posts/PostCard";
 import NoPostsYet from "../../../components/pages/panel/posts/NoPostsYet";
 import PostFiltersForm from "../../../forms/PostFiltersForm";
 import { getPosts } from "../../../services/posts";
