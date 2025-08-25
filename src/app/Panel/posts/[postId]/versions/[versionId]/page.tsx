@@ -23,6 +23,7 @@ import { getPostVersion } from "../../../../../../services/posts";
 import VersionDeleteForm from "../../../../../../forms/VersionDeleteForm";
 import ActivityDates from "../../../../../../components/common/ActivityDates";
 import DetailsItem from "../../../../../../components/common/DetailsItem";
+import ReviewNote from "../../../../../../components/common/ReviewNote";
 import VersionActionsForm from "../../../../../../forms/VersionActionsForm";
 import { PostStatus } from "../../../../../../utilities/PostStatusUtils";
 
@@ -151,6 +152,14 @@ const ViewVersionPage: FC = () => {
               </Link>
             </DetailsItem>
           )}
+
+          {/* Review Note */}
+          <ReviewNote
+            status={version.status}
+            note={version.statusChangeNote}
+            changedBy={version.statusChangedBy}
+            changedAt={version.statusChangedAt}
+          />
 
           {/* Timestamps */}
           <ActivityDates

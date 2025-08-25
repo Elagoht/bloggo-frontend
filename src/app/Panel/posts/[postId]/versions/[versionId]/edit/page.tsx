@@ -28,6 +28,7 @@ import {
   updatePostVersion,
 } from "../../../../../../../services/posts";
 import VersionDeleteForm from "../../../../../../../forms/VersionDeleteForm";
+import VersionActionsForm from "../../../../../../../forms/VersionActionsForm";
 
 const EditVersionPage: FC = () => {
   const navigate = useNavigate();
@@ -41,6 +42,22 @@ const EditVersionPage: FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [version, setVersion] = useState<PostDetails | null>(null);
 
+  const loadVersion = async () => {
+    if (postId && versionId) {
+      const versionResponse = await getPostVersion(
+        parseInt(postId),
+        versionId
+      );
+      if (versionResponse.success) {
+        setVersion(versionResponse.data);
+        // Set cover preview if exists
+        if (versionResponse.data.coverImage) {
+          setCoverPreview(versionResponse.data.coverImage);
+        }
+      }
+    }
+  };
+
   useEffect(() => {
     const loadData = async () => {
       try {
@@ -53,19 +70,7 @@ const EditVersionPage: FC = () => {
         }
 
         // Load version data
-        if (postId && versionId) {
-          const versionResponse = await getPostVersion(
-            parseInt(postId),
-            versionId
-          );
-          if (versionResponse.success) {
-            setVersion(versionResponse.data);
-            // Set cover preview if exists
-            if (versionResponse.data.coverImage) {
-              setCoverPreview(versionResponse.data.coverImage);
-            }
-          }
-        }
+        await loadVersion();
       } catch (error) {
         console.error("Failed to load data:", error);
         alert("Failed to load version data");
@@ -229,6 +234,24 @@ const EditVersionPage: FC = () => {
           >
             {isSubmitting ? "Updating..." : "Update Version"}
           </Button>
+
+          {/* Version Actions */}
+          {postId && versionId && (
+            <>
+              <SectionHeader>Version Actions</SectionHeader>
+              <VersionActionsForm
+                postId={parseInt(postId)}
+                versionId={versionId}
+                currentStatus={version.status}
+                versionTitle={version.title}
+                versionAuthor={{
+                  id: version.versionAuthor?.id || 0,
+                  name: version.versionAuthor?.name || "Unknown",
+                }}
+                onSuccess={loadVersion}
+              />
+            </>
+          )}
 
           {version.status === 0 && postId && versionId && (
             <VersionDeleteForm
