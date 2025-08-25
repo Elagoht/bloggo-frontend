@@ -20,6 +20,7 @@ import { getPostVersion } from "../../../../../../services/posts";
 import VersionDeleteForm from "../../../../../../forms/VersionDeleteForm";
 import ActivityDates from "../../../../../../components/common/ActivityDates";
 import DetailsItem from "../../../../../../components/common/DetailsItem";
+import { PostStatus } from "../../../../../../utilities/PostStatusUtils";
 
 const ViewVersionPage: FC = () => {
   const { postId, versionId } = useParams<{
@@ -73,44 +74,6 @@ const ViewVersionPage: FC = () => {
     );
   }
 
-  const getStatusColor = (status: number) => {
-    switch (status) {
-      case 0:
-        return "text-smoke-600 dark:text-smoke-400";
-      case 1:
-        return "text-yellow-600 dark:text-yellow-400";
-      case 2:
-        return "text-blue-600 dark:text-blue-400";
-      case 3:
-        return "text-red-600 dark:text-red-400";
-      case 4:
-        return "text-purple-600 dark:text-purple-400";
-      case 5:
-        return "text-green-600 dark:text-green-400";
-      default:
-        return "text-smoke-600 dark:text-smoke-400";
-    }
-  };
-
-  const getStatusText = (status: number) => {
-    switch (status) {
-      case 0:
-        return "Draft";
-      case 1:
-        return "Pending Review";
-      case 2:
-        return "Approved";
-      case 3:
-        return "Rejected";
-      case 4:
-        return "Scheduled";
-      case 5:
-        return "Published";
-      default:
-        return "Unknown";
-    }
-  };
-
   return (
     <RouteGuard permission="post:view">
       <ContentWithSidebar>
@@ -153,8 +116,13 @@ const ViewVersionPage: FC = () => {
 
           {/* Status */}
           <DetailsItem icon={IconVersions} title="Status">
-            <span className={`text-xs ${getStatusColor(version.status)}`}>
-              {getStatusText(version.status)}
+            <span
+              className={`text-xs ${PostStatus.getStatusColor(
+                version.status,
+                "text"
+              )}`}
+            >
+              {PostStatus.getStatusText(version.status)}
             </span>
           </DetailsItem>
 

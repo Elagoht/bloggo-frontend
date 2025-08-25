@@ -7,44 +7,8 @@ import {
 } from "@tabler/icons-react";
 import { FC } from "react";
 import { Link } from "react-router-dom";
-
-const getStatusColor = (status: number) => {
-  switch (status) {
-    case 0: // DRAFT
-      return "bg-smoke-100 dark:bg-smoke-900 text-smoke-600 dark:text-smoke-400 border-smoke-200 dark:border-smoke-700";
-    case 1: // PENDING
-      return "bg-yellow-100 dark:bg-yellow-900 text-yellow-600 dark:text-yellow-400 border-yellow-200 dark:border-yellow-700";
-    case 2: // APPROVED
-      return "bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400 border-blue-200 dark:border-blue-700";
-    case 3: // REJECTED
-      return "bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-400 border-red-200 dark:border-red-700";
-    case 4: // SCHEDULED
-      return "bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-400 border-purple-200 dark:border-purple-700";
-    case 5: // PUBLISHED
-      return "bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-400 border-green-200 dark:border-green-700";
-    default:
-      return "bg-smoke-100 dark:bg-smoke-900 text-smoke-600 dark:text-smoke-400 border-smoke-200 dark:border-smoke-700";
-  }
-};
-
-const getStatusText = (status: number) => {
-  switch (status) {
-    case 0:
-      return "Draft";
-    case 1:
-      return "Pending";
-    case 2:
-      return "Approved";
-    case 3:
-      return "Rejected";
-    case 4:
-      return "Scheduled";
-    case 5:
-      return "Published";
-    default:
-      return "Unknown";
-  }
-};
+import { PostStatus } from "../../../../utilities/PostStatusUtils";
+import classNames from "classnames";
 
 const PostCard: FC<PostCard> = ({
   postId,
@@ -78,11 +42,12 @@ const PostCard: FC<PostCard> = ({
 
         {/* Status Badge - Top Left */}
         <div
-          className={`absolute top-1 left-1 flex items-center gap-1 p-1.5 rounded-full text-xs font-semibold backdrop-blur-md shadow-lg ${getStatusColor(
-            status
-          )}`}
+          className={classNames(
+            "absolute top-1 left-1 flex items-center gap-1 p-1.5 rounded-full text-xs font-semibold backdrop-blur-md shadow-lg",
+            PostStatus.getStatusColor(status, "badge")
+          )}
         >
-          <span>{getStatusText(status)}</span>
+          <span>{PostStatus.getStatusText(status)}</span>
         </div>
 
         {/* View Count - Top Right */}
@@ -140,6 +105,7 @@ const PostCard: FC<PostCard> = ({
 
           <div className="flex items-center gap-1.5 text-xs text-smoke-500 dark:text-smoke-500">
             <IconClock size={16} className="text-gopher-500" />
+
             <time className="font-medium">
               {new Date(updatedAt).toLocaleDateString()}
             </time>

@@ -8,6 +8,7 @@ import {
 import classNames from "classnames";
 import { FC } from "react";
 import { Link } from "react-router-dom";
+import { PostStatus } from "../../../../utilities/PostStatusUtils";
 import { useProfileStore } from "../../../../stores/profile";
 import Button from "../../../form/Button";
 import PermissionGuard from "../../../Guards/PermissionGuard";
@@ -107,13 +108,13 @@ const PostVersionCard: FC<PostVersionCardProps> = ({
       <div
         className={classNames(
           "-mx-3 px-3 py-1 text-xs font-medium flex items-center justify-between",
-          getStatusColor(version.status)
+          PostStatus.getStatusColor(version.status, "background")
         )}
         style={{
           boxShadow: "0 -0.5rem 1rem #0002",
         }}
       >
-        <span>{getStatusText(version.status)}</span>
+        <span>{PostStatus.getStatusText(version.status)}</span>
 
         <span className="opacity-75">
           {new Date(version.updatedAt).toLocaleDateString()}
@@ -195,41 +196,3 @@ const PostVersionCard: FC<PostVersionCardProps> = ({
 };
 
 export default PostVersionCard;
-
-const getStatusColor = (status: number) => {
-  switch (status) {
-    case 0: // DRAFT
-      return "bg-smoke-200 dark:bg-smoke-800 text-smoke-600 dark:text-smoke-400";
-    case 1: // PENDING
-      return "bg-yellow-200 dark:bg-yellow-800 text-yellow-600 dark:text-yellow-400";
-    case 2: // APPROVED
-      return "bg-blue-200 dark:bg-blue-800 text-blue-600 dark:text-blue-400";
-    case 3: // REJECTED
-      return "bg-red-200 dark:bg-red-800 text-red-600 dark:text-red-400";
-    case 4: // SCHEDULED
-      return "bg-purple-200 dark:bg-purple-800 text-purple-600 dark:text-purple-400";
-    case 5: // PUBLISHED
-      return "bg-green-200 dark:bg-green-800 text-green-600 dark:text-green-400";
-    default:
-      return "bg-smoke-200 dark:bg-smoke-800 text-smoke-600 dark:text-smoke-400";
-  }
-};
-
-const getStatusText = (status: number) => {
-  switch (status) {
-    case 0:
-      return "Draft";
-    case 1:
-      return "Pending";
-    case 2:
-      return "Approved";
-    case 3:
-      return "Rejected";
-    case 4:
-      return "Scheduled";
-    case 5:
-      return "Published";
-    default:
-      return "Unknown";
-  }
-};
