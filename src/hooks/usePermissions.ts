@@ -1,10 +1,6 @@
 import { useMemo } from "react";
 import { useAuthStore } from "../stores/auth";
-import {
-  Permission,
-  hasPermission,
-  hasAllPermissions,
-} from "../utilities/permissions";
+import { hasPermission, hasAllPermissions } from "../utilities/permissions";
 
 export function usePermissions() {
   const { permissions, role } = useAuthStore();

@@ -23,6 +23,7 @@ import { getPostVersion } from "../../../../../../services/posts";
 import VersionDeleteForm from "../../../../../../forms/VersionDeleteForm";
 import ActivityDates from "../../../../../../components/common/ActivityDates";
 import DetailsItem from "../../../../../../components/common/DetailsItem";
+import VersionActionsForm from "../../../../../../forms/VersionActionsForm";
 import { PostStatus } from "../../../../../../utilities/PostStatusUtils";
 
 const ViewVersionPage: FC = () => {
@@ -33,27 +34,27 @@ const ViewVersionPage: FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [version, setVersion] = useState<PostVersionDetails | null>(null);
 
-  useEffect(() => {
-    const loadVersion = async () => {
-      try {
-        setIsLoading(true);
+  const loadVersion = async () => {
+    try {
+      setIsLoading(true);
 
-        if (postId && versionId) {
-          const versionResponse = await getPostVersion(
-            parseInt(postId),
-            versionId
-          );
-          if (versionResponse.success) {
-            setVersion(versionResponse.data);
-          }
+      if (postId && versionId) {
+        const versionResponse = await getPostVersion(
+          parseInt(postId),
+          versionId
+        );
+        if (versionResponse.success) {
+          setVersion(versionResponse.data);
         }
-      } catch (error) {
-        console.error("Failed to load version:", error);
-      } finally {
-        setIsLoading(false);
       }
-    };
+    } catch (error) {
+      console.error("Failed to load version:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
+  useEffect(() => {
     loadVersion();
   }, [postId, versionId]);
 
@@ -158,6 +159,24 @@ const ViewVersionPage: FC = () => {
               { time: version.updatedAt, title: "Updated At" },
             ]}
           />
+
+          {/* Version Actions - Show if user can perform any action */}
+          {postId && versionId && (
+            <>
+              <SectionHeader>Version Actions</SectionHeader>
+              <VersionActionsForm
+                postId={parseInt(postId)}
+                versionId={versionId}
+                currentStatus={version.status}
+                versionTitle={version.title}
+                versionAuthor={{
+                  id: version.versionAuthor?.id || 0,
+                  name: version.versionAuthor?.name || "Unknown",
+                }}
+                onSuccess={loadVersion}
+              />
+            </>
+          )}
 
           {/* Delete Button for users with post:delete permission */}
           <PermissionGuard permission="post:delete">

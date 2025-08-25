@@ -78,3 +78,35 @@ export const updatePostVersion = (
 
 export const deletePostVersion = (postId: number, versionId: string) =>
   ApiCall.delete(`/posts/${postId}/versions/${versionId}`);
+
+export const submitVersionForReview = (postId: number, versionId: string) =>
+  ApiCall.post(`/posts/${postId}/versions/${versionId}/submit`);
+
+export const approveVersion = (
+  postId: number,
+  versionId: string,
+  note?: string
+) =>
+  ApiCall.post(`/posts/${postId}/versions/${versionId}/approve`, {
+    versionId: parseInt(versionId),
+    note: note || "",
+  });
+
+export const rejectVersion = (
+  postId: number,
+  versionId: string,
+  note?: string
+) =>
+  ApiCall.post(`/posts/${postId}/versions/${versionId}/reject`, {
+    versionId: parseInt(versionId),
+    note: note || "",
+  });
+
+export const publishVersion = (
+  postId: number,
+  versionId: string,
+  publishedAt?: string
+) =>
+  ApiCall.post(`/posts/${postId}/versions/${versionId}/publish`, {
+    publishedAt,
+  });
