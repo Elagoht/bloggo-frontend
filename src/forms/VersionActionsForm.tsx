@@ -92,12 +92,18 @@ const VersionActionsForm: FC<VersionActionsFormProps> = ({
   };
 
   const handleReject = async () => {
+    // Validate that rejection reason is provided
+    if (!note.trim()) {
+      toast.error("Rejection reason is required");
+      return;
+    }
+
     setIsLoading(true);
     try {
       const response = await rejectVersion(
         postId,
         versionId,
-        note || undefined
+        note
       );
       if (response.success) {
         toast.success("Version rejected");
@@ -268,20 +274,26 @@ const VersionActionsForm: FC<VersionActionsFormProps> = ({
       {/* Reject Dialog */}
       <Dialog
         isOpen={isRejectDialogOpen}
-        onClose={() => setIsRejectDialogOpen(false)}
+        onClose={() => {
+          setIsRejectDialogOpen(false);
+          setNote("");
+        }}
         title="Reject Version"
         size="lg"
         actions={[
           {
             children: "Cancel",
             variant: "outline",
-            onClick: () => setIsRejectDialogOpen(false),
+            onClick: () => {
+              setIsRejectDialogOpen(false);
+              setNote("");
+            },
           },
           {
             children: "Reject",
             color: "danger",
             onClick: handleReject,
-            disabled: isLoading,
+            disabled: isLoading || !note.trim(),
           },
         ]}
       >
@@ -289,6 +301,7 @@ const VersionActionsForm: FC<VersionActionsFormProps> = ({
           Reject the version "{versionTitle}"? The author will be able to edit
           and resubmit it.
         </p>
+
         <Textarea
           label="Rejection Reason"
           placeholder="Explain why this version is being rejected..."
