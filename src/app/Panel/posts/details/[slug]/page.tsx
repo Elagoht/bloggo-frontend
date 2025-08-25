@@ -129,7 +129,6 @@ const PostDetailsPage: FC = () => {
               version={version}
               postId={post.postId}
               isPublished={version.status === 5}
-              onRefresh={fetchPostDetails}
             />
           ))}
         </CardGrid>
