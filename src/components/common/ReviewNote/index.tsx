@@ -1,10 +1,16 @@
 import { IconCheck, IconInfoCircle, IconX } from "@tabler/icons-react";
+import classNames from "classnames";
 import { FC } from "react";
+import { Link } from "react-router-dom";
 
 interface ReviewNoteProps {
   status: number;
   note: string | null;
-  changedBy: string | null;
+  changedBy: {
+    id: number;
+    name: string;
+    avatar?: string;
+  } | null;
   changedAt: string | null;
 }
 
@@ -72,18 +78,30 @@ const ReviewNote: FC<ReviewNoteProps> = ({
 
   return (
     <div
-      className={`flex items-start gap-3 p-4 border rounded-lg ${colors.container}`}
+      className={`flex items-start gap-3 p-3 border rounded-lg ${colors.container}`}
     >
-      <span className={`flex-shrink-0 p-2 rounded-lg ${colors.icon}`}>
+      <span className={classNames("flex-shrink-0 p-1 rounded", colors.icon)}>
         <IconComponent size={16} />
       </span>
 
       <div className="flex-1">
-        <h4 className={`text-sm font-medium mb-1 ${colors.title}`}>{title}</h4>
-        <p className={`text-sm leading-relaxed mb-2 ${colors.text}`}>{note}</p>
+        <h4 className={classNames("text-sm font-medium mb-1", colors.title)}>
+          {title}
+        </h4>
+
+        <p className={classNames("text-sm leading-relaxed mb-2", colors.text)}>
+          {note}
+        </p>
         {changedBy && changedAt && (
           <p className={`text-xs opacity-75 ${colors.text}`}>
-            By {changedBy} on {formatDate(changedAt)}
+            By{" "}
+            <Link
+              to={`/users/details/${changedBy.id}`}
+              className="hover:underline"
+            >
+              {changedBy.name}
+            </Link>{" "}
+            on {formatDate(changedAt)}
           </p>
         )}
       </div>

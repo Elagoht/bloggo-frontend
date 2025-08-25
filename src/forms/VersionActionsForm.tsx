@@ -100,11 +100,7 @@ const VersionActionsForm: FC<VersionActionsFormProps> = ({
 
     setIsLoading(true);
     try {
-      const response = await rejectVersion(
-        postId,
-        versionId,
-        note
-      );
+      const response = await rejectVersion(postId, versionId, note);
       if (response.success) {
         toast.success("Version rejected");
         setIsRejectDialogOpen(false);

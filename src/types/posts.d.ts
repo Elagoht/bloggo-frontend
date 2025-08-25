@@ -114,12 +114,16 @@ type PostVersionDetails = {
   spot: string;
   status: number;
   statusChangedAt: string | null;
-  statusChangedBy: string | null;
+  statusChangedBy: {
+    id: number;
+    name: string;
+    avatar?: string;
+  } | null;
   statusChangeNote: string | null;
   createdAt: string;
   updatedAt: string;
   category: {
-    id: string;
+    id: number;
     name: string;
     slug: string;
   };

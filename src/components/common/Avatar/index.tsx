@@ -1,13 +1,13 @@
-import React from "react";
+import React, { FC } from "react";
 import { Link } from "react-router-dom";
 import { IconEdit } from "@tabler/icons-react";
 import Button from "../../form/Button";
 import AvatarImage from "./AvatarImage";
 
 type AvatarProps = Partial<
-  Pick<ResponseUser, "id" | "avatar" | "email" | "roleId" | "roleName">
+  Pick<UserDetails, "id" | "avatar" | "email" | "roleId" | "roleName">
 > &
-  Pick<ResponseUser, "name"> & {
+  Pick<UserDetails, "name"> & {
     editAt?: string;
   };
 

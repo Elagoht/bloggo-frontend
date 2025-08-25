@@ -40,14 +40,11 @@ const EditVersionPage: FC = () => {
   const [coverPreview, setCoverPreview] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [version, setVersion] = useState<PostDetails | null>(null);
+  const [version, setVersion] = useState<PostVersionDetails | null>(null);
 
   const loadVersion = async () => {
     if (postId && versionId) {
-      const versionResponse = await getPostVersion(
-        parseInt(postId),
-        versionId
-      );
+      const versionResponse = await getPostVersion(parseInt(postId), versionId);
       if (versionResponse.success) {
         setVersion(versionResponse.data);
         // Set cover preview if exists
