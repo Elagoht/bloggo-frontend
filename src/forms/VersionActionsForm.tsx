@@ -285,20 +285,18 @@ const VersionActionsForm: FC<VersionActionsFormProps> = ({
           },
         ]}
       >
-        <div className="space-y-4">
-          <p>
-            Reject the version "{versionTitle}"? The author will be able to edit
-            and resubmit it.
-          </p>
-          <Textarea
-            label="Rejection Reason"
-            placeholder="Explain why this version is being rejected..."
-            value={note}
-            onChange={(e) => setNote(e.target.value)}
-            rows={3}
-            required
-          />
-        </div>
+        <p className="mb-4">
+          Reject the version "{versionTitle}"? The author will be able to edit
+          and resubmit it.
+        </p>
+        <Textarea
+          label="Rejection Reason"
+          placeholder="Explain why this version is being rejected..."
+          value={note}
+          onChange={(e) => setNote(e.target.value)}
+          rows={3}
+          required
+        />
       </Dialog>
 
       {/* Publish Dialog */}
