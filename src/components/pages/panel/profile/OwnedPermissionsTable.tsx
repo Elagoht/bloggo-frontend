@@ -1,5 +1,5 @@
 import { IconCheck, IconX } from "@tabler/icons-react";
-import React from "react";
+import React, { FC } from "react";
 import allPermissions from "./allPermissions";
 
 type OwnedPermissionsTableProps = {
@@ -11,15 +11,15 @@ const OwnedPermissionsTable: FC<OwnedPermissionsTableProps> = ({
 }) => {
   allPermissions;
   return (
-    <table className="table-fixed">
+    <table className="table-fixed w-full">
       <thead>
         <tr>
-          <th className="bg-gopher-300 dark:bg-gopher-800 px-4 py-2 rounded-tl-xl border-r border-gopher-400 dark:border-gopher-900">
+          <th className="rounded-l-full bg-smoke-200 dark:bg-smoke-1000 text-right px-2 py-1">
             Permission
           </th>
 
-          <th className="bg-gopher-300 dark:bg-gopher-800 px-4 py-2 rounded-tr-xl">
-            Have
+          <th className="rounded-r-full bg-smoke-200 dark:bg-smoke-1000 text-left px-2 py-1">
+            Is Owned
           </th>
         </tr>
       </thead>
@@ -28,17 +28,15 @@ const OwnedPermissionsTable: FC<OwnedPermissionsTableProps> = ({
         {Object.entries(allPermissions).map(([key, value], index) => (
           <tr
             key={index}
-            className="even:bg-smoke-50 even:dark:bg-smoke-950 hover:!bg-gopher-200 hover:dark:!bg-gopher-900"
+            className="hover:bg-smoke-100 hover:dark:!bg-smoke-900 *:px-2 *:py-1"
           >
-            <td className="px-2 py-1 border-r border-smoke-200 dark:border-smoke-900">
-              {value}
-            </td>
+            <td className="text-right">{value}</td>
 
-            <td className="px-2 py-1">
+            <td>
               {permissions.includes(key) ? (
-                <IconCheck className="text-success-500 mx-auto" />
+                <IconCheck className="text-success-500" />
               ) : (
-                <IconX className="text-danger-500 mx-auto" />
+                <IconX className="text-danger-500" />
               )}
             </td>
           </tr>

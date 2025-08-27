@@ -34,7 +34,6 @@ const UserStatsBar: FC<UserStatsBarProps> = ({
       value: publishRatio,
       icon: IconPercentage,
       color: "default",
-      isRatio: true,
     },
   ] as const;
 

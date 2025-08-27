@@ -22,9 +22,9 @@ const SectionHeader: FC<SectionHeaderProps> = ({
     <hgroup className="flex items-center gap-2">
       {icon && (
         <span
-          className={classNames("flex-shrink-0 p-1 rounded border", {
+          className={classNames("flex-shrink-0 p-1 rounded-lg border", {
             // Default
-            "bg-smoke-300 dark:bg-smoke-700 border-smoke-400 dark:border-smoke-600":
+            "bg-smoke-200 dark:bg-smoke-800 border-smoke-300 dark:border-smoke-700":
               color === "default",
             // Primary
             "bg-gopher-200 dark:bg-gopher-800 border-gopher-300 dark:border-gopher-700":
