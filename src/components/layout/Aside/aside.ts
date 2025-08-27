@@ -32,7 +32,7 @@ export const asideMenu: Array<{
   {
     name: "Posts",
     icon: IconBlockquote,
-    href: "/Posts",
+    href: "/posts",
     perm: "post:view",
   },
   {
