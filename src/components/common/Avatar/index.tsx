@@ -25,13 +25,8 @@ const Avatar: FC<AvatarProps> = ({
         <AvatarImage name={name} avatar={avatar} />
 
         {roleId && roleName && (
-          <div className="absolute bottom-0 left-0 right-0">
-            <Link
-              to={`/roles/details/${roleId}`}
-              className="leading-snug px-2 py-1 rounded-full text-center bg-success-500"
-            >
-              {roleName}
-            </Link>
+          <div className="absolute bottom-0 left-0 right-0 leading-snug px-2 py-1 rounded-full text-center w-fit mx-auto bg-success-500">
+            {roleName}
           </div>
         )}
 

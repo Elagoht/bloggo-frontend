@@ -5,7 +5,7 @@ import ApiCall from "../utilities/apiCaller";
 export const getUserSelf = () => ApiCall.get<UserDetails>("/users/me");
 
 export const patchUserAvatarSelf = (form: FormData) =>
-  ApiCall.patch<void>("/users/me/avatar", form);
+  ApiCall.patch<{ avatar: string }>("/users/me/avatar", form);
 
 export const deleteUserAvatarSelf = () =>
   ApiCall.delete<void>("/users/me/avatar");
