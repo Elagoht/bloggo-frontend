@@ -61,7 +61,9 @@ const ProfilePage: FC = () => {
       title: "Publish Ratio",
       value:
         profile.writtenPostCount > 0
-          ? Math.round(profile.publishedPostCount / profile.writtenPostCount)
+          ? Math.round(
+              (profile.publishedPostCount / profile.writtenPostCount) * 100
+            )
           : 0,
       icon: IconPercentage,
       color: "default",
@@ -123,8 +125,8 @@ const ProfilePage: FC = () => {
               {datum.isRatio ? (
                 <div className="bg-smoke-100 dark:bg-smoke-1000 h-4 rounded-full overflow-clip relative">
                   <div
-                    className="bg-success-500 top-0 left-0 bottom-0 absolute"
-                    style={{ right: `${datum.value}%` }}
+                    className="bg-success-500 top-0 left-0 bottom-0 absolute rounded-r-full"
+                    style={{ right: `${100 - datum.value}%` }}
                   />
                 </div>
               ) : (
