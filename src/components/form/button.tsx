@@ -23,6 +23,36 @@ export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> &
     shortcutKey?: string;
   };
 
+const isMac =
+  typeof navigator !== "undefined" && /Mac/i.test(navigator.platform);
+
+const keyLabels: Record<string, string | ((isMac: boolean) => string)> = {
+  ctrlorcmd: (mac: boolean) => (mac ? "⌘" : "Ctrl"),
+  ctrl: "Ctrl",
+  cmd: "⌘",
+  meta: "⌘",
+  alt: (mac: boolean) => (mac ? "Option" : "Alt"),
+  altoroption: (mac: boolean) => (mac ? "⌥" : "Alt"),
+  option: "⌥",
+  shift: "Shift",
+  plus: "+",
+  " ": "Space",
+  space: "Space",
+  enter: "↵",
+  escape: "␛",
+  up: "↑",
+  down: "↓",
+  left: "←",
+  right: "→",
+};
+
+const keyAliases: Record<string, string> = {
+  up: "arrowup",
+  down: "arrowdown",
+  left: "arrowleft",
+  right: "arrowright",
+};
+
 const Button: FC<ButtonProps> = ({
   color = "primary",
   variant = "default",
@@ -33,59 +63,10 @@ const Button: FC<ButtonProps> = ({
   children,
   className,
   shortcutKey,
-  onClick,
   ...props
 }) => {
   const navigate = useNavigate();
-  const buttonRef = useRef<HTMLButtonElement | null>(null);
-
-  useEffect(() => {
-    if (!shortcutKey) return;
-
-    const parseShortcut = (shortcut: string) => {
-      const normalized = shortcut.toLowerCase().trim();
-
-      // sadece "+" verilmişse
-      if (normalized === "+") {
-        return { key: "+", modifiers: new Set<string>() };
-      }
-
-      const parts = normalized.split("+");
-      const key = parts.pop() || "";
-
-      // alias: "plus" => "+"
-      const finalKey = key === "plus" ? "+" : key;
-
-      return { key: finalKey, modifiers: new Set(parts) };
-    };
-
-    const { key, modifiers } = parseShortcut(shortcutKey);
-
-    const handleKeyDown = (e: KeyboardEvent) => {
-      const ctrlOrCmd = modifiers.has("ctrlorcmd")
-        ? e.ctrlKey || e.metaKey
-        : true;
-
-      if (
-        e.key.toLowerCase() === key &&
-        (modifiers.has("ctrl") ? e.ctrlKey : true) &&
-        (modifiers.has("alt") ? e.altKey : true) &&
-        (modifiers.has("shift") ? e.shiftKey : true) &&
-        (modifiers.has("meta") ? e.metaKey : true) &&
-        ctrlOrCmd
-      ) {
-        e.preventDefault();
-        if (href) {
-          navigate(href);
-        } else if (buttonRef.current) {
-          buttonRef.current.click();
-        }
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [shortcutKey, href, navigate]);
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
   const classes = classNames(
     "px-2.5 py-2 h-8 text-sm rounded-lg cursor-pointer transition-all duration-200 focus:outline-none flex items-center justify-center text-center",
@@ -134,47 +115,18 @@ const Button: FC<ButtonProps> = ({
     }
   );
 
-  const isMac =
-    typeof navigator !== "undefined" && /Mac/i.test(navigator.platform);
-
   const renderShortcutLabel = (shortcut?: string) => {
     if (!shortcut) return null;
-
     const parts = shortcut.split("+").map((p) => p.toLowerCase());
 
     return (
-      <span className="ml-2 text-xs text-gray-500 flex gap-1">
+      <span className="ml-2 text-xs flex gap-1">
         {parts.map((part, i) => {
-          let label = part;
-
-          switch (part) {
-            case "ctrlorcmd":
-              label = isMac ? "⌘" : "Ctrl";
-              break;
-            case "ctrl":
-              label = "Ctrl";
-              break;
-            case "cmd":
-            case "meta":
-              label = "⌘";
-              break;
-            case "alt":
-              label = "Alt";
-              break;
-            case "shift":
-              label = "Shift";
-              break;
-            case "plus":
-              label = "+";
-              break;
-            case " ":
-            case "space":
-              label = "Space";
-              break;
-            default:
-              label = part.toUpperCase();
-          }
-
+          const labelDef = keyLabels[part];
+          const label =
+            typeof labelDef === "function"
+              ? labelDef(isMac)
+              : labelDef ?? part.toUpperCase();
           return (
             <kbd
               key={i}
@@ -188,6 +140,46 @@ const Button: FC<ButtonProps> = ({
     );
   };
 
+  useEffect(() => {
+    if (!shortcutKey) return;
+
+    const parts = shortcutKey.split("+").map((p) => p.toLowerCase());
+    const key = parts.pop()!;
+    const modifiers = new Set(parts);
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      let actualKey = e.key.toLowerCase();
+      if (actualKey === "dead") {
+        actualKey = e.code.replace("Key", "").toLowerCase();
+      }
+
+      const ctrlOrCmd = modifiers.has("ctrlorcmd")
+        ? e.ctrlKey || e.metaKey
+        : true;
+      const altOrOption = modifiers.has("altoroption") ? e.altKey : true;
+
+      if (
+        actualKey === (keyAliases[key] ?? key) &&
+        (modifiers.has("ctrl") ? e.ctrlKey : true) &&
+        (modifiers.has("cmd") || modifiers.has("meta") ? e.metaKey : true) &&
+        (modifiers.has("alt") || modifiers.has("option") ? e.altKey : true) &&
+        (modifiers.has("shift") ? e.shiftKey : true) &&
+        ctrlOrCmd &&
+        altOrOption
+      ) {
+        e.preventDefault();
+        if (href) {
+          navigate(href);
+        } else if (buttonRef.current) {
+          buttonRef.current.click();
+        }
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [shortcutKey, href, navigate]);
+
   const buttonContent = (
     <>
       {iconLeft &&
@@ -198,8 +190,7 @@ const Button: FC<ButtonProps> = ({
 
       {children && (
         <span className="flex-grow text-center justify-center truncate flex items-center">
-          {children}
-          {renderShortcutLabel(shortcutKey)}
+          {children} {renderShortcutLabel(shortcutKey)}
         </span>
       )}
 
@@ -216,13 +207,7 @@ const Button: FC<ButtonProps> = ({
       {buttonContent}
     </Link>
   ) : (
-    <button
-      {...props}
-      type={type}
-      className={classes}
-      ref={buttonRef}
-      onClick={onClick}
-    >
+    <button ref={buttonRef} {...props} type={type} className={classes}>
       {buttonContent}
     </button>
   );

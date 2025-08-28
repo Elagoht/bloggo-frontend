@@ -62,7 +62,7 @@ const TagsPage: FC = () => {
               <Button
                 href="/tags/create"
                 color="success"
-                shortcutKey="plus"
+                shortcutKey="ctrlOrCmd+E"
                 iconRight={IconPlus}
               >
                 New Tag

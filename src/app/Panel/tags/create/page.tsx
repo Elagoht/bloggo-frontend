@@ -1,10 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import {
-  IconTag,
-  IconDeviceFloppy,
-  IconX,
-} from "@tabler/icons-react";
-import React from "react";
+import { IconTag, IconDeviceFloppy, IconX } from "@tabler/icons-react";
+import React, { FC } from "react";
 import Button from "../../../../components/form/Button";
 import ButtonGroup from "../../../../components/form/ButtonGroup";
 import Form from "../../../../components/form/Form";
@@ -36,21 +32,21 @@ const TagCreatePage: FC = () => {
 
         <FormCard color="default">
           <Form handle={handleSubmit}>
-            <FormSection legend="Tag Information">
-              <Input
-                name="name"
-                label="Tag Name"
-                iconLeft={IconTag}
-                placeholder="e.g., JavaScript, Travel, Photography"
-                required
-              />
-            </FormSection>
+            <Input
+              autoFocus
+              name="name"
+              label="Tag Name"
+              iconLeft={IconTag}
+              placeholder="e.g., JavaScript, Travel, Photography"
+              required
+            />
 
             <ButtonGroup>
               <Button
                 type="submit"
                 color="success"
                 className="flex-1"
+                shortcutKey="Enter"
                 iconRight={IconDeviceFloppy}
               >
                 Create Tag
@@ -60,6 +56,7 @@ const TagCreatePage: FC = () => {
                 color="danger"
                 variant="outline"
                 href="/tags"
+                shortcutKey="Escape"
                 iconLeft={IconX}
               >
                 Cancel

@@ -65,6 +65,7 @@ const Pagination: FC<PaginationProps> = (props) => {
         iconLeft={IconChevronLeft}
         disabled={currentPage === 1}
         onClick={() => goToPage(currentPage - 1)}
+        shortcutKey="left"
         className="disabled:opacity-50 disabled:cursor-not-allowed"
       />
 
@@ -125,6 +126,7 @@ const Pagination: FC<PaginationProps> = (props) => {
         iconRight={IconChevronRight}
         disabled={currentPage === totalPages}
         onClick={() => goToPage(currentPage + 1)}
+        shortcutKey="right"
         className="disabled:opacity-50 disabled:cursor-not-allowed"
       />
     </div>

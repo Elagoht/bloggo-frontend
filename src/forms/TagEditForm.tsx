@@ -1,9 +1,5 @@
-import {
-  IconDeviceFloppy,
-  IconTag,
-  IconX,
-} from "@tabler/icons-react";
-import { FC, ReactNode } from "react";
+import { IconDeviceFloppy, IconTag, IconX } from "@tabler/icons-react";
+import { FC, ReactNode, useLayoutEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "../components/form/Button";
 import ButtonGroup from "../components/form/ButtonGroup";
@@ -32,16 +28,13 @@ const TagEditForm: FC<TagEditFormProps> = ({ tag }) => {
 
   return (
     <Form handle={handleSubmit}>
-      <FormSection legend="Tag Information">
-        <Input
-          name="name"
-          label="Tag Name"
-          iconLeft={IconTag}
-          placeholder="e.g., JavaScript, Travel, Photography"
-          defaultValue={tag.name}
-          required
-        />
-      </FormSection>
+      <Input
+        name="name"
+        iconLeft={IconTag}
+        placeholder="e.g., JavaScript, Travel, Photography"
+        defaultValue={tag.name}
+        required
+      />
 
       <ButtonGroup>
         <Button
@@ -53,12 +46,7 @@ const TagEditForm: FC<TagEditFormProps> = ({ tag }) => {
           Save Changes
         </Button>
 
-        <Button
-          color="danger"
-          variant="outline"
-          href="/tags"
-          iconLeft={IconX}
-        >
+        <Button color="danger" variant="outline" href="/tags" iconLeft={IconX}>
           Cancel
         </Button>
       </ButtonGroup>
