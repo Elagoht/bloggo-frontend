@@ -21,20 +21,16 @@ const Search: FC = () => {
 
   return (
     <form
-      className="flex items-center w-full max-w-md group"
+      className="flex items-center max-w-sm min-w-0 group grow shrink"
       onSubmit={(event) => event.preventDefault()}
     >
-      <div className="relative flex items-center w-full bg-smoke-100 dark:bg-smoke-900 rounded-full shadow-sm border border-smoke-200/50 dark:border-smoke-700/50 group-focus-within:border-gopher-300 dark:group-focus-within:border-gopher-600 group-focus-within:shadow-md transition-all">
+      <div className="relative flex items-center grow bg-smoke-100 dark:bg-smoke-900 rounded-full shadow-sm border border-smoke-200/50 dark:border-smoke-700/50 group-focus-within:border-gopher-300 dark:group-focus-within:border-gopher-600 group-focus-within:shadow-md transition-all min-w-0">
         <input
           ref={inputRef}
           type="search"
           placeholder="Search posts, categories..."
-          className="flex-1 bg-transparent placeholder:text-smoke-400 dark:placeholder:text-smoke-500 h-8 rounded-l-full py-2 px-3 text-sm focus:outline-none"
+          className="flex-1 bg-transparent min-w-0 placeholder:text-smoke-400 dark:placeholder:text-smoke-500 h-8 rounded-l-full py-2 px-3 text-sm focus:outline-none"
         />
-
-        <span className="flex items-center px-2 text-smoke-400 dark:text-smoke-500 text-xs font-medium">
-          ⌘K
-        </span>
 
         <button
           type="submit"

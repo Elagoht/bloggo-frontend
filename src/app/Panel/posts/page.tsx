@@ -74,7 +74,7 @@ const PostsPage: FC = () => {
                 shortcutKey="ctrlOrCmd+E"
                 iconRight={IconPlus}
               >
-                New Post
+                Create
               </Button>
             </PermissionGuard>
           </div>

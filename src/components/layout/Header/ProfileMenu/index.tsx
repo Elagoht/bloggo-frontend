@@ -28,9 +28,9 @@ const ProfileMenu: FC<ProfileMenuProps> = ({ name = "?" }) => {
   }, []);
 
   return (
-    <div className="relative flex flex-col items-end" ref={menuRef}>
+    <div className="relative shrink-0 flex flex-col items-end" ref={menuRef}>
       <button
-        className="flex items-center gap-2 pr-2 p-1 rounded-full hover:bg-smoke-100 dark:hover:bg-smoke-900 transition-all duration-200 focus:outline-none group border border-transparent hover:border-smoke-200 dark:hover:border-smoke-700 shadow-sm hover:shadow-md"
+        className="flex items-center gap-2 md:pr-2 p-1 rounded-full hover:bg-smoke-100 dark:hover:bg-smoke-900 transition-all duration-200 focus:outline-none group border border-transparent hover:border-smoke-200 dark:hover:border-smoke-700 hover:shadow-md"
         onClick={() => setMenuOpen((prev) => !prev)}
         aria-label="Open profile menu"
       >

@@ -130,7 +130,7 @@ const Button: FC<ButtonProps> = ({
           return (
             <kbd
               key={i}
-              className="px-1.5 py-0.5 rounded text-black dark:text-white bg-white dark:bg-black bg-opacity-30 dark:bg-opacity-30"
+              className="max-md:hidden px-1.5 py-0.5 rounded text-black dark:text-white bg-white dark:bg-black bg-opacity-30 dark:bg-opacity-30"
             >
               {label}
             </kbd>

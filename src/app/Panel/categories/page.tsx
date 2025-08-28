@@ -67,7 +67,7 @@ const CategoriesPage: FC = () => {
                 shortcutKey="ctrlorCmd+E"
                 iconRight={IconPlus}
               >
-                New Category
+                Create
               </Button>
             </PermissionGuard>
           </div>

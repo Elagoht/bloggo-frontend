@@ -65,7 +65,7 @@ const TagsPage: FC = () => {
                 shortcutKey="ctrlOrCmd+E"
                 iconRight={IconPlus}
               >
-                New Tag
+                Create
               </Button>
             </PermissionGuard>
           </div>

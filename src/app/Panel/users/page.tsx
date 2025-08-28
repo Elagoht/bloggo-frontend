@@ -65,7 +65,7 @@ const UsersPage: FC = () => {
                 shortcutKey="ctrlOrCmd+E"
                 iconRight={IconPlus}
               >
-                New User
+                Create
               </Button>
             </PermissionGuard>
           </div>
