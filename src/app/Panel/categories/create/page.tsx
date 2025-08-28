@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom";
 import {
   IconCategory,
   IconDeviceFloppy,
@@ -7,7 +6,8 @@ import {
   IconTag,
   IconX,
 } from "@tabler/icons-react";
-import React from "react";
+import { FC } from "react";
+import { useNavigate } from "react-router-dom";
 import Button from "../../../../components/form/Button";
 import ButtonGroup from "../../../../components/form/ButtonGroup";
 import Form from "../../../../components/form/Form";
@@ -78,6 +78,7 @@ const CategoryCreatePage: FC = () => {
               type="submit"
               color="success"
               className="flex-1"
+              shortcutKey="Enter"
               iconRight={IconDeviceFloppy}
             >
               Create Category
@@ -87,6 +88,7 @@ const CategoryCreatePage: FC = () => {
               color="danger"
               variant="outline"
               href="/categories"
+              shortcutKey="Escape"
               iconLeft={IconX}
             >
               Cancel

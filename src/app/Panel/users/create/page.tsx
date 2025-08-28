@@ -124,6 +124,7 @@ const UserCreatePage: FC<UserCreatePageProps> = () => {
                 type="submit"
                 color="success"
                 className="flex-1"
+                shortcutKey="Enter"
                 iconRight={IconDeviceFloppy}
               >
                 Create User
@@ -133,6 +134,7 @@ const UserCreatePage: FC<UserCreatePageProps> = () => {
                 color="danger"
                 variant="outline"
                 href="/users"
+                shortcutKey="Escape"
                 iconLeft={IconX}
               >
                 Cancel

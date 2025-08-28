@@ -83,6 +83,7 @@ const CategoryEditForm: FC<CategoryEditFormProps> = ({ category }) => {
           type="submit"
           color="success"
           className="flex-1"
+          shortcutKey="Enter"
           iconRight={IconDeviceFloppy}
         >
           Save Changes
@@ -92,6 +93,7 @@ const CategoryEditForm: FC<CategoryEditFormProps> = ({ category }) => {
           color="danger"
           variant="outline"
           href="/categories"
+          shortcutKey="Escape"
           iconLeft={IconX}
         >
           Cancel

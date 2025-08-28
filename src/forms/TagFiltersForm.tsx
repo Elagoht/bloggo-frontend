@@ -84,7 +84,7 @@ const TagFiltersForm: FC<TagFiltersFormProps> = () => {
           variant="outline"
           color="danger"
           iconLeft={IconClearAll}
-          shortcutKey="escape"
+          shortcutKey="Escape"
         >
           Clear
         </Button>
