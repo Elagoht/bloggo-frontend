@@ -41,12 +41,19 @@ const TagEditForm: FC<TagEditFormProps> = ({ tag }) => {
           type="submit"
           color="success"
           className="flex-1"
+          shortcutKey="Enter"
           iconRight={IconDeviceFloppy}
         >
           Save Changes
         </Button>
 
-        <Button color="danger" variant="outline" href="/tags" iconLeft={IconX}>
+        <Button
+          color="danger"
+          variant="outline"
+          href="/tags"
+          shortcutKey="Escape"
+          iconLeft={IconX}
+        >
           Cancel
         </Button>
       </ButtonGroup>
