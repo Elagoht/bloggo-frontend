@@ -197,7 +197,7 @@ const Button: FC<ButtonProps> = ({
         })}
 
       {children && (
-        <span className="flex-grow min-w-0 truncate flex items-center">
+        <span className="flex-grow text-center justify-center truncate flex items-center">
           {children}
           {renderShortcutLabel(shortcutKey)}
         </span>
