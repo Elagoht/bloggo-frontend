@@ -101,3 +101,11 @@ export const publishVersion = (
   ApiCall.post(`/posts/${postId}/versions/${versionId}/publish`, {
     publishedAt,
   });
+
+export const getGenerativeFill = (postId: number, versionId: string) =>
+  ApiCall.get<{
+    title: string;
+    metaDescription: string;
+    spot: string;
+    suggestedCategory: string;
+  }>(`/posts/${postId}/versions/${versionId}/generative-fill`);

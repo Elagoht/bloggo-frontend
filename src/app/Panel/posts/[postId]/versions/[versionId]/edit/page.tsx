@@ -29,6 +29,7 @@ import {
 } from "../../../../../../../services/posts";
 import VersionDeleteForm from "../../../../../../../forms/VersionDeleteForm";
 import VersionActionsForm from "../../../../../../../forms/VersionActionsForm";
+import GenerativeFill from "../../../../../../../components/common/GenerativeFill";
 
 const EditVersionPage: FC = () => {
   const navigate = useNavigate();
@@ -41,12 +42,14 @@ const EditVersionPage: FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [version, setVersion] = useState<PostVersionDetails | null>(null);
+  const [currentContent, setCurrentContent] = useState<string>("");
 
   const loadVersion = async () => {
     if (postId && versionId) {
       const versionResponse = await getPostVersion(parseInt(postId), versionId);
       if (versionResponse.success) {
         setVersion(versionResponse.data);
+        setCurrentContent(versionResponse.data.content || "");
         // Set cover preview if exists
         if (versionResponse.data.coverImage) {
           setCoverPreview(versionResponse.data.coverImage);
@@ -173,6 +176,7 @@ const EditVersionPage: FC = () => {
               rows={20}
               className="font-mono"
               defaultValue={version.content}
+              onChange={(e) => setCurrentContent(e.target.value)}
             />
           </FormCard>
         </Container>
@@ -231,6 +235,18 @@ const EditVersionPage: FC = () => {
           >
             {isSubmitting ? "Updating..." : "Update Version"}
           </Button>
+
+          {/* AI Generative Fill */}
+          {postId && versionId && (
+            <>
+              <SectionHeader>AI Assistance</SectionHeader>
+              <GenerativeFill
+                postId={parseInt(postId)}
+                versionId={versionId}
+                contentLength={currentContent.length}
+              />
+            </>
+          )}
 
           {/* Version Actions */}
           {postId && versionId && (
