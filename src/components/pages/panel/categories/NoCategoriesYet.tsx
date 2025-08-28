@@ -13,7 +13,7 @@ const NoCategoriesYet: FC = () => {
 
         <div className="flex flex-col">
           <h3 className="font-semibold text-smoke-900 dark:text-smoke-100">
-            No categories yet
+            No categories found
           </h3>
 
           <p className="text-smoke-600 dark:text-smoke-400 text-sm">
@@ -21,7 +21,7 @@ const NoCategoriesYet: FC = () => {
               permission="category:create"
               fallback="Contact an editor or admin to create a category."
             >
-              Create your first category to organize your blog posts
+              Create a category to organize your blog posts
             </PermissionGuard>
           </p>
         </div>

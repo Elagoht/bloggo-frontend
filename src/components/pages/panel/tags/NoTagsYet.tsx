@@ -13,7 +13,7 @@ const NoTagsYet: FC = () => {
 
         <div className="flex flex-col">
           <h3 className="font-semibold text-smoke-900 dark:text-smoke-100">
-            No tags yet
+            No tags found
           </h3>
 
           <p className="text-smoke-600 dark:text-smoke-400 text-sm">
@@ -21,7 +21,7 @@ const NoTagsYet: FC = () => {
               permission="tag:create"
               fallback="Contact an editor or admin to create a tag."
             >
-              Create your first tag to organize your blog posts
+              Create a tag to organize your blog posts
             </PermissionGuard>
           </p>
         </div>

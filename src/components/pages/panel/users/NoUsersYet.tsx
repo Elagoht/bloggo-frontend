@@ -16,15 +16,9 @@ const NoUsersYet: FC = () => {
             No users found
           </h3>
           <p className="text-smoke-600 dark:text-smoke-400 text-sm">
-            Create your first user or adjust your search filters
+            This shouldn't be happen. How you use this now?
           </p>
         </div>
-
-        <PermissionGuard permission="user:register">
-          <Button href="/users/create" iconRight={IconPlus} color="success">
-            Create User
-          </Button>
-        </PermissionGuard>
       </div>
     </div>
   );

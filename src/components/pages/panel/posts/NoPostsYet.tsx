@@ -12,7 +12,7 @@ const NoPostsYet = () => {
 
         <div className="flex flex-col">
           <h3 className="font-semibold text-smoke-900 dark:text-smoke-100">
-            No posts yet
+            No posts found
           </h3>
 
           <p className="text-smoke-600 dark:text-smoke-400 text-sm">
@@ -20,14 +20,14 @@ const NoPostsYet = () => {
               permission="category:create"
               fallback="Contact an editor or admin to create a category."
             >
-              Create your first post to share it with world!
+              Create a post to share it with world!
             </PermissionGuard>
           </p>
         </div>
 
         <PermissionGuard permission="post:create">
           <Button href="/posts/create" color="success">
-            Create Your First Post
+            Create Post
           </Button>
         </PermissionGuard>
       </div>
