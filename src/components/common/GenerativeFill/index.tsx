@@ -88,8 +88,8 @@ const GenerativeFill: FC<GenerativeFillProps> = ({
 
           <div className="p-4">
             <div className="flex items-center gap-2 mb-4">
-              <IconSparkles className="h-5 w-5 text-rose-600" />
-              <h3 className="text-lg font-semibold text-rose-800">
+              <IconSparkles className="h-5 w-5 text-rose-500" />
+              <h3 className="text-lg font-semibold text-rose-500">
                 AI Suggestions
               </h3>
             </div>
