@@ -1,15 +1,13 @@
-import React from "react";
-import { useSearchParams } from "react-router-dom";
 import { IconClearAll, IconFilter, IconSearch } from "@tabler/icons-react";
+import { FC } from "react";
+import { useSearchParams } from "react-router-dom";
 import Button from "../components/form/Button";
 import Form from "../components/form/Form";
 import FormSection from "../components/form/FormSection";
 import Input from "../components/form/Input";
 import RadioGroup from "../components/form/RadioButton/RadioGroup";
 
-interface UserFiltersFormProps {}
-
-const UserFiltersForm: FC<UserFiltersFormProps> = () => {
+const UserFiltersForm: FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const handleSubmit = async (data: FormData) => {

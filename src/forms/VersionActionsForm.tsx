@@ -19,7 +19,7 @@ import {
   submitVersionForReview,
 } from "../services/posts";
 
-interface VersionActionsFormProps {
+type VersionActionsFormProps = {
   postId: number;
   versionId: string;
   currentStatus: number;
@@ -29,7 +29,7 @@ interface VersionActionsFormProps {
     name: string;
   };
   onSuccess?: () => void;
-}
+};
 
 const VersionActionsForm: FC<VersionActionsFormProps> = ({
   postId,

@@ -1,10 +1,6 @@
-import { FC, ReactNode } from "react";
+import { FC, PropsWithChildren } from "react";
 
-interface H3Props {
-  children: ReactNode;
-}
-
-const H3: FC<H3Props> = ({ children }) => {
+const H3: FC<PropsWithChildren> = ({ children }) => {
   return (
     <h3 className="text-lg font-bold text-smoke-700 dark:text-smoke-300">
       {children}

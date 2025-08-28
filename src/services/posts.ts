@@ -1,18 +1,9 @@
 import QueryString from "qs";
 import ApiCall from "../utilities/apiCaller";
 
-export interface PostCreateData {
-  title: string;
-  content?: string;
-  cover?: File;
-  description?: string;
-  spot?: string;
-  categoryId?: number;
-}
-
-export interface PostCreatedResponse {
+type PostCreatedResponse = {
   id: number;
-}
+};
 
 export const getPosts = (filters?: RequestPostFilters) =>
   ApiCall.get<ResponsePaginated<PostCard>>(

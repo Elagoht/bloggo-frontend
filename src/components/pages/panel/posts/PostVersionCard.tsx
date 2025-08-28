@@ -13,11 +13,11 @@ import { useProfileStore } from "../../../../stores/profile";
 import Button from "../../../form/Button";
 import PermissionGuard from "../../../Guards/PermissionGuard";
 
-interface PostVersionCardProps {
+type PostVersionCardProps = {
   version: PostVersionCard;
   postId: number;
   isPublished: boolean;
-}
+};
 
 const PostVersionCard: FC<PostVersionCardProps> = ({
   version,

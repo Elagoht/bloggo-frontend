@@ -8,10 +8,10 @@ import FormCard from "../components/layout/Container/FormCard";
 import SectionHeader from "../components/layout/SectionHeader";
 import { patchUserChangePassword } from "../services/users";
 
-interface UserChangePasswordFormProps {
+type UserChangePasswordFormProps = {
   user: UserDetails;
   onUpdate?: () => void;
-}
+};
 
 const UserChangePasswordForm: FC<UserChangePasswordFormProps> = ({
   user,

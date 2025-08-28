@@ -7,7 +7,7 @@ import {
 import { FC, useMemo } from "react";
 import { Link } from "react-router-dom";
 
-interface UserCardProps {
+type UserCardProps = {
   id: number;
   name: string;
   email: string;
@@ -15,7 +15,7 @@ interface UserCardProps {
   roleName: string;
   writtenPostCount: number;
   publishedPostCount: number;
-}
+};
 
 const UserCard: FC<UserCardProps> = ({
   id,

@@ -1,26 +1,17 @@
-import React, { FC } from "react";
-import {
-  IconUser,
-  IconMail,
-  IconDeviceFloppy,
-  IconX,
-  IconKey,
-} from "@tabler/icons-react";
+import { IconDeviceFloppy, IconMail, IconUser } from "@tabler/icons-react";
+import { FC } from "react";
 import toast from "react-hot-toast";
 import Button from "../components/form/Button";
-import ButtonGroup from "../components/form/ButtonGroup";
 import Form from "../components/form/Form";
-import FormSection from "../components/form/FormSection";
 import Input from "../components/form/Input";
-import PermissionGuard from "../components/Guards/PermissionGuard";
-import { patchUserUpdate } from "../services/users";
 import FormCard from "../components/layout/Container/FormCard";
 import SectionHeader from "../components/layout/SectionHeader";
+import { patchUserUpdate } from "../services/users";
 
-interface UserEditFormProps {
+type UserEditFormProps = {
   user: UserDetails;
   onUpdate?: () => void;
-}
+};
 
 const UserEditForm: FC<UserEditFormProps> = ({ user, onUpdate }) => {
   const handleSubmit = async (data: FormData) => {

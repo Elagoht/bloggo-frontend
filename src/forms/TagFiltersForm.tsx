@@ -1,6 +1,6 @@
-import { useSearchParams } from "react-router-dom";
 import { IconClearAll, IconFilter, IconSearch } from "@tabler/icons-react";
-import React, { FC } from "react";
+import { FC } from "react";
+import { useSearchParams } from "react-router-dom";
 import Button from "../components/form/Button";
 import ButtonGroup from "../components/form/ButtonGroup";
 import Form from "../components/form/Form";

@@ -16,9 +16,7 @@ import UserCard from "../../../components/pages/panel/users/UserCard";
 import UserFiltersForm from "../../../forms/UserFiltersForm";
 import { getUsers } from "../../../services/users";
 
-interface UsersPageProps {}
-
-const UsersPage: FC<UsersPageProps> = () => {
+const UsersPage: FC = () => {
   const [searchParams] = useSearchParams();
   const [usersResponse, setUsersResponse] = useState<any>(null);
   const [loading, setLoading] = useState(false);

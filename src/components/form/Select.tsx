@@ -7,13 +7,13 @@ import {
   RefAttributes,
 } from "react";
 
-interface SelectOption {
+type SelectOption = {
   value: string | number;
   label: string;
   selected?: boolean;
-}
+};
 
-interface SelectProps {
+type SelectProps = {
   name: string;
   label?: string;
   placeholder?: string;
@@ -23,7 +23,7 @@ interface SelectProps {
   icon?: ForwardRefExoticComponent<IconProps & RefAttributes<Icon>>;
   options: SelectOption[];
   defaultValue?: string | number;
-}
+};
 
 const Select: FC<SelectProps> = ({
   name,

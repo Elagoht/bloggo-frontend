@@ -1,17 +1,15 @@
-import { useNavigate } from "react-router-dom";
-import React from "react";
+import { IconTrash } from "@tabler/icons-react";
+import { FC } from "react";
 import toast from "react-hot-toast";
-import FormSection from "../components/form/FormSection";
+import { useNavigate } from "react-router-dom";
 import HoldButton from "../components/form/HoldButton";
-import PermissionGuard from "../components/Guards/PermissionGuard";
-import { deleteUser } from "../services/users";
 import FormCard from "../components/layout/Container/FormCard";
 import SectionHeader from "../components/layout/SectionHeader";
-import { IconTrash } from "@tabler/icons-react";
+import { deleteUser } from "../services/users";
 
-interface UserDeleteFormProps {
+type UserDeleteFormProps = {
   user: UserDetails;
-}
+};
 
 const UserDeleteForm: FC<UserDeleteFormProps> = ({ user }) => {
   const navigate = useNavigate();

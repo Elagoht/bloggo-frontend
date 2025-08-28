@@ -1,6 +1,5 @@
-import React, { FC } from "react";
-import { Link } from "react-router-dom";
 import { IconEdit } from "@tabler/icons-react";
+import { FC } from "react";
 import Button from "../../form/Button";
 import AvatarImage from "./AvatarImage";
 

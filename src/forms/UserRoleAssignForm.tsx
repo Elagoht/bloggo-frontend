@@ -9,10 +9,10 @@ import FormCard from "../components/layout/Container/FormCard";
 import { getRoles } from "../services/roles";
 import { patchUserAssignRole } from "../services/users";
 
-interface UserRoleAssignFormProps {
+type UserRoleAssignFormProps = {
   user: UserDetails;
   onUpdate?: () => void;
-}
+};
 
 const UserRoleAssignForm: FC<UserRoleAssignFormProps> = ({
   user,

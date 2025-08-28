@@ -1,34 +1,33 @@
-import React, { FC, useState, useRef } from "react";
 import {
-  IconUser,
-  IconMail,
-  IconDeviceFloppy,
   IconCamera,
-  IconTrash,
-  IconUpload,
+  IconDeviceFloppy,
   IconKey,
   IconLock,
+  IconMail,
   IconPencil,
+  IconTrash,
+  IconUser,
   IconX,
 } from "@tabler/icons-react";
+import { ChangeEvent, FC, useRef, useState } from "react";
 import toast from "react-hot-toast";
+import AvatarImage from "../components/common/Avatar/AvatarImage";
 import Button from "../components/form/Button";
 import Form from "../components/form/Form";
 import Input from "../components/form/Input";
 import FormCard from "../components/layout/Container/FormCard";
 import SectionHeader from "../components/layout/SectionHeader";
-import AvatarImage from "../components/common/Avatar/AvatarImage";
 import {
-  patchUserAvatarSelf,
   deleteUserAvatarSelf,
+  patchUserAvatarSelf,
   patchUserChangePassword,
 } from "../services/users";
-import { useProfileStore } from "../stores/profile";
 import { useAuthStore } from "../stores/auth";
+import { useProfileStore } from "../stores/profile";
 
-interface UserProfileEditFormProps {
+type UserProfileEditFormProps = {
   profile: UserDetails;
-}
+};
 
 const UserProfileEditForm: FC<UserProfileEditFormProps> = ({ profile }) => {
   const { updateProfile } = useProfileStore();
@@ -40,7 +39,7 @@ const UserProfileEditForm: FC<UserProfileEditFormProps> = ({ profile }) => {
   const [showPasswordForm, setShowPasswordForm] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleAvatarChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
       if (file.size > 5 * 1024 * 1024) {

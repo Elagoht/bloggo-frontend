@@ -1,5 +1,5 @@
 import { IconCheck, IconX } from "@tabler/icons-react";
-import React, { FC } from "react";
+import { FC } from "react";
 import allPermissions from "./allPermissions";
 
 type OwnedPermissionsTableProps = {

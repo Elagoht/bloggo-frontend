@@ -3,11 +3,11 @@ import { FC, useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 import Button from "../../form/Button";
 
-interface PaginationProps {
+type PaginationProps = {
   totalItems: number;
   itemsPerPage: number;
   maxVisiblePages?: number;
-}
+};
 
 const Pagination: FC<PaginationProps> = (props) => {
   const [searchParams, setSearchParams] = useSearchParams();

@@ -1,10 +1,6 @@
-import { FC, ReactNode } from "react";
+import { FC, PropsWithChildren } from "react";
 
-interface H1Props {
-  children: ReactNode;
-}
-
-const H1: FC<H1Props> = ({ children }) => {
+const H1: FC<PropsWithChildren> = ({ children }) => {
   return <h1 className="text-2xl font-bold">{children}</h1>;
 };
 

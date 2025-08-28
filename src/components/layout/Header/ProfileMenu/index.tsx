@@ -5,9 +5,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { useProfileStore } from "../../../../stores/profile";
 import profileMenu from "./profile";
 
-interface ProfileMenuProps {
+type ProfileMenuProps = {
   name: string;
-}
+};
 
 const ProfileMenu: FC<ProfileMenuProps> = ({ name = "?" }) => {
   const navigate = useNavigate();

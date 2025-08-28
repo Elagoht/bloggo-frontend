@@ -8,12 +8,12 @@ import {
   TextareaHTMLAttributes,
 } from "react";
 
-interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
+type TextareaProps = TextareaHTMLAttributes<HTMLTextAreaElement> & {
   label?: string;
   iconLeft?: ForwardRefExoticComponent<IconProps & RefAttributes<Icon>>;
   iconRight?: ForwardRefExoticComponent<IconProps & RefAttributes<Icon>>;
   rows?: number;
-}
+};
 
 const Textarea: FC<TextareaProps> = ({
   label,

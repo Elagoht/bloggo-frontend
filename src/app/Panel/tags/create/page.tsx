@@ -1,10 +1,9 @@
+import { IconDeviceFloppy, IconTag, IconX } from "@tabler/icons-react";
+import { FC } from "react";
 import { useNavigate } from "react-router-dom";
-import { IconTag, IconDeviceFloppy, IconX } from "@tabler/icons-react";
-import React, { FC } from "react";
 import Button from "../../../../components/form/Button";
 import ButtonGroup from "../../../../components/form/ButtonGroup";
 import Form from "../../../../components/form/Form";
-import FormSection from "../../../../components/form/FormSection";
 import Input from "../../../../components/form/Input";
 import RouteGuard from "../../../../components/Guards/RouteGuard";
 import Container from "../../../../components/layout/Container";

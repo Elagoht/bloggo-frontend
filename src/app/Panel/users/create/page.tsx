@@ -23,9 +23,7 @@ import { getRoles } from "../../../../services/roles";
 import RouteGuard from "../../../../components/Guards/RouteGuard";
 import toast from "react-hot-toast";
 
-interface UserCreatePageProps {}
-
-const UserCreatePage: FC<UserCreatePageProps> = () => {
+const UserCreatePage: FC = () => {
   const navigate = useNavigate();
   const [roles, setRoles] = useState<Role[]>([]);
 

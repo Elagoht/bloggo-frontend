@@ -1,11 +1,9 @@
-import React from "react";
-import { IconUsers, IconPlus } from "@tabler/icons-react";
+import { IconPlus, IconUsers } from "@tabler/icons-react";
+import { FC } from "react";
 import Button from "../../../form/Button";
 import PermissionGuard from "../../../Guards/PermissionGuard";
 
-interface NoUsersYetProps {}
-
-const NoUsersYet: FC<NoUsersYetProps> = () => {
+const NoUsersYet: FC = () => {
   return (
     <div className="bg-white dark:bg-smoke-950 rounded-lg border border-smoke-200 dark:border-smoke-800 p-8 text-center">
       <div className="flex flex-col items-center gap-4">

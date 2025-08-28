@@ -3,7 +3,7 @@ import classNames from "classnames";
 import { FC } from "react";
 import { Link } from "react-router-dom";
 
-interface ReviewNoteProps {
+type ReviewNoteProps = {
   status: number;
   note: string | null;
   changedBy: {
@@ -12,7 +12,7 @@ interface ReviewNoteProps {
     avatar?: string;
   } | null;
   changedAt: string | null;
-}
+};
 
 const ReviewNote: FC<ReviewNoteProps> = ({
   status,

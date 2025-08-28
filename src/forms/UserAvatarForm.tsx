@@ -6,7 +6,6 @@ import {
 } from "@tabler/icons-react";
 import { ChangeEvent, FC, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
 import AvatarImage from "../components/common/Avatar/AvatarImage";
 import Dialog from "../components/common/Dialog";
 import Button from "../components/form/Button";
@@ -14,10 +13,10 @@ import Form from "../components/form/Form";
 import PermissionGuard from "../components/Guards/PermissionGuard";
 import { deleteUserAvatar, patchUserAvatar } from "../services/users";
 
-interface UserAvatarFormProps {
+type UserAvatarFormProps = {
   user: UserDetails;
   onUpdate?: () => void;
-}
+};
 
 const UserAvatarForm: FC<UserAvatarFormProps> = ({ user, onUpdate }) => {
   const [avatarImage, setAvatarImage] = useState<string>("");

@@ -7,12 +7,12 @@ import SectionHeader from "../components/layout/SectionHeader";
 import { deletePostVersion } from "../services/posts";
 import { FC } from "react";
 
-interface VersionDeleteFormProps {
+type VersionDeleteFormProps = {
   postId: number;
   versionId: string;
   versionTitle: string;
   versionSlug?: string;
-}
+};
 
 const VersionDeleteForm: FC<VersionDeleteFormProps> = ({
   postId,
