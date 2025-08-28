@@ -26,7 +26,7 @@ const NoPostsYet = () => {
         </div>
 
         <PermissionGuard permission="post:create">
-          <Button href="/write" color="success">
+          <Button href="/posts/create" color="success">
             Create Your First Post
           </Button>
         </PermissionGuard>

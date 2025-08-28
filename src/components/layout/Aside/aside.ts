@@ -24,22 +24,10 @@ export const asideMenu: Array<{
     href: "/",
   },
   {
-    name: "Write",
-    icon: IconWritingSign,
-    href: "/write",
-    perm: "post:create",
-  },
-  {
     name: "Posts",
     icon: IconBlockquote,
     href: "/posts",
     perm: "post:view",
-  },
-  {
-    name: "Awaiting",
-    icon: IconProgressCheck,
-    href: "/drafts",
-    perm: "post:publish",
   },
   {
     name: "Categories",

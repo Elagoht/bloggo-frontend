@@ -9,8 +9,8 @@ const LoginPage = lazy(() => import("./app/auth/login/page"));
 const Guard = lazy(() => import("./app/panel/guard"));
 const PanelLayout = lazy(() => import("./app/panel/Layout"));
 const DashboardPage = lazy(() => import("./app/panel/dashboard/page"));
-const WritePage = lazy(() => import("./app/panel/write/page"));
 const PostsPage = lazy(() => import("./app/panel/posts/page"));
+const CreatePostPage = lazy(() => import("./app/panel/posts/create/page"));
 const PostDetailsPage = lazy(
   () => import("./app/panel/posts/details/[slug]/page")
 );
@@ -55,10 +55,10 @@ const App = () => {
             <Route path="/" element={<PanelLayout />}>
               <Route index element={<DashboardPage />} />
 
-              <Route path="write" element={<WritePage />} />
-
               <Route path="posts">
                 <Route index element={<PostsPage />} />
+
+                <Route path="create" element={<CreatePostPage />} />
 
                 <Route path="details/:slug" element={<PostDetailsPage />} />
 

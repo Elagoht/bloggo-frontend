@@ -69,7 +69,7 @@ const PostsPage: FC = () => {
 
             <PermissionGuard permission="post:create">
               <Button
-                href="/write"
+                href="/posts/create"
                 color="success"
                 shortcutKey="ctrlOrCmd+E"
                 iconRight={IconPlus}

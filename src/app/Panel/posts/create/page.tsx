@@ -11,19 +11,19 @@ import {
 } from "@tabler/icons-react";
 import { FC, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Button from "../../../components/form/Button";
-import Form from "../../../components/form/Form";
-import Input from "../../../components/form/Input";
-import Select from "../../../components/form/Select";
-import Textarea from "../../../components/form/Textarea";
-import Container from "../../../components/layout/Container";
-import ContentWithSidebar from "../../../components/layout/Container/ContentWithSidebar";
-import FormCard from "../../../components/layout/Container/FormCard";
-import PageTitleWithIcon from "../../../components/layout/Container/PageTitle";
-import Sidebar from "../../../components/layout/Container/Sidebar";
-import SectionHeader from "../../../components/layout/SectionHeader";
-import { getCategoriesList } from "../../../services/categories";
-import { createPost } from "../../../services/posts";
+import Button from "../../../../components/form/Button";
+import Form from "../../../../components/form/Form";
+import Input from "../../../../components/form/Input";
+import Select from "../../../../components/form/Select";
+import Textarea from "../../../../components/form/Textarea";
+import Container from "../../../../components/layout/Container";
+import ContentWithSidebar from "../../../../components/layout/Container/ContentWithSidebar";
+import FormCard from "../../../../components/layout/Container/FormCard";
+import PageTitleWithIcon from "../../../../components/layout/Container/PageTitle";
+import Sidebar from "../../../../components/layout/Container/Sidebar";
+import SectionHeader from "../../../../components/layout/SectionHeader";
+import { getCategoriesList } from "../../../../services/categories";
+import { createPost } from "../../../../services/posts";
 
 const WritePage: FC = () => {
   const navigate = useNavigate();
