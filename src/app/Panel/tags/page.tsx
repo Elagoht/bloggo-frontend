@@ -90,7 +90,6 @@ const TagsPage: FC = () => {
                   <Pagination
                     totalItems={tagsResponse.total}
                     itemsPerPage={tagsResponse.take}
-                    currentPage={tagsResponse.page}
                   />
                 )}
             </>
