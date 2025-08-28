@@ -59,7 +59,12 @@ const TagsPage: FC = () => {
             <PageTitleWithIcon icon={IconTag}>Tags</PageTitleWithIcon>
 
             <PermissionGuard permission="tag:create">
-              <Button href="/tags/create" color="success" iconRight={IconPlus}>
+              <Button
+                href="/tags/create"
+                color="success"
+                shortcutKey="plus"
+                iconRight={IconPlus}
+              >
                 New Tag
               </Button>
             </PermissionGuard>
