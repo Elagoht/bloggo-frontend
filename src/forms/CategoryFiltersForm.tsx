@@ -1,12 +1,12 @@
-import { useSearchParams } from "react-router-dom";
 import { IconClearAll, IconFilter, IconSearch } from "@tabler/icons-react";
-import React from "react";
+import { FC } from "react";
+import { useSearchParams } from "react-router-dom";
 import Button from "../components/form/Button";
-import ButtonGroup from "../components/form/ButtonGroup";
 import Form from "../components/form/Form";
 import FormSection from "../components/form/FormSection";
 import Input from "../components/form/Input";
 import RadioGroup from "../components/form/RadioButton/RadioGroup";
+import ButtonGroup from "../components/form/ButtonGroup";
 
 type CategoryFiltersFormProps = {};
 
@@ -39,20 +39,15 @@ const CategoryFiltersForm: FC<CategoryFiltersFormProps> = () => {
   return (
     <Form handle={handleSubmit} reset={handleReset}>
       <FormSection legend="Search">
-        <div className="flex items-center gap-2">
-          <Input
-            type="search"
-            name="q"
-            className="flex-1"
-            defaultValue={searchParams.get("q") || ""}
-            placeholder="Search Categories"
-            iconLeft={IconSearch}
-          />
-
-          <Button type="submit" color="primary" iconLeft={IconFilter}>
-            Filter
-          </Button>
-        </div>
+        <Input
+          autoFocus
+          type="search"
+          name="q"
+          className="flex-1"
+          defaultValue={searchParams.get("q") || ""}
+          placeholder="Search Categories"
+          iconLeft={IconSearch}
+        />
       </FormSection>
 
       <FormSection legend="Sort By">
@@ -74,15 +69,27 @@ const CategoryFiltersForm: FC<CategoryFiltersFormProps> = () => {
         />
       </FormSection>
 
-      <Button
-        type="reset"
-        variant="outline"
-        color="danger"
-        iconLeft={IconClearAll}
-        className="w-full"
-      >
-        Clear Filters
-      </Button>
+      <ButtonGroup>
+        <Button
+          type="submit"
+          color="primary"
+          iconLeft={IconFilter}
+          shortcutKey="Enter"
+          className="flex-1"
+        >
+          Search
+        </Button>
+
+        <Button
+          type="reset"
+          variant="outline"
+          color="danger"
+          iconLeft={IconClearAll}
+          shortcutKey="Escape"
+        >
+          Clear
+        </Button>
+      </ButtonGroup>
     </Form>
   );
 };

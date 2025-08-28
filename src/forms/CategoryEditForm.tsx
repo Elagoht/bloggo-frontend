@@ -44,6 +44,7 @@ const CategoryEditForm: FC<CategoryEditFormProps> = ({ category }) => {
     <Form handle={handleSubmit}>
       <FormSection legend="Display Content">
         <Input
+          autoFocus
           name="name"
           label="Category Name"
           iconLeft={IconTag}

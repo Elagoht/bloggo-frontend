@@ -35,20 +35,15 @@ const UserFiltersForm: FC = () => {
   return (
     <Form handle={handleSubmit} reset={handleReset}>
       <FormSection legend="Search">
-        <div className="flex items-center gap-2">
-          <Input
-            type="search"
-            name="q"
-            className="flex-1"
-            defaultValue={searchParams.get("q") || ""}
-            placeholder="Search Users"
-            iconLeft={IconSearch}
-          />
-
-          <Button type="submit" color="primary" iconLeft={IconFilter}>
-            Filter
-          </Button>
-        </div>
+        <Input
+          autoFocus
+          type="search"
+          name="q"
+          className="flex-1"
+          defaultValue={searchParams.get("q") || ""}
+          placeholder="Search Users"
+          iconLeft={IconSearch}
+        />
       </FormSection>
 
       <FormSection legend="Sort By">
@@ -73,13 +68,23 @@ const UserFiltersForm: FC = () => {
       </FormSection>
 
       <Button
+        type="submit"
+        color="primary"
+        iconLeft={IconFilter}
+        shortcutKey="Enter"
+        className="flex-1"
+      >
+        Search
+      </Button>
+
+      <Button
         type="reset"
         variant="outline"
         color="danger"
         iconLeft={IconClearAll}
-        className="w-full"
+        shortcutKey="Escape"
       >
-        Clear Filters
+        Clear
       </Button>
     </Form>
   );

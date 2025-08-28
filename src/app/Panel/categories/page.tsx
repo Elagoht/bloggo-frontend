@@ -64,6 +64,7 @@ const CategoriesPage: FC = () => {
               <Button
                 href="/categories/create"
                 color="success"
+                shortcutKey="ctrlorCmd+E"
                 iconRight={IconPlus}
               >
                 New Category

@@ -42,6 +42,7 @@ const CategoryCreatePage: FC = () => {
         <Form handle={handleSubmit}>
           <FormSection legend="Display Content">
             <Input
+              autoFocus
               name="name"
               label="Category Name"
               iconLeft={IconTag}
