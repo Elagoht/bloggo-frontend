@@ -81,14 +81,14 @@ const HoldButton: FC<HoldButtonProps> = ({
   };
 
   const classes = classNames(
-    "p-2 text-xs rounded cursor-pointer transition-all ease-in-out focus:outline-none flex items-center justify-center gap-2 text-center w-full relative overflow-hidden",
+    "p-2 text-xs rounded cursor-pointer transition-all ease-in-out focus:outline-none focus:outline-1 flex items-center justify-center gap-2 text-center w-full relative overflow-hidden",
     className,
     {
-      "border-2 border-gopher-500 text-gopher-500 focus:outline-gopher-500":
+      "border border-gopher-500 text-gopher-500 focus:outline-gopher-500":
         color === "primary",
-      "border-2 border-danger-500 text-danger-500 focus:outline-danger-500":
+      "border border-danger-500 text-danger-500 focus:outline-danger-500":
         color === "danger",
-      "border-2 border-success-500 text-success-500 focus:outline-success-500":
+      "border border-success-500 text-success-500 focus:outline-success-500":
         color === "success",
     }
   );
