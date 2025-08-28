@@ -33,9 +33,9 @@ const GenerativeFill: FC<GenerativeFillProps> = ({
     try {
       setIsLoading(true);
       setError(null);
-      
+
       const response = await getGenerativeFill(postId, versionId);
-      
+
       if (response.success) {
         setData(response.data);
       } else {
@@ -56,10 +56,10 @@ const GenerativeFill: FC<GenerativeFillProps> = ({
   };
 
   return (
-    <div className="space-y-4">
+    <div>
       <Button
         type="button"
-        color="primary"
+        color="warning"
         iconLeft={IconSparkles}
         disabled={contentLength < 1000 || isLoading}
         onClick={handleGenerateFill}
@@ -67,7 +67,7 @@ const GenerativeFill: FC<GenerativeFillProps> = ({
       >
         {isLoading ? "Generating..." : "Generate AI Suggestions"}
       </Button>
-      
+
       {contentLength < 1000 && (
         <p className="text-sm text-smoke-600">
           Content must be at least 1000 characters to use AI generation
@@ -81,24 +81,30 @@ const GenerativeFill: FC<GenerativeFillProps> = ({
       )}
 
       {data && (
-        <div className="relative overflow-hidden rounded-lg border border-gopher-200">
+        <div className="mt-4 relative overflow-hidden rounded-lg border border-gopher-200">
           {/* Magical gradient background */}
           <div className="absolute inset-0 bg-gradient-to-br from-purple-400/10 via-pink-400/10 to-gopher-400/10 animate-pulse" />
+
           <div className="absolute inset-0 bg-gradient-to-r from-blue-400/5 via-purple-400/5 to-pink-400/5" />
-          
-          <div className="relative p-4 space-y-4">
+
+          <div className="p-4">
             <div className="flex items-center gap-2 mb-4">
               <IconSparkles className="h-5 w-5 text-gopher-600" />
-              <h3 className="text-lg font-semibold text-gopher-800">AI Suggestions</h3>
+              <h3 className="text-lg font-semibold text-gopher-800">
+                AI Suggestions
+              </h3>
             </div>
 
-            <div className="space-y-3">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
               <div className="bg-white/80 backdrop-blur-sm rounded-lg p-3 border border-white/40">
                 <div className="flex items-center justify-between mb-2">
-                  <label className="text-sm font-medium text-smoke-700">Title</label>
+                  <label className="text-sm font-medium text-smoke-700">
+                    Title
+                  </label>
+
                   <button
                     type="button"
-                    onClick={() => handleCopy('title', data.title)}
+                    onClick={() => handleCopy("title", data.title)}
                     className="p-1 hover:bg-smoke-100 rounded transition-colors"
                   >
                     <IconCopy className="h-4 w-4 text-smoke-500" />
@@ -109,10 +115,12 @@ const GenerativeFill: FC<GenerativeFillProps> = ({
 
               <div className="bg-white/80 backdrop-blur-sm rounded-lg p-3 border border-white/40">
                 <div className="flex items-center justify-between mb-2">
-                  <label className="text-sm font-medium text-smoke-700">Spot (Teaser)</label>
+                  <label className="text-sm font-medium text-smoke-700">
+                    Spot (Teaser)
+                  </label>
                   <button
                     type="button"
-                    onClick={() => handleCopy('spot', data.spot)}
+                    onClick={() => handleCopy("spot", data.spot)}
                     className="p-1 hover:bg-smoke-100 rounded transition-colors"
                   >
                     <IconCopy className="h-4 w-4 text-smoke-500" />
@@ -123,10 +131,14 @@ const GenerativeFill: FC<GenerativeFillProps> = ({
 
               <div className="bg-white/80 backdrop-blur-sm rounded-lg p-3 border border-white/40">
                 <div className="flex items-center justify-between mb-2">
-                  <label className="text-sm font-medium text-smoke-700">Meta Description</label>
+                  <label className="text-sm font-medium text-smoke-700">
+                    Meta Description
+                  </label>
                   <button
                     type="button"
-                    onClick={() => handleCopy('metaDescription', data.metaDescription)}
+                    onClick={() =>
+                      handleCopy("metaDescription", data.metaDescription)
+                    }
                     className="p-1 hover:bg-smoke-100 rounded transition-colors"
                   >
                     <IconCopy className="h-4 w-4 text-smoke-500" />
@@ -137,16 +149,14 @@ const GenerativeFill: FC<GenerativeFillProps> = ({
 
               <div className="bg-white/80 backdrop-blur-sm rounded-lg p-3 border border-white/40">
                 <div className="flex items-center justify-between mb-2">
-                  <label className="text-sm font-medium text-smoke-700">Suggested Category</label>
-                  <button
-                    type="button"
-                    onClick={() => handleCopy('suggestedCategory', data.suggestedCategory)}
-                    className="p-1 hover:bg-smoke-100 rounded transition-colors"
-                  >
-                    <IconCopy className="h-4 w-4 text-smoke-500" />
-                  </button>
+                  <label className="text-sm font-medium text-smoke-700">
+                    Suggested Category
+                  </label>
                 </div>
-                <p className="text-sm text-smoke-800">{data.suggestedCategory}</p>
+
+                <p className="text-sm text-smoke-800">
+                  {data.suggestedCategory}
+                </p>
               </div>
             </div>
           </div>

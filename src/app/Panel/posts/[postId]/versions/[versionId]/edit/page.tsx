@@ -179,6 +179,17 @@ const EditVersionPage: FC = () => {
               onChange={(e) => setCurrentContent(e.target.value)}
             />
           </FormCard>
+
+          {/* AI Generative Fill */}
+          {postId && versionId && (
+            <div className="mt-6">
+              <GenerativeFill
+                postId={parseInt(postId)}
+                versionId={versionId}
+                contentLength={currentContent.length}
+              />
+            </div>
+          )}
         </Container>
 
         <Sidebar topMargin>
@@ -235,18 +246,6 @@ const EditVersionPage: FC = () => {
           >
             {isSubmitting ? "Updating..." : "Update Version"}
           </Button>
-
-          {/* AI Generative Fill */}
-          {postId && versionId && (
-            <>
-              <SectionHeader>AI Assistance</SectionHeader>
-              <GenerativeFill
-                postId={parseInt(postId)}
-                versionId={versionId}
-                contentLength={currentContent.length}
-              />
-            </>
-          )}
 
           {/* Version Actions */}
           {postId && versionId && (
