@@ -7,6 +7,7 @@ interface GenerativeFillProps {
   postId: number;
   versionId: string;
   contentLength: number;
+  availableCategories?: CategoryListItem[];
   onCopy?: (field: string, value: string) => void;
 }
 
@@ -21,6 +22,7 @@ const GenerativeFill: FC<GenerativeFillProps> = ({
   postId,
   versionId,
   contentLength,
+  availableCategories,
   onCopy,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -34,7 +36,12 @@ const GenerativeFill: FC<GenerativeFillProps> = ({
       setIsLoading(true);
       setError(null);
 
-      const response = await getGenerativeFill(postId, versionId);
+      const categoryNames = availableCategories?.map((cat) => cat.name) || [];
+      const response = await getGenerativeFill(
+        postId,
+        versionId,
+        categoryNames
+      );
 
       if (response.success) {
         setData(response.data);

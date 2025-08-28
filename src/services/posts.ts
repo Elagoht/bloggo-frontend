@@ -102,10 +102,25 @@ export const publishVersion = (
     publishedAt,
   });
 
-export const getGenerativeFill = (postId: number, versionId: string) =>
-  ApiCall.get<{
+export const getGenerativeFill = (
+  postId: number,
+  versionId: string,
+  categories?: string[]
+) => {
+  const params = new URLSearchParams();
+  if (categories && categories.length > 0) {
+    params.set("categories", categories.join(","));
+  }
+
+  const queryString = params.toString();
+  const url = `/posts/${postId}/versions/${versionId}/generative-fill${
+    queryString ? `?${queryString}` : ""
+  }`;
+
+  return ApiCall.get<{
     title: string;
     metaDescription: string;
     spot: string;
     suggestedCategory: string;
-  }>(`/posts/${postId}/versions/${versionId}/generative-fill`);
+  }>(url);
+};

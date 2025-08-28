@@ -187,6 +187,7 @@ const EditVersionPage: FC = () => {
                 postId={parseInt(postId)}
                 versionId={versionId}
                 contentLength={currentContent.length}
+                availableCategories={categories}
               />
             </div>
           )}
