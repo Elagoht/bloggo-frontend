@@ -1,10 +1,11 @@
-import React from "react";
+import { IconLogin } from "@tabler/icons-react";
+import { FC } from "react";
 import { useNavigate } from "react-router-dom";
+import Button from "../components/form/Button";
+import Form from "../components/form/Form";
 import Input from "../components/form/Input";
 import { postLogin } from "../services/session";
 import { useAuthStore } from "../stores/auth";
-import Button from "../components/form/Button";
-import Form from "../components/form/Form";
 
 const LoginForm: FC = () => {
   const navigate = useNavigate();
@@ -29,7 +30,9 @@ const LoginForm: FC = () => {
 
       <Input type="password" name="passphrase" placeholder="Passphrase" />
 
-      <Button type="submit">Login</Button>
+      <Button type="submit" iconRight={IconLogin}>
+        Login
+      </Button>
     </Form>
   );
 };
