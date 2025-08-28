@@ -5,7 +5,7 @@ import PermissionGuard from "../../../Guards/PermissionGuard";
 
 const NoTagsYet: FC = () => {
   return (
-    <div className="bg-white dark:bg-smoke-950 rounded-lg border border-smoke-200 dark:border-smoke-800 p-8 text-center">
+    <div className="bg-white dark:bg-smoke-950 rounded-lg border border-smoke-200 dark:border-smoke-800 p-8 text-center col-span-3">
       <div className="flex flex-col items-center gap-4">
         <div className="p-4 bg-smoke-100 dark:bg-smoke-900 text-smoke-500 dark:text-smoke-400 rounded-full">
           <IconTag size={32} />
@@ -27,11 +27,7 @@ const NoTagsYet: FC = () => {
         </div>
 
         <PermissionGuard permission="tag:create">
-          <Button
-            href="/tags/create"
-            iconRight={IconPlus}
-            color="success"
-          >
+          <Button href="/tags/create" iconRight={IconPlus} color="success">
             Create Tag
           </Button>
         </PermissionGuard>
