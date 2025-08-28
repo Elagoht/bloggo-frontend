@@ -6,6 +6,7 @@ import Form from "../components/form/Form";
 import FormSection from "../components/form/FormSection";
 import Input from "../components/form/Input";
 import RadioGroup from "../components/form/RadioButton/RadioGroup";
+import ButtonGroup from "../components/form/ButtonGroup";
 
 const UserFiltersForm: FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -67,25 +68,27 @@ const UserFiltersForm: FC = () => {
         />
       </FormSection>
 
-      <Button
-        type="submit"
-        color="primary"
-        iconLeft={IconFilter}
-        shortcutKey="Enter"
-        className="flex-1"
-      >
-        Search
-      </Button>
+      <ButtonGroup>
+        <Button
+          type="submit"
+          color="primary"
+          iconLeft={IconFilter}
+          shortcutKey="Enter"
+          className="flex-1"
+        >
+          Search
+        </Button>
 
-      <Button
-        type="reset"
-        variant="outline"
-        color="danger"
-        iconLeft={IconClearAll}
-        shortcutKey="Escape"
-      >
-        Clear
-      </Button>
+        <Button
+          type="reset"
+          variant="outline"
+          color="danger"
+          iconLeft={IconClearAll}
+          shortcutKey="Escape"
+        >
+          Clear
+        </Button>
+      </ButtonGroup>
     </Form>
   );
 };

@@ -59,7 +59,12 @@ const UsersPage: FC = () => {
             <PageTitleWithIcon icon={IconUsers}>Users</PageTitleWithIcon>
 
             <PermissionGuard permission="user:register">
-              <Button href="/users/create" color="success" iconRight={IconPlus}>
+              <Button
+                href="/users/create"
+                color="success"
+                shortcutKey="ctrlOrCmd+E"
+                iconRight={IconPlus}
+              >
                 New User
               </Button>
             </PermissionGuard>

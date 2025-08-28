@@ -68,7 +68,12 @@ const PostsPage: FC = () => {
             <PageTitleWithIcon icon={IconFileText}>Posts</PageTitleWithIcon>
 
             <PermissionGuard permission="post:create">
-              <Button href="/write" color="success" iconRight={IconPlus}>
+              <Button
+                href="/write"
+                color="success"
+                shortcutKey="ctrlOrCmd+E"
+                iconRight={IconPlus}
+              >
                 New Post
               </Button>
             </PermissionGuard>

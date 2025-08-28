@@ -41,7 +41,7 @@ const DuplicateVersionPage: FC = () => {
   const [coverPreview, setCoverPreview] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [sourceVersion, setSourceVersion] = useState<PostDetails | null>(null);
+  const [sourceVersion, setSourceVersion] = useState<PostVersionDetails>();
 
   useEffect(() => {
     const loadData = async () => {

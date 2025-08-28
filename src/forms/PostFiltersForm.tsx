@@ -14,6 +14,7 @@ import Input from "../components/form/Input";
 import RadioGroup from "../components/form/RadioButton/RadioGroup";
 import Select from "../components/form/Select";
 import { getCategoriesList } from "../services/categories";
+import ButtonGroup from "../components/form/ButtonGroup";
 
 type PostFiltersFormProps = {};
 
@@ -86,20 +87,15 @@ const PostFiltersForm: FC<PostFiltersFormProps> = () => {
   return (
     <Form handle={handleSubmit} reset={handleReset}>
       <FormSection legend="Search">
-        <div className="flex items-center gap-2">
-          <Input
-            type="search"
-            name="q"
-            className="flex-1"
-            defaultValue={searchParams.get("q") || ""}
-            placeholder="Search Posts"
-            iconLeft={IconSearch}
-          />
-
-          <Button type="submit" color="primary" iconLeft={IconFilter}>
-            Filter
-          </Button>
-        </div>
+        <Input
+          autoFocus
+          type="search"
+          name="q"
+          className="flex-1"
+          defaultValue={searchParams.get("q") || ""}
+          placeholder="Search Posts"
+          iconLeft={IconSearch}
+        />
       </FormSection>
 
       <FormSection legend="Status">
@@ -155,15 +151,27 @@ const PostFiltersForm: FC<PostFiltersFormProps> = () => {
         />
       </FormSection>
 
-      <Button
-        type="reset"
-        variant="outline"
-        color="danger"
-        iconLeft={IconClearAll}
-        className="w-full"
-      >
-        Clear Filters
-      </Button>
+      <ButtonGroup>
+        <Button
+          type="submit"
+          color="primary"
+          iconLeft={IconFilter}
+          shortcutKey="Enter"
+          className="flex-1"
+        >
+          Search
+        </Button>
+
+        <Button
+          type="reset"
+          variant="outline"
+          color="danger"
+          iconLeft={IconClearAll}
+          shortcutKey="Escape"
+        >
+          Clear
+        </Button>
+      </ButtonGroup>
     </Form>
   );
 };
