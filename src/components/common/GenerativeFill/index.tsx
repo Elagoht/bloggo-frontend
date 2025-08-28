@@ -1,4 +1,4 @@
-import { IconCopy, IconSparkles } from "@tabler/icons-react";
+import { IconCopy, IconLoader, IconSparkles } from "@tabler/icons-react";
 import { FC, useState } from "react";
 import { getGenerativeFill } from "../../../services/posts";
 import Button from "../../form/Button";
@@ -59,11 +59,10 @@ const GenerativeFill: FC<GenerativeFillProps> = ({
     <div>
       <Button
         type="button"
-        color="warning"
-        iconLeft={IconSparkles}
+        iconRight={isLoading ? IconLoader : IconSparkles}
         disabled={contentLength < 1000 || isLoading}
         onClick={handleGenerateFill}
-        className="w-full"
+        className="w-full bg-gradient-to-r !from-indigo-500 !via-pink-500 !to-fuchsia-800 !text-pink-200 border-none"
       >
         {isLoading ? "Generating..." : "Generate AI Suggestions"}
       </Button>
@@ -81,16 +80,16 @@ const GenerativeFill: FC<GenerativeFillProps> = ({
       )}
 
       {data && (
-        <div className="mt-4 relative overflow-hidden rounded-lg border border-gopher-200">
+        <div className="mt-4 relative overflow-hidden rounded-lg border border-rose-300 dark:border-rose-800 bg-smoke-200 dark:bg-smoke-900">
           {/* Magical gradient background */}
-          <div className="absolute inset-0 bg-gradient-to-br from-purple-400/10 via-pink-400/10 to-gopher-400/10 animate-pulse" />
+          <div className="absolute inset-0 bg-gradient-to-br from-purple-400/10 via-pink-400/10 to-rose-400/50 animate-pulse" />
 
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-400/5 via-purple-400/5 to-pink-400/5" />
+          <div className="absolute inset-0 bg-gradient-to-r from-indigo-400/50 via-purple-400/5 to-pink-400/5" />
 
           <div className="p-4">
             <div className="flex items-center gap-2 mb-4">
-              <IconSparkles className="h-5 w-5 text-gopher-600" />
-              <h3 className="text-lg font-semibold text-gopher-800">
+              <IconSparkles className="h-5 w-5 text-rose-600" />
+              <h3 className="text-lg font-semibold text-rose-800">
                 AI Suggestions
               </h3>
             </div>
