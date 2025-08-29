@@ -1,11 +1,14 @@
 import {
+  IconCopy,
   IconDatabase,
   IconDeviceFloppy,
   IconEdit,
   IconFileDescription,
   IconHeading,
+  IconInfoCircle,
   IconPhoto,
   IconSignature,
+  IconSparkles,
   IconTag,
   IconTextCaption,
 } from "@tabler/icons-react";
@@ -119,6 +122,19 @@ const WritePage: FC = () => {
               rows={20}
               className="font-mono"
             />
+          </FormCard>
+
+          <FormCard color="warning">
+            <SectionHeader icon={IconSparkles} color="warning">
+              AI-Powered Content Suggestions
+            </SectionHeader>
+
+            <span className="text-warning-700 dark:text-warning-300 text-xs">
+              You can access AI-generated suggestions for title, meta
+              description, and spot text after saving your content as a draft.
+              The AI will analyze your content and provide optimized suggestions
+              to improve SEO and engagement.
+            </span>
           </FormCard>
         </Container>
 
