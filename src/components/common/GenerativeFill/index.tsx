@@ -1,7 +1,8 @@
-import { IconCopy, IconLoader, IconSparkles } from "@tabler/icons-react";
+import { IconLoader, IconSparkles } from "@tabler/icons-react";
 import { FC, useState } from "react";
 import { getGenerativeFill } from "../../../services/posts";
 import Button from "../../form/Button";
+import CopyBox from "../CopyBox";
 
 interface GenerativeFillProps {
   postId: number;
@@ -56,7 +57,6 @@ const GenerativeFill: FC<GenerativeFillProps> = ({
   };
 
   const handleCopy = (field: string, value: string) => {
-    navigator.clipboard.writeText(value);
     if (onCopy) {
       onCopy(field, value);
     }
@@ -102,57 +102,24 @@ const GenerativeFill: FC<GenerativeFillProps> = ({
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-              <div className="bg-white/80 backdrop-blur-sm rounded-lg p-3 border border-white/40">
-                <div className="flex items-center justify-between mb-2">
-                  <label className="text-sm font-medium text-smoke-700">
-                    Title
-                  </label>
-
-                  <button
-                    type="button"
-                    onClick={() => handleCopy("title", data.title)}
-                    className="p-1 hover:bg-smoke-100 rounded transition-colors"
-                  >
-                    <IconCopy className="h-4 w-4 text-smoke-500" />
-                  </button>
-                </div>
-                <p className="text-sm text-smoke-800">{data.title}</p>
-              </div>
-
-              <div className="bg-white/80 backdrop-blur-sm rounded-lg p-3 border border-white/40">
-                <div className="flex items-center justify-between mb-2">
-                  <label className="text-sm font-medium text-smoke-700">
-                    Spot (Teaser)
-                  </label>
-                  <button
-                    type="button"
-                    onClick={() => handleCopy("spot", data.spot)}
-                    className="p-1 hover:bg-smoke-100 rounded transition-colors"
-                  >
-                    <IconCopy className="h-4 w-4 text-smoke-500" />
-                  </button>
-                </div>
-                <p className="text-sm text-smoke-800">{data.spot}</p>
-              </div>
-
-              <div className="bg-white/80 backdrop-blur-sm rounded-lg p-3 border border-white/40">
-                <div className="flex items-center justify-between mb-2">
-                  <label className="text-sm font-medium text-smoke-700">
-                    Meta Description
-                  </label>
-                  <button
-                    type="button"
-                    onClick={() =>
-                      handleCopy("metaDescription", data.metaDescription)
-                    }
-                    className="p-1 hover:bg-smoke-100 rounded transition-colors"
-                  >
-                    <IconCopy className="h-4 w-4 text-smoke-500" />
-                  </button>
-                </div>
-                <p className="text-sm text-smoke-800">{data.metaDescription}</p>
-              </div>
-
+              <CopyBox 
+                label="Title" 
+                value={data.title} 
+                onCopy={handleCopy} 
+              />
+              
+              <CopyBox 
+                label="Spot (Teaser)" 
+                value={data.spot} 
+                onCopy={handleCopy} 
+              />
+              
+              <CopyBox 
+                label="Meta Description" 
+                value={data.metaDescription} 
+                onCopy={handleCopy} 
+              />
+              
               <div className="bg-white/80 backdrop-blur-sm rounded-lg p-3 border border-white/40">
                 <div className="flex items-center justify-between mb-2">
                   <label className="text-sm font-medium text-smoke-700">

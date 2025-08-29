@@ -30,6 +30,7 @@ import {
   getPostVersion,
   updatePostVersion,
 } from "../../../../../../../services/posts";
+import GenerativeFill from "../../../../../../../components/common/GenerativeFill";
 
 const DuplicateVersionPage: FC = () => {
   const navigate = useNavigate();
@@ -42,6 +43,7 @@ const DuplicateVersionPage: FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [sourceVersion, setSourceVersion] = useState<PostVersionDetails>();
+  const [currentContent, setCurrentContent] = useState<string>("");
 
   useEffect(() => {
     const loadData = async () => {
@@ -62,6 +64,7 @@ const DuplicateVersionPage: FC = () => {
           );
           if (versionResponse.success) {
             setSourceVersion(versionResponse.data);
+            setCurrentContent(versionResponse.data.content || "");
             // Set cover preview if exists
             if (versionResponse.data.coverImage) {
               setCoverPreview(versionResponse.data.coverImage);
@@ -221,8 +224,21 @@ const DuplicateVersionPage: FC = () => {
                 rows={20}
                 className="font-mono"
                 defaultValue={sourceVersion.content}
+                onChange={(e) => setCurrentContent(e.target.value)}
               />
             </FormCard>
+
+            {/* AI Generative Fill */}
+            {postId && versionId && (
+              <div className="mt-6">
+                <GenerativeFill
+                  postId={parseInt(postId)}
+                  versionId={versionId}
+                  contentLength={currentContent.length}
+                  availableCategories={categories}
+                />
+              </div>
+            )}
           </Container>
 
           <Sidebar topMargin>
