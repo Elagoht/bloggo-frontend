@@ -89,10 +89,6 @@ const ProfilePage: FC = () => {
         <Button href="/profile/edit" iconLeft={IconSettings}>
           Edit Profile
         </Button>
-
-        <Button variant="outline" iconLeft={IconKey}>
-          Change Password
-        </Button>
       </div>
 
       {/* Stats Grid */}

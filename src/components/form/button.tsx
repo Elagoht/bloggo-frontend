@@ -101,7 +101,7 @@ const Button: FC<ButtonProps> = ({
       "border border-orange-500 text-orange-600 dark:text-orange-400 bg-transparent hover:bg-orange-50 dark:hover:bg-orange-900/20 focus:ring-1 focus:ring-orange-200 dark:focus:ring-orange-800":
         color === "warning" && variant === "outline",
       // Primary text
-      "text-gopher-600 dark:text-gopher-400 bg-gopher-100 dark:bg-gopher-900 hover:bg-gopher-200 dark:hover:bg-gopher-800 focus:ring-1 focus:ring-gopher-200 dark:focus:ring-gopher-800 border border-transparent":
+      "text-gopher-600 dark:text-gopher-400 bg-transparent hover:bg-gopher-100 dark:hover:bg-gopher-900/20 focus:ring-1 focus:ring-gopher-200 dark:focus:ring-gopher-800 border border-transparent":
         color === "primary" && variant === "text",
       // Danger text
       "text-danger-600 dark:text-danger-400 bg-transparent hover:bg-danger-50 dark:hover:bg-danger-900/20 focus:ring-1 focus:ring-danger-200 dark:focus:ring-danger-800 border border-transparent":
