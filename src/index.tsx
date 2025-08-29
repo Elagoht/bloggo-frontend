@@ -62,6 +62,8 @@ const App = () => {
 
                 <Route path="details/:slug" element={<PostDetailsPage />} />
 
+                <Route path=":postId/details" element={<PostDetailsPage />} />
+
                 <Route path=":postId/versions/:versionId">
                   <Route index element={<ViewVersionPage />} />
 

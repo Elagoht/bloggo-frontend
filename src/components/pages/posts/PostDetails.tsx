@@ -53,6 +53,7 @@ const PostDetails: FC<PostDetails> = (post) => {
           <h2 className="font-semibold text-smoke-900 dark:text-smoke-100 mb-1 line-clamp-1">
             {post.title || "Untitled Post"}
           </h2>
+
           <p className="text-sm text-smoke-600 dark:text-smoke-400 line-clamp-2">
             {post.spot || "No description available"}
           </p>
@@ -74,8 +75,10 @@ const PostDetails: FC<PostDetails> = (post) => {
                 )}
               >
                 {datum.icon}
+
                 <div>
                   <div className="text-xs opacity-75">{datum.title}</div>
+
                   <div className="font-medium">{datum.value || "N/A"}</div>
                 </div>
               </div>

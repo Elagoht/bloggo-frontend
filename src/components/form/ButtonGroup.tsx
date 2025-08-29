@@ -15,40 +15,8 @@ type ButtonGroupProps = PropsWithChildren & {
     | "around"
     | "evenly";
 
-  // Sizing configurations
-  sizing?:
-    | "equal"
-    | "first-grow"
-    | "last-grow"
-    | "middle-grow"
-    | "auto"
-    | "custom";
-
-  // Button sizing within group
-  buttonSizes?: Array<
-    | "smallest"
-    | "small"
-    | "medium"
-    | "large"
-    | "flex-1"
-    | "flex-2"
-    | "flex-3"
-    | "auto"
-  >;
-
   // Spacing options
   gap?: "none" | "xs" | "sm" | "md" | "lg" | "xl";
-
-  // Visual grouping
-  grouped?: boolean;
-  rounded?: "none" | "sm" | "md" | "lg" | "full";
-
-  // Responsive behavior
-  responsive?: {
-    sm?: Partial<Pick<ButtonGroupProps, "layout" | "alignment" | "sizing">>;
-    md?: Partial<Pick<ButtonGroupProps, "layout" | "alignment" | "sizing">>;
-    lg?: Partial<Pick<ButtonGroupProps, "layout" | "alignment" | "sizing">>;
-  };
 
   // Container styling
   className?: string;
@@ -67,12 +35,7 @@ const ButtonGroup: FC<ButtonGroupProps> = ({
   children,
   layout = "flex-row",
   alignment = "start",
-  sizing = "auto",
-  buttonSizes = [],
   gap = "sm",
-  grouped = false,
-  rounded = "md",
-  responsive,
   className,
   reverse = false,
   wrap = false,
@@ -141,37 +104,6 @@ const ButtonGroup: FC<ButtonGroupProps> = ({
 
     // Full width
     { "w-full": fullWidth },
-
-    // Responsive classes
-    responsive?.sm && {
-      "sm:flex-row": responsive.sm.layout === "flex-row",
-      "sm:flex-col": responsive.sm.layout === "flex-col",
-      "sm:grid sm:grid-cols-2 sm:grid-rows-1":
-        responsive.sm.layout === "grid-2x1",
-      "sm:justify-start": responsive.sm.alignment === "start",
-      "sm:justify-center": responsive.sm.alignment === "center",
-      "sm:justify-end": responsive.sm.alignment === "end",
-    },
-
-    responsive?.md && {
-      "md:flex-row": responsive.md.layout === "flex-row",
-      "md:flex-col": responsive.md.layout === "flex-col",
-      "md:grid md:grid-cols-2 md:grid-rows-1":
-        responsive.md.layout === "grid-2x1",
-      "md:justify-start": responsive.md.alignment === "start",
-      "md:justify-center": responsive.md.alignment === "center",
-      "md:justify-end": responsive.md.alignment === "end",
-    },
-
-    responsive?.lg && {
-      "lg:flex-row": responsive.lg.layout === "flex-row",
-      "lg:flex-col": responsive.lg.layout === "flex-col",
-      "lg:grid lg:grid-cols-2 lg:grid-rows-1":
-        responsive.lg.layout === "grid-2x1",
-      "lg:justify-start": responsive.lg.alignment === "start",
-      "lg:justify-center": responsive.lg.alignment === "center",
-      "lg:justify-end": responsive.lg.alignment === "end",
-    },
 
     className
   );

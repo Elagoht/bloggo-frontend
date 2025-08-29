@@ -1,33 +1,24 @@
 import {
   IconFileText,
   IconHistory,
-  IconEdit,
-  IconChevronLeft,
-  IconUser,
-  IconEye,
-  IconCategory,
-  IconCalendar,
-  IconCalendarClock,
-  IconSignature,
-  IconPencil,
-  IconVersions,
 } from "@tabler/icons-react";
 import { FC, useCallback, useEffect, useState } from "react";
-import { useParams, useNavigate, Link } from "react-router-dom";
-import Button from "../../../../../components/form/Button";
-import PermissionGuard from "../../../../../components/Guards/PermissionGuard";
+import { useParams } from "react-router-dom";
 import RouteGuard from "../../../../../components/Guards/RouteGuard";
 import Container from "../../../../../components/layout/Container";
 import PageTitleWithIcon from "../../../../../components/layout/Container/PageTitle";
 import PostVersionCard from "../../../../../components/pages/panel/posts/PostVersionCard";
-import { getPost, getPostVersions } from "../../../../../services/posts";
+import {
+  getPost,
+  getPostVersions,
+} from "../../../../../services/posts";
 import CardGrid from "../../../../../components/layout/Container/CardGrid";
-import classNames from "classnames";
 import PostDetails from "../../../../../components/pages/posts/PostDetails";
 import SectionHeader from "../../../../../components/layout/SectionHeader";
+import PostTagsManager from "../../../../../components/pages/posts/PostTagsManager";
 
 const PostDetailsPage: FC = () => {
-  const { slug } = useParams<{ slug: string }>();
+  const { slug, postId } = useParams<{ slug?: string; postId?: string }>();
 
   const [post, setPost] = useState<PostDetails | null>(null);
   const [versionsResponse, setVersionsResponse] =
@@ -36,14 +27,14 @@ const PostDetailsPage: FC = () => {
   const [error, setError] = useState<Error | null>(null);
 
   const fetchPostDetails = useCallback(async () => {
-    if (!slug) return;
+    if (!slug && !postId) return;
 
     try {
       setLoading(true);
       setError(null);
 
-      // Fetch post basic details
-      const postResult = await getPost(slug);
+      // Fetch post basic details - use slug if available, otherwise use postId
+      const postResult = await getPost(slug || postId!);
       if (postResult.success) {
         setPost(postResult.data);
 
@@ -58,7 +49,7 @@ const PostDetailsPage: FC = () => {
     } finally {
       setLoading(false);
     }
-  }, [slug]);
+  }, [slug, postId]);
 
   useEffect(() => {
     fetchPostDetails();
@@ -112,6 +103,8 @@ const PostDetailsPage: FC = () => {
         </div>
 
         <PostDetails {...post} />
+
+        <PostTagsManager post={post} onTagsUpdated={fetchPostDetails} />
 
         <SectionHeader icon={IconHistory}>
           Version History{" "}

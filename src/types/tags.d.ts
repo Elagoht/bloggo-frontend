@@ -3,6 +3,7 @@ type ResponseTagCreated = {
 };
 
 type TagCard = {
+  id: number;
   name: string;
   slug: string;
   blogCount: number;

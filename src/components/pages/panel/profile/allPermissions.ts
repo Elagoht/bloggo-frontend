@@ -9,6 +9,7 @@ const permission = {
   "tag:create": "Create new tags",
   "tag:update": "Update existing tags",
   "tag:delete": "Delete tags",
+  "tag:assign": "Edit tags of a post",
   "category:list": "View category list",
   "category:view": "View category details",
   "category:create": "Create new categories",

@@ -9,6 +9,7 @@ type Permission =
   | "tag:create"
   | "tag:update"
   | "tag:delete"
+  | "tag:assign"
   | "category:list"
   | "category:view"
   | "category:create"

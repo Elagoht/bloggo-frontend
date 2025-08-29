@@ -124,3 +124,6 @@ export const getGenerativeFill = (
     suggestedCategory: string;
   }>(url);
 };
+
+export const assignTagsToPost = (postId: number, tagIds: number[]) =>
+  ApiCall.post(`/posts/${postId}/tags`, { tagIds });

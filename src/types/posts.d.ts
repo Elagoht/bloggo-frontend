@@ -47,6 +47,11 @@ type PostDetails = {
     name?: string;
     slug?: string;
   };
+  tags: {
+    id: number;
+    name: string;
+    slug: string;
+  }[];
 };
 
 type RequestPostFilters = {
@@ -127,4 +132,9 @@ type PostVersionDetails = {
     name: string;
     slug: string;
   };
+  tags: {
+    id: number;
+    name: string;
+    slug: string;
+  }[];
 };

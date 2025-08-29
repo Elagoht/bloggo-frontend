@@ -8,6 +8,7 @@ import {
   IconTag,
   IconUser,
   IconVersions,
+  IconTags,
 } from "@tabler/icons-react";
 import { marked } from "marked";
 import { FC, useEffect, useState } from "react";
@@ -26,6 +27,7 @@ import DetailsItem from "../../../../../../components/common/DetailsItem";
 import ReviewNote from "../../../../../../components/common/ReviewNote";
 import VersionActionsForm from "../../../../../../forms/VersionActionsForm";
 import { PostStatus } from "../../../../../../utilities/PostStatusUtils";
+import TagChip from "../../../../../../components/common/TagChip";
 
 const ViewVersionPage: FC = () => {
   const { postId, versionId } = useParams<{
@@ -54,6 +56,7 @@ const ViewVersionPage: FC = () => {
       setIsLoading(false);
     }
   };
+
 
   useEffect(() => {
     loadVersion();
@@ -150,6 +153,17 @@ const ViewVersionPage: FC = () => {
               <Link to={`/categories/details/${version.category.slug}`}>
                 {version.category.name}
               </Link>
+            </DetailsItem>
+          )}
+
+          {/* Tags */}
+          {version.tags && version.tags.length > 0 && (
+            <DetailsItem icon={IconTags} title="Tags">
+              <div className="flex flex-wrap gap-1">
+                {version.tags.map((tag) => (
+                  <TagChip key={tag.id} tag={tag} size="sm" />
+                ))}
+              </div>
             </DetailsItem>
           )}
 
