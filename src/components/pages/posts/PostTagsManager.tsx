@@ -73,13 +73,13 @@ const PostTagsManager: FC<PostTagsManagerProps> = ({ post, onTagsUpdated }) => {
     <>
       <SectionHeader icon={IconTags}>Tags</SectionHeader>
 
-      <div className="bg-smoke-50 dark:bg-smoke-950 rounded-xl border border-smoke-200 dark:border-smoke-800 p-4">
+      <div className="bg-smoke-50 dark:bg-smoke-950 rounded-xl border border-smoke-200 dark:border-smoke-800 p-3">
         {!isEditingTags && (
-          <div className="flex gap-4 justify-between items-start">
-            <div className="flex flex-wrap gap-2">
+          <div className="flex gap-4 flex-wrap justify-between items-start">
+            <div className="flex flex-wrap gap-x-1">
               {post.tags && post.tags.length > 0 ? (
                 post.tags.map((tag) => (
-                  <TagChip key={tag.id} tag={tag} size="sm" />
+                  <TagChip key={tag.id} tag={tag} size="md" />
                 ))
               ) : (
                 <span className="text-smoke-500 dark:text-smoke-400">
@@ -90,7 +90,7 @@ const PostTagsManager: FC<PostTagsManagerProps> = ({ post, onTagsUpdated }) => {
 
             <PermissionGuard permission="tag:assign">
               <Button
-                variant="outline"
+                color="warning"
                 onClick={handleEditTags}
                 disabled={isLoadingTags}
                 iconRight={IconEdit}

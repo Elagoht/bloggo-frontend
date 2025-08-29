@@ -1,6 +1,7 @@
 import { FC } from "react";
 import { Link } from "react-router-dom";
 import classNames from "classnames";
+import { IconTag } from "@tabler/icons-react";
 
 interface TagChipProps {
   tag: {
@@ -14,7 +15,7 @@ interface TagChipProps {
 
 const TagChip: FC<TagChipProps> = ({ tag, clickable = true, size = "sm" }) => {
   const chipClasses = classNames(
-    "inline-flex items-center rounded-full font-medium transition-colors duration-200",
+    "inline-flex gap-1 items-center rounded-md font-medium transition-colors duration-200",
     {
       "px-2 py-1 text-xs": size === "sm",
       "px-3 py-1.5 text-sm": size === "md",
@@ -25,7 +26,12 @@ const TagChip: FC<TagChipProps> = ({ tag, clickable = true, size = "sm" }) => {
     }
   );
 
-  const content = <span className={chipClasses}>#{tag.name}</span>;
+  const content = (
+    <span className={chipClasses}>
+      <IconTag size={16} />
+      {tag.name}
+    </span>
+  );
 
   if (clickable) {
     return <Link to={`/tags/details/${tag.slug}`}>{content}</Link>;

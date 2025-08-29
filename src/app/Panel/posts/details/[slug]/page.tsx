@@ -1,17 +1,11 @@
-import {
-  IconFileText,
-  IconHistory,
-} from "@tabler/icons-react";
+import { IconFileText, IconHistory } from "@tabler/icons-react";
 import { FC, useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import RouteGuard from "../../../../../components/Guards/RouteGuard";
 import Container from "../../../../../components/layout/Container";
 import PageTitleWithIcon from "../../../../../components/layout/Container/PageTitle";
 import PostVersionCard from "../../../../../components/pages/panel/posts/PostVersionCard";
-import {
-  getPost,
-  getPostVersions,
-} from "../../../../../services/posts";
+import { getPost, getPostVersions } from "../../../../../services/posts";
 import CardGrid from "../../../../../components/layout/Container/CardGrid";
 import PostDetails from "../../../../../components/pages/posts/PostDetails";
 import SectionHeader from "../../../../../components/layout/SectionHeader";
