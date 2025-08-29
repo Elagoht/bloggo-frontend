@@ -44,7 +44,7 @@ const Aside: FC = () => {
 
       <aside
         className={classNames(
-          "flex flex-col w-64 p-4 bg-smoke-50/70 dark:bg-smoke-950/70 backdrop-blur-sm h-[calc(100dvh-4rem)] overflow-auto border-r border-smoke-200/70 dark:border-smoke-800/70 transition-transform duration-300 ease-in-out",
+          "flex flex-col w-64 p-4 bg-smoke-50/60 dark:bg-smoke-950/60 backdrop-blur h-[calc(100dvh-4rem)] overflow-auto border-r border-smoke-200/70 dark:border-smoke-800/70 transition-transform duration-300 ease-in-out",
           // Both mobile and desktop: fixed positioned
           "fixed top-16 left-0 z-40",
           // Mobile: sliding behavior
@@ -63,7 +63,7 @@ const Aside: FC = () => {
                 className={classNames(
                   "flex items-center whitespace-nowrap gap-3 rounded-lg py-2 px-3 transition-all duration-200 group font-medium",
                   {
-                    "bg-gradient-to-r from-gopher-100 to-gopher-200 dark:from-gopher-800/50 dark:to-gopher-900/30 text-gopher-800 dark:text-gopher-200 shadow-sm border border-gopher-200/50 dark:border-gopher-700/50":
+                    "bg-gradient-to-r from-gopher-200/50 to-gopher-100/30 dark:from-gopher-800/50 dark:to-gopher-900/30 text-gopher-800 dark:text-gopher-200 shadow-sm border border-gopher-500/50 dark:border-gopher-700/50":
                       isActive(item.href),
                     "text-smoke-700 dark:text-smoke-300 hover:bg-smoke-100/80 dark:hover:bg-smoke-900/50 hover:text-smoke-900 dark:hover:text-smoke-100 hover:shadow-sm hover:border-smoke-200/50 dark:hover:border-smoke-700/50 border border-transparent":
                       !isActive(item.href),
