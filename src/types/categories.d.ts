@@ -32,3 +32,8 @@ type ResponseCategory = {
   updatedAt: string;
   blogCount: number;
 };
+
+type CategoryGenerativeFillResponse = {
+  spot: string;
+  description: string;
+};

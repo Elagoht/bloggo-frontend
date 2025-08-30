@@ -40,3 +40,6 @@ export const patchCategoryUpdate = (
 
 export const deleteCategory = (slug: string) =>
   ApiCall.delete(`/categories/${slug}`);
+
+export const getCategoryGenerativeFill = (categoryName: string) =>
+  ApiCall.get<CategoryGenerativeFillResponse>(`/categories/generative-fill?name=${encodeURIComponent(categoryName)}`);
