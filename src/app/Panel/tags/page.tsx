@@ -29,7 +29,7 @@ const TagsPage: FC = () => {
       order: searchParams.get("order") || "",
       dir: searchParams.get("dir") || "",
       page: parseInt(searchParams.get("page") || "1"),
-      take: parseInt(searchParams.get("take") || "12"),
+      take: parseInt(searchParams.get("take") || "24"),
     }),
     [searchParams]
   );
@@ -72,12 +72,13 @@ const TagsPage: FC = () => {
 
           {!loading && !error && (
             <>
-              <CardGrid>
+              <CardGrid compact>
                 {tagsResponse &&
                 tagsResponse.data &&
                 tagsResponse.data.length > 0 ? (
                   tagsResponse.data.map((tag: any) => (
                     <TagCard
+                      id={tag.id}
                       key={tag.slug}
                       name={tag.name}
                       slug={tag.slug}

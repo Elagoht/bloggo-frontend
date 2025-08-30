@@ -1,8 +1,18 @@
+import classNames from "classnames";
 import { FC, PropsWithChildren } from "react";
 
-const CardGrid: FC<PropsWithChildren> = ({ children }) => {
+type CardGridProps = PropsWithChildren & {
+  compact?: boolean;
+};
+
+const CardGrid: FC<CardGridProps> = ({ children, compact }) => {
   return (
-    <div className="grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-4">
+    <div
+      className={classNames("grid grid-cols-1 gap-4", {
+        "xl:grid-cols-2 2xl:grid-cols-3": !compact,
+        "lg:grid-cols-3 2xl:grid-cols-4": compact,
+      })}
+    >
       {children}
     </div>
   );
