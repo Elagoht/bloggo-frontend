@@ -8,7 +8,7 @@ const TagCard: FC<TagCard> = ({ name, slug, blogCount }) => {
       to={`/tags/details/${slug}`}
       className="group flex bg-smoke-0 dark:bg-smoke-950 rounded-xl border border-smoke-200 dark:border-smoke-800 p-2 gap-2 hover:border-gopher-300 dark:hover:border-gopher-700 hover:shadow-md transition-all duration-200"
     >
-      <div className="p-4 bg-gopher-100 dark:bg-gopher-900 text-gopher-600 dark:text-gopher-400 rounded-lg group-hover:bg-gopher-200 dark:group-hover:bg-gopher-800 transition-colors">
+      <div className="p-2 m-1 bg-gopher-100 dark:bg-gopher-900 text-gopher-600 dark:text-gopher-400 rounded-lg group-hover:bg-gopher-200 dark:group-hover:bg-gopher-800 transition-colors">
         <IconTag />
       </div>
 
