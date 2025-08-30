@@ -106,8 +106,8 @@ const Dialog: FC<DialogProps> = ({
           {/* Actions */}
           {actions && (
             <div className="p-2 border-t flex gap-2 justify-end border-smoke-200 dark:border-smoke-800">
-              {actions.map((action) => (
-                <Button {...action} />
+              {actions.map((action, index) => (
+                <Button key={index} {...action} />
               ))}
             </div>
           )}

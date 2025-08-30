@@ -27,7 +27,13 @@ const TagDeleteForm: FC<TagDeleteFormProps> = ({ tag }) => {
       color="danger"
       legend="Caution! This action cannot be reversed."
     >
-      <HoldButton color="danger" onClick={handleSubmit}>
+      <HoldButton
+        color="danger"
+        onClick={handleSubmit}
+        confirmTitle="Delete Tag"
+        confirmMessage={`Are you sure you want to permanently delete the tag "${tag.name}"? This action cannot be undone.`}
+        confirmActionText="Delete Tag"
+      >
         Hold to Delete
       </HoldButton>
     </FormSection>

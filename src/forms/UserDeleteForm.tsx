@@ -31,7 +31,13 @@ const UserDeleteForm: FC<UserDeleteFormProps> = ({ user }) => {
         Danger Zone
       </SectionHeader>
 
-      <HoldButton color="danger" onClick={handleSubmit}>
+      <HoldButton 
+        color="danger" 
+        onClick={handleSubmit}
+        confirmTitle="Delete User"
+        confirmMessage={`Are you sure you want to permanently delete ${user.name}? This action cannot be undone.`}
+        confirmActionText="Delete User"
+      >
         Hold to Delete
       </HoldButton>
     </FormCard>
