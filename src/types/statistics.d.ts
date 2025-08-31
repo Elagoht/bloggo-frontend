@@ -55,6 +55,14 @@ interface CategoryReadTimeDistribution {
   percentage: number;
 }
 
+interface CategoryLengthDistribution {
+  category_id: number;
+  category_name: string;
+  total_length: number;
+  average_length: number;
+  percentage: number;
+}
+
 interface LongestBlog {
   post_id: number;
   title: string;
@@ -107,6 +115,7 @@ interface ResponseAllStatistics {
   longest_blogs: LongestBlog[];
   category_blogs_distribution: CategoryBlogDistribution[];
   category_read_time_distribution: CategoryReadTimeDistribution[];
+  category_length_distribution: CategoryLengthDistribution[];
   top_user_agents: UserAgentStat[];
   device_type_distribution: DeviceTypeStat[];
   operating_system_distribution: OSStatistic[];
@@ -123,6 +132,7 @@ interface ResponseAuthorStatistics {
   longest_blogs: LongestBlog[];
   category_blogs_distribution: CategoryBlogDistribution[];
   category_read_time_distribution: CategoryReadTimeDistribution[];
+  category_length_distribution: CategoryLengthDistribution[];
   top_user_agents: UserAgentStat[];
   device_type_distribution: DeviceTypeStat[];
   operating_system_distribution: OSStatistic[];

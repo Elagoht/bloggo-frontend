@@ -194,25 +194,19 @@ const StatisticsPage: FC = () => {
       longest_blogs: longestBlogs,
       category_views_distribution: categoryViews,
       category_blogs_distribution: categoryBlogs,
+      category_length_distribution: categoryLength,
       device_type_distribution: deviceTypes,
       browser_distribution: browsers,
       operating_system_distribution: osStats,
     } = stats;
 
     return (
-      <>
+      <Container>
         {/* Author info for individual stats */}
         {showAuthorInfo && "author_statistics" in stats && (
-          <div className="mb-8">
+          <>
             <SectionHeader>Author Information</SectionHeader>
             <CardGrid>
-              <StatCard
-                title="Author Name"
-                value={stats.author_statistics.author_name}
-                icon={IconUsers}
-                color="primary"
-                description="Author details"
-              />
               <StatCard
                 title="Total Blogs"
                 value={stats.author_statistics.total_blogs}
@@ -235,156 +229,157 @@ const StatisticsPage: FC = () => {
                 description="Average engagement"
               />
             </CardGrid>
-          </div>
+          </>
         )}
 
         {/* Overview Stats */}
-        <div className="mb-8">
-          <SectionHeader>Overview</SectionHeader>
-          <CardGrid>
-            <StatCard
-              title="Total Views"
-              value={viewStats.total_views}
-              icon={IconEye}
-              color="primary"
-              description="All time page views"
-            />
-            <StatCard
-              title="Views Today"
-              value={viewStats.views_today}
-              icon={IconTrendingUp}
-              color="success"
-              description="Views in the last 24 hours"
-            />
-            <StatCard
-              title="Published Posts"
-              value={blogStats.total_published_blogs}
-              icon={IconFileText}
-              color="primary"
-              description="Live on the site"
-            />
-            <StatCard
-              title="Draft Posts"
-              value={blogStats.total_drafted_blogs}
-              icon={IconFileText}
-              color="warning"
-              description="Work in progress"
-            />
-            <StatCard
-              title="Avg. Read Time"
-              value={`${Math.round(blogStats.average_read_time)} min`}
-              icon={IconClock}
-              color="primary"
-              description="Average time to read posts"
-            />
-            <StatCard
-              title="Avg. Views"
-              value={Math.round(blogStats.average_views)}
-              icon={IconEye}
-              color="success"
-              description="Per post average"
-            />
-          </CardGrid>
-        </div>
+        <SectionHeader>Overview</SectionHeader>
+        <CardGrid>
+          <StatCard
+            title="Total Views"
+            value={viewStats.total_views}
+            icon={IconEye}
+            color="primary"
+            description="All time page views"
+          />
+          <StatCard
+            title="Views Today"
+            value={viewStats.views_today}
+            icon={IconTrendingUp}
+            color="success"
+            description="Views in the last 24 hours"
+          />
+          <StatCard
+            title="Published Posts"
+            value={blogStats.total_published_blogs}
+            icon={IconFileText}
+            color="primary"
+            description="Live on the site"
+          />
+          <StatCard
+            title="Draft Posts"
+            value={blogStats.total_drafted_blogs}
+            icon={IconFileText}
+            color="warning"
+            description="Work in progress"
+          />
+          <StatCard
+            title="Avg. Read Time"
+            value={`${Math.round(blogStats.average_read_time)} min`}
+            icon={IconClock}
+            color="primary"
+            description="Average time to read posts"
+          />
+          <StatCard
+            title="Avg. Views"
+            value={Math.round(blogStats.average_views)}
+            icon={IconEye}
+            color="success"
+            description="Per post average"
+          />
+        </CardGrid>
 
         {/* Content Performance */}
-        <div className="mb-8">
-          <SectionHeader>Content Performance</SectionHeader>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <StatTable
-              title="Most Viewed Posts"
-              data={mostViewed}
-              columns={[
-                { key: "title", title: "Title" },
-                { key: "author", title: "Author" },
-                {
-                  key: "view_count",
-                  title: "Views",
-                  render: (value) => value.toLocaleString(),
-                },
-              ]}
-              maxRows={8}
-            />
+        <SectionHeader>Content Performance</SectionHeader>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <StatTable
+            title="Most Viewed Posts"
+            data={mostViewed}
+            columns={[
+              { key: "title", title: "Title" },
+              { key: "author", title: "Author" },
+              {
+                key: "view_count",
+                title: "Views",
+                render: (value) => value.toLocaleString(),
+              },
+            ]}
+            maxRows={8}
+          />
 
-            <StatTable
-              title="Longest Posts"
-              data={longestBlogs}
-              columns={[
-                { key: "title", title: "Title" },
-                { key: "author", title: "Author" },
-                {
-                  key: "read_time",
-                  title: "Read Time",
-                  render: (value) => `${value} min`,
-                },
-              ]}
-              maxRows={8}
-            />
-          </div>
+          <StatTable
+            title="Longest Posts"
+            data={longestBlogs}
+            columns={[
+              { key: "title", title: "Title" },
+              { key: "author", title: "Author" },
+              {
+                key: "read_time",
+                title: "Read Time",
+                render: (value) => `${value} min`,
+              },
+            ]}
+            maxRows={8}
+          />
         </div>
 
         {/* Category Analytics */}
-        <div className="mb-8">
-          <SectionHeader>Category Analytics</SectionHeader>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <SimpleChart
-              title="Views by Category"
-              type="bar"
-              data={categoryViews.map((cat) => ({
-                label: cat.category_name,
-                value: cat.view_count,
-                percentage: cat.percentage,
-              }))}
-            />
+        <SectionHeader>Category Analytics</SectionHeader>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <SimpleChart
+            title="Views by Category"
+            type="pie"
+            data={categoryViews.map((cat) => ({
+              label: cat.category_name,
+              value: cat.view_count,
+              percentage: cat.percentage,
+            }))}
+          />
 
-            <SimpleChart
-              title="Posts by Category"
-              type="donut"
-              data={categoryBlogs.map((cat) => ({
-                label: cat.category_name,
-                value: cat.blog_count,
-                percentage: cat.percentage,
-              }))}
-            />
-          </div>
+          <SimpleChart
+            title="Posts by Category"
+            type="pie"
+            data={categoryBlogs.map((cat) => ({
+              label: cat.category_name,
+              value: cat.blog_count,
+              percentage: cat.percentage,
+            }))}
+          />
+
+          <SimpleChart
+            title="Content Length by Category"
+            type="pie"
+            data={categoryLength.map((cat) => ({
+              label: cat.category_name,
+              value: cat.total_length,
+              percentage: cat.percentage,
+            }))}
+          />
         </div>
 
         {/* Audience Analytics */}
-        <div>
-          <SectionHeader>Audience Analytics</SectionHeader>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <SimpleChart
-              title="Device Types"
-              type="donut"
-              data={deviceTypes.map((device) => ({
-                label: device.device_type,
-                value: device.view_count,
-                percentage: device.percentage,
-              }))}
-            />
+        <SectionHeader>Audience Analytics</SectionHeader>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <SimpleChart
+            title="Device Types"
+            data={deviceTypes.map((device) => ({
+              label: device.device_type,
+              value: device.view_count,
+              percentage: device.percentage,
+            }))}
+          />
 
-            <SimpleChart
-              title="Browsers"
-              type="bar"
-              data={browsers.map((browser) => ({
-                label: browser.browser,
-                value: browser.view_count,
-                percentage: browser.percentage,
-              }))}
-            />
+          <SimpleChart
+            title="Browsers"
+            type="bar"
+            data={browsers.map((browser) => ({
+              label: browser.browser,
+              value: browser.view_count,
+              percentage: browser.percentage,
+            }))}
+          />
 
-            <SimpleChart
-              title="Operating Systems"
-              type="bar"
-              data={osStats.map((os) => ({
-                label: os.operating_system,
-                value: os.view_count,
-                percentage: os.percentage,
-              }))}
-            />
-          </div>
+          <SimpleChart
+            title="Operating Systems"
+            type="bar"
+            data={osStats.map((os) => ({
+              label: os.operating_system,
+              value: os.view_count,
+              percentage: os.percentage,
+            }))}
+          />
         </div>
-      </>
+      </Container>
     );
   };
 
