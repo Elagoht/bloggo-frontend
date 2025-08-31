@@ -36,7 +36,7 @@ export const routePermissions: RoutePermissionConfig[] = [
   },
   {
     path: "/panel/statistics",
-    permission: "statistics:view-total",
+    permission: "statistics:view-self",
     redirectTo: "/panel/dashboard",
   },
   {

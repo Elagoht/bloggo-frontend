@@ -38,6 +38,7 @@ const EditUserPage = lazy(() => import("./app/panel/users/details/[id]/page"));
 const TagsPage = lazy(() => import("./app/panel/tags/page"));
 const CreateTagPage = lazy(() => import("./app/panel/tags/create/page"));
 const EditTagPage = lazy(() => import("./app/panel/tags/details/[slug]/page"));
+const StatisticsPage = lazy(() => import("./app/panel/statistics/page"));
 const NotFoundPage = lazy(() => import("./app/panel/404/page"));
 
 const App = () => {
@@ -102,6 +103,8 @@ const App = () => {
 
                 <Route path="details/:slug" element={<EditTagPage />} />
               </Route>
+
+              <Route path="statistics" element={<StatisticsPage />} />
 
               {/* Catch-all route for 404 within panel */}
               <Route path="*" element={<NotFoundPage />} />

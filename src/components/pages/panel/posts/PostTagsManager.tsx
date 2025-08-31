@@ -6,14 +6,14 @@ import {
 } from "@tabler/icons-react";
 import { FC, useState } from "react";
 import toast from "react-hot-toast";
-import Button from "../../form/Button";
-import PermissionGuard from "../../Guards/PermissionGuard";
-import SectionHeader from "../../layout/SectionHeader";
-import TagChip from "../../common/TagChip";
-import ButtonGroup from "../../form/ButtonGroup";
-import CheckboxGroup from "../../form/Checkbox/CheckboxGroup";
-import { assignTagsToPost } from "../../../services/posts";
-import { getTags } from "../../../services/tags";
+import Button from "../../../form/Button";
+import PermissionGuard from "../../../Guards/PermissionGuard";
+import SectionHeader from "../../../layout/SectionHeader";
+import TagChip from "../../../common/TagChip";
+import ButtonGroup from "../../../form/ButtonGroup";
+import CheckboxGroup from "../../../form/Checkbox/CheckboxGroup";
+import { assignTagsToPost } from "../../../../services/posts";
+import { getTags } from "../../../../services/tags";
 
 interface PostTagsManagerProps {
   post: PostDetails;

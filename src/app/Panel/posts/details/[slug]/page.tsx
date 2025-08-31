@@ -7,9 +7,9 @@ import PageTitleWithIcon from "../../../../../components/layout/Container/PageTi
 import PostVersionCard from "../../../../../components/pages/panel/posts/PostVersionCard";
 import { getPost, getPostVersions } from "../../../../../services/posts";
 import CardGrid from "../../../../../components/layout/Container/CardGrid";
-import PostDetails from "../../../../../components/pages/posts/PostDetails";
+import PostDetails from "../../../../../components/pages/panel/posts/PostDetails";
 import SectionHeader from "../../../../../components/layout/SectionHeader";
-import PostTagsManager from "../../../../../components/pages/posts/PostTagsManager";
+import PostTagsManager from "../../../../../components/pages/panel/posts/PostTagsManager";
 
 const PostDetailsPage: FC = () => {
   const { slug, postId } = useParams<{ slug?: string; postId?: string }>();

@@ -1,0 +1,450 @@
+import { IconEye, IconFileText, IconClock, IconDeviceAnalytics, IconTrendingUp, IconUsers, IconChartBar, IconSelector } from "@tabler/icons-react";
+import { FC, useEffect, useState } from "react";
+import StatCard from "../../../components/common/StatCard";
+import SimpleChart from "../../../components/common/SimpleChart";
+import StatTable from "../../../components/common/StatTable";
+import { Tabs, TabList, Tab, TabPanel } from "../../../components/common/Tabs";
+import Select from "../../../components/form/Select";
+import PermissionGuard from "../../../components/Guards/PermissionGuard";
+import RouteGuard from "../../../components/Guards/RouteGuard";
+import Container from "../../../components/layout/Container";
+import CardGrid from "../../../components/layout/Container/CardGrid";
+import PageTitleWithIcon from "../../../components/layout/Container/PageTitle";
+import SectionHeader from "../../../components/layout/SectionHeader";
+import { getAllStatistics, getUserOwnStatistics, getAuthorStatistics } from "../../../services/statistics";
+import { getUsers } from "../../../services/users";
+import { useAuthStore } from "../../../stores/auth";
+import { useProfileStore } from "../../../stores/profile";
+
+const StatisticsPage: FC = () => {
+  const { hasPermission } = useAuthStore();
+  const { profile } = useProfileStore();
+  
+  const [totalStatistics, setTotalStatistics] = useState<ResponseAllStatistics | null>(null);
+  const [selfStatistics, setSelfStatistics] = useState<ResponseAuthorStatistics | null>(null);
+  const [otherUserStatistics, setOtherUserStatistics] = useState<ResponseAuthorStatistics | null>(null);
+  const [users, setUsers] = useState<ResponsePaginated<UserCard> | null>(null);
+  const [selectedUserId, setSelectedUserId] = useState<string>("");
+  
+  const [loadingTotal, setLoadingTotal] = useState(false);
+  const [loadingSelf, setLoadingSelf] = useState(false);
+  const [loadingOther, setLoadingOther] = useState(false);
+  const [loadingUsers, setLoadingUsers] = useState(false);
+  
+  const [errorTotal, setErrorTotal] = useState<Error | null>(null);
+  const [errorSelf, setErrorSelf] = useState<Error | null>(null);
+  const [errorOther, setErrorOther] = useState<Error | null>(null);
+
+  const fetchTotalStatistics = async () => {
+    try {
+      setLoadingTotal(true);
+      setErrorTotal(null);
+      const result = await getAllStatistics();
+      if (result.success) {
+        setTotalStatistics(result.data);
+      } else {
+        setErrorTotal(new Error(result.error.message));
+      }
+    } catch (err) {
+      setErrorTotal(err as Error);
+    } finally {
+      setLoadingTotal(false);
+    }
+  };
+
+  const fetchSelfStatistics = async () => {
+    try {
+      setLoadingSelf(true);
+      setErrorSelf(null);
+      const result = await getUserOwnStatistics();
+      if (result.success) {
+        setSelfStatistics(result.data);
+      } else {
+        setErrorSelf(new Error(result.error.message));
+      }
+    } catch (err) {
+      setErrorSelf(err as Error);
+    } finally {
+      setLoadingSelf(false);
+    }
+  };
+
+  const fetchOtherUserStatistics = async (userId: string) => {
+    try {
+      setLoadingOther(true);
+      setErrorOther(null);
+      const result = await getAuthorStatistics(userId);
+      if (result.success) {
+        setOtherUserStatistics(result.data);
+      } else {
+        setErrorOther(new Error(result.error.message));
+      }
+    } catch (err) {
+      setErrorOther(err as Error);
+    } finally {
+      setLoadingOther(false);
+    }
+  };
+
+  const fetchUsers = async () => {
+    try {
+      setLoadingUsers(true);
+      const result = await getUsers({ limit: 100 });
+      if (result.success) {
+        setUsers(result.data);
+      } else {
+        console.error('Users API failed:', result.error);
+      }
+    } catch (err) {
+      console.error('Failed to load users:', err);
+    } finally {
+      setLoadingUsers(false);
+    }
+  };
+
+  useEffect(() => {
+    if (hasPermission("statistics:view-total")) {
+      fetchTotalStatistics();
+    }
+    if (hasPermission("statistics:view-self")) {
+      fetchSelfStatistics();
+    }
+    if (hasPermission("statistics:view-others")) {
+      fetchUsers();
+    }
+  }, [hasPermission]);
+
+  const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const userId = event.target.value;
+    setSelectedUserId(userId);
+    if (userId) {
+      fetchOtherUserStatistics(userId);
+    } else {
+      setOtherUserStatistics(null);
+    }
+  };
+
+  // Helper component to render statistics content
+  const renderStatisticsContent = (
+    stats: ResponseAllStatistics | ResponseAuthorStatistics, 
+    loading: boolean, 
+    error: Error | null,
+    showAuthorInfo = false
+  ) => {
+    if (loading) {
+      return (
+        <div className="flex items-center justify-center py-12">
+          <div className="text-smoke-500 dark:text-smoke-400">Loading statistics...</div>
+        </div>
+      );
+    }
+
+    if (error || !stats) {
+      return (
+        <div className="flex items-center justify-center py-12">
+          <div className="text-red-500">
+            {error?.message || "Failed to load statistics"}
+          </div>
+        </div>
+      );
+    }
+
+    const {
+      view_statistics: viewStats,
+      blog_statistics: blogStats,
+      most_viewed_blogs: mostViewed,
+      longest_blogs: longestBlogs,
+      category_views_distribution: categoryViews,
+      category_blogs_distribution: categoryBlogs,
+      device_type_distribution: deviceTypes,
+      browser_distribution: browsers,
+      operating_system_distribution: osStats,
+    } = stats;
+
+    return (
+      <>
+        {/* Author info for individual stats */}
+        {showAuthorInfo && 'author_statistics' in stats && (
+          <div className="mb-8">
+            <SectionHeader>Author Information</SectionHeader>
+            <CardGrid>
+              <StatCard
+                title="Author Name"
+                value={stats.author_statistics.author_name}
+                icon={IconUsers}
+                color="primary"
+                description="Author details"
+              />
+              <StatCard
+                title="Total Blogs"
+                value={stats.author_statistics.total_blogs}
+                icon={IconFileText}
+                color="primary"
+                description="Published by this author"
+              />
+              <StatCard
+                title="Total Views"
+                value={stats.author_statistics.total_views}
+                icon={IconEye}
+                color="success"
+                description="All-time views"
+              />
+              <StatCard
+                title="Avg. Views per Post"
+                value={Math.round(stats.author_statistics.average_views)}
+                icon={IconTrendingUp}
+                color="success"
+                description="Average engagement"
+              />
+            </CardGrid>
+          </div>
+        )}
+
+        {/* Overview Stats */}
+        <div className="mb-8">
+          <SectionHeader>Overview</SectionHeader>
+          <CardGrid>
+            <StatCard
+              title="Total Views"
+              value={viewStats.total_views}
+              icon={IconEye}
+              color="primary"
+              description="All time page views"
+            />
+            <StatCard
+              title="Views Today"
+              value={viewStats.views_today}
+              icon={IconTrendingUp}
+              color="success"
+              description="Views in the last 24 hours"
+            />
+            <StatCard
+              title="Published Posts"
+              value={blogStats.total_published_blogs}
+              icon={IconFileText}
+              color="primary"
+              description="Live on the site"
+            />
+            <StatCard
+              title="Draft Posts"
+              value={blogStats.total_drafted_blogs}
+              icon={IconFileText}
+              color="warning"
+              description="Work in progress"
+            />
+            <StatCard
+              title="Avg. Read Time"
+              value={`${Math.round(blogStats.average_read_time)} min`}
+              icon={IconClock}
+              color="primary"
+              description="Average time to read posts"
+            />
+            <StatCard
+              title="Avg. Views"
+              value={Math.round(blogStats.average_views)}
+              icon={IconEye}
+              color="success"
+              description="Per post average"
+            />
+          </CardGrid>
+        </div>
+
+        {/* Content Performance */}
+        <div className="mb-8">
+          <SectionHeader>Content Performance</SectionHeader>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <StatTable
+              title="Most Viewed Posts"
+              data={mostViewed}
+              columns={[
+                { key: "title", title: "Title" },
+                { key: "author", title: "Author" },
+                { 
+                  key: "view_count", 
+                  title: "Views",
+                  render: (value) => value.toLocaleString()
+                },
+              ]}
+              maxRows={8}
+            />
+            
+            <StatTable
+              title="Longest Posts"
+              data={longestBlogs}
+              columns={[
+                { key: "title", title: "Title" },
+                { key: "author", title: "Author" },
+                { 
+                  key: "read_time", 
+                  title: "Read Time",
+                  render: (value) => `${value} min`
+                },
+              ]}
+              maxRows={8}
+            />
+          </div>
+        </div>
+
+        {/* Category Analytics */}
+        <div className="mb-8">
+          <SectionHeader>Category Analytics</SectionHeader>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <SimpleChart
+              title="Views by Category"
+              type="bar"
+              data={categoryViews.map(cat => ({
+                label: cat.category_name,
+                value: cat.view_count,
+                percentage: cat.percentage,
+              }))}
+            />
+            
+            <SimpleChart
+              title="Posts by Category"
+              type="donut"
+              data={categoryBlogs.map(cat => ({
+                label: cat.category_name,
+                value: cat.blog_count,
+                percentage: cat.percentage,
+              }))}
+            />
+          </div>
+        </div>
+
+        {/* Audience Analytics */}
+        <div>
+          <SectionHeader>Audience Analytics</SectionHeader>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <SimpleChart
+              title="Device Types"
+              type="donut"
+              data={deviceTypes.map(device => ({
+                label: device.device_type,
+                value: device.view_count,
+                percentage: device.percentage,
+              }))}
+            />
+            
+            <SimpleChart
+              title="Browsers"
+              type="bar"
+              data={browsers.map(browser => ({
+                label: browser.browser,
+                value: browser.view_count,
+                percentage: browser.percentage,
+              }))}
+            />
+            
+            <SimpleChart
+              title="Operating Systems"
+              type="bar"
+              data={osStats.map(os => ({
+                label: os.operating_system,
+                value: os.view_count,
+                percentage: os.percentage,
+              }))}
+            />
+          </div>
+        </div>
+      </>
+    );
+  };
+
+  // Determine which permissions the user has to show appropriate tabs
+  const canViewTotal = hasPermission("statistics:view-total");
+  const canViewSelf = hasPermission("statistics:view-self");  
+  const canViewOthers = hasPermission("statistics:view-others");
+
+  // Determine the default tab
+  let defaultTab = "";
+  if (canViewSelf) defaultTab = "self";
+  else if (canViewTotal) defaultTab = "total";
+  else if (canViewOthers) defaultTab = "others";
+
+  // Don't show the page if user has no statistics permissions at all
+  if (!canViewTotal && !canViewSelf && !canViewOthers) {
+    return (
+      <RouteGuard permission="statistics:view-self" redirectTo="/dashboard">
+        <Container>
+          <PageTitleWithIcon icon={IconChartBar}>Statistics</PageTitleWithIcon>
+          <div className="flex items-center justify-center py-12">
+            <div className="text-red-500">You don't have permission to view statistics.</div>
+          </div>
+        </Container>
+      </RouteGuard>
+    );
+  }
+
+  return (
+    <Container>
+      <PageTitleWithIcon icon={IconChartBar}>Statistics</PageTitleWithIcon>
+
+      <Tabs defaultTab={defaultTab}>
+        <TabList>
+          {canViewSelf && (
+            <Tab value="self">My Statistics</Tab>
+          )}
+          {canViewTotal && (
+            <Tab value="total">Total Statistics</Tab>
+          )}
+          {canViewOthers && (
+            <Tab value="others">Other Users</Tab>
+          )}
+        </TabList>
+
+        {canViewSelf && (
+          <TabPanel value="self">
+            {renderStatisticsContent(selfStatistics, loadingSelf, errorSelf, true)}
+          </TabPanel>
+        )}
+
+        {canViewTotal && (
+          <TabPanel value="total">
+            {renderStatisticsContent(totalStatistics, loadingTotal, errorTotal, false)}
+          </TabPanel>
+        )}
+
+        {canViewOthers && (
+          <TabPanel value="others">
+            <div className="mb-6">
+              <div className="max-w-md">
+                <select
+                  value={selectedUserId}
+                  onChange={handleUserChange}
+                  className="w-full px-3 py-2 text-sm bg-smoke-50 dark:bg-smoke-900 border border-smoke-200 dark:border-smoke-700 rounded-lg transition-all duration-200 focus:outline-none focus:border-gopher-400 dark:focus:border-gopher-500 focus:ring-1 focus:ring-gopher-200 dark:focus:ring-gopher-800/50 placeholder:text-smoke-400 dark:placeholder:text-smoke-500 text-smoke-900 dark:text-smoke-100 shadow-sm focus:shadow hover:border-smoke-300 dark:hover:border-smoke-600"
+                >
+                  <option value="">
+                    {loadingUsers ? "Loading users..." : "Select a user to view their statistics"}
+                  </option>
+                  {users?.items?.map((user) => (
+                    <option key={user.id} value={user.id}>
+                      {user.name} ({user.username})
+                    </option>
+                  ))}
+                  {!loadingUsers && (!users || !users.items || users.items.length === 0) && (
+                    <option disabled>No users available</option>
+                  )}
+                </select>
+              </div>
+            </div>
+            
+            {selectedUserId ? (
+              renderStatisticsContent(otherUserStatistics, loadingOther, errorOther, true)
+            ) : (
+              <div className="flex items-center justify-center py-12">
+                <div className="text-center">
+                  <IconUsers className="mx-auto mb-4 text-smoke-400 dark:text-smoke-500" size={48} />
+                  <div className="text-smoke-500 dark:text-smoke-400">
+                    Select a user from the dropdown above to view their statistics
+                  </div>
+                </div>
+              </div>
+            )}
+          </TabPanel>
+        )}
+      </Tabs>
+    </Container>
+  );
+};
+
+export default StatisticsPage;
