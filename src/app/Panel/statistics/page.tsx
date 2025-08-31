@@ -5,6 +5,10 @@ import {
   IconTrendingUp,
   IconUsers,
   IconChartBar,
+  IconBrandSpeedtest,
+  IconCategory2,
+  IconEmpathize,
+  IconUser,
 } from "@tabler/icons-react";
 import { FC, useEffect, useState } from "react";
 import StatCard from "../../../components/common/StatCard";
@@ -45,13 +49,28 @@ const StatisticsPage: FC = () => {
   const [errorSelf, setErrorSelf] = useState<Error | null>(null);
   const [errorOther, setErrorOther] = useState<Error | null>(null);
 
+  // Cache flags to prevent re-fetching
+  const [totalStatisticsFetched, setTotalStatisticsFetched] = useState(false);
+  const [selfStatisticsFetched, setSelfStatisticsFetched] = useState(false);
+  const [usersFetched, setUsersFetched] = useState(false);
+
+  // Cache for other user statistics to avoid refetching the same user
+  const [otherUserStatsCache, setOtherUserStatsCache] = useState<
+    Map<string, ResponseAuthorStatistics>
+  >(new Map());
+
   const fetchTotalStatistics = async () => {
+    if (totalStatisticsFetched && totalStatistics) {
+      return; // Skip if already fetched
+    }
+
     try {
       setLoadingTotal(true);
       setErrorTotal(null);
       const result = await getAllStatistics();
       if (result.success) {
         setTotalStatistics(result.data);
+        setTotalStatisticsFetched(true);
       } else {
         setErrorTotal(new Error(result.error.message));
       }
@@ -63,12 +82,17 @@ const StatisticsPage: FC = () => {
   };
 
   const fetchSelfStatistics = async () => {
+    if (selfStatisticsFetched && selfStatistics) {
+      return; // Skip if already fetched
+    }
+
     try {
       setLoadingSelf(true);
       setErrorSelf(null);
       const result = await getUserOwnStatistics();
       if (result.success) {
         setSelfStatistics(result.data);
+        setSelfStatisticsFetched(true);
       } else {
         setErrorSelf(new Error(result.error.message));
       }
@@ -80,12 +104,23 @@ const StatisticsPage: FC = () => {
   };
 
   const fetchOtherUserStatistics = async (userId: string) => {
+    // Check cache first
+    const cachedData = otherUserStatsCache.get(userId);
+    if (cachedData) {
+      setOtherUserStatistics(cachedData);
+      return;
+    }
+
     try {
       setLoadingOther(true);
       setErrorOther(null);
       const result = await getAuthorStatistics(userId);
       if (result.success) {
         setOtherUserStatistics(result.data);
+        // Cache the result
+        setOtherUserStatsCache((prev) =>
+          new Map(prev).set(userId, result.data)
+        );
       } else {
         setErrorOther(new Error(result.error.message));
       }
@@ -97,11 +132,16 @@ const StatisticsPage: FC = () => {
   };
 
   const fetchUsers = async () => {
+    if (usersFetched && users) {
+      return; // Skip if already fetched
+    }
+
     try {
       setLoadingUsers(true);
       const result = await getUsers({ take: 9999 });
       if (result.success) {
         setUsers(result.data);
+        setUsersFetched(true);
       } else {
         console.error("Users API failed:", result.error);
       }
@@ -205,7 +245,7 @@ const StatisticsPage: FC = () => {
         {/* Author info for individual stats */}
         {showAuthorInfo && "author_statistics" in stats && (
           <>
-            <SectionHeader>Author Information</SectionHeader>
+            <SectionHeader icon={IconUser}>Author Information</SectionHeader>
             <CardGrid>
               <StatCard
                 title="Total Blogs"
@@ -233,7 +273,7 @@ const StatisticsPage: FC = () => {
         )}
 
         {/* Overview Stats */}
-        <SectionHeader>Overview</SectionHeader>
+        <SectionHeader icon={IconEye}>Overview</SectionHeader>
         <CardGrid>
           <StatCard
             title="Total Views"
@@ -280,7 +320,9 @@ const StatisticsPage: FC = () => {
         </CardGrid>
 
         {/* Content Performance */}
-        <SectionHeader>Content Performance</SectionHeader>
+        <SectionHeader icon={IconBrandSpeedtest}>
+          Content Performance
+        </SectionHeader>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <StatTable
             title="Most Viewed Posts"
@@ -314,7 +356,7 @@ const StatisticsPage: FC = () => {
         </div>
 
         {/* Category Analytics */}
-        <SectionHeader>Category Analytics</SectionHeader>
+        <SectionHeader icon={IconCategory2}>Category Analytics</SectionHeader>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <SimpleChart
             title="Views by Category"
@@ -348,7 +390,7 @@ const StatisticsPage: FC = () => {
         </div>
 
         {/* Audience Analytics */}
-        <SectionHeader>Audience Analytics</SectionHeader>
+        <SectionHeader icon={IconEmpathize}>Audience Analytics</SectionHeader>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <SimpleChart
             title="Device Types"
