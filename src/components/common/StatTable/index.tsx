@@ -1,4 +1,5 @@
-import { FC, ReactNode } from "react";
+import { Icon, IconProps } from "@tabler/icons-react";
+import { FC, ForwardRefExoticComponent, ReactNode, RefAttributes } from "react";
 
 interface StatTableColumn {
   key: string;
@@ -11,6 +12,7 @@ interface StatTableProps {
   columns: StatTableColumn[];
   data: any[];
   maxRows?: number;
+  icon?: ForwardRefExoticComponent<IconProps & RefAttributes<Icon>>;
 }
 
 const StatTable: FC<StatTableProps> = ({
@@ -18,12 +20,18 @@ const StatTable: FC<StatTableProps> = ({
   columns,
   data,
   maxRows = 10,
+  icon: Icon,
 }) => {
   const displayData = data.slice(0, maxRows);
 
   return (
-    <div className="bg-smoke-0 dark:bg-smoke-950 rounded-xl border border-smoke-200 dark:border-smoke-800 p-6">
-      <h3 className="text-lg font-semibold text-smoke-900 dark:text-smoke-100 mb-4">
+    <div className="bg-smoke-0 dark:bg-smoke-950 rounded-xl border border-smoke-200 dark:border-smoke-800 p-4">
+      <h3 className="text-lg font-semibold text-smoke-900 dark:text-smoke-100 mb-4 flex items-center gap-3">
+        {Icon && (
+          <div className="p-2 rounded-lg bg-smoke-100 dark:bg-smoke-800 text-smoke-600 dark:text-smoke-400">
+            <Icon size={20} />
+          </div>
+        )}
         {title}
       </h3>
 

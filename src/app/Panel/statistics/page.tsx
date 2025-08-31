@@ -9,6 +9,10 @@ import {
   IconCategory2,
   IconEmpathize,
   IconUser,
+  IconRuler,
+  IconDevices,
+  IconBrowser,
+  IconDeviceDesktop,
 } from "@tabler/icons-react";
 import { FC, useEffect, useState } from "react";
 import StatCard from "../../../components/common/StatCard";
@@ -326,6 +330,7 @@ const StatisticsPage: FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <StatTable
             title="Most Viewed Posts"
+            icon={IconEye}
             data={mostViewed}
             columns={[
               { key: "title", title: "Title" },
@@ -341,6 +346,7 @@ const StatisticsPage: FC = () => {
 
           <StatTable
             title="Longest Posts"
+            icon={IconClock}
             data={longestBlogs}
             columns={[
               { key: "title", title: "Title" },
@@ -361,6 +367,7 @@ const StatisticsPage: FC = () => {
           <SimpleChart
             title="Views by Category"
             type="pie"
+            icon={IconEye}
             data={categoryViews.map((cat) => ({
               label: cat.category_name,
               value: cat.view_count,
@@ -371,6 +378,7 @@ const StatisticsPage: FC = () => {
           <SimpleChart
             title="Posts by Category"
             type="pie"
+            icon={IconFileText}
             data={categoryBlogs.map((cat) => ({
               label: cat.category_name,
               value: cat.blog_count,
@@ -381,6 +389,7 @@ const StatisticsPage: FC = () => {
           <SimpleChart
             title="Content Length by Category"
             type="pie"
+            icon={IconRuler}
             data={categoryLength.map((cat) => ({
               label: cat.category_name,
               value: cat.total_length,
@@ -394,6 +403,7 @@ const StatisticsPage: FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <SimpleChart
             title="Device Types"
+            icon={IconDevices}
             data={deviceTypes.map((device) => ({
               label: device.device_type,
               value: device.view_count,
@@ -404,6 +414,7 @@ const StatisticsPage: FC = () => {
           <SimpleChart
             title="Browsers"
             type="bar"
+            icon={IconBrowser}
             data={browsers.map((browser) => ({
               label: browser.browser,
               value: browser.view_count,
@@ -414,6 +425,7 @@ const StatisticsPage: FC = () => {
           <SimpleChart
             title="Operating Systems"
             type="bar"
+            icon={IconDeviceDesktop}
             data={osStats.map((os) => ({
               label: os.operating_system,
               value: os.view_count,

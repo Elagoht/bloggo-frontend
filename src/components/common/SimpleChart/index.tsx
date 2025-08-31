@@ -1,4 +1,5 @@
-import { FC } from "react";
+import { Icon, IconProps } from "@tabler/icons-react";
+import { FC, ForwardRefExoticComponent, RefAttributes } from "react";
 
 interface ChartDataItem {
   label: string;
@@ -11,6 +12,7 @@ interface SimpleChartProps {
   title: string;
   data: ChartDataItem[];
   type?: "bar" | "pie";
+  icon?: ForwardRefExoticComponent<IconProps & RefAttributes<Icon>>;
 }
 
 const colors = [
@@ -25,7 +27,12 @@ const colors = [
   "#50E35C",
 ];
 
-const SimpleChart: FC<SimpleChartProps> = ({ title, data, type = "bar" }) => {
+const SimpleChart: FC<SimpleChartProps> = ({
+  title,
+  data,
+  type = "bar",
+  icon: Icon,
+}) => {
   const maxValue = Math.max(...data.map((item) => item.value));
 
   // Generate SVG path for pie slice
@@ -49,7 +56,7 @@ const SimpleChart: FC<SimpleChartProps> = ({ title, data, type = "bar" }) => {
           r={radius}
           fill={color}
           strokeWidth="2"
-          className="transition-all duration-200 hover:opacity-80 origin-center hover:scale-110 stroke-smoke-900 dark:stroke-smoke-100"
+          className="transition-all duration-200 hover:opacity-80 origin-center hover:scale-110 stroke-smoke-0 dark:stroke-smoke-950"
         />
       );
     }
@@ -76,7 +83,7 @@ const SimpleChart: FC<SimpleChartProps> = ({ title, data, type = "bar" }) => {
         fill={color}
         stroke="white"
         strokeWidth="2"
-        className="transition-all duration-200 hover:opacity-80 origin-center hover:scale-110 stroke-smoke-900 dark:stroke-smoke-100"
+        className="transition-all duration-200 hover:opacity-80 origin-center hover:scale-110 stroke-smoke-0 dark:stroke-smoke-950"
       />
     );
   };
@@ -85,11 +92,17 @@ const SimpleChart: FC<SimpleChartProps> = ({ title, data, type = "bar" }) => {
     let currentAngle = -90; // Start from top
 
     return (
-      <div className="bg-smoke-0 dark:bg-smoke-950 rounded-xl border border-smoke-200 dark:border-smoke-800 p-6">
-        <h3 className="text-lg font-semibold text-smoke-900 dark:text-smoke-100 mb-4">
+      <div className="bg-smoke-0 dark:bg-smoke-950 rounded-xl border border-smoke-200 dark:border-smoke-800 p-4">
+        <h3 className="text-lg font-semibold text-smoke-900 dark:text-smoke-100 mb-4 flex items-center gap-3">
+          {Icon && (
+            <div className="p-2 rounded-lg bg-smoke-100 dark:bg-smoke-800 text-smoke-600 dark:text-smoke-400">
+              <Icon size={20} />
+            </div>
+          )}
           {title}
         </h3>
-        <div className="flex flex-col items-center gap-6">
+
+        <div className="flex flex-col items-center gap-4">
           {/* SVG Pie Chart */}
           <div className="flex-shrink-0">
             <svg
@@ -112,57 +125,63 @@ const SimpleChart: FC<SimpleChartProps> = ({ title, data, type = "bar" }) => {
           </div>
 
           {/* Legend */}
-          <div className="w-full">
-            <div className="grid grid-cols-1 gap-3">
-              {data.slice(0, 8).map((item, index) => (
-                <div key={item.label} className="flex items-start gap-3">
-                  <div
-                    className="w-3 h-3 rounded-full flex-shrink-0 mt-0.5"
-                    style={{ backgroundColor: colors[index % colors.length] }}
-                  />
-                  <div className="flex-1 flex justify-between items-start gap-3">
-                    <span className="text-sm text-smoke-700 dark:text-smoke-300 leading-tight">
-                      {item.label}
-                    </span>
-                    <div className="text-right flex-shrink-0">
-                      <span className="text-sm font-medium text-smoke-900 dark:text-smoke-100">
-                        {item.value.toLocaleString()}
-                      </span>
-                      <span className="text-xs text-smoke-500 dark:text-smoke-400 ml-2">
-                        ({item.percentage.toFixed(1)}%)
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
+          <ul className="flex flex-col w-full">
+            {data.slice(0, 8).map((item, index) => (
+              <li key={item.label} className="flex items-center gap-2">
+                <span
+                  className="w-3 h-3 rounded-full flex-shrink-0"
+                  style={{ backgroundColor: colors[index % colors.length] }}
+                />
+
+                <span className="text-sm text-smoke-700 dark:text-smoke-300 grow leading-tight">
+                  {item.label}
+                </span>
+
+                <data className="text-right flex-shrink-0">
+                  <span className="text-sm font-medium text-smoke-900 dark:text-smoke-100">
+                    {item.value.toLocaleString()}
+                  </span>{" "}
+                  <small className="text-smoke-500 dark:text-smoke-400">
+                    ({item.percentage.toFixed(1)}%)
+                  </small>
+                </data>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="bg-smoke-0 dark:bg-smoke-950 rounded-xl border border-smoke-200 dark:border-smoke-800 p-6">
-      <h3 className="text-lg font-semibold text-smoke-900 dark:text-smoke-100 mb-4">
+    <div className="bg-smoke-0 dark:bg-smoke-950 rounded-xl border border-smoke-200 dark:border-smoke-800 p-4">
+      <h3 className="text-lg font-semibold text-smoke-900 dark:text-smoke-100 mb-4 flex items-center gap-3">
+        {Icon && (
+          <div className="p-2 rounded-lg bg-smoke-100 dark:bg-smoke-800 text-smoke-600 dark:text-smoke-400">
+            <Icon size={20} />
+          </div>
+        )}
         {title}
       </h3>
-      <div className="space-y-3">
+
+      <ul className="space-y-1">
         {data.slice(0, 8).map((item, index) => (
-          <div key={item.label} className="space-y-1">
+          <li key={item.label}>
             <div className="flex justify-between items-center">
               <span className="text-sm text-smoke-700 dark:text-smoke-300 truncate">
                 {item.label}
               </span>
-              <div className="text-right">
+
+              <data className="text-right">
                 <span className="text-sm font-medium text-smoke-900 dark:text-smoke-100">
                   {item.value.toLocaleString()}
-                </span>
-                <span className="text-xs text-smoke-500 dark:text-smoke-400 ml-2">
+                </span>{" "}
+                <small className="text-smoke-500 dark:text-smoke-400">
                   ({item.percentage.toFixed(1)}%)
-                </span>
-              </div>
+                </small>
+              </data>
             </div>
+
             <div className="w-full bg-smoke-200 dark:bg-smoke-800 rounded-full h-2">
               <div
                 className="h-2 rounded-full transition-all duration-300"
@@ -172,9 +191,9 @@ const SimpleChart: FC<SimpleChartProps> = ({ title, data, type = "bar" }) => {
                 }}
               />
             </div>
-          </div>
+          </li>
         ))}
-      </div>
+      </ul>
     </div>
   );
 };
