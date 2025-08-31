@@ -198,7 +198,7 @@ const StatisticsDisplay: FC<StatisticsDisplayProps> = ({
           data={mostViewed}
           columns={[
             { key: "title", title: "Title" },
-            { key: "author", title: "Author" },
+            ...(!isUserStats ? [{ key: "author", title: "Author" }] : []),
             {
               key: "view_count",
               title: "Views",
@@ -214,7 +214,7 @@ const StatisticsDisplay: FC<StatisticsDisplayProps> = ({
           data={longestBlogs}
           columns={[
             { key: "title", title: "Title" },
-            { key: "author", title: "Author" },
+            ...(!isUserStats ? [{ key: "author", title: "Author" }] : []),
             {
               key: "read_time",
               title: "Read Time",
