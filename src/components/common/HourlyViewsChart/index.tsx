@@ -46,7 +46,7 @@ const HourlyViewsChart: FC<HourlyViewsChartProps> = ({ data }) => {
 
   return (
     <div className="bg-smoke-0 dark:bg-smoke-950 rounded-xl border border-smoke-200 dark:border-smoke-800 p-4">
-      <div className="flex items-start justify-between mb-4">
+      <div className="flex items-start justify-between">
         <h3 className="text-lg font-semibold text-smoke-900 dark:text-smoke-100 flex items-center gap-3">
           <div className="p-2 rounded-lg bg-smoke-100 dark:bg-smoke-800 text-smoke-600 dark:text-smoke-400">
             <IconClock size={20} />
@@ -66,7 +66,13 @@ const HourlyViewsChart: FC<HourlyViewsChartProps> = ({ data }) => {
       <ul className="grid grid-cols-hour-chart gap-px">
         {completeData.map((item) => {
           return (
-            <li key={item.hour} className="flex flex-col group">
+            <li className="grid grid-rows-hour-chart">
+              <div className="text-gopher-700 text-xs font-medium flex items-center justify-center">
+                <span className="-rotate-90">
+                  {item.view_count > 0 && item.view_count}
+                </span>
+              </div>
+
               {/* Chart area with fixed height */}
               <div className="flex items-end justify-center w-full h-48 bg-smoke-100/50 dark:bg-smoke-900/50 rounded-t-lg max-w-8 mx-auto">
                 <div
@@ -86,17 +92,9 @@ const HourlyViewsChart: FC<HourlyViewsChartProps> = ({ data }) => {
               </div>
 
               {/* Hour label */}
-              <div className="text-xs flex flex-col gap-1 items-center justify-right mt-1 h-12">
-                <time className="font-mono text-smoke-600 dark:text-smoke-400 transform -rotate-90 whitespace-nowrap">
-                  {formatHour(item.hour)}
-                </time>
-
-                {item.view_count > 0 && (
-                  <div className="text-gopher-700 text-xs font-medium transform -rotate-90 whitespace-nowrap text-right">
-                    {item.view_count}
-                  </div>
-                )}
-              </div>
+              <time className="font-mono text-xs lg:text-smoke-600 dark:text-smoke-400 transform whitespace-nowrap flex items-center justify-center">
+                <span className="-rotate-90">{formatHour(item.hour)}</span>
+              </time>
             </li>
           );
         })}
