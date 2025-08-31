@@ -46,7 +46,7 @@ export const asideMenu: Array<{
     name: "Statistics",
     icon: IconChartPie,
     href: "/statistics",
-    perm: "statistics:view-total",
+    perm: "statistics:view-self",
   },
   {
     name: "Users",
