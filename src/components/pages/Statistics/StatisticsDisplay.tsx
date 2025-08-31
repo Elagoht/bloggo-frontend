@@ -136,6 +136,10 @@ const StatisticsDisplay: FC<StatisticsDisplayProps> = ({
         </>
       )}
 
+      {/* Hourly Activity */}
+      <SectionHeader icon={IconTrendingUp}>Hourly Activity</SectionHeader>
+      <HourlyViewsChart data={hourlyViews.hours} />
+
       {/* Overview Stats */}
       <SectionHeader icon={IconEye}>
         {isUserStats
@@ -144,6 +148,7 @@ const StatisticsDisplay: FC<StatisticsDisplayProps> = ({
             : "My Overview"
           : "Site Overview"}
       </SectionHeader>
+
       <CardGrid>
         <StatCard
           title="Total Views"
@@ -181,10 +186,6 @@ const StatisticsDisplay: FC<StatisticsDisplayProps> = ({
           description="Per post average"
         />
       </CardGrid>
-
-      {/* Hourly Activity */}
-      <SectionHeader icon={IconTrendingUp}>Hourly Activity</SectionHeader>
-      <HourlyViewsChart data={hourlyViews.hours} />
 
       {/* Content Performance */}
       <SectionHeader icon={IconBrandSpeedtest}>

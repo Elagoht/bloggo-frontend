@@ -1,5 +1,13 @@
 import { Icon, IconProps } from "@tabler/icons-react";
 import { FC, ForwardRefExoticComponent, RefAttributes } from "react";
+import {
+  PieChart as RechartsPieChart,
+  Pie,
+  Cell,
+  Tooltip,
+  ResponsiveContainer,
+  Legend,
+} from "recharts";
 
 interface ChartDataItem {
   label: string;
@@ -27,58 +35,57 @@ const colors = [
 ];
 
 const PieChart: FC<PieChartProps> = ({ title, data, icon: Icon }) => {
-  const createPieSlice = (
-    percentage: number,
-    startAngle: number,
-    color: string,
-    index: number
-  ) => {
-    const radius = 80;
-    const centerX = 100;
-    const centerY = 100;
+  // Prepare data for Recharts, sorted by value
+  const chartData = data
+    .slice(0, 8)
+    .sort((first, second) => second.value - first.value)
+    .map((item, index) => ({
+      name: item.label,
+      value: item.value,
+      percentage: item.percentage,
+      fill: colors[index % colors.length],
+    }));
 
-    if (percentage >= 100) {
+  // Custom tooltip component
+  const CustomTooltip = ({ active, payload }: any) => {
+    if (active && payload && payload.length) {
+      const data = payload[0].payload;
       return (
-        <circle
-          key={index}
-          cx={centerX}
-          cy={centerY}
-          r={radius}
-          fill={color}
-          strokeWidth="2"
-          className="transition-all duration-200 hover:opacity-80 origin-center hover:scale-110 stroke-smoke-0 dark:stroke-smoke-950"
-        />
+        <div className="bg-smoke-900 dark:bg-smoke-100 text-smoke-100 dark:text-smoke-900 text-xs px-3 py-2 rounded-lg shadow-lg border border-smoke-700 dark:border-smoke-300">
+          <div className="font-semibold">{data.name}</div>
+          <div className="text-smoke-400 dark:text-smoke-600">
+            {data.value.toLocaleString()} ({data.percentage.toFixed(1)}%)
+          </div>
+        </div>
       );
     }
-
-    const angle = (percentage / 100) * 360;
-    const endAngle = startAngle + angle;
-
-    const startAngleRad = (startAngle * Math.PI) / 180;
-    const endAngleRad = (endAngle * Math.PI) / 180;
-
-    const largeArcFlag = angle > 180 ? 1 : 0;
-
-    const x1 = centerX + radius * Math.cos(startAngleRad);
-    const y1 = centerY + radius * Math.sin(startAngleRad);
-    const x2 = centerX + radius * Math.cos(endAngleRad);
-    const y2 = centerY + radius * Math.sin(endAngleRad);
-
-    const pathData = `M ${centerX} ${centerY} L ${x1} ${y1} A ${radius} ${radius} 0 ${largeArcFlag} 1 ${x2} ${y2} Z`;
-
-    return (
-      <path
-        key={index}
-        d={pathData}
-        fill={color}
-        stroke="white"
-        strokeWidth="2"
-        className="transition-all duration-200 hover:opacity-80 origin-center hover:scale-110 stroke-smoke-0 dark:stroke-smoke-950"
-      />
-    );
+    return null;
   };
 
-  let currentAngle = -90;
+  // Custom legend component
+  const CustomLegend = ({ payload }: any) => {
+    return (
+      <ul className="flex flex-col gap-2 mt-4">
+        {payload?.map((entry: any, index: number) => (
+          <li key={index} className="flex items-center gap-2 text-sm">
+            <span
+              className="w-3 h-3 rounded-full flex-shrink-0"
+              style={{ backgroundColor: entry.color }}
+            />
+            <span className="text-smoke-700 dark:text-smoke-300 grow leading-tight truncate">
+              {entry.value}
+            </span>
+            <span className="text-smoke-900 dark:text-smoke-100 font-medium">
+              {entry.payload.value.toLocaleString()}
+            </span>
+            <span className="text-smoke-500 dark:text-smoke-400 text-xs">
+              ({entry.payload.percentage.toFixed(1)}%)
+            </span>
+          </li>
+        ))}
+      </ul>
+    );
+  };
 
   return (
     <div className="bg-smoke-0 dark:bg-smoke-950 rounded-xl border border-smoke-200 dark:border-smoke-800 p-4">
@@ -91,53 +98,28 @@ const PieChart: FC<PieChartProps> = ({ title, data, icon: Icon }) => {
         {title}
       </h3>
 
-      <div className="flex flex-col items-center gap-4">
-        <div className="flex-shrink-0">
-          <svg
-            width="200"
-            height="200"
-            viewBox="0 0 200 200"
-            className="drop-shadow-sm"
-          >
-            {data
-              .slice(0, 8)
-              .sort((first, second) => second.value - first.value)
-              .map((item, index) => {
-                const slice = createPieSlice(
-                  item.percentage,
-                  currentAngle,
-                  colors[index % colors.length],
-                  index
-                );
-                currentAngle += (item.percentage / 100) * 360;
-                return slice;
-              })}
-          </svg>
-        </div>
+      <div className="h-64 w-full">
+        <ResponsiveContainer width="100%" height="100%">
+          <RechartsPieChart>
+            <Pie
+              data={chartData}
+              cx="50%"
+              cy="50%"
+              innerRadius={50}
+              outerRadius={90}
+              dataKey="value"
+              strokeWidth={0}
+            >
+              {chartData.map((entry, index) => (
+                <Cell key={`cell-${index}`} fill={entry.fill} />
+              ))}
+            </Pie>
 
-        <ul className="flex flex-col w-full">
-          {data.slice(0, 8).map((item, index) => (
-            <li key={item.label} className="flex items-center gap-2">
-              <span
-                className="w-3 h-3 rounded-full flex-shrink-0"
-                style={{ backgroundColor: colors[index % colors.length] }}
-              />
+            <Tooltip content={<CustomTooltip />} />
 
-              <span className="text-sm text-smoke-700 dark:text-smoke-300 grow leading-tight">
-                {item.label}
-              </span>
-
-              <data className="text-right flex-shrink-0">
-                <span className="text-sm font-medium text-smoke-900 dark:text-smoke-100">
-                  {item.value.toLocaleString()}
-                </span>{" "}
-                <small className="text-smoke-500 dark:text-smoke-400">
-                  ({item.percentage.toFixed(1)}%)
-                </small>
-              </data>
-            </li>
-          ))}
-        </ul>
+            <Legend verticalAlign="bottom" content={<CustomLegend />} />
+          </RechartsPieChart>
+        </ResponsiveContainer>
       </div>
     </div>
   );

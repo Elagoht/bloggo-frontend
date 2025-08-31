@@ -1,5 +1,14 @@
 import { Icon, IconProps } from "@tabler/icons-react";
 import { FC, ForwardRefExoticComponent, RefAttributes } from "react";
+import {
+  BarChart as RechartsBarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
 
 interface ChartDataItem {
   label: string;
@@ -27,7 +36,32 @@ const colors = [
 ];
 
 const BarChart: FC<BarChartProps> = ({ title, data, icon: Icon }) => {
-  const maxValue = Math.max(...data.map((item) => item.value));
+  // Prepare data for Recharts, sorted by value
+  const chartData = data
+    .slice(0, 8)
+    .sort((first, second) => second.value - first.value)
+    .map((item, index) => ({
+      name: item.label,
+      value: item.value,
+      percentage: item.percentage,
+      fill: colors[index % colors.length],
+    }));
+
+  // Custom tooltip component
+  const CustomTooltip = ({ active, payload, label }: any) => {
+    if (active && payload && payload.length) {
+      const data = payload[0].payload;
+      return (
+        <div className="bg-smoke-900 dark:bg-smoke-100 text-smoke-100 dark:text-smoke-900 text-xs px-3 py-2 rounded-lg shadow-lg border border-smoke-700 dark:border-smoke-300">
+          <div className="font-semibold">{label}</div>
+          <div className="text-smoke-400 dark:text-smoke-600">
+            {data.value.toLocaleString()} ({data.percentage.toFixed(1)}%)
+          </div>
+        </div>
+      );
+    }
+    return null;
+  };
 
   return (
     <div className="bg-smoke-0 dark:bg-smoke-950 rounded-xl border border-smoke-200 dark:border-smoke-800 p-4">
@@ -40,39 +74,51 @@ const BarChart: FC<BarChartProps> = ({ title, data, icon: Icon }) => {
         {title}
       </h3>
 
-      <ul className="space-y-1">
-        {data
-          .slice(0, 8)
-          .sort((first, second) => second.value - first.value)
-          .map((item, index) => (
-            <li key={item.label}>
-              <div className="flex justify-between items-center">
-                <span className="text-sm text-smoke-700 dark:text-smoke-300 truncate">
-                  {item.label}
-                </span>
-
-                <data className="text-right">
-                  <span className="text-sm font-medium text-smoke-900 dark:text-smoke-100">
-                    {item.value.toLocaleString()}
-                  </span>{" "}
-                  <small className="text-smoke-500 dark:text-smoke-400">
-                    ({item.percentage.toFixed(1)}%)
-                  </small>
-                </data>
-              </div>
-
-              <div className="w-full bg-smoke-200 dark:bg-smoke-800 rounded-full h-2">
-                <div
-                  className="h-2 rounded-full transition-all duration-300"
-                  style={{
-                    width: `${(item.value / maxValue) * 100}%`,
-                    backgroundColor: colors[index % colors.length],
-                  }}
-                />
-              </div>
-            </li>
-          ))}
-      </ul>
+      <div className="h-56 w-full">
+        <ResponsiveContainer width="100%" height="100%">
+          <RechartsBarChart
+            data={chartData}
+            margin={{
+              top: 5,
+              right: 5,
+              left: 5,
+              bottom: 15,
+            }}
+          >
+            <CartesianGrid
+              strokeDasharray="3 3"
+              className="opacity-30"
+              stroke="currentColor"
+            />
+            <XAxis
+              dataKey="name"
+              axisLine={false}
+              tickLine={false}
+              tick={{
+                fontSize: 11,
+                fill: "currentColor",
+                className: "text-smoke-600 dark:text-smoke-400",
+              }}
+              interval={0}
+              angle={-45}
+              textAnchor="end"
+              height={30}
+            />
+            <YAxis
+              axisLine={false}
+              tickLine={false}
+              tick={{
+                fontSize: 11,
+                fill: "currentColor",
+                className: "text-smoke-600 dark:text-smoke-400",
+              }}
+              width={25}
+            />
+            <Tooltip content={<CustomTooltip />} />
+            <Bar dataKey="value" radius={[4, 4, 0, 0]} />
+          </RechartsBarChart>
+        </ResponsiveContainer>
+      </div>
     </div>
   );
 };
