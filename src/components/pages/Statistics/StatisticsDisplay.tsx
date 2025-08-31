@@ -99,43 +99,6 @@ const StatisticsDisplay: FC<StatisticsDisplayProps> = ({
 
   return (
     <Container>
-      {/* Content creator section - full width when shown */}
-      {showAuthorInfo && isAuthorStats && (
-        <>
-          <SectionHeader icon={IconUser}>Content Creator</SectionHeader>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <StatCard
-              title="Author"
-              value={statistics.author_statistics.author_name}
-              icon={IconUser}
-              color="primary"
-              description="Content creator"
-            />
-            <StatCard
-              title="Published Posts"
-              value={statistics.author_statistics.total_blogs}
-              icon={IconFileText}
-              color="primary"
-              description="Total published content"
-            />
-            <StatCard
-              title="Total Views"
-              value={statistics.author_statistics.total_views}
-              icon={IconEye}
-              color="success"
-              description="All-time views"
-            />
-            <StatCard
-              title="Avg. Views per Post"
-              value={Math.round(statistics.author_statistics.average_views)}
-              icon={IconTrendingUp}
-              color="success"
-              description="Average engagement"
-            />
-          </div>
-        </>
-      )}
-
       {/* Hourly Activity */}
       <SectionHeader icon={IconTrendingUp}>Hourly Activity</SectionHeader>
       <HourlyViewsChart data={hourlyViews.hours} />
