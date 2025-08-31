@@ -1,24 +1,25 @@
 import {
+  IconBrandSpeedtest,
+  IconBrowser,
+  IconCategory2,
+  IconChartBar,
+  IconClock,
+  IconDeviceDesktop,
+  IconDevices,
+  IconEmpathize,
   IconEye,
   IconFileText,
-  IconClock,
-  IconTrendingUp,
-  IconUsers,
-  IconChartBar,
-  IconBrandSpeedtest,
-  IconCategory2,
-  IconEmpathize,
-  IconUser,
   IconRuler,
-  IconDevices,
-  IconBrowser,
-  IconDeviceDesktop,
+  IconTrendingUp,
+  IconUser,
+  IconUsers,
 } from "@tabler/icons-react";
 import { FC, useEffect, useState } from "react";
+import BarChart from "../../../components/common/Chart/BarChart";
+import PieChart from "../../../components/common/Chart/PieChart";
 import StatCard from "../../../components/common/StatCard";
-import SimpleChart from "../../../components/common/SimpleChart";
 import StatTable from "../../../components/common/StatTable";
-import { Tabs, TabList, Tab, TabPanel } from "../../../components/common/Tabs";
+import { Tab, TabList, TabPanel, Tabs } from "../../../components/common/Tabs";
 import RouteGuard from "../../../components/Guards/RouteGuard";
 import Container from "../../../components/layout/Container";
 import CardGrid from "../../../components/layout/Container/CardGrid";
@@ -26,8 +27,8 @@ import PageTitleWithIcon from "../../../components/layout/Container/PageTitle";
 import SectionHeader from "../../../components/layout/SectionHeader";
 import {
   getAllStatistics,
-  getUserOwnStatistics,
   getAuthorStatistics,
+  getUserOwnStatistics,
 } from "../../../services/statistics";
 import { getUsers } from "../../../services/users";
 import { useAuthStore } from "../../../stores/auth";
@@ -364,9 +365,8 @@ const StatisticsPage: FC = () => {
         {/* Category Analytics */}
         <SectionHeader icon={IconCategory2}>Category Analytics</SectionHeader>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          <SimpleChart
+          <PieChart
             title="Views by Category"
-            type="pie"
             icon={IconEye}
             data={categoryViews.map((cat) => ({
               label: cat.category_name,
@@ -375,9 +375,8 @@ const StatisticsPage: FC = () => {
             }))}
           />
 
-          <SimpleChart
+          <PieChart
             title="Posts by Category"
-            type="pie"
             icon={IconFileText}
             data={categoryBlogs.map((cat) => ({
               label: cat.category_name,
@@ -386,9 +385,8 @@ const StatisticsPage: FC = () => {
             }))}
           />
 
-          <SimpleChart
+          <PieChart
             title="Content Length by Category"
-            type="pie"
             icon={IconRuler}
             data={categoryLength.map((cat) => ({
               label: cat.category_name,
@@ -401,7 +399,7 @@ const StatisticsPage: FC = () => {
         {/* Audience Analytics */}
         <SectionHeader icon={IconEmpathize}>Audience Analytics</SectionHeader>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          <SimpleChart
+          <BarChart
             title="Device Types"
             icon={IconDevices}
             data={deviceTypes.map((device) => ({
@@ -411,9 +409,8 @@ const StatisticsPage: FC = () => {
             }))}
           />
 
-          <SimpleChart
+          <BarChart
             title="Browsers"
-            type="bar"
             icon={IconBrowser}
             data={browsers.map((browser) => ({
               label: browser.browser,
@@ -422,9 +419,8 @@ const StatisticsPage: FC = () => {
             }))}
           />
 
-          <SimpleChart
+          <BarChart
             title="Operating Systems"
-            type="bar"
             icon={IconDeviceDesktop}
             data={osStats.map((os) => ({
               label: os.operating_system,
