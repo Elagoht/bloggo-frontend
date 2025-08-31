@@ -15,6 +15,7 @@ import {
 import { FC } from "react";
 import BarChart from "../../common/Chart/BarChart";
 import PieChart from "../../common/Chart/PieChart";
+import HourlyViewsChart from "../../common/HourlyViewsChart";
 import StatCard from "../../common/StatCard";
 import StatTable from "../../common/StatTable";
 import Container from "../../layout/Container";
@@ -85,6 +86,7 @@ const StatisticsDisplay: FC<StatisticsDisplayProps> = ({
   const {
     view_statistics: viewStats,
     blog_statistics: blogStats,
+    last_24_hours_views: hourlyViews,
     most_viewed_blogs: mostViewed,
     longest_blogs: longestBlogs,
     category_views_distribution: categoryViews,
@@ -151,13 +153,6 @@ const StatisticsDisplay: FC<StatisticsDisplayProps> = ({
           description="All time page views"
         />
         <StatCard
-          title="Views Today"
-          value={viewStats.views_today}
-          icon={IconTrendingUp}
-          color="success"
-          description="Views in the last 24 hours"
-        />
-        <StatCard
           title="Published Posts"
           value={blogStats.total_published_blogs}
           icon={IconFileText}
@@ -186,6 +181,10 @@ const StatisticsDisplay: FC<StatisticsDisplayProps> = ({
           description="Per post average"
         />
       </CardGrid>
+
+      {/* Hourly Activity */}
+      <SectionHeader icon={IconTrendingUp}>Hourly Activity</SectionHeader>
+      <HourlyViewsChart data={hourlyViews.hours} />
 
       {/* Content Performance */}
       <SectionHeader icon={IconBrandSpeedtest}>

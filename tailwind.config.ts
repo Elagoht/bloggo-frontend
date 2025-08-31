@@ -14,6 +14,7 @@ const config: Config = {
       },
       gridTemplateColumns: {
         tags: "repeat(auto-fit, minmax(8rem,1fr))",
+        "hour-chart": "repeat(24, minmax(0, 1fr))",
       },
       colors: {
         gopher: {
