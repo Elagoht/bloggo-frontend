@@ -172,6 +172,7 @@ const EditVersionPage: FC = () => {
   }
 
   return (
+    <>
     <Form handle={handleFormSubmit} className="w-full mx-auto">
       <ContentWithSidebar>
         <Container size="lg">
@@ -354,6 +355,7 @@ const EditVersionPage: FC = () => {
     >
       You have unsaved changes. Are you sure you want to leave?
     </Dialog>
+    </>
   );
 };
 
