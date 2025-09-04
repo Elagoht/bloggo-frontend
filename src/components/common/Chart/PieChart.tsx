@@ -8,6 +8,7 @@ import {
   ResponsiveContainer,
   Legend,
 } from "recharts";
+import NoDataRecorded from "../NoDataRecorded";
 
 interface ChartDataItem {
   label: string;
@@ -98,29 +99,33 @@ const PieChart: FC<PieChartProps> = ({ title, data, icon: Icon }) => {
         {title}
       </h3>
 
-      <div className="h-64 w-full">
-        <ResponsiveContainer width="100%" height="100%">
-          <RechartsPieChart>
-            <Pie
-              data={chartData}
-              cx="50%"
-              cy="50%"
-              innerRadius={50}
-              outerRadius={90}
-              dataKey="value"
-              strokeWidth={0}
-            >
-              {chartData.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={entry.fill} />
-              ))}
-            </Pie>
+      {!data || data.length === 0 ? (
+        <NoDataRecorded />
+      ) : (
+        <div className="h-64 w-full">
+          <ResponsiveContainer width="100%" height="100%">
+            <RechartsPieChart>
+              <Pie
+                data={chartData}
+                cx="50%"
+                cy="50%"
+                innerRadius={50}
+                outerRadius={90}
+                dataKey="value"
+                strokeWidth={0}
+              >
+                {chartData.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={entry.fill} />
+                ))}
+              </Pie>
 
-            <Tooltip content={<CustomTooltip />} />
+              <Tooltip content={<CustomTooltip />} />
 
-            <Legend verticalAlign="bottom" content={<CustomLegend />} />
-          </RechartsPieChart>
-        </ResponsiveContainer>
-      </div>
+              <Legend verticalAlign="bottom" content={<CustomLegend />} />
+            </RechartsPieChart>
+          </ResponsiveContainer>
+        </div>
+      )}
     </div>
   );
 };

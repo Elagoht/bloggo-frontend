@@ -9,6 +9,7 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
+import NoDataRecorded from "../NoDataRecorded";
 
 interface ChartDataItem {
   label: string;
@@ -74,51 +75,55 @@ const BarChart: FC<BarChartProps> = ({ title, data, icon: Icon }) => {
         {title}
       </h3>
 
-      <div className="h-56 w-full">
-        <ResponsiveContainer width="100%" height="100%">
-          <RechartsBarChart
-            data={chartData}
-            margin={{
-              top: 5,
-              right: 5,
-              left: 5,
-              bottom: 15,
-            }}
-          >
-            <CartesianGrid
-              strokeDasharray="3 3"
-              className="opacity-30"
-              stroke="currentColor"
-            />
-            <XAxis
-              dataKey="name"
-              axisLine={false}
-              tickLine={false}
-              tick={{
-                fontSize: 11,
-                fill: "currentColor",
-                className: "text-smoke-600 dark:text-smoke-400",
+      {!data || data.length === 0 ? (
+        <NoDataRecorded />
+      ) : (
+        <div className="h-56 w-full">
+          <ResponsiveContainer width="100%" height="100%">
+            <RechartsBarChart
+              data={chartData}
+              margin={{
+                top: 5,
+                right: 5,
+                left: 5,
+                bottom: 15,
               }}
-              interval={0}
-              angle={-45}
-              textAnchor="end"
-              height={30}
-            />
-            <YAxis
-              axisLine={false}
-              tickLine={false}
-              tick={{
-                fontSize: 11,
-                fill: "currentColor",
-                className: "text-smoke-600 dark:text-smoke-400",
-              }}
-              width={25}
-            />
-            <Tooltip content={<CustomTooltip />} />
-            <Bar dataKey="value" radius={[4, 4, 0, 0]} />
-          </RechartsBarChart>
-        </ResponsiveContainer>
-      </div>
+            >
+              <CartesianGrid
+                strokeDasharray="3 3"
+                className="opacity-30"
+                stroke="currentColor"
+              />
+              <XAxis
+                dataKey="name"
+                axisLine={false}
+                tickLine={false}
+                tick={{
+                  fontSize: 11,
+                  fill: "currentColor",
+                  className: "text-smoke-600 dark:text-smoke-400",
+                }}
+                interval={0}
+                angle={-45}
+                textAnchor="end"
+                height={30}
+              />
+              <YAxis
+                axisLine={false}
+                tickLine={false}
+                tick={{
+                  fontSize: 11,
+                  fill: "currentColor",
+                  className: "text-smoke-600 dark:text-smoke-400",
+                }}
+                width={25}
+              />
+              <Tooltip content={<CustomTooltip />} />
+              <Bar dataKey="value" radius={[4, 4, 0, 0]} />
+            </RechartsBarChart>
+          </ResponsiveContainer>
+        </div>
+      )}
     </div>
   );
 };

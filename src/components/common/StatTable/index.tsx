@@ -1,5 +1,6 @@
 import { Icon, IconProps } from "@tabler/icons-react";
 import { FC, ForwardRefExoticComponent, ReactNode, RefAttributes } from "react";
+import NoDataRecorded from "../NoDataRecorded";
 
 interface StatTableColumn {
   key: string;
@@ -35,46 +36,52 @@ const StatTable: FC<StatTableProps> = ({
         {title}
       </h3>
 
-      <div className="overflow-x-auto">
-        <table className="w-full">
-          <thead>
-            <tr className="border-b border-smoke-200 dark:border-smoke-800">
-              {columns.map((column) => (
-                <th
-                  key={column.key}
-                  className="text-left py-3 px-2 text-xs font-medium text-smoke-500 dark:text-smoke-400 uppercase tracking-wide"
-                >
-                  {column.title}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {displayData.map((item, index) => (
-              <tr
-                key={index}
-                className="border-b border-smoke-100 dark:border-smoke-900 last:border-b-0 hover:bg-smoke-50 dark:hover:bg-smoke-900/50 transition-colors"
-              >
-                {columns.map((column) => (
-                  <td
-                    key={column.key}
-                    className="py-3 px-2 text-sm text-smoke-700 dark:text-smoke-300"
+      {!data || data.length === 0 ? (
+        <NoDataRecorded />
+      ) : (
+        <>
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-smoke-200 dark:border-smoke-800">
+                  {columns.map((column) => (
+                    <th
+                      key={column.key}
+                      className="text-left py-3 px-2 text-xs font-medium text-smoke-500 dark:text-smoke-400 uppercase tracking-wide"
+                    >
+                      {column.title}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {displayData.map((item, index) => (
+                  <tr
+                    key={index}
+                    className="border-b border-smoke-100 dark:border-smoke-900 last:border-b-0 hover:bg-smoke-50 dark:hover:bg-smoke-900/50 transition-colors"
                   >
-                    {column.render
-                      ? column.render(item[column.key], item)
-                      : item[column.key]}
-                  </td>
+                    {columns.map((column) => (
+                      <td
+                        key={column.key}
+                        className="py-3 px-2 text-sm text-smoke-700 dark:text-smoke-300"
+                      >
+                        {column.render
+                          ? column.render(item[column.key], item)
+                          : item[column.key]}
+                      </td>
+                    ))}
+                  </tr>
                 ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+              </tbody>
+            </table>
+          </div>
 
-      {data.length > maxRows && (
-        <p className="text-xs text-smoke-500 dark:text-smoke-400 mt-4 text-center">
-          Showing {maxRows} of {data.length} items
-        </p>
+          {data.length > maxRows && (
+            <p className="text-xs text-smoke-500 dark:text-smoke-400 mt-4 text-center">
+              Showing {maxRows} of {data.length} items
+            </p>
+          )}
+        </>
       )}
     </div>
   );
