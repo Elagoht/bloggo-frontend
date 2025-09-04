@@ -131,7 +131,7 @@ const Button: FC<ButtonProps> = ({
     <>
       {iconLeft &&
         createElement(iconLeft, {
-          className: "flex-shrink-0 flex items-center -ml-1",
+          className: "flex-shrink-0 flex items-center",
           size: 20,
         })}
 
@@ -143,7 +143,7 @@ const Button: FC<ButtonProps> = ({
 
       {iconRight &&
         createElement(iconRight, {
-          className: "flex-shrink-0 flex items-center -mr-1",
+          className: "flex-shrink-0 flex items-center",
           size: 20,
         })}
     </>

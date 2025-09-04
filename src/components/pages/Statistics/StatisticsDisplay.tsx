@@ -228,7 +228,7 @@ const StatisticsDisplay: FC<StatisticsDisplayProps> = ({
         <BarChart
           title="Device Types"
           icon={IconDevices}
-          data={deviceTypes.map((device) => ({
+          data={deviceTypes?.map?.((device) => ({
             label: device.device_type,
             value: device.view_count,
             percentage: device.percentage,
@@ -238,7 +238,7 @@ const StatisticsDisplay: FC<StatisticsDisplayProps> = ({
         <BarChart
           title="Browsers"
           icon={IconBrowser}
-          data={browsers.map((browser) => ({
+          data={browsers?.map?.((browser) => ({
             label: browser.browser,
             value: browser.view_count,
             percentage: browser.percentage,
@@ -248,7 +248,7 @@ const StatisticsDisplay: FC<StatisticsDisplayProps> = ({
         <BarChart
           title="Operating Systems"
           icon={IconDeviceDesktop}
-          data={osStats.map((os) => ({
+          data={osStats?.map?.((os) => ({
             label: os.operating_system,
             value: os.view_count,
             percentage: os.percentage,

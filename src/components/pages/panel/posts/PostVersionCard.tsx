@@ -30,13 +30,17 @@ const PostVersionCard: FC<PostVersionCardProps> = ({
 
   const data = [
     {
-      icon: (
+      icon: version.versionAuthor.avatar ? (
         <img
           width={20}
           height={20}
           className="rounded-full"
           src={import.meta.env.VITE_API_URL + version.versionAuthor.avatar}
         />
+      ) : (
+        <span className="size-6 text-smoke-50 rounded-full bg-gopher-500 grid place-items-center text-sm font-semibold">
+          {version.versionAuthor.name[0]}
+        </span>
       ),
       title: "Author",
       href: `/users/details/${version.versionAuthor.id}`,

@@ -11,7 +11,8 @@ import {
   IconVersions,
 } from "@tabler/icons-react";
 import { FC, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useBlocker } from "react-router-dom";
+import Dialog from "../../../../../../../components/common/Dialog";
 import RouteGuard from "../../../../../../../components/Guards/RouteGuard";
 import Button from "../../../../../../../components/form/Button";
 import Form from "../../../../../../../components/form/Form";
@@ -31,6 +32,7 @@ import {
   updatePostVersion,
 } from "../../../../../../../services/posts";
 import GenerativeFill from "../../../../../../../components/common/GenerativeFill";
+import NoCategoriesYet from "../../../../../../../components/common/NoCategoriesYet";
 
 const DuplicateVersionPage: FC = () => {
   const navigate = useNavigate();
@@ -44,6 +46,14 @@ const DuplicateVersionPage: FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [sourceVersion, setSourceVersion] = useState<PostVersionDetails>();
   const [currentContent, setCurrentContent] = useState<string>("");
+  const [isDirty, setIsDirty] = useState(false);
+
+  // Dialog state
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [blockerProceed, setBlockerProceed] = useState<null | (() => void)>(
+    null
+  );
+  const [blockerReset, setBlockerReset] = useState<null | (() => void)>(null);
 
   useEffect(() => {
     const loadData = async () => {
@@ -82,6 +92,10 @@ const DuplicateVersionPage: FC = () => {
 
     loadData();
   }, [postId, versionId, navigate]);
+
+  const markDirty = () => {
+    if (!isDirty) setIsDirty(true);
+  };
 
   const handleFormSubmit = async (data: FormData) => {
     if (isSubmitting || !sourceVersion || !postId) return;
@@ -128,6 +142,7 @@ const DuplicateVersionPage: FC = () => {
       );
 
       if (updateResponse.success) {
+        setIsDirty(false);
         navigate(`/posts/details/${postId}`, { replace: true });
       } else {
         throw new Error(updateResponse.error.message);
@@ -138,6 +153,34 @@ const DuplicateVersionPage: FC = () => {
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  useEffect(() => {
+    const handler = (event: BeforeUnloadEvent) => {
+      if (isDirty) event.preventDefault();
+    };
+    window.addEventListener("beforeunload", handler);
+    return () => window.removeEventListener("beforeunload", handler);
+  }, [isDirty]);
+
+  const blocker = useBlocker(isDirty);
+
+  useEffect(() => {
+    if (blocker.state === "blocked") {
+      setBlockerProceed(() => blocker.proceed);
+      setBlockerReset(() => blocker.reset);
+      setIsDialogOpen(true);
+    }
+  }, [blocker]);
+
+  const handleDialogConfirm = () => {
+    setIsDialogOpen(false);
+    blockerProceed?.();
+  };
+
+  const handleDialogCancel = () => {
+    setIsDialogOpen(false);
+    blockerReset?.();
   };
 
   if (isLoading) {
@@ -194,6 +237,7 @@ const DuplicateVersionPage: FC = () => {
                 placeholder="Enter post title..."
                 defaultValue={sourceVersion.title}
                 required
+                onChange={markDirty}
               />
 
               <Input
@@ -203,6 +247,7 @@ const DuplicateVersionPage: FC = () => {
                 accept="image/*"
                 iconLeft={IconPhoto}
                 onChange={async (event) => {
+                  markDirty();
                   const file = event.currentTarget?.files?.[0];
 
                   if (file) {
@@ -225,7 +270,10 @@ const DuplicateVersionPage: FC = () => {
                 rows={20}
                 className="font-mono"
                 defaultValue={sourceVersion.content}
-                onChange={(e) => setCurrentContent(e.target.value)}
+                onChange={(e) => {
+                  markDirty();
+                  setCurrentContent(e.target.value);
+                }}
               />
             </FormCard>
 
@@ -253,6 +301,7 @@ const DuplicateVersionPage: FC = () => {
               placeholder="Short teaser text (max 75 chars)"
               maxLength={75}
               defaultValue={sourceVersion.spot || ""}
+              onChange={markDirty}
             />
 
             <Textarea
@@ -263,7 +312,10 @@ const DuplicateVersionPage: FC = () => {
               rows={3}
               maxLength={155}
               defaultValue={sourceVersion.description || ""}
+              onChange={markDirty}
             />
+
+            <NoCategoriesYet count={categories.length} />
 
             <Select
               name="categoryId"
@@ -275,6 +327,7 @@ const DuplicateVersionPage: FC = () => {
                 label: category.name,
                 selected: category.id === sourceVersion.category?.id,
               }))}
+              onChange={markDirty}
             />
 
             {coverPreview && (
@@ -299,6 +352,29 @@ const DuplicateVersionPage: FC = () => {
           </Sidebar>
         </ContentWithSidebar>
       </Form>
+
+      <Dialog
+        isOpen={isDialogOpen}
+        onClose={handleDialogCancel}
+        title="Unsaved Changes"
+        actions={[
+          {
+            onClick: handleDialogCancel,
+            children: "Cancel",
+            variant: "outline",
+            color: "primary",
+            shortcutKey: "ctrlOrCmd+O",
+          },
+          {
+            onClick: handleDialogConfirm,
+            children: "Leave Page",
+            color: "danger",
+            shortcutKey: "ctrlOrCmd+Y",
+          },
+        ]}
+      >
+        You have unsaved changes. Are you sure you want to leave?
+      </Dialog>
     </RouteGuard>
   );
 };

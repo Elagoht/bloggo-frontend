@@ -57,7 +57,6 @@ const ViewVersionPage: FC = () => {
     }
   };
 
-
   useEffect(() => {
     loadVersion();
   }, [postId, versionId]);
@@ -137,6 +136,7 @@ const ViewVersionPage: FC = () => {
           {/* Author */}
           <DetailsItem
             image={import.meta.env.VITE_API_URL + version.versionAuthor?.avatar}
+            icon={IconUser}
             title="Author"
           >
             <Link

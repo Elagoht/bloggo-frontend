@@ -75,9 +75,11 @@ const GenerativeFill: FC<GenerativeFillProps> = ({
       </Button>
 
       {contentLength < 1000 && (
-        <p className="text-sm text-smoke-600">
-          Content must be at least 1000 characters to use AI generation
-        </p>
+        <small className="text-xs text-smoke-600 text-center block mt-2">
+          Content must be at least 1000 characters to use AI generation.
+          Generation will be perform on saved content. Unsaved content can't be
+          used for suggestions.
+        </small>
       )}
 
       {error && (

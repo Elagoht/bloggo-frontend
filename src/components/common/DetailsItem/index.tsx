@@ -17,7 +17,8 @@ type DetailsItemProps = {
     }
   | {
       image: string;
-      icon?: never;
+      // If image exists, icon will be used as a fallback value
+      icon?: ForwardRefExoticComponent<IconProps & RefAttributes<Icon>>;
     }
 );
 

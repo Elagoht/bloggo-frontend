@@ -214,7 +214,7 @@ const UserProfileEditForm: FC<UserProfileEditFormProps> = ({ profile }) => {
         </div>
 
         <p className="text-sm text-smoke-600 dark:text-smoke-400 text-center mt-4">
-          JPG, PNG or GIF. Max file size 5MB.
+          JPG, PNG, WEBP or GIF. Max file size 5MB.
         </p>
       </FormCard>
 
