@@ -1,5 +1,6 @@
-import React from "react";
+import { FC } from "react";
 import LoginForm from "../../../forms/LoginForm";
+import H1 from "../../../components/typography/H1";
 
 const LoginPage: FC = () => {
   return (
@@ -12,9 +13,7 @@ const LoginPage: FC = () => {
           alt="Bloggo Logo"
         />
 
-        <h1 className="text-3xl font-bold text-smoke-950 dark:text-gopher-50">
-          Bloggo
-        </h1>
+        <H1>Bloggo</H1>
 
         <strong className="text-smoke-900 dark:text-gopher-200 font-medium">
           Your Own Blog CMS

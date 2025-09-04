@@ -228,6 +228,7 @@ const UserProfileEditForm: FC<UserProfileEditFormProps> = ({ profile }) => {
               Full Name
             </label>
             <Input
+              autoFocus
               name="name"
               iconLeft={IconUser}
               defaultValue={profile.name}

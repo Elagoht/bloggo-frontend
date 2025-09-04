@@ -102,24 +102,20 @@ const GenerativeFill: FC<GenerativeFillProps> = ({
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-              <CopyBox 
-                label="Title" 
-                value={data.title} 
-                onCopy={handleCopy} 
+              <CopyBox label="Title" value={data.title} onCopy={handleCopy} />
+
+              <CopyBox
+                label="Spot (Teaser)"
+                value={data.spot}
+                onCopy={handleCopy}
               />
-              
-              <CopyBox 
-                label="Spot (Teaser)" 
-                value={data.spot} 
-                onCopy={handleCopy} 
+
+              <CopyBox
+                label="Meta Description"
+                value={data.metaDescription}
+                onCopy={handleCopy}
               />
-              
-              <CopyBox 
-                label="Meta Description" 
-                value={data.metaDescription} 
-                onCopy={handleCopy} 
-              />
-              
+
               <div className="bg-white/80 backdrop-blur-sm rounded-lg p-3 border border-white/40">
                 <div className="flex items-center justify-between mb-2">
                   <label className="text-sm font-medium text-smoke-700">

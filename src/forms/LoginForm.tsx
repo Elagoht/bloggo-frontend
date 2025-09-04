@@ -6,6 +6,7 @@ import Form from "../components/form/Form";
 import Input from "../components/form/Input";
 import { postLogin } from "../services/session";
 import { useAuthStore } from "../stores/auth";
+import toast from "react-hot-toast";
 
 const LoginForm: FC = () => {
   const navigate = useNavigate();
@@ -17,7 +18,14 @@ const LoginForm: FC = () => {
 
     const response = await postLogin(email, passphrase);
 
-    if (!response.success) return; // TODO: Error handling
+    if (!response.success) {
+      toast.error(
+        response.status === 401
+          ? "Invalid credentials."
+          : response.error.message
+      );
+      return;
+    }
 
     setAuth(response.data);
 
@@ -26,11 +34,22 @@ const LoginForm: FC = () => {
 
   return (
     <Form handle={handleSubmit}>
-      <Input type="email" name="email" autoFocus={true} placeholder="Email" />
+      <Input
+        type="email"
+        name="email"
+        required
+        autoFocus={true}
+        placeholder="Email"
+      />
 
-      <Input type="password" name="passphrase" placeholder="Passphrase" />
+      <Input
+        type="password"
+        name="passphrase"
+        required
+        placeholder="Passphrase"
+      />
 
-      <Button type="submit" iconRight={IconLogin}>
+      <Button type="submit" iconRight={IconLogin} shortcutKey="Enter">
         Login
       </Button>
     </Form>

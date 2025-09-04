@@ -44,7 +44,7 @@ const NotFoundPage = lazy(() => import("./app/panel/404/page"));
 const App = () => {
   return (
     <BrowserRouter>
-      <Toaster />
+      <Toaster position="bottom-right" />
 
       <Suspense fallback={<div>Loading...</div>}>
         <Routes>

@@ -118,12 +118,14 @@ class ApiCall {
     if (!res.ok) {
       return {
         success: false,
+        status: res.status,
         error: { message: result?.message ?? "Unknown Error" },
       };
     }
 
     return {
       success: true,
+      status: res.status,
       data: result as T,
     };
   }

@@ -138,6 +138,7 @@ const EditVersionPage: FC = () => {
 
           <FormCard>
             <Input
+              autoFocus
               name="title"
               label="Title"
               iconLeft={IconHeading}

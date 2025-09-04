@@ -11,6 +11,8 @@ import {
   useRef,
 } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { keyAliases } from "./Shortcuts";
+import ShortcutLabel from "./Shortcuts/ShortcutLabel";
 
 export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> &
   PropsWithChildren & {
@@ -22,36 +24,6 @@ export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> &
     iconRight?: ForwardRefExoticComponent<IconProps & RefAttributes<Icon>>;
     shortcutKey?: string;
   };
-
-const isMac =
-  typeof navigator !== "undefined" && /Mac/i.test(navigator.platform);
-
-const keyLabels: Record<string, string | ((isMac: boolean) => string)> = {
-  ctrlorcmd: (mac: boolean) => (mac ? "⌘" : "Ctrl"),
-  ctrl: "Ctrl",
-  cmd: "⌘",
-  meta: "⌘",
-  alt: (mac: boolean) => (mac ? "Option" : "Alt"),
-  altoroption: (mac: boolean) => (mac ? "⌥" : "Alt"),
-  option: "⌥",
-  shift: "Shift",
-  plus: "+",
-  " ": "Space",
-  space: "Space",
-  enter: "↵",
-  escape: "␛",
-  up: "↑",
-  down: "↓",
-  left: "←",
-  right: "→",
-};
-
-const keyAliases: Record<string, string> = {
-  up: "arrowup",
-  down: "arrowdown",
-  left: "arrowleft",
-  right: "arrowright",
-};
 
 const Button: FC<ButtonProps> = ({
   color = "primary",
@@ -115,31 +87,6 @@ const Button: FC<ButtonProps> = ({
     }
   );
 
-  const renderShortcutLabel = (shortcut?: string) => {
-    if (!shortcut) return null;
-    const parts = shortcut.split("+").map((p) => p.toLowerCase());
-
-    return (
-      <span className="ml-2 text-xs flex gap-1">
-        {parts.map((part, i) => {
-          const labelDef = keyLabels[part];
-          const label =
-            typeof labelDef === "function"
-              ? labelDef(isMac)
-              : labelDef ?? part.toUpperCase();
-          return (
-            <kbd
-              key={i}
-              className="max-md:hidden px-1.5 py-0.5 rounded text-black dark:text-white bg-white dark:bg-black bg-opacity-30 dark:bg-opacity-30"
-            >
-              {label}
-            </kbd>
-          );
-        })}
-      </span>
-    );
-  };
-
   useEffect(() => {
     if (!shortcutKey) return;
 
@@ -190,7 +137,7 @@ const Button: FC<ButtonProps> = ({
 
       {children && (
         <span className="flex-grow text-center justify-center truncate flex items-center">
-          {children} {renderShortcutLabel(shortcutKey)}
+          {children} {<ShortcutLabel shortcut={shortcutKey} />}
         </span>
       )}
 

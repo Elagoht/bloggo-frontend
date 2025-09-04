@@ -1,11 +1,10 @@
 import {
-  IconCopy,
   IconDatabase,
   IconDeviceFloppy,
   IconEdit,
+  IconExclamationCircle,
   IconFileDescription,
   IconHeading,
-  IconInfoCircle,
   IconPhoto,
   IconSignature,
   IconSparkles,
@@ -13,7 +12,7 @@ import {
   IconTextCaption,
 } from "@tabler/icons-react";
 import { FC, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "../../../../components/form/Button";
 import Form from "../../../../components/form/Form";
 import Input from "../../../../components/form/Input";
@@ -85,6 +84,7 @@ const WritePage: FC = () => {
 
           <FormCard>
             <Input
+              autoFocus
               name="title"
               label="Title"
               iconLeft={IconHeading}
@@ -158,6 +158,24 @@ const WritePage: FC = () => {
             rows={3}
             maxLength={155}
           />
+
+          {categories.length === 0 && (
+            <FormCard color="warning">
+              <SectionHeader color="warning" icon={IconExclamationCircle}>
+                No categories yet.
+              </SectionHeader>
+
+              <span className="text-warning-700 dark:text-warning-300 text-xs">
+                You can save your draft without specifying a category. But you
+                will need set a category before sending it to review. You can
+                create one{" "}
+                <Link className="underline" to="/categories/create">
+                  here
+                </Link>
+                .
+              </span>
+            </FormCard>
+          )}
 
           <Select
             name="categoryId"

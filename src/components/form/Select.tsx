@@ -63,7 +63,7 @@ const Select: FC<SelectProps> = ({
           id={name}
           name={name}
           required={required}
-          disabled={disabled}
+          disabled={options.length === 0 || disabled}
           defaultValue={defaultValue}
           className={classNames(
             "w-full px-2.5 py-2 text-sm bg-smoke-50 dark:bg-smoke-900 border border-smoke-200 dark:border-smoke-700 rounded-lg transition-all duration-200 focus:outline-none focus:border-gopher-400 dark:focus:border-gopher-500 focus:ring-1 focus:ring-gopher-200 dark:focus:ring-gopher-800/50 placeholder:text-smoke-400 dark:placeholder:text-smoke-500 text-smoke-900 dark:text-smoke-100 shadow-sm focus:shadow hover:border-smoke-300 dark:hover:border-smoke-600",
@@ -78,6 +78,13 @@ const Select: FC<SelectProps> = ({
               {placeholder}
             </option>
           )}
+
+          {options.length === 0 && (
+            <option disabled selected>
+              -
+            </option>
+          )}
+
           {options.map((option, index) => (
             <option key={index} value={option.value} selected={option.selected}>
               {option.label}

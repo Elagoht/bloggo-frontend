@@ -1,6 +1,7 @@
-type ApiResponse<T> =
+type ApiResponse<T> = { status: number } & (
   | { success: true; data: T }
-  | { success: false; error: { message: string } };
+  | { success: false; error: { message: string } }
+);
 
 type ResponsePaginated<T> = {
   data: T[];

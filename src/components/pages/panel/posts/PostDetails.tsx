@@ -6,13 +6,17 @@ import { Link } from "react-router-dom";
 const PostDetails: FC<PostDetails> = (post) => {
   const data = [
     {
-      icon: (
+      icon: post.author.avatar ? (
         <img
           width={20}
           height={20}
           className="rounded-full"
           src={import.meta.env.VITE_API_URL + post.author.avatar}
         />
+      ) : (
+        <span className="size-6 text-smoke-50 rounded-full bg-gopher-500 grid place-items-center text-sm font-semibold">
+          {post.author.name[0]}
+        </span>
       ),
       title: "Author",
       value: post.author.name,

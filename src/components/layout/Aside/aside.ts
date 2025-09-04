@@ -4,11 +4,9 @@ import {
   IconCategory,
   IconChartPie,
   IconDashboard,
-  IconProgressCheck,
   IconProps,
   IconTag,
   IconUsers,
-  IconWritingSign,
 } from "@tabler/icons-react";
 import { ForwardRefExoticComponent, RefAttributes } from "react";
 
@@ -16,7 +14,7 @@ export const asideMenu: Array<{
   name: string;
   icon: ForwardRefExoticComponent<IconProps & RefAttributes<Icon>>;
   href: string;
-  perm?: Permission;
+  perm?: Permission | Permission[];
 }> = [
   {
     name: "Dashboard",

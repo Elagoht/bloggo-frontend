@@ -75,6 +75,7 @@ const UserCreatePage: FC = () => {
           <Form handle={handleSubmit}>
             <FormSection legend="User Information">
               <Input
+                autoFocus
                 name="name"
                 label="Full Name"
                 iconLeft={IconUser}

@@ -186,6 +186,7 @@ const DuplicateVersionPage: FC = () => {
 
             <FormCard>
               <Input
+                autoFocus
                 name="title"
                 label="Title"
                 iconLeft={IconHeading}

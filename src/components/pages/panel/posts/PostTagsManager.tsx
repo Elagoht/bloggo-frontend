@@ -1,6 +1,7 @@
 import {
   IconDeviceFloppy,
   IconEdit,
+  IconExclamationCircle,
   IconTags,
   IconX,
 } from "@tabler/icons-react";
@@ -14,6 +15,8 @@ import ButtonGroup from "../../../form/ButtonGroup";
 import CheckboxGroup from "../../../form/Checkbox/CheckboxGroup";
 import { assignTagsToPost } from "../../../../services/posts";
 import { getTags } from "../../../../services/tags";
+import FormCard from "../../../layout/Container/FormCard";
+import { Link } from "react-router-dom";
 
 interface PostTagsManagerProps {
   post: PostDetails;
@@ -109,6 +112,21 @@ const PostTagsManager: FC<PostTagsManagerProps> = ({ post, onTagsUpdated }) => {
             </small>
 
             <div className="max-h-60 overflow-y-auto border border-smoke-200 dark:border-smoke-700 rounded-lg p-2 grid grid-cols-tags">
+              {allTags.length === 0 && (
+                <FormCard color="warning">
+                  <SectionHeader color="warning" icon={IconExclamationCircle}>
+                    No Tags Yet!
+                  </SectionHeader>
+
+                  <span className="text-warning-700 dark:text-warning-300 text-xs">
+                    You need to{" "}
+                    <Link className="underline" to="/tags/create">
+                      create
+                    </Link>{" "}
+                    one to assign it.
+                  </span>
+                </FormCard>
+              )}
               <CheckboxGroup
                 values={selectedTagIds}
                 onChange={setSelectedTagIds}

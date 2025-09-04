@@ -37,6 +37,7 @@ const UserEditForm: FC<UserEditFormProps> = ({ user, onUpdate }) => {
 
       <Form handle={handleSubmit}>
         <Input
+          autoFocus
           name="name"
           label="Full Name"
           iconLeft={IconUser}
