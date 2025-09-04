@@ -4,6 +4,7 @@ import {
   createElement,
   FC,
   ForwardRefExoticComponent,
+  InputHTMLAttributes,
   RefAttributes,
 } from "react";
 
@@ -13,16 +14,10 @@ type SelectOption = {
   selected?: boolean;
 };
 
-type SelectProps = {
-  name: string;
+type SelectProps = InputHTMLAttributes<HTMLSelectElement> & {
   label?: string;
-  placeholder?: string;
-  required?: boolean;
-  disabled?: boolean;
-  className?: string;
   icon?: ForwardRefExoticComponent<IconProps & RefAttributes<Icon>>;
   options: SelectOption[];
-  defaultValue?: string | number;
 };
 
 const Select: FC<SelectProps> = ({
