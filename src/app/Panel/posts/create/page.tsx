@@ -12,7 +12,8 @@ import {
   IconTextCaption,
 } from "@tabler/icons-react";
 import { FC, useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useBlocker, useNavigate } from "react-router-dom";
+import Dialog from "../../../../components/common/Dialog";
 import Button from "../../../../components/form/Button";
 import Form from "../../../../components/form/Form";
 import Input from "../../../../components/form/Input";
@@ -29,9 +30,18 @@ import { createPost } from "../../../../services/posts";
 
 const WritePage: FC = () => {
   const navigate = useNavigate();
+
   const [categories, setCategories] = useState<CategoryListItem[]>([]);
   const [coverPreview, setCoverPreview] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isDirty, setIsDirty] = useState(false);
+
+  // Dialog state
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [blockerProceed, setBlockerProceed] = useState<null | (() => void)>(
+    null
+  );
+  const [blockerReset, setBlockerReset] = useState<null | (() => void)>(null);
 
   useEffect(() => {
     getCategoriesList().then((response) => {
@@ -39,6 +49,10 @@ const WritePage: FC = () => {
       setCategories(response.data);
     });
   }, []);
+
+  const markDirty = () => {
+    if (!isDirty) setIsDirty(true);
+  };
 
   const handleFormSubmit = async (data: FormData) => {
     if (isSubmitting) return;
@@ -64,6 +78,7 @@ const WritePage: FC = () => {
       const response = await createPost(form);
 
       if (response.success) {
+        setIsDirty(false);
         navigate("/posts", { replace: true });
       } else {
         throw new Error(response.error.message);
@@ -76,140 +91,199 @@ const WritePage: FC = () => {
     }
   };
 
+  useEffect(() => {
+    const handler = (event: BeforeUnloadEvent) => {
+      if (isDirty) event.preventDefault();
+    };
+    window.addEventListener("beforeunload", handler);
+    return () => window.removeEventListener("beforeunload", handler);
+  }, [isDirty]);
+
+  const blocker = useBlocker(isDirty);
+
+  useEffect(() => {
+    if (blocker.state === "blocked") {
+      setBlockerProceed(() => blocker.proceed);
+      setBlockerReset(() => blocker.reset);
+      setIsDialogOpen(true);
+    }
+  }, [blocker]);
+
+  const handleDialogConfirm = () => {
+    setIsDialogOpen(false);
+    blockerProceed?.();
+  };
+
+  const handleDialogCancel = () => {
+    setIsDialogOpen(false);
+    blockerReset?.();
+  };
+
   return (
-    <Form handle={handleFormSubmit} className="w-full mx-auto">
-      <ContentWithSidebar>
-        <Container size="lg">
-          <PageTitleWithIcon icon={IconEdit}>Write New Post</PageTitleWithIcon>
+    <>
+      <Form handle={handleFormSubmit} className="w-full mx-auto">
+        <ContentWithSidebar>
+          <Container size="lg">
+            <PageTitleWithIcon icon={IconEdit}>
+              Write New Post
+            </PageTitleWithIcon>
 
-          <FormCard>
-            <Input
-              autoFocus
-              name="title"
-              label="Title"
-              iconLeft={IconHeading}
-              type="text"
-              placeholder="Enter post title..."
-              required
-            />
+            <FormCard>
+              <Input
+                autoFocus
+                name="title"
+                label="Title"
+                iconLeft={IconHeading}
+                type="text"
+                placeholder="Enter post title..."
+                required
+                onChange={markDirty}
+              />
 
-            <Input
-              type="file"
-              name="cover"
-              label="Cover Image"
-              accept="image/*"
-              iconLeft={IconPhoto}
-              onChange={async (event) => {
-                const file = event.currentTarget?.files?.[0];
+              <Input
+                type="file"
+                name="cover"
+                label="Cover Image"
+                accept="image/*"
+                iconLeft={IconPhoto}
+                onChange={async (event) => {
+                  markDirty();
+                  const file = event.currentTarget?.files?.[0];
 
-                if (file) {
-                  const reader = new FileReader();
-                  reader.onload = (event) => {
-                    setCoverPreview(event.target?.result as string);
-                  };
-                  reader.readAsDataURL(file);
-                } else {
-                  setCoverPreview(null);
-                }
-              }}
-            />
+                  if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (event) => {
+                      setCoverPreview(event.target?.result as string);
+                    };
+                    reader.readAsDataURL(file);
+                  } else {
+                    setCoverPreview(null);
+                  }
+                }}
+              />
 
-            <Textarea
-              name="content"
-              label="Content (Markdown)"
-              iconLeft={IconSignature}
-              placeholder="Write your post content using Markdown..."
-              rows={20}
-              className="font-mono"
-            />
-          </FormCard>
+              <Textarea
+                name="content"
+                label="Content (Markdown)"
+                iconLeft={IconSignature}
+                placeholder="Write your post content using Markdown..."
+                rows={20}
+                className="font-mono"
+                onChange={markDirty}
+              />
+            </FormCard>
 
-          <FormCard color="warning">
-            <SectionHeader icon={IconSparkles} color="warning">
-              AI-Powered Content Suggestions
-            </SectionHeader>
-
-            <span className="text-warning-700 dark:text-warning-300 text-xs">
-              You can access AI-generated suggestions for title, meta
-              description, and spot text after saving your content as a draft.
-              The AI will analyze your content and provide optimized suggestions
-              to improve SEO and engagement.
-            </span>
-          </FormCard>
-        </Container>
-
-        <Sidebar topMargin>
-          <SectionHeader icon={IconDatabase}>SEO & Metadata</SectionHeader>
-
-          <Input
-            name="spot"
-            iconLeft={IconTextCaption}
-            label="Spot (Teaser)"
-            type="text"
-            placeholder="Short teaser text (max 75 chars)"
-            maxLength={75}
-          />
-
-          <Textarea
-            iconLeft={IconFileDescription}
-            name="description"
-            label="Meta Description"
-            placeholder="Brief description for search engines (max 155 chars)"
-            rows={3}
-            maxLength={155}
-          />
-
-          {categories.length === 0 && (
             <FormCard color="warning">
-              <SectionHeader color="warning" icon={IconExclamationCircle}>
-                No categories yet.
+              <SectionHeader icon={IconSparkles} color="warning">
+                AI-Powered Content Suggestions
               </SectionHeader>
 
               <span className="text-warning-700 dark:text-warning-300 text-xs">
-                You can save your draft without specifying a category. But you
-                will need set a category before sending it to review. You can
-                create one{" "}
-                <Link className="underline" to="/categories/create">
-                  here
-                </Link>
-                .
+                You can access AI-generated suggestions for title, meta
+                description, and spot text after saving your content as a draft.
+                The AI will analyze your content and provide optimized
+                suggestions to improve SEO and engagement.
               </span>
             </FormCard>
-          )}
+          </Container>
 
-          <Select
-            name="categoryId"
-            label="Category"
-            icon={IconTag}
-            placeholder="Select a category"
-            options={categories.map((category) => ({
-              value: category.id.toString(),
-              label: category.name,
-            }))}
-          />
+          <Sidebar topMargin>
+            <SectionHeader icon={IconDatabase}>SEO & Metadata</SectionHeader>
 
-          {coverPreview && (
-            <img
-              className="aspect-video object-fill rounded-lg"
-              src={
-                coverPreview.startsWith("data:image/")
-                  ? coverPreview
-                  : import.meta.env.VITE_API_URL + coverPreview
-              }
+            <Input
+              name="spot"
+              iconLeft={IconTextCaption}
+              label="Spot (Teaser)"
+              type="text"
+              placeholder="Short teaser text (max 75 chars)"
+              maxLength={75}
+              onChange={markDirty}
             />
-          )}
 
-          <Button
-            type="submit"
-            color="success"
-            iconRight={IconDeviceFloppy}
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? "Creating..." : "Create Draft"}
-          </Button>
-        </Sidebar>
-      </ContentWithSidebar>
-    </Form>
+            <Textarea
+              iconLeft={IconFileDescription}
+              name="description"
+              label="Meta Description"
+              placeholder="Brief description for search engines (max 155 chars)"
+              rows={3}
+              maxLength={155}
+              onChange={markDirty}
+            />
+
+            {categories.length === 0 && (
+              <FormCard color="warning">
+                <SectionHeader color="warning" icon={IconExclamationCircle}>
+                  No categories yet.
+                </SectionHeader>
+
+                <span className="text-warning-700 dark:text-warning-300 text-xs">
+                  You can save your draft without specifying a category. But you
+                  will need set a category before sending it to review. You can
+                  create one{" "}
+                  <Link className="underline" to="/categories/create">
+                    here
+                  </Link>
+                  .
+                </span>
+              </FormCard>
+            )}
+
+            <Select
+              name="categoryId"
+              label="Category"
+              icon={IconTag}
+              placeholder="Select a category"
+              options={categories.map((category) => ({
+                value: category.id.toString(),
+                label: category.name,
+              }))}
+              onChange={markDirty}
+            />
+
+            {coverPreview && (
+              <img
+                className="aspect-video object-fill rounded-lg"
+                src={
+                  coverPreview.startsWith("data:image/")
+                    ? coverPreview
+                    : import.meta.env.VITE_API_URL + coverPreview
+                }
+              />
+            )}
+
+            <Button
+              type="submit"
+              color="success"
+              iconRight={IconDeviceFloppy}
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? "Creating..." : "Create Draft"}
+            </Button>
+          </Sidebar>
+        </ContentWithSidebar>
+      </Form>
+
+      <Dialog
+        isOpen={isDialogOpen}
+        onClose={handleDialogCancel}
+        title="Unsaved Changes"
+        actions={[
+          {
+            onClick: handleDialogCancel,
+            children: "Cancel",
+            variant: "outline",
+            color: "primary",
+          },
+          {
+            onClick: handleDialogConfirm,
+            children: "Leave Page",
+            color: "danger",
+          },
+        ]}
+      >
+        You have unsaved changes. Are you sure you want to leave?
+      </Dialog>
+    </>
   );
 };
 
