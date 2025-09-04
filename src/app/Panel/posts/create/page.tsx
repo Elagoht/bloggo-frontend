@@ -27,6 +27,7 @@ import Sidebar from "../../../../components/layout/Container/Sidebar";
 import SectionHeader from "../../../../components/layout/SectionHeader";
 import { getCategoriesList } from "../../../../services/categories";
 import { createPost } from "../../../../services/posts";
+import NoCategoriesYet from "../../../../components/common/NoCategoriesYet";
 
 const WritePage: FC = () => {
   const navigate = useNavigate();
@@ -210,23 +211,7 @@ const WritePage: FC = () => {
               onChange={markDirty}
             />
 
-            {categories.length === 0 && (
-              <FormCard color="warning">
-                <SectionHeader color="warning" icon={IconExclamationCircle}>
-                  No categories yet.
-                </SectionHeader>
-
-                <span className="text-warning-700 dark:text-warning-300 text-xs">
-                  You can save your draft without specifying a category. But you
-                  will need set a category before sending it to review. You can
-                  create one{" "}
-                  <Link className="underline" to="/categories/create">
-                    here
-                  </Link>
-                  .
-                </span>
-              </FormCard>
-            )}
+            <NoCategoriesYet count={categories.length} />
 
             <Select
               name="categoryId"
@@ -273,11 +258,13 @@ const WritePage: FC = () => {
             children: "Cancel",
             variant: "outline",
             color: "primary",
+            shortcutKey: "ctrlOrCmd+O",
           },
           {
             onClick: handleDialogConfirm,
             children: "Leave Page",
             color: "danger",
+            shortcutKey: "ctrlOrCmd+Y",
           },
         ]}
       >
