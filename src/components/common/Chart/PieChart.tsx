@@ -37,9 +37,9 @@ const colors = [
 const PieChart: FC<PieChartProps> = ({ title, data, icon: Icon }) => {
   // Prepare data for Recharts, sorted by value
   const chartData = data
-    .slice(0, 8)
-    .sort((first, second) => second.value - first.value)
-    .map((item, index) => ({
+    ?.slice?.(0, 8)
+    ?.sort?.((first, second) => second.value - first.value)
+    ?.map?.((item, index) => ({
       name: item.label,
       value: item.value,
       percentage: item.percentage,
