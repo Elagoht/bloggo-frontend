@@ -15,7 +15,7 @@ import {
 import { FC } from "react";
 import BarChart from "../../common/Chart/BarChart";
 import PieChart from "../../common/Chart/PieChart";
-import HourlyViewsChart from "../../common/HourlyViewsChart";
+import TabbedViewsChart from "../../common/TabbedViewsChart";
 import StatCard from "../../common/StatCard";
 import StatTable from "../../common/StatTable";
 import Container from "../../layout/Container";
@@ -87,6 +87,8 @@ const StatisticsDisplay: FC<StatisticsDisplayProps> = ({
     view_statistics: viewStats,
     blog_statistics: blogStats,
     last_24_hours_views: hourlyViews,
+    last_month_views: monthViews,
+    last_year_views: yearViews,
     most_viewed_blogs: mostViewed,
     longest_blogs: longestBlogs,
     category_views_distribution: categoryViews,
@@ -99,9 +101,13 @@ const StatisticsDisplay: FC<StatisticsDisplayProps> = ({
 
   return (
     <Container>
-      {/* Hourly Activity */}
-      <SectionHeader icon={IconTrendingUp}>Hourly Activity</SectionHeader>
-      <HourlyViewsChart data={hourlyViews.hours} />
+      {/* Views Activity */}
+      <SectionHeader icon={IconTrendingUp}>Views Activity</SectionHeader>
+      <TabbedViewsChart
+        hourlyData={hourlyViews.hours}
+        dailyData={monthViews?.days || []}
+        monthlyData={yearViews?.months || []}
+      />
 
       {/* Overview Stats */}
       <SectionHeader icon={IconEye}>

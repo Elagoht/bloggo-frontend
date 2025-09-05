@@ -15,6 +15,24 @@ interface Last24HoursViews {
   hours: HourlyViewCount[];
 }
 
+interface DailyViewCount {
+  day: number;
+  view_count: number;
+}
+
+interface LastMonthViews {
+  days: DailyViewCount[];
+}
+
+interface MonthlyViewCount {
+  month: number;
+  view_count: number;
+}
+
+interface LastYearViews {
+  months: MonthlyViewCount[];
+}
+
 interface CategoryViewDistribution {
   category_id: number;
   category_name: string;
@@ -109,6 +127,8 @@ interface AuthorStatistics {
 interface ResponseAllStatistics {
   view_statistics: ViewStatistics;
   last_24_hours_views: Last24HoursViews;
+  last_month_views: LastMonthViews;
+  last_year_views: LastYearViews;
   category_views_distribution: CategoryViewDistribution[];
   most_viewed_blogs: MostViewedBlog[];
   blog_statistics: BlogStatistics;
@@ -126,6 +146,8 @@ interface ResponseAuthorStatistics {
   author_statistics: AuthorStatistics;
   view_statistics: ViewStatistics;
   last_24_hours_views: Last24HoursViews;
+  last_month_views: LastMonthViews;
+  last_year_views: LastYearViews;
   category_views_distribution: CategoryViewDistribution[];
   most_viewed_blogs: MostViewedBlog[];
   blog_statistics: BlogStatistics;
