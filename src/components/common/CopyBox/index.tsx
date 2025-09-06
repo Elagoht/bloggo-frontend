@@ -1,11 +1,11 @@
 import { IconCheck, IconCopy, IconCopyCheck } from "@tabler/icons-react";
 import { FC, useState, useEffect } from "react";
 
-interface CopyBoxProps {
+type CopyBoxProps = {
   label: string;
   value: string;
   onCopy?: (field: string, value: string) => void;
-}
+};
 
 const CopyBox: FC<CopyBoxProps> = ({ label, value, onCopy }) => {
   const [isCopied, setIsCopied] = useState(false);

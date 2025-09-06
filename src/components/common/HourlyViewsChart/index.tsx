@@ -11,14 +11,15 @@ import {
   Dot,
 } from "recharts";
 
-interface HourlyViewsChartProps {
+type HourlyViewsChartProps = {
   data: HourlyViewCount[];
-}
+};
 
 const HourlyViewsChart: FC<HourlyViewsChartProps> = ({ data }) => {
   // Fill missing hours with 0 values for the rolling 24-hour period
   const fillCompleteHours = (hourlyData: HourlyViewCount[]) => {
-    const completeHours: { hour: number; view_count: number; date: Date; }[] = [];
+    const completeHours: { hour: number; view_count: number; date: Date }[] =
+      [];
 
     // Create a map for quick lookup using full datetime key
     const dataMap = new Map(
@@ -31,11 +32,11 @@ const HourlyViewsChart: FC<HourlyViewsChartProps> = ({ data }) => {
       const date = new Date(now);
       date.setHours(now.getHours() - i, 0, 0, 0); // Set to exact hour, reset minutes/seconds
       const hour = date.getHours();
-      
+
       completeHours.push({
         hour,
         view_count: dataMap.get(hour) || 0,
-        date: date
+        date: date,
       });
     }
 
@@ -64,19 +65,20 @@ const HourlyViewsChart: FC<HourlyViewsChartProps> = ({ data }) => {
     hourNumber: item.hour,
     views: item.view_count,
     date: item.date,
-    isCurrentHour: item.hour === currentHour && index === completeData.length - 1, // Only highlight the most recent current hour
-    label: `${formatHour(item.hour)}:00` // Better label for tooltip
+    isCurrentHour:
+      item.hour === currentHour && index === completeData.length - 1, // Only highlight the most recent current hour
+    label: `${formatHour(item.hour)}:00`, // Better label for tooltip
   }));
 
   // Custom tooltip component
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
       const data = payload[0].payload;
-      const dateStr = data.date.toLocaleDateString('en-US', { 
-        month: 'short', 
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
+      const dateStr = data.date.toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
       });
       return (
         <div className="bg-smoke-900 dark:bg-smoke-100 text-smoke-100 dark:text-smoke-900 text-xs px-3 py-2 rounded-lg shadow-lg border border-smoke-700 dark:border-smoke-300">

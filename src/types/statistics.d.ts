@@ -1,164 +1,164 @@
-interface ViewStatistics {
-  views_today: number;
-  views_this_week: number;
-  views_this_month: number;
-  views_this_year: number;
-  total_views: number;
-}
+type ViewStatistics = {
+  viewsToday: number;
+  viewsThisWeek: number;
+  viewsThisMonth: number;
+  viewsThisYear: number;
+  totalViews: number;
+};
 
-interface HourlyViewCount {
+type HourlyViewCount = {
   hour: number;
-  view_count: number;
-}
+  viewCount: number;
+};
 
-interface Last24HoursViews {
+type Last24HoursViews = {
   hours: HourlyViewCount[];
-}
+};
 
-interface DailyViewCount {
+type DailyViewCount = {
   day: number;
-  view_count: number;
-}
+  viewCount: number;
+};
 
-interface LastMonthViews {
+type LastMonthViews = {
   days: DailyViewCount[];
-}
+};
 
-interface MonthlyViewCount {
+type MonthlyViewCount = {
   year: number;
   month: number;
-  view_count: number;
+  viewCount: number;
   date: Date;
-}
+};
 
-interface LastYearViews {
+type LastYearViews = {
   months: MonthlyViewCount[];
-}
+};
 
-interface CategoryViewDistribution {
-  category_id: number;
-  category_name: string;
-  view_count: number;
+type CategoryViewDistribution = {
+  categoryId: number;
+  categoryName: string;
+  viewCount: number;
   percentage: number;
-}
+};
 
-interface MostViewedBlog {
-  post_id: number;
+type MostViewedBlog = {
+  postId: number;
   title: string;
   slug: string;
-  view_count: number;
+  viewCount: number;
   author: string;
-  category_name: string;
-}
+  categoryName: string;
+};
 
-interface BlogStatistics {
-  total_published_blogs: number;
-  total_drafted_blogs: number;
-  total_pending_blogs: number;
-  total_read_time: number;
-  average_read_time: number;
-  average_views: number;
-}
+type BlogStatistics = {
+  totalPublishedBlogs: number;
+  totalDraftedBlogs: number;
+  totalPendingBlogs: number;
+  totalReadTime: number;
+  averageReadTime: number;
+  averageViews: number;
+};
 
-interface CategoryBlogDistribution {
-  category_id: number;
-  category_name: string;
-  blog_count: number;
+type CategoryBlogDistribution = {
+  categoryId: number;
+  categoryName: string;
+  blogCount: number;
   percentage: number;
-}
+};
 
-interface CategoryReadTimeDistribution {
-  category_id: number;
-  category_name: string;
-  total_read_time: number;
-  average_read_time: number;
+type CategoryReadTimeDistribution = {
+  categoryId: number;
+  categoryName: string;
+  totalReadTime: number;
+  averageReadTime: number;
   percentage: number;
-}
+};
 
-interface CategoryLengthDistribution {
-  category_id: number;
-  category_name: string;
-  total_length: number;
-  average_length: number;
+type CategoryLengthDistribution = {
+  categoryId: number;
+  categoryName: string;
+  totalLength: number;
+  averageLength: number;
   percentage: number;
-}
+};
 
-interface LongestBlog {
-  post_id: number;
+type LongestBlog = {
+  postId: number;
   title: string;
   slug: string;
-  read_time: number;
+  readTime: number;
   author: string;
-  category_name: string;
-}
+  categoryName: string;
+};
 
-interface UserAgentStat {
-  user_agent: string;
-  view_count: number;
+type UserAgentStat = {
+  userAgent: string;
+  viewCount: number;
   percentage: number;
-}
+};
 
-interface DeviceTypeStat {
-  device_type: string;
-  view_count: number;
+type DeviceTypeStat = {
+  deviceType: string;
+  viewCount: number;
   percentage: number;
-}
+};
 
-interface OSStatistic {
-  operating_system: string;
-  view_count: number;
+type OSStatistic = {
+  operatingSystem: string;
+  viewCount: number;
   percentage: number;
-}
+};
 
-interface BrowserStat {
+type BrowserStat = {
   browser: string;
-  view_count: number;
+  viewCount: number;
   percentage: number;
-}
+};
 
-interface AuthorStatistics {
-  author_id: number;
-  author_name: string;
-  total_blogs: number;
-  total_views: number;
-  average_views: number;
-  total_read_time: number;
-  average_read_time: number;
-}
+type AuthorStatistics = {
+  authorId: number;
+  authorName: string;
+  totalBlogs: number;
+  totalViews: number;
+  averageViews: number;
+  totalReadTime: number;
+  averageReadTime: number;
+};
 
-interface ResponseAllStatistics {
-  view_statistics: ViewStatistics;
-  last_24_hours_views: Last24HoursViews;
-  last_month_views: LastMonthViews;
-  last_year_views: LastYearViews;
-  category_views_distribution: CategoryViewDistribution[];
-  most_viewed_blogs: MostViewedBlog[];
-  blog_statistics: BlogStatistics;
-  longest_blogs: LongestBlog[];
-  category_blogs_distribution: CategoryBlogDistribution[];
-  category_read_time_distribution: CategoryReadTimeDistribution[];
-  category_length_distribution: CategoryLengthDistribution[];
-  top_user_agents: UserAgentStat[];
-  device_type_distribution: DeviceTypeStat[];
-  operating_system_distribution: OSStatistic[];
-  browser_distribution: BrowserStat[];
-}
+type ResponseAllStatistics = {
+  viewStatistics: ViewStatistics;
+  last24HoursViews: Last24HoursViews;
+  lastMonthViews: LastMonthViews;
+  lastYearViews: LastYearViews;
+  categoryViewsDistribution: CategoryViewDistribution[];
+  mostViewedBlogs: MostViewedBlog[];
+  blogStatistics: BlogStatistics;
+  longestBlogs: LongestBlog[];
+  categoryBlogsDistribution: CategoryBlogDistribution[];
+  categoryReadTimeDistribution: CategoryReadTimeDistribution[];
+  categoryLengthDistribution: CategoryLengthDistribution[];
+  topUserAgents: UserAgentStat[];
+  deviceTypeDistribution: DeviceTypeStat[];
+  operatingSystemDistribution: OSStatistic[];
+  browserDistribution: BrowserStat[];
+};
 
-interface ResponseAuthorStatistics {
-  author_statistics: AuthorStatistics;
-  view_statistics: ViewStatistics;
-  last_24_hours_views: Last24HoursViews;
-  last_month_views: LastMonthViews;
-  last_year_views: LastYearViews;
-  category_views_distribution: CategoryViewDistribution[];
-  most_viewed_blogs: MostViewedBlog[];
-  blog_statistics: BlogStatistics;
-  longest_blogs: LongestBlog[];
-  category_blogs_distribution: CategoryBlogDistribution[];
-  category_read_time_distribution: CategoryReadTimeDistribution[];
-  category_length_distribution: CategoryLengthDistribution[];
-  top_user_agents: UserAgentStat[];
-  device_type_distribution: DeviceTypeStat[];
-  operating_system_distribution: OSStatistic[];
-  browser_distribution: BrowserStat[];
-}
+type ResponseAuthorStatistics = {
+  authorStatistics: AuthorStatistics;
+  viewStatistics: ViewStatistics;
+  last24HoursViews: Last24HoursViews;
+  lastMonthViews: LastMonthViews;
+  lastYearViews: LastYearViews;
+  categoryViewsDistribution: CategoryViewDistribution[];
+  mostViewedBlogs: MostViewedBlog[];
+  blogStatistics: BlogStatistics;
+  longestBlogs: LongestBlog[];
+  categoryBlogsDistribution: CategoryBlogDistribution[];
+  categoryReadTimeDistribution: CategoryReadTimeDistribution[];
+  categoryLengthDistribution: CategoryLengthDistribution[];
+  topUserAgents: UserAgentStat[];
+  deviceTypeDistribution: DeviceTypeStat[];
+  operatingSystemDistribution: OSStatistic[];
+  browserDistribution: BrowserStat[];
+};

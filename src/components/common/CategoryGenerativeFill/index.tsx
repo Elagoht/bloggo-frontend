@@ -4,10 +4,10 @@ import { getCategoryGenerativeFill } from "../../../services/categories";
 import Button from "../../form/Button";
 import CopyBox from "../CopyBox";
 
-interface CategoryGenerativeFillProps {
+type CategoryGenerativeFillProps = {
   categoryName: string;
   onCopy?: (field: string, value: string) => void;
-}
+};
 
 const CategoryGenerativeFill: FC<CategoryGenerativeFillProps> = ({
   categoryName,

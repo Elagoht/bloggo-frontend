@@ -1,11 +1,11 @@
 import { IconChartBar } from "@tabler/icons-react";
 import { FC } from "react";
 
-interface NoDataRecordedProps {
+type NoDataRecordedProps = {
   message?: string;
   description?: string;
   className?: string;
-}
+};
 
 const NoDataRecorded: FC<NoDataRecordedProps> = ({
   className,

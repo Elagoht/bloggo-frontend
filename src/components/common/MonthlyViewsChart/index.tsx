@@ -11,9 +11,9 @@ import {
   Dot,
 } from "recharts";
 
-interface MonthlyViewsChartProps {
+type MonthlyViewsChartProps = {
   data: MonthlyViewCount[];
-}
+};
 
 const MonthlyViewsChart: FC<MonthlyViewsChartProps> = ({ data }) => {
   // Month names for display

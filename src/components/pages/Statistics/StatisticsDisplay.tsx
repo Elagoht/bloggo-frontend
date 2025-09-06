@@ -22,13 +22,13 @@ import Container from "../../layout/Container";
 import CardGrid from "../../layout/Container/CardGrid";
 import SectionHeader from "../../layout/SectionHeader";
 
-interface StatisticsDisplayProps {
+type StatisticsDisplayProps = {
   statistics: ResponseAllStatistics | ResponseAuthorStatistics | null;
   loading: boolean;
   error: Error | null;
   showAuthorInfo?: boolean;
   isUserStats?: boolean;
-}
+};
 
 const StatisticsDisplay: FC<StatisticsDisplayProps> = ({
   statistics,
@@ -58,9 +58,9 @@ const StatisticsDisplay: FC<StatisticsDisplayProps> = ({
   }
 
   // Check if this is an author/user stats with no posts
-  const isAuthorStats = "author_statistics" in statistics;
+  const isAuthorStats = "authorStatistics" in statistics;
   const hasNoPosts =
-    isAuthorStats && statistics.author_statistics.total_blogs === 0;
+    isAuthorStats && statistics.authorStatistics.totalBlogs === 0;
 
   if (hasNoPosts) {
     return (
@@ -75,7 +75,7 @@ const StatisticsDisplay: FC<StatisticsDisplayProps> = ({
           </h3>
           <p className="text-smoke-500 dark:text-smoke-400 mb-6">
             {showAuthorInfo && isAuthorStats
-              ? `${statistics.author_statistics.author_name} hasn't published any posts yet. Once they publish their first post, statistics will appear here.`
+              ? `${statistics.authorStatistics.authorName} hasn't published any posts yet. Once they publish their first post, statistics will appear here.`
               : "You haven't published any posts yet. Once you publish your first post, your statistics will appear here."}
           </p>
         </div>
@@ -84,19 +84,19 @@ const StatisticsDisplay: FC<StatisticsDisplayProps> = ({
   }
 
   const {
-    view_statistics: viewStats,
-    blog_statistics: blogStats,
-    last_24_hours_views: hourlyViews,
-    last_month_views: monthViews,
-    last_year_views: yearViews,
-    most_viewed_blogs: mostViewed,
-    longest_blogs: longestBlogs,
-    category_views_distribution: categoryViews,
-    category_blogs_distribution: categoryBlogs,
-    category_length_distribution: categoryLength,
-    device_type_distribution: deviceTypes,
-    browser_distribution: browsers,
-    operating_system_distribution: osStats,
+    viewStatistics: viewStats,
+    blogStatistics: blogStats,
+    last24HoursViews: hourlyViews,
+    lastMonthViews: monthViews,
+    lastYearViews: yearViews,
+    mostViewedBlogs: mostViewed,
+    longestBlogs: longestBlogs,
+    categoryViewsDistribution: categoryViews,
+    categoryBlogsDistribution: categoryBlogs,
+    categoryLengthDistribution: categoryLength,
+    deviceTypeDistribution: deviceTypes,
+    browserDistribution: browsers,
+    operatingSystemDistribution: osStats,
   } = statistics;
 
   return (
@@ -121,35 +121,35 @@ const StatisticsDisplay: FC<StatisticsDisplayProps> = ({
       <CardGrid>
         <StatCard
           title="Total Views"
-          value={viewStats.total_views}
+          value={viewStats.totalViews}
           icon={IconEye}
           color="primary"
           description="All time page views"
         />
         <StatCard
           title="Published Posts"
-          value={blogStats.total_published_blogs}
+          value={blogStats.totalPublishedBlogs}
           icon={IconFileText}
           color="primary"
           description="Live on the site"
         />
         <StatCard
           title="Draft Posts"
-          value={blogStats.total_drafted_blogs}
+          value={blogStats.totalDraftedBlogs}
           icon={IconFileText}
           color="warning"
           description="Work in progress"
         />
         <StatCard
           title="Avg. Read Time"
-          value={`${Math.round(blogStats.average_read_time)} min`}
+          value={`${Math.round(blogStats.averageReadTime)} min`}
           icon={IconClock}
           color="primary"
           description="Average time to read posts"
         />
         <StatCard
           title="Avg. Views per Post"
-          value={Math.round(blogStats.average_views)}
+          value={Math.round(blogStats.averageViews)}
           icon={IconEye}
           color="success"
           description="Per post average"
@@ -201,8 +201,8 @@ const StatisticsDisplay: FC<StatisticsDisplayProps> = ({
           title="Views by Category"
           icon={IconEye}
           data={categoryViews.map((cat) => ({
-            label: cat.category_name,
-            value: cat.view_count,
+            label: cat.categoryName,
+            value: cat.viewCount,
             percentage: cat.percentage,
           }))}
         />
@@ -211,8 +211,8 @@ const StatisticsDisplay: FC<StatisticsDisplayProps> = ({
           title="Posts by Category"
           icon={IconFileText}
           data={categoryBlogs.map((cat) => ({
-            label: cat.category_name,
-            value: cat.blog_count,
+            label: cat.categoryName,
+            value: cat.blogCount,
             percentage: cat.percentage,
           }))}
         />
@@ -221,8 +221,8 @@ const StatisticsDisplay: FC<StatisticsDisplayProps> = ({
           title="Content Length by Category"
           icon={IconRuler}
           data={categoryLength.map((cat) => ({
-            label: cat.category_name,
-            value: cat.total_length,
+            label: cat.categoryName,
+            value: cat.totalLength,
             percentage: cat.percentage,
           }))}
         />
@@ -235,8 +235,8 @@ const StatisticsDisplay: FC<StatisticsDisplayProps> = ({
           title="Device Types"
           icon={IconDevices}
           data={deviceTypes?.map?.((device) => ({
-            label: device.device_type,
-            value: device.view_count,
+            label: device.deviceType,
+            value: device.viewCount,
             percentage: device.percentage,
           }))}
         />
@@ -246,7 +246,7 @@ const StatisticsDisplay: FC<StatisticsDisplayProps> = ({
           icon={IconBrowser}
           data={browsers?.map?.((browser) => ({
             label: browser.browser,
-            value: browser.view_count,
+            value: browser.viewCount,
             percentage: browser.percentage,
           }))}
         />
@@ -255,8 +255,8 @@ const StatisticsDisplay: FC<StatisticsDisplayProps> = ({
           title="Operating Systems"
           icon={IconDeviceDesktop}
           data={osStats?.map?.((os) => ({
-            label: os.operating_system,
-            value: os.view_count,
+            label: os.operatingSystem,
+            value: os.viewCount,
             percentage: os.percentage,
           }))}
         />

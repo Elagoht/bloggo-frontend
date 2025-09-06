@@ -11,15 +11,15 @@ import {
   Dot,
 } from "recharts";
 
-interface DailyViewsChartProps {
+type DailyViewsChartProps = {
   data: DailyViewCount[];
-}
+};
 
 const DailyViewsChart: FC<DailyViewsChartProps> = ({ data }) => {
   // Fill missing days with 0 values for the rolling 30-day period
   const fillCompleteDays = (dailyData: DailyViewCount[]) => {
     const completeDays: DailyViewCount[] = [];
-    
+
     // Create a map for quick lookup
     const dataMap = new Map(
       dailyData.map((item) => [item.day, item.view_count])
@@ -31,11 +31,11 @@ const DailyViewsChart: FC<DailyViewsChartProps> = ({ data }) => {
       const date = new Date(today);
       date.setDate(today.getDate() - i);
       const dayOfMonth = date.getDate();
-      
+
       completeDays.push({
         day: dayOfMonth,
         view_count: dataMap.get(dayOfMonth) || 0,
-        date: date // Add full date for display purposes
+        date: date, // Add full date for display purposes
       });
     }
 
@@ -53,9 +53,11 @@ const DailyViewsChart: FC<DailyViewsChartProps> = ({ data }) => {
   // Get today for highlighting
   const today = new Date();
   const isToday = (date: Date) => {
-    return date.getDate() === today.getDate() && 
-           date.getMonth() === today.getMonth() && 
-           date.getFullYear() === today.getFullYear();
+    return (
+      date.getDate() === today.getDate() &&
+      date.getMonth() === today.getMonth() &&
+      date.getFullYear() === today.getFullYear()
+    );
   };
 
   // Prepare data for Recharts with proper date formatting
@@ -65,16 +67,16 @@ const DailyViewsChart: FC<DailyViewsChartProps> = ({ data }) => {
     views: item.view_count,
     date: item.date,
     label: `${item.date.getMonth() + 1}/${item.day}`, // MM/DD format
-    isToday: isToday(item.date)
+    isToday: isToday(item.date),
   }));
 
   // Custom tooltip component
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
       const data = payload[0].payload;
-      const dateStr = data.date.toLocaleDateString('en-US', { 
-        month: 'short', 
-        day: 'numeric' 
+      const dateStr = data.date.toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
       });
       return (
         <div className="bg-smoke-900 dark:bg-smoke-100 text-smoke-100 dark:text-smoke-900 text-xs px-3 py-2 rounded-lg shadow-lg border border-smoke-700 dark:border-smoke-300">

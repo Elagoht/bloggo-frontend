@@ -5,11 +5,11 @@ import DailyViewsChart from "../DailyViewsChart";
 import MonthlyViewsChart from "../MonthlyViewsChart";
 import classNames from "classnames";
 
-interface TabbedViewsChartProps {
+type TabbedViewsChartProps = {
   hourlyData: HourlyViewCount[];
   dailyData: DailyViewCount[];
   monthlyData: MonthlyViewCount[];
-}
+};
 
 type TabType = "hours" | "days" | "months";
 

@@ -2,19 +2,19 @@ import { Icon, IconProps } from "@tabler/icons-react";
 import { FC, ForwardRefExoticComponent, ReactNode, RefAttributes } from "react";
 import NoDataRecorded from "../NoDataRecorded";
 
-interface StatTableColumn {
+type StatTableColumn = {
   key: string;
   title: string;
   render?: (value: any, item: any) => ReactNode;
-}
+};
 
-interface StatTableProps {
+type StatTableProps = {
   title: string;
   columns: StatTableColumn[];
   data: any[];
   maxRows?: number;
   icon?: ForwardRefExoticComponent<IconProps & RefAttributes<Icon>>;
-}
+};
 
 const StatTable: FC<StatTableProps> = ({
   title,

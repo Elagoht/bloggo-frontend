@@ -3,14 +3,14 @@ import { devtools, persist } from "zustand/middleware";
 import ApiCall from "../utilities/apiCaller";
 import { useProfileStore } from "./profile";
 
-interface AuthState {
+type AuthState = {
   accessToken: string | null;
   name: string | null;
   role: string | null;
   permissions: string[];
-}
+};
 
-interface AuthStore extends AuthState {
+type AuthStore = AuthState & {
   setAuth: (auth: AuthState) => void;
   clearAuth: () => void;
   setToken: (token: string) => void;
@@ -22,7 +22,7 @@ interface AuthStore extends AuthState {
   hasPermission: (permission: string | string[]) => boolean;
   hasAllPermissions: (permissions: string[]) => boolean;
   hasRole: (role: string | string[]) => boolean;
-}
+};
 
 export const useAuthStore = create<AuthStore>()(
   persist(

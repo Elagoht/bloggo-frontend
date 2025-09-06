@@ -47,7 +47,7 @@ type StorageUsage = {
 };
 
 type DashboardStats = {
-  pendingVersions: PendingVersion[] | null;
+  pendingVersions: PendingVersion[];
   recentActivity: RecentActivity[];
   publishingRate: PublishingRate;
   authorPerformance: AuthorPerformance[];

@@ -1,7 +1,7 @@
 import { Icon, IconProps } from "@tabler/icons-react";
 import { FC, ForwardRefExoticComponent, RefAttributes } from "react";
 
-interface StatCardProps {
+type StatCardProps = {
   title: string;
   value: string | number;
   icon?: ForwardRefExoticComponent<IconProps & RefAttributes<Icon>>;
@@ -11,7 +11,7 @@ interface StatCardProps {
     isPositive: boolean;
   };
   color?: "primary" | "success" | "warning" | "danger";
-}
+};
 
 const StatCard: FC<StatCardProps> = ({
   title,

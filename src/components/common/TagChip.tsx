@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import classNames from "classnames";
 import { IconTag } from "@tabler/icons-react";
 
-interface TagChipProps {
+type TagChipProps = {
   tag: {
     id: number;
     name: string;
@@ -11,7 +11,7 @@ interface TagChipProps {
   };
   clickable?: boolean;
   size?: "sm" | "md";
-}
+};
 
 const TagChip: FC<TagChipProps> = ({ tag, clickable = true, size = "sm" }) => {
   const chipClasses = classNames(

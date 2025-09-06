@@ -4,20 +4,20 @@ import { getGenerativeFill } from "../../../services/posts";
 import Button from "../../form/Button";
 import CopyBox from "../CopyBox";
 
-interface GenerativeFillProps {
+type GenerativeFillProps = {
   postId: number;
   versionId: string;
   contentLength: number;
   availableCategories?: CategoryListItem[];
   onCopy?: (field: string, value: string) => void;
-}
+};
 
-interface GenerativeFillData {
+type GenerativeFillData = {
   title: string;
   metaDescription: string;
   spot: string;
   suggestedCategory: string;
-}
+};
 
 const GenerativeFill: FC<GenerativeFillProps> = ({
   postId,

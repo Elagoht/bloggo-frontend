@@ -11,18 +11,18 @@ import {
 } from "recharts";
 import NoDataRecorded from "../NoDataRecorded";
 
-interface ChartDataItem {
+type ChartDataItem = {
   label: string;
   value: number;
   percentage: number;
   color?: string;
-}
+};
 
-interface BarChartProps {
+type BarChartProps = {
   title: string;
   data: ChartDataItem[];
   icon?: ForwardRefExoticComponent<IconProps & RefAttributes<Icon>>;
-}
+};
 
 const colors = [
   "#F5A623",

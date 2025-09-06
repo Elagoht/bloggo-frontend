@@ -18,10 +18,10 @@ import { getTags } from "../../../../services/tags";
 import FormCard from "../../../layout/Container/FormCard";
 import { Link } from "react-router-dom";
 
-interface PostTagsManagerProps {
+type PostTagsManagerProps = {
   post: PostDetails;
   onTagsUpdated: () => void;
-}
+};
 
 const PostTagsManager: FC<PostTagsManagerProps> = ({ post, onTagsUpdated }) => {
   const [isEditingTags, setIsEditingTags] = useState(false);
