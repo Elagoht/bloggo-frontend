@@ -29,7 +29,7 @@ const TabbedViewsChart: FC<TabbedViewsChartProps> = ({
     },
     {
       key: "days" as TabType,
-      label: "Last Month",
+      label: "Last 30 Days",
       icon: IconCalendar,
       component: <DailyViewsChart data={dailyData} />,
     },

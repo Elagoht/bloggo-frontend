@@ -16,29 +16,26 @@ interface DailyViewsChartProps {
 }
 
 const DailyViewsChart: FC<DailyViewsChartProps> = ({ data }) => {
-  // Get the number of days in the previous month
-  const getPreviousMonthDays = () => {
-    const now = new Date();
-    const lastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
-    const lastDayOfLastMonth = new Date(now.getFullYear(), now.getMonth(), 0);
-    return lastDayOfLastMonth.getDate();
-  };
-
-  // Fill missing days with 0 values to show all days of the previous month
+  // Fill missing days with 0 values for the rolling 30-day period
   const fillCompleteDays = (dailyData: DailyViewCount[]) => {
     const completeDays: DailyViewCount[] = [];
-    const daysInMonth = getPreviousMonthDays();
-
+    
     // Create a map for quick lookup
     const dataMap = new Map(
       dailyData.map((item) => [item.day, item.view_count])
     );
 
-    // Fill all days in the previous month (1 to daysInMonth)
-    for (let day = 1; day <= daysInMonth; day++) {
+    // Generate last 30 days
+    const today = new Date();
+    for (let i = 29; i >= 0; i--) {
+      const date = new Date(today);
+      date.setDate(today.getDate() - i);
+      const dayOfMonth = date.getDate();
+      
       completeDays.push({
-        day,
-        view_count: dataMap.get(day) || 0,
+        day: dayOfMonth,
+        view_count: dataMap.get(dayOfMonth) || 0,
+        date: date // Add full date for display purposes
       });
     }
 
@@ -47,26 +44,41 @@ const DailyViewsChart: FC<DailyViewsChartProps> = ({ data }) => {
 
   const completeData = fillCompleteDays(data);
 
-  // Get total views for the month
+  // Get total views for the 30-day period
   const totalViews = completeData.reduce(
     (sum, item) => sum + item.view_count,
     0
   );
 
-  // Prepare data for Recharts
-  const chartData = completeData.map((item) => ({
+  // Get today for highlighting
+  const today = new Date();
+  const isToday = (date: Date) => {
+    return date.getDate() === today.getDate() && 
+           date.getMonth() === today.getMonth() && 
+           date.getFullYear() === today.getFullYear();
+  };
+
+  // Prepare data for Recharts with proper date formatting
+  const chartData = completeData.map((item, index) => ({
     day: item.day.toString(),
     dayNumber: item.day,
     views: item.view_count,
+    date: item.date,
+    label: `${item.date.getMonth() + 1}/${item.day}`, // MM/DD format
+    isToday: isToday(item.date)
   }));
 
   // Custom tooltip component
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
       const data = payload[0].payload;
+      const dateStr = data.date.toLocaleDateString('en-US', { 
+        month: 'short', 
+        day: 'numeric' 
+      });
       return (
         <div className="bg-smoke-900 dark:bg-smoke-100 text-smoke-100 dark:text-smoke-900 text-xs px-3 py-2 rounded-lg shadow-lg border border-smoke-700 dark:border-smoke-300">
-          <div className="font-semibold">Day {label}</div>
+          <div className="font-semibold">{dateStr}</div>
           <div className="text-smoke-400 dark:text-smoke-600">
             {data.views} view{data.views !== 1 ? "s" : ""}
           </div>
@@ -76,9 +88,21 @@ const DailyViewsChart: FC<DailyViewsChartProps> = ({ data }) => {
     return null;
   };
 
-  // Custom dot component
+  // Custom dot component to highlight today
   const CustomDot = (props: any) => {
-    const { cx, cy } = props;
+    const { cx, cy, payload } = props;
+    if (payload.isToday) {
+      return (
+        <Dot
+          cx={cx}
+          cy={cy}
+          r={4}
+          fill="#D97706"
+          stroke="#D97706"
+          strokeWidth={2}
+        />
+      );
+    }
     return <Dot cx={cx} cy={cy} r={2} fill="#10B981" />;
   };
 
@@ -89,7 +113,7 @@ const DailyViewsChart: FC<DailyViewsChartProps> = ({ data }) => {
           <div className="p-2 rounded-lg bg-smoke-100 dark:bg-smoke-800 text-smoke-600 dark:text-smoke-400">
             <IconCalendar size={20} />
           </div>
-          Last Month
+          Last 30 Days
         </h3>
         <div className="text-right">
           <div className="text-2xl font-bold text-smoke-900 dark:text-smoke-100">
@@ -118,7 +142,7 @@ const DailyViewsChart: FC<DailyViewsChartProps> = ({ data }) => {
               stroke="currentColor"
             />
             <XAxis
-              dataKey="day"
+              dataKey="label"
               axisLine={false}
               tickLine={false}
               tick={{
@@ -126,7 +150,7 @@ const DailyViewsChart: FC<DailyViewsChartProps> = ({ data }) => {
                 fill: "currentColor",
                 className: "text-smoke-600 dark:text-smoke-400 font-mono",
               }}
-              interval={4} // Show every 5th day
+              interval="preserveStartEnd" // Show start and end dates
             />
             <YAxis
               axisLine={false}
@@ -159,7 +183,7 @@ const DailyViewsChart: FC<DailyViewsChartProps> = ({ data }) => {
       {totalViews === 0 && (
         <div className="flex items-center justify-center py-4">
           <div className="text-smoke-500 dark:text-smoke-400 text-sm">
-            No views recorded in the last month
+            No views recorded in the last 30 days
           </div>
         </div>
       )}

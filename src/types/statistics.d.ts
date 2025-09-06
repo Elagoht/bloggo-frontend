@@ -25,8 +25,10 @@ interface LastMonthViews {
 }
 
 interface MonthlyViewCount {
+  year: number;
   month: number;
   view_count: number;
+  date: Date;
 }
 
 interface LastYearViews {

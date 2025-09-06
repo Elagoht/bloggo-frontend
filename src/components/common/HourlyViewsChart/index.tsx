@@ -16,20 +16,26 @@ interface HourlyViewsChartProps {
 }
 
 const HourlyViewsChart: FC<HourlyViewsChartProps> = ({ data }) => {
-  // Fill missing hours with 0 values to show all 24 hours
+  // Fill missing hours with 0 values for the rolling 24-hour period
   const fillCompleteHours = (hourlyData: HourlyViewCount[]) => {
-    const completeHours: HourlyViewCount[] = [];
+    const completeHours: { hour: number; view_count: number; date: Date; }[] = [];
 
-    // Create a map for quick lookup
+    // Create a map for quick lookup using full datetime key
     const dataMap = new Map(
       hourlyData.map((item) => [item.hour, item.view_count])
     );
 
-    // Fill all 24 hours (0-23)
-    for (let hour = 0; hour < 24; hour++) {
+    // Generate last 24 hours from current time
+    const now = new Date();
+    for (let i = 23; i >= 0; i--) {
+      const date = new Date(now);
+      date.setHours(now.getHours() - i, 0, 0, 0); // Set to exact hour, reset minutes/seconds
+      const hour = date.getHours();
+      
       completeHours.push({
         hour,
         view_count: dataMap.get(hour) || 0,
+        date: date
       });
     }
 
@@ -38,7 +44,7 @@ const HourlyViewsChart: FC<HourlyViewsChartProps> = ({ data }) => {
 
   const completeData = fillCompleteHours(data);
 
-  // Get total views for today
+  // Get total views for the 24-hour period
   const totalViews = completeData.reduce(
     (sum, item) => sum + item.view_count,
     0
@@ -53,20 +59,28 @@ const HourlyViewsChart: FC<HourlyViewsChartProps> = ({ data }) => {
   const currentHour = new Date().getHours();
 
   // Prepare data for Recharts
-  const chartData = completeData.map((item) => ({
+  const chartData = completeData.map((item, index) => ({
     hour: formatHour(item.hour),
     hourNumber: item.hour,
     views: item.view_count,
-    isCurrentHour: item.hour === currentHour,
+    date: item.date,
+    isCurrentHour: item.hour === currentHour && index === completeData.length - 1, // Only highlight the most recent current hour
+    label: `${formatHour(item.hour)}:00` // Better label for tooltip
   }));
 
   // Custom tooltip component
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
       const data = payload[0].payload;
+      const dateStr = data.date.toLocaleDateString('en-US', { 
+        month: 'short', 
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
       return (
         <div className="bg-smoke-900 dark:bg-smoke-100 text-smoke-100 dark:text-smoke-900 text-xs px-3 py-2 rounded-lg shadow-lg border border-smoke-700 dark:border-smoke-300">
-          <div className="font-semibold">{label}:00</div>
+          <div className="font-semibold">{dateStr}</div>
           <div className="text-smoke-400 dark:text-smoke-600">
             {data.views} view{data.views !== 1 ? "s" : ""}
           </div>
@@ -130,7 +144,7 @@ const HourlyViewsChart: FC<HourlyViewsChartProps> = ({ data }) => {
               stroke="currentColor"
             />
             <XAxis
-              dataKey="hour"
+              dataKey="label"
               axisLine={false}
               tickLine={false}
               tick={{

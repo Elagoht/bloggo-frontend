@@ -32,20 +32,28 @@ const MonthlyViewsChart: FC<MonthlyViewsChartProps> = ({ data }) => {
     "Dec",
   ];
 
-  // Fill missing months with 0 values to show all 12 months
+  // Fill missing months with 0 values for the rolling 12-month period
   const fillCompleteMonths = (monthlyData: MonthlyViewCount[]) => {
     const completeMonths: MonthlyViewCount[] = [];
 
-    // Create a map for quick lookup
+    // Create a map for quick lookup using year-month key
     const dataMap = new Map(
-      monthlyData.map((item) => [item.month, item.view_count])
+      monthlyData.map((item) => [`${item.year}-${item.month}`, item.view_count])
     );
 
-    // Fill all 12 months (1-12)
-    for (let month = 1; month <= 12; month++) {
+    // Generate last 12 months
+    const today = new Date();
+    for (let i = 11; i >= 0; i--) {
+      const date = new Date(today.getFullYear(), today.getMonth() - i, 1);
+      const year = date.getFullYear();
+      const month = date.getMonth() + 1; // getMonth() returns 0-11, we need 1-12
+      const key = `${year}-${month}`;
+
       completeMonths.push({
+        year,
         month,
-        view_count: dataMap.get(month) || 0,
+        view_count: dataMap.get(key) || 0,
+        date: date, // Add date for formatting
       });
     }
 
@@ -54,30 +62,42 @@ const MonthlyViewsChart: FC<MonthlyViewsChartProps> = ({ data }) => {
 
   const completeData = fillCompleteMonths(data);
 
-  // Get total views for the year
+  // Get total views for the 12-month period
   const totalViews = completeData.reduce(
     (sum, item) => sum + item.view_count,
     0
   );
 
   // Get current month for highlighting
-  const currentMonth = new Date().getMonth() + 1; // getMonth() returns 0-11, we need 1-12
+  const currentDate = new Date();
+  const isCurrentMonth = (year: number, month: number) => {
+    return (
+      year === currentDate.getFullYear() && month === currentDate.getMonth() + 1
+    );
+  };
 
-  // Prepare data for Recharts
+  // Prepare data for Recharts with year-month formatting
   const chartData = completeData.map((item) => ({
     month: monthNames[item.month - 1], // Convert 1-12 to 0-11 for array index
     monthNumber: item.month,
+    year: item.year,
     views: item.view_count,
-    isCurrentMonth: item.month === currentMonth,
+    label:
+      item.year === new Date().getFullYear()
+        ? monthNames[item.month - 1]
+        : `${monthNames[item.month - 1]} ${item.year.toString().slice(-2)}`,
+    fullDate: item.date,
+    isCurrentMonth: isCurrentMonth(item.year, item.month),
   }));
 
   // Custom tooltip component
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
       const data = payload[0].payload;
+      const monthYear = `${data.month} ${data.year}`;
       return (
         <div className="bg-smoke-900 dark:bg-smoke-100 text-smoke-100 dark:text-smoke-900 text-xs px-3 py-2 rounded-lg shadow-lg border border-smoke-700 dark:border-smoke-300">
-          <div className="font-semibold">{label}</div>
+          <div className="font-semibold">{monthYear}</div>
           <div className="text-smoke-400 dark:text-smoke-600">
             {data.views} view{data.views !== 1 ? "s" : ""}
           </div>
@@ -141,15 +161,15 @@ const MonthlyViewsChart: FC<MonthlyViewsChartProps> = ({ data }) => {
               stroke="currentColor"
             />
             <XAxis
-              dataKey="month"
+              dataKey="label"
               axisLine={false}
               tickLine={false}
               tick={{
-                fontSize: 12,
+                fontSize: 11,
                 fill: "currentColor",
                 className: "text-smoke-600 dark:text-smoke-400 font-mono",
               }}
-              interval={0} // Show all months
+              interval={1} // Show every other month to prevent crowding
             />
             <YAxis
               axisLine={false}

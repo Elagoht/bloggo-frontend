@@ -1,7 +1,4 @@
-import {
-  IconChartBar,
-  IconUsers,
-} from "@tabler/icons-react";
+import { IconChartBar, IconUsers } from "@tabler/icons-react";
 import { FC, useEffect, useState } from "react";
 import { Tab, TabList, TabPanel, Tabs } from "../../../components/common/Tabs";
 import RouteGuard from "../../../components/Guards/RouteGuard";
@@ -15,6 +12,7 @@ import {
 } from "../../../services/statistics";
 import { getUsers } from "../../../services/users";
 import { useAuthStore } from "../../../stores/auth";
+import ContentWithSidebar from "../../../components/layout/Container/ContentWithSidebar";
 
 const StatisticsPage: FC = () => {
   const { hasPermission } = useAuthStore();
@@ -162,7 +160,6 @@ const StatisticsPage: FC = () => {
     }
   };
 
-
   // Determine which permissions the user has to show appropriate tabs
   const canViewTotal = hasPermission("statistics:view-total");
   const canViewSelf = hasPermission("statistics:view-self");
@@ -191,93 +188,95 @@ const StatisticsPage: FC = () => {
   }
 
   return (
-    <Container>
-      <PageTitleWithIcon icon={IconChartBar}>Statistics</PageTitleWithIcon>
+    <ContentWithSidebar>
+      <Container>
+        <PageTitleWithIcon icon={IconChartBar}>Statistics</PageTitleWithIcon>
 
-      <Tabs defaultTab={defaultTab}>
-        <TabList>
-          {canViewSelf && <Tab value="self">My Statistics</Tab>}
-          {canViewTotal && <Tab value="total">Total Statistics</Tab>}
-          {canViewOthers && <Tab value="others">Other Users</Tab>}
-        </TabList>
+        <Tabs defaultTab={defaultTab}>
+          <TabList>
+            {canViewSelf && <Tab value="self">My Statistics</Tab>}
+            {canViewTotal && <Tab value="total">Total Statistics</Tab>}
+            {canViewOthers && <Tab value="others">Other Users</Tab>}
+          </TabList>
 
-        {canViewSelf && (
-          <TabPanel value="self">
-            <StatisticsDisplay
-              statistics={selfStatistics}
-              loading={loadingSelf}
-              error={errorSelf}
-              showAuthorInfo={false}
-              isUserStats={true}
-            />
-          </TabPanel>
-        )}
-
-        {canViewTotal && (
-          <TabPanel value="total">
-            <StatisticsDisplay
-              statistics={totalStatistics}
-              loading={loadingTotal}
-              error={errorTotal}
-              showAuthorInfo={false}
-              isUserStats={false}
-            />
-          </TabPanel>
-        )}
-
-        {canViewOthers && (
-          <TabPanel value="others">
-            <div className="mb-6">
-              <div className="max-w-md">
-                <select
-                  value={selectedUserId}
-                  onChange={handleUserChange}
-                  className="w-full px-3 py-2 text-sm bg-smoke-50 dark:bg-smoke-900 border border-smoke-200 dark:border-smoke-700 rounded-lg transition-all duration-200 focus:outline-none focus:border-gopher-400 dark:focus:border-gopher-500 focus:ring-1 focus:ring-gopher-200 dark:focus:ring-gopher-800/50 placeholder:text-smoke-400 dark:placeholder:text-smoke-500 text-smoke-900 dark:text-smoke-100 shadow-sm focus:shadow hover:border-smoke-300 dark:hover:border-smoke-600"
-                >
-                  <option value="">
-                    {loadingUsers
-                      ? "Loading users..."
-                      : "Select a user to view their statistics"}
-                  </option>
-                  {users?.data?.map((user: UserCard) => (
-                    <option key={user.id} value={user.id}>
-                      {user.name} ({user.email})
-                    </option>
-                  ))}
-                  {!loadingUsers &&
-                    (!users || !users.data || users.data.length === 0) && (
-                      <option disabled>No users available</option>
-                    )}
-                </select>
-              </div>
-            </div>
-
-            {selectedUserId ? (
+          {canViewSelf && (
+            <TabPanel value="self">
               <StatisticsDisplay
-                statistics={otherUserStatistics}
-                loading={loadingOther}
-                error={errorOther}
-                showAuthorInfo={true}
+                statistics={selfStatistics}
+                loading={loadingSelf}
+                error={errorSelf}
+                showAuthorInfo={false}
                 isUserStats={true}
               />
-            ) : (
-              <div className="flex items-center justify-center py-12">
-                <div className="text-center">
-                  <IconUsers
-                    className="mx-auto mb-4 text-smoke-400 dark:text-smoke-500"
-                    size={48}
-                  />
-                  <div className="text-smoke-500 dark:text-smoke-400">
-                    Select a user from the dropdown above to view their
-                    statistics
-                  </div>
+            </TabPanel>
+          )}
+
+          {canViewTotal && (
+            <TabPanel value="total">
+              <StatisticsDisplay
+                statistics={totalStatistics}
+                loading={loadingTotal}
+                error={errorTotal}
+                showAuthorInfo={false}
+                isUserStats={false}
+              />
+            </TabPanel>
+          )}
+
+          {canViewOthers && (
+            <TabPanel value="others">
+              <div className="mb-6">
+                <div className="max-w-md">
+                  <select
+                    value={selectedUserId}
+                    onChange={handleUserChange}
+                    className="w-full px-3 py-2 text-sm bg-smoke-50 dark:bg-smoke-900 border border-smoke-200 dark:border-smoke-700 rounded-lg transition-all duration-200 focus:outline-none focus:border-gopher-400 dark:focus:border-gopher-500 focus:ring-1 focus:ring-gopher-200 dark:focus:ring-gopher-800/50 placeholder:text-smoke-400 dark:placeholder:text-smoke-500 text-smoke-900 dark:text-smoke-100 shadow-sm focus:shadow hover:border-smoke-300 dark:hover:border-smoke-600"
+                  >
+                    <option value="">
+                      {loadingUsers
+                        ? "Loading users..."
+                        : "Select a user to view their statistics"}
+                    </option>
+                    {users?.data?.map((user: UserCard) => (
+                      <option key={user.id} value={user.id}>
+                        {user.name} ({user.email})
+                      </option>
+                    ))}
+                    {!loadingUsers &&
+                      (!users || !users.data || users.data.length === 0) && (
+                        <option disabled>No users available</option>
+                      )}
+                  </select>
                 </div>
               </div>
-            )}
-          </TabPanel>
-        )}
-      </Tabs>
-    </Container>
+
+              {selectedUserId ? (
+                <StatisticsDisplay
+                  statistics={otherUserStatistics}
+                  loading={loadingOther}
+                  error={errorOther}
+                  showAuthorInfo={true}
+                  isUserStats={true}
+                />
+              ) : (
+                <div className="flex items-center justify-center py-12">
+                  <div className="text-center">
+                    <IconUsers
+                      className="mx-auto mb-4 text-smoke-400 dark:text-smoke-500"
+                      size={48}
+                    />
+                    <div className="text-smoke-500 dark:text-smoke-400">
+                      Select a user from the dropdown above to view their
+                      statistics
+                    </div>
+                  </div>
+                </div>
+              )}
+            </TabPanel>
+          )}
+        </Tabs>
+      </Container>
+    </ContentWithSidebar>
   );
 };
 

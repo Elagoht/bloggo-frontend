@@ -109,53 +109,6 @@ const StatisticsDisplay: FC<StatisticsDisplayProps> = ({
         monthlyData={yearViews?.months || []}
       />
 
-      {/* Overview Stats */}
-      <SectionHeader icon={IconEye}>
-        {isUserStats
-          ? showAuthorInfo
-            ? "Statistics Overview"
-            : "My Overview"
-          : "Site Overview"}
-      </SectionHeader>
-
-      <CardGrid>
-        <StatCard
-          title="Total Views"
-          value={viewStats.total_views}
-          icon={IconEye}
-          color="primary"
-          description="All time page views"
-        />
-        <StatCard
-          title="Published Posts"
-          value={blogStats.total_published_blogs}
-          icon={IconFileText}
-          color="primary"
-          description="Live on the site"
-        />
-        <StatCard
-          title="Draft Posts"
-          value={blogStats.total_drafted_blogs}
-          icon={IconFileText}
-          color="warning"
-          description="Work in progress"
-        />
-        <StatCard
-          title="Avg. Read Time"
-          value={`${Math.round(blogStats.average_read_time)} min`}
-          icon={IconClock}
-          color="primary"
-          description="Average time to read posts"
-        />
-        <StatCard
-          title="Avg. Views per Post"
-          value={Math.round(blogStats.average_views)}
-          icon={IconEye}
-          color="success"
-          description="Per post average"
-        />
-      </CardGrid>
-
       {/* Content Performance */}
       <SectionHeader icon={IconBrandSpeedtest}>
         Content Performance
