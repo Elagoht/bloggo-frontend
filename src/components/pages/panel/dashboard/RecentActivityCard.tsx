@@ -1,6 +1,5 @@
 import { IconHistory } from "@tabler/icons-react";
 import { FC } from "react";
-import { RecentActivity } from "../../../../services/dashboard";
 
 type RecentActivityCardProps = {
   recentActivity?: RecentActivity[];
