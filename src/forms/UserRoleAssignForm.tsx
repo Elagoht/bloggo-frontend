@@ -29,7 +29,7 @@ const UserRoleAssignForm: FC<UserRoleAssignFormProps> = ({
         if (response.success) {
           setRoles(response.data);
         }
-      } catch (error) {
+      } catch {
         toast.error("Failed to fetch roles");
       } finally {
         setLoading(false);

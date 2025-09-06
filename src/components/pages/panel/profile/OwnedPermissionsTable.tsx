@@ -9,7 +9,6 @@ type OwnedPermissionsTableProps = {
 const OwnedPermissionsTable: FC<OwnedPermissionsTableProps> = ({
   permissions,
 }) => {
-  allPermissions;
   return (
     <table className="table-fixed w-full">
       <thead>

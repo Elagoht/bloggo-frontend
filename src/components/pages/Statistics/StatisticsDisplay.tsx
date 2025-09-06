@@ -10,14 +10,13 @@ import {
   IconFileText,
   IconRuler,
   IconTrendingUp,
-  IconUser,
 } from "@tabler/icons-react";
 import { FC } from "react";
 import BarChart from "../../common/Chart/BarChart";
 import PieChart from "../../common/Chart/PieChart";
-import TabbedViewsChart from "../../common/TabbedViewsChart";
 import StatCard from "../../common/StatCard";
 import StatTable from "../../common/StatTable";
+import TabbedViewsChart from "../../common/TabbedViewsChart";
 import Container from "../../layout/Container";
 import CardGrid from "../../layout/Container/CardGrid";
 import SectionHeader from "../../layout/SectionHeader";

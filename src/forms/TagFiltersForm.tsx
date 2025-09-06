@@ -8,9 +8,7 @@ import FormSection from "../components/form/FormSection";
 import Input from "../components/form/Input";
 import RadioGroup from "../components/form/RadioButton/RadioGroup";
 
-type TagFiltersFormProps = {};
-
-const TagFiltersForm: FC<TagFiltersFormProps> = () => {
+const TagFiltersForm: FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const handleSubmit = async (data: FormData) => {

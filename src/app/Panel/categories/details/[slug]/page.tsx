@@ -17,7 +17,7 @@ import { getCategory } from "../../../../../services/categories";
 const CategoryDetailPage: FC = () => {
   const navigate = useNavigate();
   const { slug } = useParams<{ slug: string }>();
-  const [category, setCategory] = useState<any>(null);
+  const [category, setCategory] = useState<ResponseCategory>();
   const [loading, setLoading] = useState(false);
 
   const fetchCategory = useCallback(async () => {

@@ -10,6 +10,7 @@ const PostDetails: FC<PostDetails> = (post) => {
         <img
           width={20}
           height={20}
+          alt="Avatar"
           className="rounded-full"
           src={import.meta.env.VITE_API_URL + post.author.avatar}
         />

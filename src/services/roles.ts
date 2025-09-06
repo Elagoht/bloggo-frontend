@@ -1,5 +1,3 @@
-import ApiCall from "../utilities/apiCaller";
-
 // Roles are hardcoded in the backend seed data (internal/db/seed.queries.go)
 // Since there's no /roles endpoint in the backend, we provide static data
 // matching the backend seed structure

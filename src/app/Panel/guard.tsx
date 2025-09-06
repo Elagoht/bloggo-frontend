@@ -1,10 +1,10 @@
 import { FC, useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
+import { IconLoader } from "@tabler/icons-react";
 import { postRefresh } from "../../services/session";
 import { getUserSelf } from "../../services/users";
 import { useAuthStore } from "../../stores/auth";
 import { useProfileStore } from "../../stores/profile";
-import { IconLoader } from "@tabler/icons-react";
 
 const AuthGuardLayout: FC = () => {
   const navigate = useNavigate();

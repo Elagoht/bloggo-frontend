@@ -11,7 +11,7 @@ type AuditLog = {
 
 type AuditLogItemProps = {
   auditLog: AuditLog;
-  users: Map<number, any>;
+  users: Map<number, UserCard>;
 };
 
 const AuditLogItem: FC<AuditLogItemProps> = ({ auditLog, users }) => {

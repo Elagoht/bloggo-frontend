@@ -49,7 +49,7 @@ const BarChart: FC<BarChartProps> = ({ title, data, icon: Icon }) => {
     }));
 
   // Custom tooltip component
-  const CustomTooltip = ({ active, payload, label }: any) => {
+  const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
       const data = payload[0].payload;
       return (

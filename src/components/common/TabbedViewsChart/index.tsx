@@ -1,9 +1,9 @@
 import { FC, useState } from "react";
 import { IconClock, IconCalendar, IconCalendarTime } from "@tabler/icons-react";
+import classNames from "classnames";
 import HourlyViewsChart from "../HourlyViewsChart";
 import DailyViewsChart from "../DailyViewsChart";
 import MonthlyViewsChart from "../MonthlyViewsChart";
-import classNames from "classnames";
 
 type TabbedViewsChartProps = {
   hourlyData: HourlyViewCount[];

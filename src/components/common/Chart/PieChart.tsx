@@ -48,7 +48,7 @@ const PieChart: FC<PieChartProps> = ({ title, data, icon: Icon }) => {
     }));
 
   // Custom tooltip component
-  const CustomTooltip = ({ active, payload }: any) => {
+  const CustomTooltip = ({ active, payload }) => {
     if (active && payload && payload.length) {
       const data = payload[0].payload;
       return (
@@ -64,10 +64,10 @@ const PieChart: FC<PieChartProps> = ({ title, data, icon: Icon }) => {
   };
 
   // Custom legend component
-  const CustomLegend = ({ payload }: any) => {
+  const CustomLegend = ({ payload }) => {
     return (
       <ul className="flex flex-col gap-2 mt-4">
-        {payload?.map((entry: any, index: number) => (
+        {payload?.map((entry, index: number) => (
           <li key={index} className="flex items-center gap-2 text-sm">
             <span
               className="w-3 h-3 rounded-full flex-shrink-0"

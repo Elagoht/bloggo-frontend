@@ -22,7 +22,6 @@ import {
   patchUserAvatarSelf,
   patchUserChangePassword,
 } from "../services/users";
-import { useAuthStore } from "../stores/auth";
 import { useProfileStore } from "../stores/profile";
 
 type UserProfileEditFormProps = {
@@ -31,7 +30,6 @@ type UserProfileEditFormProps = {
 
 const UserProfileEditForm: FC<UserProfileEditFormProps> = ({ profile }) => {
   const { updateProfile } = useProfileStore();
-  const { setUser } = useAuthStore();
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
   const [isUploadingAvatar, setIsUploadingAvatar] = useState(false);
@@ -92,7 +90,7 @@ const UserProfileEditForm: FC<UserProfileEditFormProps> = ({ profile }) => {
       } else {
         toast.error(response.error?.message || "Failed to update avatar");
       }
-    } catch (error) {
+    } catch {
       toast.error("Failed to update avatar");
     } finally {
       setIsUploadingAvatar(false);
@@ -109,7 +107,7 @@ const UserProfileEditForm: FC<UserProfileEditFormProps> = ({ profile }) => {
       } else {
         toast.error(response.error?.message || "Failed to remove avatar");
       }
-    } catch (error) {
+    } catch {
       toast.error("Failed to remove avatar");
     } finally {
       setIsDeletingAvatar(false);
@@ -117,7 +115,6 @@ const UserProfileEditForm: FC<UserProfileEditFormProps> = ({ profile }) => {
   };
 
   const handlePasswordChange = async (data: FormData) => {
-    const currentPassword = data.get("currentPassword") as string;
     const newPassword = data.get("newPassword") as string;
     const confirmPassword = data.get("confirmPassword") as string;
 
@@ -142,7 +139,7 @@ const UserProfileEditForm: FC<UserProfileEditFormProps> = ({ profile }) => {
       } else {
         toast.error(response.error?.message || "Failed to change password");
       }
-    } catch (error) {
+    } catch {
       toast.error("Failed to change password");
     }
   };
@@ -224,9 +221,10 @@ const UserProfileEditForm: FC<UserProfileEditFormProps> = ({ profile }) => {
 
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-smoke-700 dark:text-smoke-300 mb-2">
+            <small className="block text-sm font-medium text-smoke-700 dark:text-smoke-300 mb-2">
               Full Name
-            </label>
+            </small>
+
             <Input
               autoFocus
               name="name"
@@ -241,9 +239,9 @@ const UserProfileEditForm: FC<UserProfileEditFormProps> = ({ profile }) => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-smoke-700 dark:text-smoke-300 mb-2">
+            <small className="block text-sm font-medium text-smoke-700 dark:text-smoke-300 mb-2">
               Email Address
-            </label>
+            </small>
             <Input
               name="email"
               type="email"

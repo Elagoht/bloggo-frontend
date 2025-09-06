@@ -333,6 +333,7 @@ const DuplicateVersionPage: FC = () => {
             {coverPreview && (
               <img
                 className="aspect-video object-fill rounded-lg"
+                alt="Cover"
                 src={
                   coverPreview.startsWith("data:image/")
                     ? coverPreview

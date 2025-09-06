@@ -51,6 +51,7 @@ export default function RouteGuard({
     if (!hasAccess() && redirectTo) {
       navigate(redirectTo);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hasAccess(), redirectTo, navigate]);
 
   if (!hasAccess()) {

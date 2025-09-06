@@ -1,10 +1,9 @@
 import { IconDeviceFloppy, IconTag, IconX } from "@tabler/icons-react";
-import { FC, ReactNode, useLayoutEffect } from "react";
+import { FC, ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "../components/form/Button";
 import ButtonGroup from "../components/form/ButtonGroup";
 import Form from "../components/form/Form";
-import FormSection from "../components/form/FormSection";
 import Input from "../components/form/Input";
 import { patchTagUpdate } from "../services/tags";
 

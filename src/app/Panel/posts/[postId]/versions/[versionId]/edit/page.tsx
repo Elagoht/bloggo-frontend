@@ -9,9 +9,10 @@ import {
   IconVersions,
 } from "@tabler/icons-react";
 import { FC, useEffect, useState } from "react";
-import { useNavigate, useParams, useBlocker } from "react-router-dom";
+import { useBlocker, useNavigate, useParams } from "react-router-dom";
 import Dialog from "../../../../../../../components/common/Dialog";
-import RouteGuard from "../../../../../../../components/guards/RouteGuard";
+import GenerativeFill from "../../../../../../../components/common/GenerativeFill";
+import NoCategoriesYet from "../../../../../../../components/common/NoCategoriesYet";
 import Button from "../../../../../../../components/form/Button";
 import Form from "../../../../../../../components/form/Form";
 import Input from "../../../../../../../components/form/Input";
@@ -23,15 +24,13 @@ import FormCard from "../../../../../../../components/layout/Container/FormCard"
 import PageTitleWithIcon from "../../../../../../../components/layout/Container/PageTitle";
 import Sidebar from "../../../../../../../components/layout/Container/Sidebar";
 import SectionHeader from "../../../../../../../components/layout/SectionHeader";
+import VersionActionsForm from "../../../../../../../forms/VersionActionsForm";
+import VersionDeleteForm from "../../../../../../../forms/VersionDeleteForm";
 import { getCategoriesList } from "../../../../../../../services/categories";
 import {
   getPostVersion,
   updatePostVersion,
 } from "../../../../../../../services/posts";
-import VersionDeleteForm from "../../../../../../../forms/VersionDeleteForm";
-import VersionActionsForm from "../../../../../../../forms/VersionActionsForm";
-import GenerativeFill from "../../../../../../../components/common/GenerativeFill";
-import NoCategoriesYet from "../../../../../../../components/common/NoCategoriesYet";
 
 const EditVersionPage: FC = () => {
   const navigate = useNavigate();
@@ -91,6 +90,7 @@ const EditVersionPage: FC = () => {
     };
 
     loadData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [postId, versionId, navigate]);
 
   const markDirty = () => {
@@ -286,6 +286,7 @@ const EditVersionPage: FC = () => {
             {coverPreview && (
               <img
                 className="aspect-video object-fill rounded-lg"
+                alt="Cover"
                 src={
                   coverPreview.startsWith("data:image/")
                     ? coverPreview

@@ -1,12 +1,12 @@
 import { IconLogin } from "@tabler/icons-react";
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 import Button from "../components/form/Button";
 import Form from "../components/form/Form";
 import Input from "../components/form/Input";
 import { postLogin } from "../services/session";
 import { useAuthStore } from "../stores/auth";
-import toast from "react-hot-toast";
 
 const LoginForm: FC = () => {
   const navigate = useNavigate();
@@ -34,13 +34,7 @@ const LoginForm: FC = () => {
 
   return (
     <Form handle={handleSubmit}>
-      <Input
-        type="email"
-        name="email"
-        required
-        autoFocus={true}
-        placeholder="Email"
-      />
+      <Input type="email" name="email" required autoFocus placeholder="Email" />
 
       <Input
         type="password"

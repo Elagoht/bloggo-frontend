@@ -18,7 +18,8 @@ import { getCategories } from "../../../services/categories";
 
 const CategoriesPage: FC = () => {
   const [searchParams] = useSearchParams();
-  const [categoriesResponse, setCategoriesResponse] = useState<any>(null);
+  const [categoriesResponse, setCategoriesResponse] =
+    useState<ResponsePaginated<CategoryCard>>();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
 
@@ -39,7 +40,7 @@ const CategoriesPage: FC = () => {
       setLoading(true);
       setError(null);
       const result = await getCategories(filters);
-      setCategoriesResponse(result.success ? result.data : null);
+      setCategoriesResponse(result.success ? result.data : undefined);
     } catch (err) {
       setError(err as Error);
     } finally {
@@ -77,7 +78,7 @@ const CategoriesPage: FC = () => {
               <CardGrid>
                 {categoriesResponse.data &&
                 categoriesResponse.data.length > 0 ? (
-                  categoriesResponse.data.map((category: any) => (
+                  categoriesResponse.data.map((category) => (
                     <CategoryCard
                       key={category.slug}
                       name={category.name}

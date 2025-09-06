@@ -38,7 +38,7 @@ const DetailsItem: FC<DetailsItemProps> = ({
           })}
         </span>
       ) : (
-        <img src={image} className="size-5 rounded" />
+        <img src={image} alt="Details icon" className="size-5 rounded" />
       )}
 
       <dl className="flex flex-col flex-grow">

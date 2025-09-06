@@ -2,7 +2,6 @@ import {
   IconDatabase,
   IconDeviceFloppy,
   IconEdit,
-  IconExclamationCircle,
   IconFileDescription,
   IconHeading,
   IconPhoto,
@@ -12,8 +11,9 @@ import {
   IconTextCaption,
 } from "@tabler/icons-react";
 import { FC, useEffect, useState } from "react";
-import { Link, useBlocker, useNavigate } from "react-router-dom";
+import { useBlocker, useNavigate } from "react-router-dom";
 import Dialog from "../../../../components/common/Dialog";
+import NoCategoriesYet from "../../../../components/common/NoCategoriesYet";
 import Button from "../../../../components/form/Button";
 import Form from "../../../../components/form/Form";
 import Input from "../../../../components/form/Input";
@@ -27,7 +27,6 @@ import Sidebar from "../../../../components/layout/Container/Sidebar";
 import SectionHeader from "../../../../components/layout/SectionHeader";
 import { getCategoriesList } from "../../../../services/categories";
 import { createPost } from "../../../../services/posts";
-import NoCategoriesYet from "../../../../components/common/NoCategoriesYet";
 
 const WritePage: FC = () => {
   const navigate = useNavigate();
@@ -228,6 +227,7 @@ const WritePage: FC = () => {
             {coverPreview && (
               <img
                 className="aspect-video object-fill rounded-lg"
+                alt="Cover"
                 src={
                   coverPreview.startsWith("data:image/")
                     ? coverPreview

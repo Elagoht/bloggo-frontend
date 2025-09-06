@@ -148,6 +148,7 @@ const StatisticsPage: FC = () => {
     if (hasPermission("statistics:view-others")) {
       fetchUsers();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hasPermission]);
 
   const handleUserChange = (event: React.ChangeEvent<HTMLSelectElement>) => {

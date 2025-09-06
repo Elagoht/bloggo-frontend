@@ -9,9 +9,9 @@ import {
 } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useMobileStore } from "../../../stores/mobile";
-import PermissionGuard from "../../guards/PermissionGuard";
-import { isMac, keyAliases, keyLabels } from "../../form/Shortcuts";
+import { keyAliases } from "../../form/Shortcuts";
 import ShortcutLabel from "../../form/Shortcuts/ShortcutLabel";
+import PermissionGuard from "../../guards/PermissionGuard";
 
 type AsideMenuItemProps = {
   name: string;
@@ -81,31 +81,6 @@ const AsideMenuItem: FC<AsideMenuItemProps> = ({
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [shortcutKey, href, navigate]);
-
-  const renderShortcutLabel = (shortcut?: string) => {
-    if (!shortcut) return null;
-    const parts = shortcut.split("+").map((p) => p.toLowerCase());
-
-    return (
-      <span className="ml-2 text-xs flex gap-1">
-        {parts.map((part, i) => {
-          const labelDef = keyLabels[part];
-          const label =
-            typeof labelDef === "function"
-              ? labelDef(isMac)
-              : labelDef ?? part.toUpperCase();
-          return (
-            <kbd
-              key={i}
-              className="max-md:hidden px-1.5 py-0.5 rounded text-black dark:text-white bg-white dark:bg-black bg-opacity-30 dark:bg-opacity-30"
-            >
-              {label}
-            </kbd>
-          );
-        })}
-      </span>
-    );
-  };
 
   const MenuItem = (
     <Link

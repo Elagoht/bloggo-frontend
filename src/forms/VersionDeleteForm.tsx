@@ -1,11 +1,11 @@
 import { IconTrash } from "@tabler/icons-react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { FC } from "react";
 import HoldButton from "../components/form/HoldButton";
 import FormCard from "../components/layout/Container/FormCard";
 import SectionHeader from "../components/layout/SectionHeader";
 import { deletePostVersion } from "../services/posts";
-import { FC } from "react";
 
 type VersionDeleteFormProps = {
   postId: number;

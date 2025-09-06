@@ -53,7 +53,7 @@ const MonthlyViewsChart: FC<MonthlyViewsChartProps> = ({ data }) => {
         year,
         month,
         viewCount: dataMap.get(key) || 0,
-        date: date, // Add date for formatting
+        date, // Add date for formatting
       });
     }
 
@@ -91,7 +91,7 @@ const MonthlyViewsChart: FC<MonthlyViewsChartProps> = ({ data }) => {
   }));
 
   // Custom tooltip component
-  const CustomTooltip = ({ active, payload, label }: any) => {
+  const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
       const data = payload[0].payload;
       const monthYear = `${data.month} ${data.year}`;

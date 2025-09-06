@@ -16,9 +16,7 @@ import Select from "../components/form/Select";
 import { getCategoriesList } from "../services/categories";
 import ButtonGroup from "../components/form/ButtonGroup";
 
-type PostFiltersFormProps = {};
-
-const PostFiltersForm: FC<PostFiltersFormProps> = () => {
+const PostFiltersForm: FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [categories, setCategories] = useState<CategoryListItem[]>([]);
 

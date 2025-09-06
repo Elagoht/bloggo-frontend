@@ -17,11 +17,12 @@ const UserChangePasswordForm: FC<UserChangePasswordFormProps> = ({
   user,
   onUpdate,
 }) => {
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (event: FormData) => {
+    const newPassword = event.get("newPassword") as string;
+    const confirmPassword = event.get("confirmPassword") as string;
+
     if (newPassword !== confirmPassword) {
       toast.error("Passwords do not match!");
       return;
@@ -40,13 +41,11 @@ const UserChangePasswordForm: FC<UserChangePasswordFormProps> = ({
 
       if (response.success === true) {
         toast.success("Password updated successfully!");
-        setNewPassword("");
-        setConfirmPassword("");
         onUpdate?.();
       } else {
         toast.error(response.error?.message || "Failed to update password");
       }
-    } catch (error) {
+    } catch {
       toast.error("Failed to update password");
     } finally {
       setLoading(false);
@@ -68,8 +67,6 @@ const UserChangePasswordForm: FC<UserChangePasswordFormProps> = ({
         <Input
           label="New Password"
           type="password"
-          value={newPassword}
-          onChange={(event) => setNewPassword(event.target.value)}
           required
           minLength={12}
           iconLeft={IconLock}
@@ -79,8 +76,6 @@ const UserChangePasswordForm: FC<UserChangePasswordFormProps> = ({
         <Input
           label="Confirm New Password"
           type="password"
-          value={confirmPassword}
-          onChange={(event) => setConfirmPassword(event.target.value)}
           required
           minLength={12}
           iconLeft={IconLock}
@@ -90,7 +85,7 @@ const UserChangePasswordForm: FC<UserChangePasswordFormProps> = ({
         <Button
           type="submit"
           color="warning"
-          disabled={loading || !newPassword || !confirmPassword}
+          disabled={loading}
           className="w-full"
         >
           {loading ? "Updating..." : "Update Password"}

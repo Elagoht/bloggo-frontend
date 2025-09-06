@@ -76,7 +76,7 @@ const TagsPage: FC = () => {
                 {tagsResponse &&
                 tagsResponse.data &&
                 tagsResponse.data.length > 0 ? (
-                  tagsResponse.data.map((tag: any) => (
+                  tagsResponse.data.map((tag) => (
                     <TagCard
                       id={tag.id}
                       key={tag.slug}

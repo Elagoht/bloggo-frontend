@@ -1,7 +1,5 @@
-import { IconPlus, IconUsers } from "@tabler/icons-react";
+import { IconUsers } from "@tabler/icons-react";
 import { FC } from "react";
-import Button from "../../../form/Button";
-import PermissionGuard from "../../../guards/PermissionGuard";
 
 const NoUsersYet: FC = () => {
   return (

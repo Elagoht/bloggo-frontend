@@ -1,13 +1,10 @@
 import classNames from "classnames";
 import { FC, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
-import PermissionGuard from "../../guards/PermissionGuard";
-import { asideMenu } from "./aside";
 import { useMobileStore } from "../../../stores/mobile";
+import { asideMenu } from "./aside";
 import AsideMenuItem from "./AsideMenuItem";
 
 const Aside: FC = () => {
-  const location = useLocation();
   const { isMobileMenuOpen, closeMobileMenu } = useMobileStore();
 
   // Close mobile menu when clicking outside on mobile

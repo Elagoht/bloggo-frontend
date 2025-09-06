@@ -42,7 +42,7 @@ const Avatar: FC<AvatarProps> = ({
         <a
           target="_blank"
           href={`mailto:${email}`}
-          className="text-smoke-700 dark:text-smoke-300 leading-snug"
+          className="text-smoke-700 dark:text-smoke-300 leading-snug" rel="noreferrer"
         >
           {email}
         </a>

@@ -79,7 +79,7 @@ class ApiCall {
 
     const contentType = res.headers.get("Content-Type") || "";
 
-    let result: any = null;
+    let result = null;
     try {
       if (contentType.includes("application/json")) {
         result = await res.json();

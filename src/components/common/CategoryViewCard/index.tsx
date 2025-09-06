@@ -27,8 +27,9 @@ const CategoryViewCard: FC<CategoryViewCardProps> = ({ category }) => {
       <SectionHeader icon={IconInfoCircle}>Category Info</SectionHeader>
 
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-2">
-        {data.map((datum) => (
+        {data.map((datum, index) => (
           <dl
+            key={index}
             className={classNames(
               "flex items-center gap-2 p-2 bg-smoke-50 dark:bg-smoke-900 rounded-md border border-smoke-200 dark:border-smoke-700",
               { "col-span-2": datum.grow }

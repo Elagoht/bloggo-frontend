@@ -49,7 +49,7 @@ const GenerativeFill: FC<GenerativeFillProps> = ({
       } else {
         setError(response.error.message);
       }
-    } catch (err) {
+    } catch {
       setError("Failed to generate content suggestions");
     } finally {
       setIsLoading(false);
@@ -120,9 +120,9 @@ const GenerativeFill: FC<GenerativeFillProps> = ({
 
               <div className="bg-white/80 backdrop-blur-sm rounded-lg p-3 border border-white/40">
                 <div className="flex items-center justify-between mb-2">
-                  <label className="text-sm font-medium text-smoke-700">
+                  <small className="text-sm font-medium text-smoke-700">
                     Suggested Category
-                  </label>
+                  </small>
                 </div>
 
                 <p className="text-sm text-smoke-800">

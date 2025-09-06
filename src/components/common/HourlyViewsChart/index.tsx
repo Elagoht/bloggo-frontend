@@ -35,7 +35,7 @@ const HourlyViewsChart: FC<HourlyViewsChartProps> = ({ data }) => {
       completeHours.push({
         hour,
         viewCount: dataMap.get(hour) || 0,
-        date: date,
+        date,
       });
     }
 
@@ -70,7 +70,7 @@ const HourlyViewsChart: FC<HourlyViewsChartProps> = ({ data }) => {
   }));
 
   // Custom tooltip component
-  const CustomTooltip = ({ active, payload, label }: any) => {
+  const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
       const data = payload[0].payload;
       const dateStr = data.date.toLocaleDateString("en-US", {

@@ -61,7 +61,7 @@ const VersionActionsForm: FC<VersionActionsFormProps> = ({
       } else {
         toast.error("Failed to submit version for review");
       }
-    } catch (error) {
+    } catch {
       toast.error("Failed to submit version for review");
     } finally {
       setIsLoading(false);
@@ -84,7 +84,7 @@ const VersionActionsForm: FC<VersionActionsFormProps> = ({
       } else {
         toast.error("Failed to approve version");
       }
-    } catch (error) {
+    } catch {
       toast.error("Failed to approve version");
     } finally {
       setIsLoading(false);
@@ -109,7 +109,7 @@ const VersionActionsForm: FC<VersionActionsFormProps> = ({
       } else {
         toast.error("Failed to reject version");
       }
-    } catch (error) {
+    } catch {
       toast.error("Failed to reject version");
     } finally {
       setIsLoading(false);
@@ -132,7 +132,7 @@ const VersionActionsForm: FC<VersionActionsFormProps> = ({
       } else {
         toast.error("Failed to publish version");
       }
-    } catch (error) {
+    } catch {
       toast.error("Failed to publish version");
     } finally {
       setIsLoading(false);

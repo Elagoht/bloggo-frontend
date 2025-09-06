@@ -1,28 +1,22 @@
 import {
   IconCake,
-  IconCalendar,
   IconChevronDown,
   IconChevronUp,
   IconEye,
   IconFileText,
-  IconInfoCircle,
-  IconKey,
   IconPercentage,
   IconSettings,
   IconShield,
-  IconTrendingUp,
 } from "@tabler/icons-react";
+import classNames from "classnames";
 import { FC, useState } from "react";
 import Avatar from "../../../components/common/Avatar";
 import Button from "../../../components/form/Button";
 import Container from "../../../components/layout/Container";
 import InfoCard from "../../../components/layout/Container/InfoCard";
-import SectionHeader from "../../../components/layout/SectionHeader";
 import OwnedPermissionsTable from "../../../components/pages/panel/profile/OwnedPermissionsTable";
 import { useAuthStore } from "../../../stores/auth";
 import { useProfileStore } from "../../../stores/profile";
-import classNames from "classnames";
-import PageTitleWithIcon from "../../../components/layout/Container/PageTitle";
 
 const ProfilePage: FC = () => {
   const { permissions } = useAuthStore();

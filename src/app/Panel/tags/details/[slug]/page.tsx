@@ -17,7 +17,7 @@ import { getTag } from "../../../../../services/tags";
 const TagDetailPage: FC = () => {
   const navigate = useNavigate();
   const { slug } = useParams<{ slug: string }>();
-  const [tag, setTag] = useState<any>(null);
+  const [tag, setTag] = useState<ResponseTag>();
   const [loading, setLoading] = useState(false);
 
   const fetchTag = useCallback(async () => {

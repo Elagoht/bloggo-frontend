@@ -7,6 +7,7 @@ import {
 } from "@tabler/icons-react";
 import { FC, useState } from "react";
 import toast from "react-hot-toast";
+import { Link } from "react-router-dom";
 import Button from "../../../form/Button";
 import PermissionGuard from "../../../guards/PermissionGuard";
 import SectionHeader from "../../../layout/SectionHeader";
@@ -16,7 +17,6 @@ import CheckboxGroup from "../../../form/Checkbox/CheckboxGroup";
 import { assignTagsToPost } from "../../../../services/posts";
 import { getTags } from "../../../../services/tags";
 import FormCard from "../../../layout/Container/FormCard";
-import { Link } from "react-router-dom";
 
 type PostTagsManagerProps = {
   post: PostDetails;

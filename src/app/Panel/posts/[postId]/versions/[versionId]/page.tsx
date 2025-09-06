@@ -1,33 +1,29 @@
 import {
-  IconCalendar,
-  IconClock,
-  IconDetails,
   IconEye,
   IconInfoCircle,
-  IconNote,
   IconTag,
+  IconTags,
   IconUser,
   IconVersions,
-  IconTags,
 } from "@tabler/icons-react";
 import { marked } from "marked";
 import { FC, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import RouteGuard from "../../../../../../components/guards/RouteGuard";
+import ActivityDates from "../../../../../../components/common/ActivityDates";
+import DetailsItem from "../../../../../../components/common/DetailsItem";
+import ReviewNote from "../../../../../../components/common/ReviewNote";
+import TagChip from "../../../../../../components/common/TagChip";
 import PermissionGuard from "../../../../../../components/guards/PermissionGuard";
+import RouteGuard from "../../../../../../components/guards/RouteGuard";
 import Container from "../../../../../../components/layout/Container";
 import ContentWithSidebar from "../../../../../../components/layout/Container/ContentWithSidebar";
 import PageTitleWithIcon from "../../../../../../components/layout/Container/PageTitle";
 import Sidebar from "../../../../../../components/layout/Container/Sidebar";
 import SectionHeader from "../../../../../../components/layout/SectionHeader";
-import { getPostVersion } from "../../../../../../services/posts";
-import VersionDeleteForm from "../../../../../../forms/VersionDeleteForm";
-import ActivityDates from "../../../../../../components/common/ActivityDates";
-import DetailsItem from "../../../../../../components/common/DetailsItem";
-import ReviewNote from "../../../../../../components/common/ReviewNote";
 import VersionActionsForm from "../../../../../../forms/VersionActionsForm";
+import VersionDeleteForm from "../../../../../../forms/VersionDeleteForm";
+import { getPostVersion } from "../../../../../../services/posts";
 import { PostStatus } from "../../../../../../utilities/PostStatusUtils";
-import TagChip from "../../../../../../components/common/TagChip";
 
 const ViewVersionPage: FC = () => {
   const { postId, versionId } = useParams<{
@@ -59,6 +55,7 @@ const ViewVersionPage: FC = () => {
 
   useEffect(() => {
     loadVersion();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [postId, versionId]);
 
   if (isLoading) {

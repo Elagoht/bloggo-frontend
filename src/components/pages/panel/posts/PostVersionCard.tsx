@@ -35,6 +35,7 @@ const PostVersionCard: FC<PostVersionCardProps> = ({
           width={20}
           height={20}
           className="rounded-full"
+          alt="Avatar"
           src={import.meta.env.VITE_API_URL + version.versionAuthor.avatar}
         />
       ) : (

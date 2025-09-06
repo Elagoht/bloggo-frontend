@@ -1,5 +1,5 @@
-import { IconCheck, IconCopy, IconCopyCheck } from "@tabler/icons-react";
-import { FC, useState, useEffect } from "react";
+import { IconCopy, IconCopyCheck } from "@tabler/icons-react";
+import { FC, useEffect, useState } from "react";
 
 type CopyBoxProps = {
   label: string;

@@ -37,7 +37,7 @@ const UserEditPage: FC = () => {
       }
 
       setUser(result.data);
-    } catch (error) {
+    } catch {
       navigate("/users");
     } finally {
       setLoading(false);

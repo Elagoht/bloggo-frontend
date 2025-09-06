@@ -31,7 +31,7 @@ const CategoryGenerativeFill: FC<CategoryGenerativeFillProps> = ({
       } else {
         setError(response.error.message);
       }
-    } catch (err) {
+    } catch {
       setError("Failed to generate content suggestions");
     } finally {
       setIsLoading(false);

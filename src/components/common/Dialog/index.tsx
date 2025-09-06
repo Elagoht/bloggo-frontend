@@ -65,7 +65,7 @@ const Dialog: FC<DialogProps> = ({
       <div
         className={classNames(
           "fixed inset-0 bg-black backdrop-blur-sm transition-opacity duration-200",
-          isAnimating ? "bg-opacity-80" : "bg-opacity-0"
+          { "bg-opacity-80": isAnimating, "bg-opacity-0": !isAnimating }
         )}
         onClick={onClose}
       />

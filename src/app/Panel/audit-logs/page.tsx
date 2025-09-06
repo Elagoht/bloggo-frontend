@@ -14,9 +14,8 @@ const AuditLogsPage: FC = () => {
   const [searchParams] = useSearchParams();
   const [auditLogsResponse, setAuditLogsResponse] =
     useState<AuditLogsResponse | null>(null);
-  const [users, setUsers] = useState<Map<number, any>>(new Map());
+  const [users, setUsers] = useState<Map<number, UserCard>>(new Map());
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<Error | null>(null);
 
   // Create a reactive memo for search params that will trigger resource updates
   const searchFilters = useMemo(
@@ -30,41 +29,35 @@ const AuditLogsPage: FC = () => {
   );
 
   const fetchAuditLogs = useCallback(async (filters: typeof searchFilters) => {
-    try {
-      setLoading(true);
-      setError(null);
-      const result = await getAuditLogs(filters);
-      if (result.success) {
-        setAuditLogsResponse(result.data);
+    setLoading(true);
+    const result = await getAuditLogs(filters);
+    if (result.success) {
+      setAuditLogsResponse(result.data);
 
-        // Extract unique user IDs from audit logs
-        const userIds = [
-          ...new Set(
-            result.data.data
-              .map((log) => log.userId)
-              .filter((id): id is number => id !== null)
-          ),
-        ];
+      // Extract unique user IDs from audit logs
+      const userIds = [
+        ...new Set(
+          result.data.data
+            .map((log) => log.userId)
+            .filter((id): id is number => id !== null)
+        ),
+      ];
 
-        // Fetch user data for all unique user IDs
-        if (userIds.length > 0) {
-          const usersResult = await getUsers({ take: 1000 }); // Get all users
-          if (usersResult.success) {
-            const userMap = new Map();
-            usersResult.data.data.forEach((user: any) => {
-              userMap.set(user.id, user);
-            });
-            setUsers(userMap);
-          }
+      // Fetch user data for all unique user IDs
+      if (userIds.length > 0) {
+        const usersResult = await getUsers({ take: 1000 }); // Get all users
+        if (usersResult.success) {
+          const userMap = new Map<number, UserCard>();
+          usersResult.data.data.forEach((user) => {
+            userMap.set(user.id, user);
+          });
+          setUsers(userMap);
         }
-      } else {
-        setAuditLogsResponse(null);
       }
-    } catch (err) {
-      setError(err as Error);
-    } finally {
-      setLoading(false);
+    } else {
+      setAuditLogsResponse(null);
     }
+    setLoading(false);
   }, []);
 
   useEffect(() => {

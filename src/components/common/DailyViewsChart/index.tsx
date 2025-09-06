@@ -35,7 +35,7 @@ const DailyViewsChart: FC<DailyViewsChartProps> = ({ data }) => {
       completeDays.push({
         day: dayOfMonth,
         viewCount: dataMap.get(dayOfMonth) || 0,
-        date: date, // Add full date for display purposes
+        date, // Add full date for display purposes
       });
     }
 
@@ -61,7 +61,7 @@ const DailyViewsChart: FC<DailyViewsChartProps> = ({ data }) => {
   };
 
   // Prepare data for Recharts with proper date formatting
-  const chartData = completeData.map((item, index) => ({
+  const chartData = completeData.map((item) => ({
     day: item.day.toString(),
     dayNumber: item.day,
     views: item.viewCount,
@@ -71,7 +71,7 @@ const DailyViewsChart: FC<DailyViewsChartProps> = ({ data }) => {
   }));
 
   // Custom tooltip component
-  const CustomTooltip = ({ active, payload, label }: any) => {
+  const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
       const data = payload[0].payload;
       const dateStr = data.date.toLocaleDateString("en-US", {
@@ -91,7 +91,7 @@ const DailyViewsChart: FC<DailyViewsChartProps> = ({ data }) => {
   };
 
   // Custom dot component to highlight today
-  const CustomDot = (props: any) => {
+  const CustomDot = (props) => {
     const { cx, cy, payload } = props;
     if (payload.isToday) {
       return (

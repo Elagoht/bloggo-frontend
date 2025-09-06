@@ -18,7 +18,8 @@ import { getUsers } from "../../../services/users";
 
 const UsersPage: FC = () => {
   const [searchParams] = useSearchParams();
-  const [usersResponse, setUsersResponse] = useState<any>(null);
+  const [usersResponse, setUsersResponse] =
+    useState<ResponsePaginated<UserCard>>();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
 
@@ -39,7 +40,7 @@ const UsersPage: FC = () => {
       setLoading(true);
       setError(null);
       const result = await getUsers(filters);
-      setUsersResponse(result.success ? result.data : null);
+      setUsersResponse(result.success ? result.data : undefined);
     } catch (err) {
       setError(err as Error);
     } finally {

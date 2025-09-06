@@ -1,14 +1,8 @@
-import {
-  IconCategory,
-  IconClock,
-  IconEye,
-  IconFileText,
-  IconUser,
-} from "@tabler/icons-react";
+import { IconCategory, IconClock, IconEye } from "@tabler/icons-react";
+import classNames from "classnames";
 import { FC } from "react";
 import { Link } from "react-router-dom";
 import { PostStatus } from "../../../../utilities/PostStatusUtils";
-import classNames from "classnames";
 
 const PostCard: FC<PostCard> = ({
   postId,

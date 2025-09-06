@@ -13,7 +13,7 @@ type AuditLog = {
 
 type AuditLogTableProps = {
   auditLogs: AuditLog[];
-  users: Map<number, any>;
+  users: Map<number, UserCard>;
 };
 
 const AuditLogTable: FC<AuditLogTableProps> = ({ auditLogs, users }) => {

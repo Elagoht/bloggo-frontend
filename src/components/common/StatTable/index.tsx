@@ -5,13 +5,13 @@ import NoDataRecorded from "../NoDataRecorded";
 type StatTableColumn = {
   key: string;
   title: string;
-  render?: (value: any, item: any) => ReactNode;
+  render?: (value:, item:) => ReactNode;
 };
 
 type StatTableProps = {
   title: string;
   columns: StatTableColumn[];
-  data: any[];
+  data: Record<PropertyKey, string>[];
   maxRows?: number;
   icon?: ForwardRefExoticComponent<IconProps & RefAttributes<Icon>>;
 };

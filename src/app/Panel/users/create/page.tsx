@@ -9,6 +9,7 @@ import {
   IconShield,
   IconX,
 } from "@tabler/icons-react";
+import toast from "react-hot-toast";
 import Button from "../../../../components/form/Button";
 import ButtonGroup from "../../../../components/form/ButtonGroup";
 import Form from "../../../../components/form/Form";
@@ -21,7 +22,6 @@ import PageTitleWithIcon from "../../../../components/layout/Container/PageTitle
 import { postUserCreate } from "../../../../services/users";
 import { getRoles } from "../../../../services/roles";
 import RouteGuard from "../../../../components/guards/RouteGuard";
-import toast from "react-hot-toast";
 
 const UserCreatePage: FC = () => {
   const navigate = useNavigate();
