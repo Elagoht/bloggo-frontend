@@ -4,6 +4,7 @@ import { postRefresh } from "../../services/session";
 import { getUserSelf } from "../../services/users";
 import { useAuthStore } from "../../stores/auth";
 import { useProfileStore } from "../../stores/profile";
+import { IconLoader } from "@tabler/icons-react";
 
 const AuthGuardLayout: FC = () => {
   const navigate = useNavigate();
@@ -66,7 +67,11 @@ const AuthGuardLayout: FC = () => {
   }, [navigate, setAuth, clearAuth, setProfile]);
 
   if (!isReady) {
-    return <div>Loading...</div>;
+    return (
+      <main className="fixed grid place-items-center w-screen h-screen">
+        <IconLoader className="size-16 animate-spin text-gopher-500" />
+      </main>
+    );
   }
 
   return <Outlet />;

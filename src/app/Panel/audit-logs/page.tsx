@@ -6,12 +6,13 @@ import RouteGuard from "../../../components/Guards/RouteGuard";
 import Container from "../../../components/layout/Container";
 import PageTitleWithIcon from "../../../components/layout/Container/PageTitle";
 import Pagination from "../../../components/layout/Container/Pagination";
-import { AuditLog, AuditLogsResponse, getAuditLogs } from "../../../services/audit";
+import { getAuditLogs } from "../../../services/audit";
 import { getUsers } from "../../../services/users";
 
 const AuditLogsPage: FC = () => {
   const [searchParams] = useSearchParams();
-  const [auditLogsResponse, setAuditLogsResponse] = useState<AuditLogsResponse | null>(null);
+  const [auditLogsResponse, setAuditLogsResponse] =
+    useState<AuditLogsResponse | null>(null);
   const [users, setUsers] = useState<Map<number, any>>(new Map());
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
@@ -34,14 +35,16 @@ const AuditLogsPage: FC = () => {
       const result = await getAuditLogs(filters);
       if (result.success) {
         setAuditLogsResponse(result.data);
-        
+
         // Extract unique user IDs from audit logs
-        const userIds = [...new Set(
-          result.data.data
-            .map(log => log.userId)
-            .filter((id): id is number => id !== null)
-        )];
-        
+        const userIds = [
+          ...new Set(
+            result.data.data
+              .map((log) => log.userId)
+              .filter((id): id is number => id !== null)
+          ),
+        ];
+
         // Fetch user data for all unique user IDs
         if (userIds.length > 0) {
           const usersResult = await getUsers({ take: 1000 }); // Get all users
@@ -98,8 +101,10 @@ const AuditLogsPage: FC = () => {
         <Container size="xl">
           <PageTitleWithIcon icon={IconHistory}>Audit Logs</PageTitleWithIcon>
 
-          {loading && <div className="text-center py-8">Loading audit logs...</div>}
-          
+          {loading && (
+            <div className="text-center py-8">Loading audit logs...</div>
+          )}
+
           {error && (
             <div className="text-center py-8 text-red-600">
               Error loading audit logs: {error.message}
@@ -138,7 +143,10 @@ const AuditLogsPage: FC = () => {
                         </thead>
                         <tbody className="divide-y divide-smoke-200 dark:divide-smoke-700">
                           {auditLogsResponse.data.map((log) => (
-                            <tr key={log.id} className="hover:bg-smoke-50 dark:hover:bg-smoke-800/50">
+                            <tr
+                              key={log.id}
+                              className="hover:bg-smoke-50 dark:hover:bg-smoke-800/50"
+                            >
                               <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-smoke-900 dark:text-smoke-100">
                                 {getUserName(log.userId)}
                               </td>
@@ -164,7 +172,6 @@ const AuditLogsPage: FC = () => {
                   </div>
 
                   <Pagination
-                    currentPage={auditLogsResponse.page}
                     totalItems={auditLogsResponse.total}
                     itemsPerPage={auditLogsResponse.take}
                   />
