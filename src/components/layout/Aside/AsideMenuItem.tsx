@@ -9,7 +9,7 @@ import {
 } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useMobileStore } from "../../../stores/mobile";
-import PermissionGuard from "../../Guards/PermissionGuard";
+import PermissionGuard from "../../guards/PermissionGuard";
 import { isMac, keyAliases, keyLabels } from "../../form/Shortcuts";
 import ShortcutLabel from "../../form/Shortcuts/ShortcutLabel";
 

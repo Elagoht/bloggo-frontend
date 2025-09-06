@@ -10,7 +10,7 @@ import AvatarImage from "../components/common/Avatar/AvatarImage";
 import Dialog from "../components/common/Dialog";
 import Button from "../components/form/Button";
 import Form from "../components/form/Form";
-import PermissionGuard from "../components/Guards/PermissionGuard";
+import PermissionGuard from "../components/guards/PermissionGuard";
 import { deleteUserAvatar, patchUserAvatar } from "../services/users";
 
 type UserAvatarFormProps = {

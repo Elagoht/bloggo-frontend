@@ -13,7 +13,7 @@ import {
 import { FC, useEffect, useState } from "react";
 import { useNavigate, useParams, useBlocker } from "react-router-dom";
 import Dialog from "../../../../../../../components/common/Dialog";
-import RouteGuard from "../../../../../../../components/Guards/RouteGuard";
+import RouteGuard from "../../../../../../../components/guards/RouteGuard";
 import Button from "../../../../../../../components/form/Button";
 import Form from "../../../../../../../components/form/Form";
 import Input from "../../../../../../../components/form/Input";

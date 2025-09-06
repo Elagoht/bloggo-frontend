@@ -8,7 +8,7 @@ import {
 import { FC, useState } from "react";
 import toast from "react-hot-toast";
 import Button from "../../../form/Button";
-import PermissionGuard from "../../../Guards/PermissionGuard";
+import PermissionGuard from "../../../guards/PermissionGuard";
 import SectionHeader from "../../../layout/SectionHeader";
 import TagChip from "../../../common/TagChip";
 import ButtonGroup from "../../../form/ButtonGroup";

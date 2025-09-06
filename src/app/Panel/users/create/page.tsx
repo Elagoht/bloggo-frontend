@@ -20,7 +20,7 @@ import FormCard from "../../../../components/layout/Container/FormCard";
 import PageTitleWithIcon from "../../../../components/layout/Container/PageTitle";
 import { postUserCreate } from "../../../../services/users";
 import { getRoles } from "../../../../services/roles";
-import RouteGuard from "../../../../components/Guards/RouteGuard";
+import RouteGuard from "../../../../components/guards/RouteGuard";
 import toast from "react-hot-toast";
 
 const UserCreatePage: FC = () => {

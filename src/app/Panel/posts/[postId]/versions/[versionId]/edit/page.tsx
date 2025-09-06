@@ -11,7 +11,7 @@ import {
 import { FC, useEffect, useState } from "react";
 import { useNavigate, useParams, useBlocker } from "react-router-dom";
 import Dialog from "../../../../../../../components/common/Dialog";
-import RouteGuard from "../../../../../../../components/Guards/RouteGuard";
+import RouteGuard from "../../../../../../../components/guards/RouteGuard";
 import Button from "../../../../../../../components/form/Button";
 import Form from "../../../../../../../components/form/Form";
 import Input from "../../../../../../../components/form/Input";
@@ -173,188 +173,188 @@ const EditVersionPage: FC = () => {
 
   return (
     <>
-    <Form handle={handleFormSubmit} className="w-full mx-auto">
-      <ContentWithSidebar>
-        <Container size="lg">
-          <PageTitleWithIcon icon={IconVersions}>
-            Edit Version
-          </PageTitleWithIcon>
+      <Form handle={handleFormSubmit} className="w-full mx-auto">
+        <ContentWithSidebar>
+          <Container size="lg">
+            <PageTitleWithIcon icon={IconVersions}>
+              Edit Version
+            </PageTitleWithIcon>
 
-          <FormCard>
+            <FormCard>
+              <Input
+                autoFocus
+                name="title"
+                label="Title"
+                iconLeft={IconHeading}
+                type="text"
+                placeholder="Enter post title..."
+                defaultValue={version.title}
+                required
+                onChange={markDirty}
+              />
+
+              <Input
+                type="file"
+                name="cover"
+                label="Cover Image"
+                accept="image/*"
+                iconLeft={IconPhoto}
+                onChange={async (event) => {
+                  markDirty();
+                  const file = event.currentTarget?.files?.[0];
+
+                  if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (event) => {
+                      setCoverPreview(event.target?.result as string);
+                    };
+                    reader.readAsDataURL(file);
+                  } else {
+                    setCoverPreview(version.coverImage || null);
+                  }
+                }}
+              />
+
+              <Textarea
+                name="content"
+                label="Content (Markdown)"
+                iconLeft={IconSignature}
+                placeholder="Write your post content using Markdown..."
+                rows={20}
+                className="font-mono"
+                defaultValue={version.content}
+                onChange={(e) => {
+                  markDirty();
+                  setCurrentContent(e.target.value);
+                }}
+              />
+            </FormCard>
+
+            {/* AI Generative Fill */}
+            {postId && versionId && (
+              <div className="mt-6">
+                <GenerativeFill
+                  postId={parseInt(postId)}
+                  versionId={versionId}
+                  contentLength={currentContent.length}
+                  availableCategories={categories}
+                />
+              </div>
+            )}
+          </Container>
+
+          <Sidebar topMargin>
+            <SectionHeader>SEO & Metadata</SectionHeader>
+
             <Input
-              autoFocus
-              name="title"
-              label="Title"
-              iconLeft={IconHeading}
+              name="spot"
+              iconLeft={IconTextCaption}
+              label="Spot (Teaser)"
               type="text"
-              placeholder="Enter post title..."
-              defaultValue={version.title}
-              required
+              placeholder="Short teaser text (max 75 chars)"
+              maxLength={75}
+              defaultValue={version.spot || ""}
               onChange={markDirty}
             />
 
-            <Input
-              type="file"
-              name="cover"
-              label="Cover Image"
-              accept="image/*"
-              iconLeft={IconPhoto}
-              onChange={async (event) => {
-                markDirty();
-                const file = event.currentTarget?.files?.[0];
-
-                if (file) {
-                  const reader = new FileReader();
-                  reader.onload = (event) => {
-                    setCoverPreview(event.target?.result as string);
-                  };
-                  reader.readAsDataURL(file);
-                } else {
-                  setCoverPreview(version.coverImage || null);
-                }
-              }}
-            />
-
             <Textarea
-              name="content"
-              label="Content (Markdown)"
-              iconLeft={IconSignature}
-              placeholder="Write your post content using Markdown..."
-              rows={20}
-              className="font-mono"
-              defaultValue={version.content}
-              onChange={(e) => {
-                markDirty();
-                setCurrentContent(e.target.value);
-              }}
+              iconLeft={IconFileDescription}
+              name="description"
+              label="Meta Description"
+              placeholder="Brief description for search engines (max 155 chars)"
+              rows={3}
+              maxLength={155}
+              defaultValue={version.description || ""}
+              onChange={markDirty}
             />
-          </FormCard>
 
-          {/* AI Generative Fill */}
-          {postId && versionId && (
-            <div className="mt-6">
-              <GenerativeFill
-                postId={parseInt(postId)}
-                versionId={versionId}
-                contentLength={currentContent.length}
-                availableCategories={categories}
+            <NoCategoriesYet count={categories.length} />
+
+            <Select
+              name="categoryId"
+              label="Category"
+              icon={IconTag}
+              placeholder="Select a category"
+              options={categories.map((category) => ({
+                value: category.id.toString(),
+                label: category.name,
+                selected: category.id === version.category?.id,
+              }))}
+              onChange={markDirty}
+            />
+
+            {coverPreview && (
+              <img
+                className="aspect-video object-fill rounded-lg"
+                src={
+                  coverPreview.startsWith("data:image/")
+                    ? coverPreview
+                    : import.meta.env.VITE_API_URL + coverPreview
+                }
               />
-            </div>
-          )}
-        </Container>
+            )}
 
-        <Sidebar topMargin>
-          <SectionHeader>SEO & Metadata</SectionHeader>
+            <Button
+              type="submit"
+              color="success"
+              iconRight={IconDeviceFloppy}
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? "Updating..." : "Update Version"}
+            </Button>
 
-          <Input
-            name="spot"
-            iconLeft={IconTextCaption}
-            label="Spot (Teaser)"
-            type="text"
-            placeholder="Short teaser text (max 75 chars)"
-            maxLength={75}
-            defaultValue={version.spot || ""}
-            onChange={markDirty}
-          />
+            {/* Version Actions */}
+            {postId && versionId && (
+              <>
+                <SectionHeader>Version Actions</SectionHeader>
+                <VersionActionsForm
+                  postId={parseInt(postId)}
+                  versionId={versionId}
+                  currentStatus={version.status}
+                  versionTitle={version.title}
+                  versionAuthor={{
+                    id: version.versionAuthor?.id || 0,
+                    name: version.versionAuthor?.name || "Unknown",
+                  }}
+                  onSuccess={loadVersion}
+                />
+              </>
+            )}
 
-          <Textarea
-            iconLeft={IconFileDescription}
-            name="description"
-            label="Meta Description"
-            placeholder="Brief description for search engines (max 155 chars)"
-            rows={3}
-            maxLength={155}
-            defaultValue={version.description || ""}
-            onChange={markDirty}
-          />
-
-          <NoCategoriesYet count={categories.length} />
-
-          <Select
-            name="categoryId"
-            label="Category"
-            icon={IconTag}
-            placeholder="Select a category"
-            options={categories.map((category) => ({
-              value: category.id.toString(),
-              label: category.name,
-              selected: category.id === version.category?.id,
-            }))}
-            onChange={markDirty}
-          />
-
-          {coverPreview && (
-            <img
-              className="aspect-video object-fill rounded-lg"
-              src={
-                coverPreview.startsWith("data:image/")
-                  ? coverPreview
-                  : import.meta.env.VITE_API_URL + coverPreview
-              }
-            />
-          )}
-
-          <Button
-            type="submit"
-            color="success"
-            iconRight={IconDeviceFloppy}
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? "Updating..." : "Update Version"}
-          </Button>
-
-          {/* Version Actions */}
-          {postId && versionId && (
-            <>
-              <SectionHeader>Version Actions</SectionHeader>
-              <VersionActionsForm
+            {version.status === 0 && postId && versionId && (
+              <VersionDeleteForm
                 postId={parseInt(postId)}
                 versionId={versionId}
-                currentStatus={version.status}
                 versionTitle={version.title}
-                versionAuthor={{
-                  id: version.versionAuthor?.id || 0,
-                  name: version.versionAuthor?.name || "Unknown",
-                }}
-                onSuccess={loadVersion}
+                versionSlug={version.slug}
               />
-            </>
-          )}
+            )}
+          </Sidebar>
+        </ContentWithSidebar>
+      </Form>
 
-          {version.status === 0 && postId && versionId && (
-            <VersionDeleteForm
-              postId={parseInt(postId)}
-              versionId={versionId}
-              versionTitle={version.title}
-              versionSlug={version.slug}
-            />
-          )}
-        </Sidebar>
-      </ContentWithSidebar>
-    </Form>
-
-    <Dialog
-      isOpen={isDialogOpen}
-      onClose={handleDialogCancel}
-      title="Unsaved Changes"
-      actions={[
-        {
-          onClick: handleDialogCancel,
-          children: "Cancel",
-          variant: "outline",
-          color: "primary",
-          shortcutKey: "ctrlOrCmd+O",
-        },
-        {
-          onClick: handleDialogConfirm,
-          children: "Leave Page",
-          color: "danger",
-          shortcutKey: "ctrlOrCmd+Y",
-        },
-      ]}
-    >
-      You have unsaved changes. Are you sure you want to leave?
-    </Dialog>
+      <Dialog
+        isOpen={isDialogOpen}
+        onClose={handleDialogCancel}
+        title="Unsaved Changes"
+        actions={[
+          {
+            onClick: handleDialogCancel,
+            children: "Cancel",
+            variant: "outline",
+            color: "primary",
+            shortcutKey: "ctrlOrCmd+O",
+          },
+          {
+            onClick: handleDialogConfirm,
+            children: "Leave Page",
+            color: "danger",
+            shortcutKey: "ctrlOrCmd+Y",
+          },
+        ]}
+      >
+        You have unsaved changes. Are you sure you want to leave?
+      </Dialog>
     </>
   );
 };

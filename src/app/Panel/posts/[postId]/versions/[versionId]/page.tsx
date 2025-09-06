@@ -13,8 +13,8 @@ import {
 import { marked } from "marked";
 import { FC, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import RouteGuard from "../../../../../../components/Guards/RouteGuard";
-import PermissionGuard from "../../../../../../components/Guards/PermissionGuard";
+import RouteGuard from "../../../../../../components/guards/RouteGuard";
+import PermissionGuard from "../../../../../../components/guards/PermissionGuard";
 import Container from "../../../../../../components/layout/Container";
 import ContentWithSidebar from "../../../../../../components/layout/Container/ContentWithSidebar";
 import PageTitleWithIcon from "../../../../../../components/layout/Container/PageTitle";

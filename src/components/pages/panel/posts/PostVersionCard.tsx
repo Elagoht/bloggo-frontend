@@ -11,7 +11,7 @@ import { Link } from "react-router-dom";
 import { useProfileStore } from "../../../../stores/profile";
 import { PostStatus } from "../../../../utilities/PostStatusUtils";
 import Button from "../../../form/Button";
-import PermissionGuard from "../../../Guards/PermissionGuard";
+import PermissionGuard from "../../../guards/PermissionGuard";
 
 type PostVersionCardProps = {
   version: PostVersionCard;

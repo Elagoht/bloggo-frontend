@@ -9,7 +9,7 @@ import FormCard from "../../../../../components/layout/Container/FormCard";
 import PageTitleWithIcon from "../../../../../components/layout/Container/PageTitle";
 import Sidebar from "../../../../../components/layout/Container/Sidebar";
 import SectionHeader from "../../../../../components/layout/SectionHeader";
-import PermissionGuard from "../../../../../components/Guards/PermissionGuard";
+import PermissionGuard from "../../../../../components/guards/PermissionGuard";
 import CategoryDeleteForm from "../../../../../forms/CategoryDeleteForm";
 import CategoryEditForm from "../../../../../forms/CategoryEditForm";
 import { getCategory } from "../../../../../services/categories";

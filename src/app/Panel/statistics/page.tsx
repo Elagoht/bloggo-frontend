@@ -1,7 +1,7 @@
 import { IconChartBar, IconUsers } from "@tabler/icons-react";
 import { FC, useEffect, useState } from "react";
 import { Tab, TabList, TabPanel, Tabs } from "../../../components/common/Tabs";
-import RouteGuard from "../../../components/Guards/RouteGuard";
+import RouteGuard from "../../../components/guards/RouteGuard";
 import Container from "../../../components/layout/Container";
 import PageTitleWithIcon from "../../../components/layout/Container/PageTitle";
 import StatisticsDisplay from "../../../components/pages/Statistics/StatisticsDisplay";

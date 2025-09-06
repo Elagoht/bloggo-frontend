@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import { FC, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import PermissionGuard from "../../Guards/PermissionGuard";
+import PermissionGuard from "../../guards/PermissionGuard";
 import { asideMenu } from "./aside";
 import { useMobileStore } from "../../../stores/mobile";
 import AsideMenuItem from "./AsideMenuItem";

@@ -1,6 +1,6 @@
 import { IconFileText } from "@tabler/icons-react";
 import Button from "../../../form/Button";
-import PermissionGuard from "../../../Guards/PermissionGuard";
+import PermissionGuard from "../../../guards/PermissionGuard";
 
 const NoPostsYet = () => {
   return (

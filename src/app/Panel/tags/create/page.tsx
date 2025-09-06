@@ -5,7 +5,7 @@ import Button from "../../../../components/form/Button";
 import ButtonGroup from "../../../../components/form/ButtonGroup";
 import Form from "../../../../components/form/Form";
 import Input from "../../../../components/form/Input";
-import RouteGuard from "../../../../components/Guards/RouteGuard";
+import RouteGuard from "../../../../components/guards/RouteGuard";
 import Container from "../../../../components/layout/Container";
 import FormCard from "../../../../components/layout/Container/FormCard";
 import PageTitleWithIcon from "../../../../components/layout/Container/PageTitle";

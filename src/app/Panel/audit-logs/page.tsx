@@ -1,8 +1,8 @@
 import { IconHistory } from "@tabler/icons-react";
 import { FC, useCallback, useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import PermissionGuard from "../../../components/Guards/PermissionGuard";
-import RouteGuard from "../../../components/Guards/RouteGuard";
+import PermissionGuard from "../../../components/guards/PermissionGuard";
+import RouteGuard from "../../../components/guards/RouteGuard";
 import Container from "../../../components/layout/Container";
 import PageTitleWithIcon from "../../../components/layout/Container/PageTitle";
 import Pagination from "../../../components/layout/Container/Pagination";

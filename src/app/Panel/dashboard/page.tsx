@@ -1,7 +1,7 @@
 import { IconChartPie } from "@tabler/icons-react";
 import { FC, useEffect, useState } from "react";
-import RouteGuard from "../../../components/Guards/RouteGuard";
-import PermissionGuard from "../../../components/Guards/PermissionGuard";
+import RouteGuard from "../../../components/guards/RouteGuard";
+import PermissionGuard from "../../../components/guards/PermissionGuard";
 import Container from "../../../components/layout/Container";
 import PageTitleWithIcon from "../../../components/layout/Container/PageTitle";
 import { getDashboardStats } from "../../../services/dashboard";
