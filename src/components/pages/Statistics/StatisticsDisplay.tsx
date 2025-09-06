@@ -169,9 +169,9 @@ const StatisticsDisplay: FC<StatisticsDisplayProps> = ({
             { key: "title", title: "Title" },
             ...(!isUserStats ? [{ key: "author", title: "Author" }] : []),
             {
-              key: "view_count",
+              key: "viewCount",
               title: "Views",
-              render: (value) => value.toLocaleString(),
+              render: (value) => (value ?? 0).toLocaleString(),
             },
           ]}
           maxRows={8}

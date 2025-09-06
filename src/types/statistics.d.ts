@@ -18,6 +18,7 @@ type Last24HoursViews = {
 type DailyViewCount = {
   day: number;
   viewCount: number;
+  date: Date;
 };
 
 type LastMonthViews = {

@@ -18,12 +18,11 @@ type HourlyViewsChartProps = {
 const HourlyViewsChart: FC<HourlyViewsChartProps> = ({ data }) => {
   // Fill missing hours with 0 values for the rolling 24-hour period
   const fillCompleteHours = (hourlyData: HourlyViewCount[]) => {
-    const completeHours: { hour: number; view_count: number; date: Date }[] =
-      [];
+    const completeHours: { hour: number; viewCount: number; date: Date }[] = [];
 
     // Create a map for quick lookup using full datetime key
     const dataMap = new Map(
-      hourlyData.map((item) => [item.hour, item.view_count])
+      hourlyData.map((item) => [item.hour, item.viewCount])
     );
 
     // Generate last 24 hours from current time
@@ -35,7 +34,7 @@ const HourlyViewsChart: FC<HourlyViewsChartProps> = ({ data }) => {
 
       completeHours.push({
         hour,
-        view_count: dataMap.get(hour) || 0,
+        viewCount: dataMap.get(hour) || 0,
         date: date,
       });
     }
@@ -47,7 +46,7 @@ const HourlyViewsChart: FC<HourlyViewsChartProps> = ({ data }) => {
 
   // Get total views for the 24-hour period
   const totalViews = completeData.reduce(
-    (sum, item) => sum + item.view_count,
+    (sum, item) => sum + item.viewCount,
     0
   );
 
@@ -63,7 +62,7 @@ const HourlyViewsChart: FC<HourlyViewsChartProps> = ({ data }) => {
   const chartData = completeData.map((item, index) => ({
     hour: formatHour(item.hour),
     hourNumber: item.hour,
-    views: item.view_count,
+    views: item.viewCount,
     date: item.date,
     isCurrentHour:
       item.hour === currentHour && index === completeData.length - 1, // Only highlight the most recent current hour

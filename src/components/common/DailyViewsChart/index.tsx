@@ -22,7 +22,7 @@ const DailyViewsChart: FC<DailyViewsChartProps> = ({ data }) => {
 
     // Create a map for quick lookup
     const dataMap = new Map(
-      dailyData.map((item) => [item.day, item.view_count])
+      dailyData.map((item) => [item.day, item.viewCount])
     );
 
     // Generate last 30 days
@@ -34,7 +34,7 @@ const DailyViewsChart: FC<DailyViewsChartProps> = ({ data }) => {
 
       completeDays.push({
         day: dayOfMonth,
-        view_count: dataMap.get(dayOfMonth) || 0,
+        viewCount: dataMap.get(dayOfMonth) || 0,
         date: date, // Add full date for display purposes
       });
     }
@@ -46,7 +46,7 @@ const DailyViewsChart: FC<DailyViewsChartProps> = ({ data }) => {
 
   // Get total views for the 30-day period
   const totalViews = completeData.reduce(
-    (sum, item) => sum + item.view_count,
+    (sum, item) => sum + item.viewCount,
     0
   );
 
@@ -64,7 +64,7 @@ const DailyViewsChart: FC<DailyViewsChartProps> = ({ data }) => {
   const chartData = completeData.map((item, index) => ({
     day: item.day.toString(),
     dayNumber: item.day,
-    views: item.view_count,
+    views: item.viewCount,
     date: item.date,
     label: `${item.date.getMonth() + 1}/${item.day}`, // MM/DD format
     isToday: isToday(item.date),

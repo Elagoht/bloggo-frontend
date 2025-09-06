@@ -38,7 +38,7 @@ const MonthlyViewsChart: FC<MonthlyViewsChartProps> = ({ data }) => {
 
     // Create a map for quick lookup using year-month key
     const dataMap = new Map(
-      monthlyData.map((item) => [`${item.year}-${item.month}`, item.view_count])
+      monthlyData.map((item) => [`${item.year}-${item.month}`, item.viewCount])
     );
 
     // Generate last 12 months
@@ -52,7 +52,7 @@ const MonthlyViewsChart: FC<MonthlyViewsChartProps> = ({ data }) => {
       completeMonths.push({
         year,
         month,
-        view_count: dataMap.get(key) || 0,
+        viewCount: dataMap.get(key) || 0,
         date: date, // Add date for formatting
       });
     }
@@ -64,7 +64,7 @@ const MonthlyViewsChart: FC<MonthlyViewsChartProps> = ({ data }) => {
 
   // Get total views for the 12-month period
   const totalViews = completeData.reduce(
-    (sum, item) => sum + item.view_count,
+    (sum, item) => sum + item.viewCount,
     0
   );
 
@@ -81,7 +81,7 @@ const MonthlyViewsChart: FC<MonthlyViewsChartProps> = ({ data }) => {
     month: monthNames[item.month - 1], // Convert 1-12 to 0-11 for array index
     monthNumber: item.month,
     year: item.year,
-    views: item.view_count,
+    views: item.viewCount,
     label:
       item.year === new Date().getFullYear()
         ? monthNames[item.month - 1]

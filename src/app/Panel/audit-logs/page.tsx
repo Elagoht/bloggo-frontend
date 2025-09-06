@@ -9,9 +9,6 @@ import Pagination from "../../../components/layout/Container/Pagination";
 import { getAuditLogs } from "../../../services/audit";
 import { getUsers } from "../../../services/users";
 import AuditLogTable from "../../../components/pages/panel/audit-logs/AuditLogTable";
-import AuditLogEmptyState from "../../../components/pages/panel/audit-logs/AuditLogEmptyState";
-import AuditLogLoadingState from "../../../components/pages/panel/audit-logs/AuditLogLoadingState";
-import AuditLogErrorState from "../../../components/pages/panel/audit-logs/AuditLogErrorState";
 
 const AuditLogsPage: FC = () => {
   const [searchParams] = useSearchParams();
@@ -80,15 +77,9 @@ const AuditLogsPage: FC = () => {
         <Container size="xl">
           <PageTitleWithIcon icon={IconHistory}>Audit Logs</PageTitleWithIcon>
 
-          {loading && <AuditLogLoadingState />}
-
-          {error && <AuditLogErrorState error={error} />}
-
           {auditLogsResponse && !loading && (
             <div className="space-y-4">
-              {auditLogsResponse.data.length === 0 ? (
-                <AuditLogEmptyState />
-              ) : (
+              {auditLogsResponse.data.length !== 0 && (
                 <>
                   <AuditLogTable
                     auditLogs={auditLogsResponse.data}
