@@ -87,7 +87,7 @@ const UserAvatarForm: FC<UserAvatarFormProps> = ({ user, onUpdate }) => {
       } else {
         toast.error(response.error?.message || "Failed to delete avatar");
       }
-    } catch (error) {
+    } catch {
       toast.error("Failed to delete avatar");
     }
   };

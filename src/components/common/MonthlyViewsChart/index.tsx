@@ -91,7 +91,15 @@ const MonthlyViewsChart: FC<MonthlyViewsChartProps> = ({ data }) => {
   }));
 
   // Custom tooltip component
-  const CustomTooltip = ({ active, payload, label }) => {
+  const CustomTooltip = ({
+    active,
+    payload,
+  }: {
+    active?: boolean;
+    payload?: Array<{
+      payload: { month: string; year: number; views: number };
+    }>;
+  }) => {
     if (active && payload && payload.length) {
       const data = payload[0].payload;
       const monthYear = `${data.month} ${data.year}`;
@@ -108,7 +116,7 @@ const MonthlyViewsChart: FC<MonthlyViewsChartProps> = ({ data }) => {
   };
 
   // Custom dot component to highlight current month
-  const CustomDot = (props: any) => {
+  const CustomDot = (props) => {
     const { cx, cy, payload } = props;
     if (payload.isCurrentMonth) {
       return (
@@ -181,7 +189,7 @@ const MonthlyViewsChart: FC<MonthlyViewsChartProps> = ({ data }) => {
               }}
               width={25}
             />
-            <Tooltip content={<CustomTooltip />} />
+            <Tooltip content={CustomTooltip} />
             <Line
               type="monotone"
               dataKey="views"

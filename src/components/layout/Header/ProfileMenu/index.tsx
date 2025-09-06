@@ -1,7 +1,7 @@
 import { IconUserCircle } from "@tabler/icons-react";
 import classNames from "classnames";
 import { FC, useEffect, useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useProfileStore } from "../../../../stores/profile";
 import profileMenu from "./profile";
 
@@ -10,7 +10,6 @@ type ProfileMenuProps = {
 };
 
 const ProfileMenu: FC<ProfileMenuProps> = ({ name = "?" }) => {
-  const navigate = useNavigate();
   const { profile } = useProfileStore();
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
   const menuRef = useRef<HTMLDivElement>(null);

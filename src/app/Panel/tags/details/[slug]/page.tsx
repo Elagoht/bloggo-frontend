@@ -33,7 +33,7 @@ const TagDetailPage: FC = () => {
       }
 
       setTag(result.data);
-    } catch (error) {
+    } catch {
       navigate("/tags");
     } finally {
       setLoading(false);

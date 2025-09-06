@@ -33,7 +33,7 @@ const CategoryDetailPage: FC = () => {
       }
 
       setCategory(result.data);
-    } catch (error) {
+    } catch {
       navigate("/categories");
     } finally {
       setLoading(false);

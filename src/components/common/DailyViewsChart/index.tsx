@@ -71,7 +71,13 @@ const DailyViewsChart: FC<DailyViewsChartProps> = ({ data }) => {
   }));
 
   // Custom tooltip component
-  const CustomTooltip = ({ active, payload, label }) => {
+  const CustomTooltip = ({
+    active,
+    payload,
+  }: {
+    active?: boolean;
+    payload?: Array<{ payload: { date: Date; views: number } }>;
+  }) => {
     if (active && payload && payload.length) {
       const data = payload[0].payload;
       const dateStr = data.date.toLocaleDateString("en-US", {
@@ -91,7 +97,11 @@ const DailyViewsChart: FC<DailyViewsChartProps> = ({ data }) => {
   };
 
   // Custom dot component to highlight today
-  const CustomDot = (props) => {
+  const CustomDot = (props: {
+    cx: number;
+    cy: number;
+    payload: { isToday: boolean };
+  }) => {
     const { cx, cy, payload } = props;
     if (payload.isToday) {
       return (
@@ -164,13 +174,13 @@ const DailyViewsChart: FC<DailyViewsChartProps> = ({ data }) => {
               }}
               width={25}
             />
-            <Tooltip content={<CustomTooltip />} />
+            <Tooltip content={CustomTooltip} />
             <Line
               type="monotone"
               dataKey="views"
               stroke="#10B981"
               strokeWidth={2}
-              dot={<CustomDot />}
+              dot={CustomDot}
               activeDot={{
                 r: 5,
                 stroke: "#10B981",

@@ -70,7 +70,13 @@ const HourlyViewsChart: FC<HourlyViewsChartProps> = ({ data }) => {
   }));
 
   // Custom tooltip component
-  const CustomTooltip = ({ active, payload, label }) => {
+  const CustomTooltip = ({
+    active,
+    payload,
+  }: {
+    active?: boolean;
+    payload?: Array<{ payload: { date: Date; views: number } }>;
+  }) => {
     if (active && payload && payload.length) {
       const data = payload[0].payload;
       const dateStr = data.date.toLocaleDateString("en-US", {
@@ -92,7 +98,7 @@ const HourlyViewsChart: FC<HourlyViewsChartProps> = ({ data }) => {
   };
 
   // Custom dot component to highlight current hour
-  const CustomDot = (props: any) => {
+  const CustomDot = (props) => {
     const { cx, cy, payload } = props;
     if (payload.isCurrentHour) {
       return (
@@ -165,7 +171,7 @@ const HourlyViewsChart: FC<HourlyViewsChartProps> = ({ data }) => {
               }}
               width={25}
             />
-            <Tooltip content={<CustomTooltip />} />
+            <Tooltip content={CustomTooltip} />
             <Line
               type="monotone"
               dataKey="views"

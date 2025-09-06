@@ -49,7 +49,15 @@ const BarChart: FC<BarChartProps> = ({ title, data, icon: Icon }) => {
     }));
 
   // Custom tooltip component
-  const CustomTooltip = ({ active, payload, label }) => {
+  const CustomTooltip = ({
+    active,
+    payload,
+    label,
+  }: {
+    active?: boolean;
+    payload?: Array<{ payload: { value: number; percentage: number } }>;
+    label?: string | number;
+  }) => {
     if (active && payload && payload.length) {
       const data = payload[0].payload;
       return (
@@ -118,7 +126,7 @@ const BarChart: FC<BarChartProps> = ({ title, data, icon: Icon }) => {
                 }}
                 width={25}
               />
-              <Tooltip content={<CustomTooltip />} />
+              <Tooltip content={CustomTooltip} />
               <Bar dataKey="value" radius={[4, 4, 0, 0]} />
             </RechartsBarChart>
           </ResponsiveContainer>

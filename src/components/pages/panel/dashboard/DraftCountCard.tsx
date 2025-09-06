@@ -1,6 +1,5 @@
 import { IconFileText } from "@tabler/icons-react";
 import { FC } from "react";
-import { DraftCount } from "../../../../services/dashboard";
 
 type DraftCountCardProps = {
   draftCount?: DraftCount;
@@ -33,19 +32,21 @@ const DraftCountCard: FC<DraftCountCardProps> = ({ draftCount }) => {
               <p className="text-smoke-500 text-sm">No drafts by author</p>
             </div>
           ) : (
-            draftCount.draftsByAuthor?.slice(0, 3).map((author) => (
-              <div
-                key={author.authorId}
-                className="flex justify-between items-center bg-smoke-50 dark:bg-smoke-800/50 rounded-lg p-2 text-sm"
-              >
-                <span className="text-smoke-900 dark:text-smoke-100 truncate">
-                  {author.authorName}
-                </span>
-                <span className="text-warning-600 dark:text-warning-400 font-semibold">
-                  {author.draftCount}
-                </span>
-              </div>
-            ))
+            draftCount.draftsByAuthor
+              ?.slice(0, 3)
+              .map((author: DraftsByAuthor) => (
+                <div
+                  key={author.authorId}
+                  className="flex justify-between items-center bg-smoke-50 dark:bg-smoke-800/50 rounded-lg p-2 text-sm"
+                >
+                  <span className="text-smoke-900 dark:text-smoke-100 truncate">
+                    {author.authorName}
+                  </span>
+                  <span className="text-warning-600 dark:text-warning-400 font-semibold">
+                    {author.draftCount}
+                  </span>
+                </div>
+              ))
           )}
         </div>
       </div>

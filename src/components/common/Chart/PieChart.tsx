@@ -48,7 +48,15 @@ const PieChart: FC<PieChartProps> = ({ title, data, icon: Icon }) => {
     }));
 
   // Custom tooltip component
-  const CustomTooltip = ({ active, payload }) => {
+  const CustomTooltip = ({
+    active,
+    payload,
+  }: {
+    active?: boolean;
+    payload?: Array<{
+      payload: { name: string; value: number; percentage: number };
+    }>;
+  }) => {
     if (active && payload && payload.length) {
       const data = payload[0].payload;
       return (
@@ -61,31 +69,6 @@ const PieChart: FC<PieChartProps> = ({ title, data, icon: Icon }) => {
       );
     }
     return null;
-  };
-
-  // Custom legend component
-  const CustomLegend = ({ payload }) => {
-    return (
-      <ul className="flex flex-col gap-2 mt-4">
-        {payload?.map((entry, index: number) => (
-          <li key={index} className="flex items-center gap-2 text-sm">
-            <span
-              className="w-3 h-3 rounded-full flex-shrink-0"
-              style={{ backgroundColor: entry.color }}
-            />
-            <span className="text-smoke-700 dark:text-smoke-300 grow leading-tight truncate">
-              {entry.value}
-            </span>
-            <span className="text-smoke-900 dark:text-smoke-100 font-medium">
-              {entry.payload.value.toLocaleString()}
-            </span>
-            <span className="text-smoke-500 dark:text-smoke-400 text-xs">
-              ({entry.payload.percentage.toFixed(1)}%)
-            </span>
-          </li>
-        ))}
-      </ul>
-    );
   };
 
   return (
@@ -119,9 +102,12 @@ const PieChart: FC<PieChartProps> = ({ title, data, icon: Icon }) => {
                 ))}
               </Pie>
 
-              <Tooltip content={<CustomTooltip />} />
+              <Tooltip content={CustomTooltip} />
 
-              <Legend verticalAlign="bottom" content={<CustomLegend />} />
+              <Legend
+                verticalAlign="bottom"
+                wrapperStyle={{ paddingTop: "20px" }}
+              />
             </RechartsPieChart>
           </ResponsiveContainer>
         </div>
