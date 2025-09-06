@@ -1,6 +1,5 @@
 import { IconChartPie } from "@tabler/icons-react";
 import { FC } from "react";
-import { StorageUsage } from "../../../../services/dashboard";
 
 type StorageUsageCardProps = {
   storageUsage?: StorageUsage;

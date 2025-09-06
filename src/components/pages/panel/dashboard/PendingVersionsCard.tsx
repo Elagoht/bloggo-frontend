@@ -1,6 +1,5 @@
 import { IconFileText } from "@tabler/icons-react";
 import { FC } from "react";
-import { PendingVersion } from "../../../../services/dashboard";
 
 type PendingVersionsCardProps = {
   pendingVersions?: PendingVersion[];

@@ -1,6 +1,5 @@
 import { IconUsers } from "@tabler/icons-react";
 import { FC } from "react";
-import { AuthorPerformance } from "../../../../services/dashboard";
 
 type AuthorPerformanceCardProps = {
   authorPerformance?: AuthorPerformance[];

@@ -1,6 +1,5 @@
 import { IconCalendar } from "@tabler/icons-react";
 import { FC } from "react";
-import { PublishingRate } from "../../../../services/dashboard";
 
 type PublishingRateCardProps = {
   publishingRate?: PublishingRate;

@@ -1,6 +1,5 @@
 import { IconTag } from "@tabler/icons-react";
 import { FC } from "react";
-import { PopularTag } from "../../../../services/dashboard";
 
 type PopularTagsCardProps = {
   popularTags?: PopularTag[];

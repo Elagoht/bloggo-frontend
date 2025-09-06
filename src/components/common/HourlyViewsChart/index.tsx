@@ -98,7 +98,11 @@ const HourlyViewsChart: FC<HourlyViewsChartProps> = ({ data }) => {
   };
 
   // Custom dot component to highlight current hour
-  const CustomDot = (props) => {
+  const CustomDot = (props: {
+    cx: number;
+    cy: number;
+    payload: { isCurrentHour: boolean };
+  }) => {
     const { cx, cy, payload } = props;
     if (payload.isCurrentHour) {
       return (
@@ -177,7 +181,7 @@ const HourlyViewsChart: FC<HourlyViewsChartProps> = ({ data }) => {
               dataKey="views"
               stroke="#3B82F6"
               strokeWidth={2}
-              dot={<CustomDot />}
+              dot={CustomDot}
               activeDot={{
                 r: 5,
                 stroke: "#3B82F6",

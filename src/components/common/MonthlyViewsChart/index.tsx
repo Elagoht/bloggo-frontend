@@ -116,7 +116,11 @@ const MonthlyViewsChart: FC<MonthlyViewsChartProps> = ({ data }) => {
   };
 
   // Custom dot component to highlight current month
-  const CustomDot = (props) => {
+  const CustomDot = (props: {
+    cx: number;
+    cy: number;
+    payload: { isCurrentMonth: boolean };
+  }) => {
     const { cx, cy, payload } = props;
     if (payload.isCurrentMonth) {
       return (
@@ -195,7 +199,7 @@ const MonthlyViewsChart: FC<MonthlyViewsChartProps> = ({ data }) => {
               dataKey="views"
               stroke="#8B5CF6"
               strokeWidth={2}
-              dot={<CustomDot />}
+              dot={CustomDot}
               activeDot={{
                 r: 5,
                 stroke: "#8B5CF6",
