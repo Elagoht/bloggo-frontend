@@ -1,0 +1,57 @@
+type PendingVersion = {
+  id: number;
+  title: string;
+  authorId: number;
+  authorName: string;
+  createdAt: string;
+};
+
+type RecentActivity = {
+  id: number;
+  title: string;
+  publishedAt: string;
+};
+
+type PublishingRate = {
+  thisWeek: number;
+  thisMonth: number;
+};
+
+type AuthorPerformance = {
+  authorId: number;
+  authorName: string;
+  postCount: number;
+};
+
+type DraftCount = {
+  totalDrafts: number;
+  draftsByAuthor: DraftsByAuthor[];
+};
+
+type DraftsByAuthor = {
+  authorId: number;
+  authorName: string;
+  draftCount: number;
+};
+
+type PopularTag = {
+  id: number;
+  name: string;
+  usage: number;
+};
+
+type StorageUsage = {
+  totalSizeBytes: number;
+  totalSizeMB: number;
+  fileCount: number;
+};
+
+type DashboardStats = {
+  pendingVersions: PendingVersion[] | null;
+  recentActivity: RecentActivity[];
+  publishingRate: PublishingRate;
+  authorPerformance: AuthorPerformance[];
+  draftCount: DraftCount;
+  popularTags: PopularTag[];
+  storageUsage: StorageUsage;
+};

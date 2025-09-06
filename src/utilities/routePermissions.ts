@@ -54,6 +54,11 @@ export const routePermissions: RoutePermissionConfig[] = [
     permission: "post:publish",
     redirectTo: "/panel/dashboard",
   },
+  {
+    path: "/panel/audit-logs",
+    permission: "auditlog:view",
+    redirectTo: "/panel/dashboard",
+  },
 ];
 
 export function getRoutePermission(

@@ -36,6 +36,7 @@ const Tags = lazy(() => import("../app/panel/tags/page"));
 const CreateTag = lazy(() => import("../app/panel/tags/create/page"));
 const EditTag = lazy(() => import("../app/panel/tags/details/[slug]/page"));
 const Statistics = lazy(() => import("../app/panel/statistics/page"));
+const AuditLogs = lazy(() => import("../app/panel/audit-logs/page"));
 const NotFound = lazy(() => import("../app/panel/404/page"));
 
 export const routes = [
@@ -108,6 +109,8 @@ export const routes = [
           },
 
           { path: "statistics", element: <Statistics /> },
+          
+          { path: "audit-logs", element: <AuditLogs /> },
 
           // Catch-all 404
           { path: "*", element: <NotFound /> },

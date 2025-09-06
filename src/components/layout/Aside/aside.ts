@@ -4,6 +4,7 @@ import {
   IconCategory,
   IconChartPie,
   IconDashboard,
+  IconHistory,
   IconProps,
   IconTag,
   IconUsers,
@@ -51,5 +52,11 @@ export const asideMenu: Array<{
     icon: IconUsers,
     href: "/users",
     perm: "user:list",
+  },
+  {
+    name: "Audit Logs",
+    icon: IconHistory,
+    href: "/audit-logs",
+    perm: "auditlog:view",
   },
 ];
