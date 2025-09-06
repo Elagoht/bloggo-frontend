@@ -99,7 +99,7 @@ const ProfileMenu: FC<ProfileMenuProps> = ({ name = "?" }) => {
               return (
                 <button
                   key={index}
-                  onClick={() => item.work!(navigate)}
+                  onClick={() => item.work?.()}
                   className={classNames(
                     "flex w-full items-center gap-2 p-1 transition-all duration-200 font-medium text-sm",
                     item.type === "danger"
