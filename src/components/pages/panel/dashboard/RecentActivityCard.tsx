@@ -20,7 +20,7 @@ const RecentActivityCard: FC<RecentActivityCardProps> = ({
   };
 
   return (
-    <div className="bg-smoke-50 dark:bg-smoke-950 rounded-xl border border-smoke-200/60 dark:border-smoke-700/60 p-4 col-span-3">
+    <div className="bg-smoke-50 dark:bg-smoke-950 rounded-xl border border-smoke-200/60 dark:border-smoke-700/60 p-4 lg:col-span-2 xl:col-span-3">
       <BoxHeader
         icon={<IconHistory />}
         title="Recent Activity"
