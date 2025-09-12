@@ -1,5 +1,6 @@
 import { IconTag } from "@tabler/icons-react";
 import { FC } from "react";
+import TagChip from "../../../common/TagChip";
 
 type PopularTagsCardProps = {
   popularTags?: PopularTag[];
@@ -26,15 +27,20 @@ const PopularTagsCard: FC<PopularTagsCardProps> = ({ popularTags }) => {
           </div>
         ) : (
           popularTags.slice(0, 8).map((tag) => (
-            <span
-              key={tag.id}
-              className="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium bg-gradient-to-r from-success-100 to-success-200 dark:from-success-900/30 dark:to-success-800/30 text-success-800 dark:text-success-200 border border-success-200/50 dark:border-success-700/50 hover:scale-105 transition-transform duration-150"
-            >
-              {tag.name}
-              <span className="ml-1 text-success-600 dark:text-success-400 font-semibold">
+            <div key={tag.id} className="relative">
+              <TagChip
+                tag={{
+                  id: tag.id,
+                  name: tag.name,
+                  slug: tag.name.toLowerCase().replace(/\s+/g, "-"),
+                }}
+                size="md"
+              />
+
+              <span className="absolute -top-1 -right-1 bg-success-500 text-white text-xs rounded-full  px-1.5 h-4 flex items-center justify-center font-semibold">
                 {tag.usage}
               </span>
-            </span>
+            </div>
           ))
         )}
       </div>
