@@ -1,5 +1,6 @@
 import { IconFileText } from "@tabler/icons-react";
 import { FC } from "react";
+import BoxHeader from "../../../common/BoxHeader";
 
 type DraftCountCardProps = {
   draftCount?: DraftCount;
@@ -8,14 +9,12 @@ type DraftCountCardProps = {
 const DraftCountCard: FC<DraftCountCardProps> = ({ draftCount }) => {
   return (
     <div className="bg-smoke-50 dark:bg-smoke-950 rounded-xl border border-smoke-200/60 dark:border-smoke-700/60 p-4">
-      <div className="flex items-center gap-3 mb-5">
-        <div className="p-2 bg-warning-100 dark:bg-warning-900/30 rounded-lg">
-          <IconFileText className="h-5 w-5 text-warning-600 dark:text-warning-400" />
-        </div>
-        <h3 className="text-lg font-semibold text-smoke-900 dark:text-smoke-100">
-          Draft Count
-        </h3>
-      </div>
+      <BoxHeader
+        icon={<IconFileText />}
+        title="Draft Count"
+        variant="warning"
+      />
+
       <div className="space-y-4">
         <div className="text-center">
           <div className="text-4xl font-bold text-warning-600 dark:text-warning-400 mb-2">

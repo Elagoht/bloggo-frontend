@@ -1,5 +1,6 @@
 import { IconChartPie } from "@tabler/icons-react";
 import { FC } from "react";
+import BoxHeader from "../../../common/BoxHeader";
 
 type StorageUsageCardProps = {
   storageUsage?: StorageUsage;
@@ -14,14 +15,12 @@ const StorageUsageCard: FC<StorageUsageCardProps> = ({ storageUsage }) => {
 
   return (
     <div className="bg-smoke-50 dark:bg-smoke-950 rounded-xl border border-smoke-200/60 dark:border-smoke-700/60 p-4">
-      <div className="flex items-center gap-3 mb-5">
-        <div className="p-2 bg-gopher-100 dark:bg-gopher-900/30 rounded-lg">
-          <IconChartPie className="h-5 w-5 text-gopher-600 dark:text-gopher-400" />
-        </div>
-        <h3 className="text-lg font-semibold text-smoke-900 dark:text-smoke-100">
-          Storage Usage
-        </h3>
-      </div>
+      <BoxHeader
+        icon={<IconChartPie />}
+        title="Storage Usage"
+        variant="gopher"
+      />
+
       <div className="space-y-4">
         <div className="text-center">
           <div className="text-3xl font-bold text-gopher-600 dark:text-gopher-400 mb-2">

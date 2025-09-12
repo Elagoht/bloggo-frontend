@@ -1,5 +1,6 @@
 import { IconHistory } from "@tabler/icons-react";
 import { FC } from "react";
+import BoxHeader from "../../../common/BoxHeader";
 
 type RecentActivityCardProps = {
   recentActivity?: RecentActivity[];
@@ -20,14 +21,12 @@ const RecentActivityCard: FC<RecentActivityCardProps> = ({
 
   return (
     <div className="bg-smoke-50 dark:bg-smoke-950 rounded-xl border border-smoke-200/60 dark:border-smoke-700/60 p-4 col-span-3">
-      <div className="flex items-center gap-3 mb-5">
-        <div className="p-2 bg-smoke-100 dark:bg-smoke-800 rounded-lg">
-          <IconHistory className="h-5 w-5 text-gopher-600 dark:text-gopher-400" />
-        </div>
-        <h3 className="text-lg font-semibold text-smoke-900 dark:text-smoke-100">
-          Recent Activity
-        </h3>
-      </div>
+      <BoxHeader
+        icon={<IconHistory />}
+        title="Recent Activity"
+        variant="smoke"
+      />
+
       {!recentActivity || recentActivity.length === 0 ? (
         <div className="text-center py-8">
           <div className="w-12 h-12 bg-smoke-100 dark:bg-smoke-800 rounded-full flex items-center justify-center mx-auto mb-3">

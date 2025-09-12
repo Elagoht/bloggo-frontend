@@ -1,5 +1,6 @@
 import { IconFileText } from "@tabler/icons-react";
 import { FC } from "react";
+import BoxHeader from "../../../common/BoxHeader";
 
 type PendingVersionsCardProps = {
   pendingVersions?: PendingVersion[];
@@ -18,14 +19,12 @@ const PendingVersionsCard: FC<PendingVersionsCardProps> = ({
 
   return (
     <div className="bg-smoke-50 dark:bg-smoke-950 rounded-xl border border-smoke-200/60 dark:border-smoke-700/60 p-4">
-      <div className="flex items-center gap-3 mb-5">
-        <div className="p-2 bg-gopher-100 dark:bg-gopher-900/30 rounded-lg">
-          <IconFileText className="h-5 w-5 text-gopher-600 dark:text-gopher-400" />
-        </div>
-        <h3 className="text-lg font-semibold text-smoke-900 dark:text-smoke-100">
-          Pending Versions
-        </h3>
-      </div>
+      <BoxHeader
+        icon={<IconFileText />}
+        title="Pending Versions"
+        variant="gopher"
+      />
+
       {!pendingVersions || pendingVersions.length === 0 ? (
         <div className="text-center py-8">
           <div className="w-12 h-12 bg-smoke-100 dark:bg-smoke-800 rounded-full flex items-center justify-center mx-auto mb-3">
