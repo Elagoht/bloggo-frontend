@@ -10,7 +10,7 @@ type PopularTagsCardProps = {
 const PopularTagsCard: FC<PopularTagsCardProps> = ({ popularTags }) => {
   return (
     <div className="bg-smoke-50 dark:bg-smoke-950 rounded-xl border border-smoke-200/60 dark:border-smoke-700/60 p-4">
-      <BoxHeader icon={<IconTag />} title="Popular Tags" variant="success" />
+      <BoxHeader icon={<IconTag />} title="Popular Tags" variant="gopher" />
 
       <div className="flex flex-wrap gap-2">
         {!popularTags || popularTags.length === 0 ? (

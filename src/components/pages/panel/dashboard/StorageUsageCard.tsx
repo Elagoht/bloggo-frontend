@@ -18,7 +18,7 @@ const StorageUsageCard: FC<StorageUsageCardProps> = ({ storageUsage }) => {
       <BoxHeader
         icon={<IconChartPie />}
         title="Storage Usage"
-        variant="gopher"
+        variant="warning"
       />
 
       <div className="space-y-4">

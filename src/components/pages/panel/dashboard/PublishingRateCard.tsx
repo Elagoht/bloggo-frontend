@@ -14,7 +14,7 @@ const PublishingRateCard: FC<PublishingRateCardProps> = ({
       <BoxHeader
         icon={<IconCalendar />}
         title="Publishing Rate"
-        variant="gopher"
+        variant="success"
       />
 
       <div className="space-y-4">

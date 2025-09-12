@@ -11,7 +11,7 @@ const AuthorPerformanceCard: FC<AuthorPerformanceCardProps> = ({
 }) => {
   return (
     <div className="bg-smoke-50 dark:bg-smoke-950 rounded-xl border border-smoke-200/60 dark:border-smoke-700/60 p-4">
-      <BoxHeader icon={<IconUsers />} title="Top Authors" variant="smoke" />
+      <BoxHeader icon={<IconUsers />} title="Top Authors" variant="gopher" />
 
       {!authorPerformance || authorPerformance.length === 0 ? (
         <div className="text-center py-8">
