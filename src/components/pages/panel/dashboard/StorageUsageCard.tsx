@@ -1,20 +1,21 @@
-import { IconChartPie, IconPhoto, IconFileText } from "@tabler/icons-react";
+import { IconChartPie, IconFileText, IconPhoto } from "@tabler/icons-react";
+import classNames from "classnames";
 import { FC } from "react";
 import {
-  PieChart as RechartsPieChart,
-  Pie,
   Cell,
+  Pie,
+  PieChart as RechartsPieChart,
   ResponsiveContainer,
+  Tooltip,
 } from "recharts";
-import BoxHeader from "../../../common/BoxHeader";
 import {
-  formatBytes,
-  calculateStoragePercentage,
   calculateRemainingUploads,
   calculateRemainingVersions,
+  calculateStoragePercentage,
+  formatBytes,
   getStorageColor,
 } from "../../../../utilities/storage";
-import classNames from "classnames";
+import BoxHeader from "../../../common/BoxHeader";
 
 type StorageUsageCardProps = {
   storageUsage?: StorageUsage;
@@ -45,6 +46,7 @@ const StorageUsageCard: FC<StorageUsageCardProps> = ({ storageUsage }) => {
 
   const usedFormatted = formatBytes(storageUsage.filesystemUsedBytes);
   const freeFormatted = formatBytes(storageUsage.filesystemFreeBytes);
+  const totalFormatted = formatBytes(totalBytes);
   const bloggoFormatted = formatBytes(storageUsage.bloggoUsedBytes);
 
   const remainingImages = calculateRemainingUploads(
@@ -54,11 +56,13 @@ const StorageUsageCard: FC<StorageUsageCardProps> = ({ storageUsage }) => {
     storageUsage.filesystemFreeBytes
   );
 
-  // Prepare data for donut chart
+  // Prepare data for donut chart with formatted values
   const chartData = [
     {
       name: "Used",
       value: storageUsage.filesystemUsedBytes,
+      formatted: usedFormatted.formatted,
+      percentage: usedPercentage,
       fill:
         usedPercentage >= 90
           ? "#dc2626"
@@ -69,9 +73,35 @@ const StorageUsageCard: FC<StorageUsageCardProps> = ({ storageUsage }) => {
     {
       name: "Free",
       value: storageUsage.filesystemFreeBytes,
+      formatted: freeFormatted.formatted,
+      percentage: 100 - usedPercentage,
       fill: "#e5e7eb",
     },
   ];
+
+  // Custom tooltip component
+  const CustomTooltip = ({
+    active,
+    payload,
+  }: {
+    active?: boolean;
+    payload?: Array<{
+      payload: { name: string; formatted: string; percentage: number };
+    }>;
+  }) => {
+    if (active && payload && payload.length) {
+      const data = payload[0].payload;
+      return (
+        <div className="bg-smoke-900 dark:bg-smoke-100 text-smoke-100 dark:text-smoke-900 text-xs px-3 py-2 rounded-lg shadow-lg border border-smoke-700 dark:border-smoke-300">
+          <div className="font-semibold">{data.name}</div>
+          <div className="text-smoke-400 dark:text-smoke-600">
+            {data.formatted} ({data.percentage.toFixed(1)}%)
+          </div>
+        </div>
+      );
+    }
+    return null;
+  };
 
   return (
     <div className="bg-smoke-50 dark:bg-smoke-950 rounded-xl border border-smoke-200/60 dark:border-smoke-700/60 p-4">
@@ -84,8 +114,12 @@ const StorageUsageCard: FC<StorageUsageCardProps> = ({ storageUsage }) => {
       <div className="space-y-4">
         {/* Donut Chart */}
         <div className="flex flex-col items-center">
-          <div className="relative h-48 w-48">
-            <ResponsiveContainer width="100%" height="100%">
+          <div className="relative h-48 w-48 -mb-8">
+            <ResponsiveContainer
+              width="100%"
+              height="100%"
+              className="relative z-10"
+            >
               <RechartsPieChart>
                 <Pie
                   data={chartData}
@@ -102,39 +136,20 @@ const StorageUsageCard: FC<StorageUsageCardProps> = ({ storageUsage }) => {
                     <Cell key={`cell-${index}`} fill={entry.fill} />
                   ))}
                 </Pie>
+                <Tooltip content={CustomTooltip} />
               </RechartsPieChart>
             </ResponsiveContainer>
             {/* Center text */}
-            <data
+            <div
               className={classNames(
-                "absolute inset-0 flex flex-col items-center justify-center text-lg font-bold",
+                "absolute inset-0 flex flex-col items-center justify-center text-lg font-bold pointer-events-none",
                 getStorageColor(usedPercentage)
               )}
             >
               {usedPercentage}%
               <small className="text-sm text-smoke-500 dark:text-smoke-400">
-                Used
+                {usedFormatted.formatted}/{totalFormatted.formatted}
               </small>
-            </data>
-          </div>
-        </div>
-
-        {/* Storage Details */}
-        <div className="grid grid-cols-2 gap-3">
-          <div className="bg-smoke-100 dark:bg-smoke-800/50 rounded-lg p-2">
-            <small className="font-medium text-smoke-600 dark:text-smoke-400">
-              Used
-            </small>
-            <div className="text-sm font-semibold text-smoke-900 dark:text-smoke-100">
-              {usedFormatted.formatted}
-            </div>
-          </div>
-          <div className="bg-smoke-100 dark:bg-smoke-800/50 rounded-lg p-2">
-            <small className="font-medium text-smoke-600 dark:text-smoke-400">
-              Free
-            </small>
-            <div className="text-sm font-semibold text-success-600 dark:text-success-400">
-              {freeFormatted.formatted}
             </div>
           </div>
         </div>
