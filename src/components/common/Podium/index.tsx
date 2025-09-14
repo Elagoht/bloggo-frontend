@@ -1,5 +1,7 @@
+import classNames from "classnames";
 import { FC } from "react";
 import Avatar from "../Avatar";
+import { IconBadge } from "@tabler/icons-react";
 
 type PodiumProps = {
   authors: AuthorPerformance[];
@@ -8,12 +10,12 @@ type PodiumProps = {
 const Podium: FC<PodiumProps> = ({ authors }) => {
   if (!authors || authors.length === 0) return null;
 
-  // Get top 3 authors and define their podium styles
   const podiumData = [
     {
       author: authors[1],
       position: 2,
       height: "h-24",
+      text: "text-slate-700",
       gradientFrom: "from-slate-400",
       gradientTo: "to-slate-300",
       badgeBg: "bg-slate-600",
@@ -23,6 +25,7 @@ const Podium: FC<PodiumProps> = ({ authors }) => {
       author: authors[0],
       position: 1,
       height: "h-32",
+      text: "text-yellow-700",
       gradientFrom: "from-yellow-400",
       gradientTo: "to-yellow-300",
       badgeBg: "bg-yellow-600",
@@ -31,7 +34,8 @@ const Podium: FC<PodiumProps> = ({ authors }) => {
     {
       author: authors[2],
       position: 3,
-      height: "h-16",
+      height: "h-18",
+      text: "text-amber-700",
       gradientFrom: "from-amber-600",
       gradientTo: "to-amber-500",
       badgeBg: "bg-amber-700",
@@ -40,25 +44,39 @@ const Podium: FC<PodiumProps> = ({ authors }) => {
   ];
 
   return (
-    <div className="flex items-end justify-center gap-4 py-4">
+    <section className="flex items-end justify-center gap-4 py-4">
       {podiumData.map((datum) => {
         if (!datum.author) return null;
 
         return (
-          <div key={datum.position} className="flex flex-col items-center">
-            <div className="mb-2">
+          <div
+            key={datum.position}
+            className="flex flex-col gap-1 items-center"
+          >
+            <data className="text-center flex flex-col">
               <Avatar {...datum.author} size="small" clickable />
-              <div className="text-center mt-1">
-                <div className="text-sm font-medium text-smoke-700 dark:text-smoke-300">
-                  {datum.author.postCount} posts
-                </div>
-              </div>
-            </div>
+
+              <small className="text-sm text-smoke-700 dark:text-smoke-300">
+                {datum.author.postCount} post{datum.author.postCount > 1 && "s"}
+              </small>
+            </data>
+
             <div
-              className={`bg-gradient-to-t ${datum.gradientFrom} ${datum.gradientTo} rounded-t-lg p-4 ${datum.height} flex flex-col justify-end items-center min-w-[80px]`}
+              className={classNames(
+                "bg-gradient-to-t rounded-t-lg p-3 gap-2 flex flex-col justify-between items-center min-w-20",
+                datum.gradientFrom,
+                datum.gradientTo,
+                datum.height
+              )}
             >
+              <IconBadge className={classNames("shrink-0", datum.text)} />
+
               <div
-                className={`${datum.badgeBg} text-white rounded-full ${datum.badgeSize} flex items-center justify-center text-sm font-bold`}
+                className={classNames(
+                  "text-white rounded-full flex items-center justify-center text-sm font-bold shrink-0",
+                  datum.badgeBg,
+                  datum.badgeSize
+                )}
               >
                 {datum.position}
               </div>
@@ -66,7 +84,7 @@ const Podium: FC<PodiumProps> = ({ authors }) => {
           </div>
         );
       })}
-    </div>
+    </section>
   );
 };
 
