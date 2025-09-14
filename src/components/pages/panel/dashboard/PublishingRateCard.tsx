@@ -1,4 +1,5 @@
 import { IconCalendar } from "@tabler/icons-react";
+import classNames from "classnames";
 import { FC } from "react";
 import BoxHeader from "../../../common/BoxHeader";
 
@@ -9,37 +10,39 @@ type PublishingRateCardProps = {
 const PublishingRateCard: FC<PublishingRateCardProps> = ({
   publishingRate,
 }) => {
+  const data = [
+    {
+      title: "This week",
+      value: publishingRate?.thisWeek || 0,
+      css: "text-gopher-500",
+    },
+    { title: "This month", value: publishingRate?.thisMonth || 0 },
+  ];
+
   return (
-    <div className="bg-smoke-50 dark:bg-smoke-950 rounded-xl border border-smoke-200/60 dark:border-smoke-700/60 p-4">
+    <data className="bg-smoke-50 dark:bg-smoke-950 rounded-xl border border-smoke-200/60 dark:border-smoke-700/60 p-4 flex flex-col">
       <BoxHeader
         icon={<IconCalendar />}
         title="Publishing Rate"
         variant="success"
       />
 
-      <div className="space-y-4">
-        <div className="bg-smoke-50 dark:bg-smoke-800/50 rounded-lg p-4">
-          <div className="flex justify-between items-center">
-            <span className="text-sm font-medium text-smoke-600 dark:text-smoke-400">
-              This week
-            </span>
-            <span className="text-2xl font-bold text-gopher-600 dark:text-gopher-400">
-              {publishingRate?.thisWeek || 0}
-            </span>
-          </div>
-        </div>
-        <div className="bg-smoke-50 dark:bg-smoke-800/50 rounded-lg p-4">
-          <div className="flex justify-between items-center">
-            <span className="text-sm font-medium text-smoke-600 dark:text-smoke-400">
-              This month
-            </span>
-            <span className="text-2xl font-bold text-smoke-600 dark:text-smoke-400">
-              {publishingRate?.thisMonth || 0}
-            </span>
-          </div>
-        </div>
-      </div>
-    </div>
+      <ul className="grid grid-cols-2 gap-4 grow">
+        {data.map((datum, index) => (
+          <li
+            key={index}
+            className={classNames(
+              "flex flex-col justify-center text-center bg-smoke-100 dark:bg-smoke-900 p-2 rounded-lg shadow-inner shadow-smoke-200 dark:shadow-smoke-800",
+              datum.css
+            )}
+          >
+            <small className="text-smoke-500">{datum.title}</small>
+
+            <strong className="text-3xl">{datum.value}</strong>
+          </li>
+        ))}
+      </ul>
+    </data>
   );
 };
 
