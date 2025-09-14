@@ -64,6 +64,7 @@ const StorageUsageCard: FC<StorageUsageCardProps> = ({ storageUsage }) => {
         1
       ),
       fill: "fill-gopher-500",
+      bg: "bg-gopher-500",
     },
     {
       name: "Used by Bloggo",
@@ -72,7 +73,8 @@ const StorageUsageCard: FC<StorageUsageCardProps> = ({ storageUsage }) => {
       percentage: ((storageUsage.usedByBloggoBytes / totalBytes) * 100).toFixed(
         1
       ),
-      fill: "fill-green-500",
+      fill: "fill-warning-500",
+      bg: "bg-warning-500",
     },
     {
       name: "Free Space",
@@ -80,6 +82,7 @@ const StorageUsageCard: FC<StorageUsageCardProps> = ({ storageUsage }) => {
       formatted: freeFormatted.formatted,
       percentage: ((storageUsage.freeBytes / totalBytes) * 100).toFixed(1),
       fill: "fill-smoke-100",
+      bg: "bg-smoke-100",
     },
   ].filter((item) => item.value > 0); // Only show segments with actual data
 
@@ -145,7 +148,7 @@ const StorageUsageCard: FC<StorageUsageCardProps> = ({ storageUsage }) => {
 
           <figcaption
             className={classNames(
-              "absolute inset-0 flex flex-col items-center justify-center text-lg font-bold pointer-events-none",
+              "-mt-5 absolute inset-0 flex flex-col items-center justify-center text-lg font-bold pointer-events-none",
               getStorageColor(usedPercentage)
             )}
           >
@@ -163,7 +166,7 @@ const StorageUsageCard: FC<StorageUsageCardProps> = ({ storageUsage }) => {
           <div key={index} className="flex items-center justify-between py-1">
             <dt className="flex items-center gap-2">
               <div
-                className={classNames("size-3 rounded-full")}
+                className={classNames("size-3 rounded-full", item.bg)}
                 aria-hidden="true"
               />
 
