@@ -108,110 +108,113 @@ const StorageUsageCard: FC<StorageUsageCardProps> = ({ storageUsage }) => {
   };
 
   return (
-    <div className="bg-smoke-50 dark:bg-smoke-950 rounded-xl border border-smoke-200/60 dark:border-smoke-700/60 p-4">
+    <article className="bg-smoke-50 dark:bg-smoke-950 rounded-xl border border-smoke-200/60 dark:border-smoke-700/60 p-4">
       <BoxHeader
         icon={<IconChartPie />}
         title="System Storage"
         variant="warning"
       />
 
-      <div className="space-y-4">
-        {/* Donut Chart */}
-        <div className="flex flex-col items-center">
-          <div className="relative h-48 w-48 -mb-8">
-            <ResponsiveContainer
-              width="100%"
-              height="100%"
-              className="relative z-10"
-            >
-              <RechartsPieChart>
-                <Pie
-                  data={chartData}
-                  cx="50%"
-                  cy="50%"
-                  startAngle={205}
-                  endAngle={-25}
-                  innerRadius="75%"
-                  outerRadius="100%"
-                  dataKey="value"
-                  strokeWidth={0}
-                >
-                  {chartData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.fill} />
-                  ))}
-                </Pie>
-                <Tooltip content={CustomTooltip} />
-              </RechartsPieChart>
-            </ResponsiveContainer>
-            {/* Center text */}
-            <div
-              className={classNames(
-                "absolute inset-0 flex flex-col items-center justify-center text-lg font-bold pointer-events-none",
-                getStorageColor(usedPercentage)
-              )}
-            >
-              {usedPercentage}%
-              <small className="text-sm text-smoke-500 dark:text-smoke-400">
-                {totalUsedFormatted.formatted}/{totalFormatted.formatted}
-              </small>
+      {/* Donut Chart */}
+      <figure className="flex flex-col items-center">
+        <div className="relative h-48 w-48 -mb-10">
+          <ResponsiveContainer
+            width="100%"
+            height="100%"
+            className="relative z-10"
+          >
+            <RechartsPieChart>
+              <Pie
+                data={chartData}
+                cx="50%"
+                cy="50%"
+                startAngle={205}
+                endAngle={-25}
+                innerRadius="75%"
+                outerRadius="100%"
+                dataKey="value"
+                strokeWidth={0}
+              >
+                {chartData.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={entry.fill} />
+                ))}
+              </Pie>
+              <Tooltip content={CustomTooltip} />
+            </RechartsPieChart>
+          </ResponsiveContainer>
+          <figcaption
+            className={classNames(
+              "absolute inset-0 flex flex-col items-center justify-center text-lg font-bold pointer-events-none",
+              getStorageColor(usedPercentage)
+            )}
+          >
+            {usedPercentage}%
+            <small className="text-sm text-smoke-500 dark:text-smoke-400">
+              {totalUsedFormatted.formatted}/{totalFormatted.formatted}
+            </small>
+          </figcaption>
+        </div>
+      </figure>
+
+      {/* Storage Breakdown */}
+      <dl className="grid gap-1 py-4">
+        {chartData.map((item, index) => (
+          <div key={index} className="flex items-center justify-between py-1">
+            <dt className="flex items-center gap-2">
+              <div
+                className="size-3 rounded-full"
+                style={{ backgroundColor: item.fill }}
+                aria-hidden="true"
+              />
+              <span className="text-sm text-smoke-700 dark:text-smoke-300">
+                {item.name}
+                {item.name === "Used by Bloggo" &&
+                  ` (${storageUsage.fileCount} files)`}
+              </span>
+            </dt>
+            <dd className="text-sm font-medium text-smoke-900 dark:text-smoke-100">
+              {item.formatted} ({item.percentage}%)
+            </dd>
+          </div>
+        ))}
+      </dl>
+
+      {/* Estimated Remaining */}
+      <section className="border-t border-smoke-200 dark:border-smoke-700 pt-3">
+        <h4 className="text-xs font-medium text-smoke-700 dark:text-smoke-300 pb-2">
+          Approximate Space Left
+        </h4>
+
+        <dl className="grid grid-cols-2 gap-3">
+          <div className="flex items-center gap-2">
+            <IconPhoto className="size-8 text-gopher-500" aria-hidden="true" />
+            <div>
+              <dd className="leading-tight font-medium text-smoke-900 dark:text-smoke-100">
+                {remainingImages.toLocaleString()}
+              </dd>
+
+              <dt className="text-smoke-500 dark:text-smoke-400 text-sm">
+                Images
+              </dt>
             </div>
           </div>
-        </div>
-
-        {/* Storage Breakdown */}
-        <div className="space-y-2">
-          {chartData.map((item, index) => (
-            <div key={index} className="flex items-center justify-between py-1">
-              <div className="flex items-center gap-2">
-                <div
-                  className="w-3 h-3 rounded-full"
-                  style={{ backgroundColor: item.fill }}
-                />
-                <span className="text-sm text-smoke-700 dark:text-smoke-300">
-                  {item.name}
-                  {item.name === "Used by Bloggo" &&
-                    ` (${storageUsage.fileCount} files)`}
-                </span>
-              </div>
-              <div className="text-sm font-medium text-smoke-900 dark:text-smoke-100">
-                {item.formatted} ({item.percentage}%)
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Estimated Remaining */}
-        <div className="border-t border-smoke-200 dark:border-smoke-700 pt-3">
-          <h4 className="text-xs font-medium text-smoke-700 dark:text-smoke-300 mb-2">
-            Approximate Space Left
-          </h4>
-          <div className="grid grid-cols-2 gap-3">
-            <div className="flex items-center space-x-2">
-              <IconPhoto className="w-3 h-3 text-gopher-500" />
-              <div>
-                <small className="font-medium text-smoke-900 dark:text-smoke-100">
-                  {remainingImages.toLocaleString()}
-                </small>{" "}
-                <small className="text-smoke-500 dark:text-smoke-400">
-                  Images
-                </small>
-              </div>
-            </div>
-            <div className="flex items-center space-x-2">
-              <IconFileText className="w-3 h-3 text-gopher-500" />
-              <div>
-                <small className="font-medium text-smoke-900 dark:text-smoke-100">
-                  {remainingVersions.toLocaleString()}
-                </small>{" "}
-                <small className="text-smoke-500 dark:text-smoke-400">
-                  Versions
-                </small>
-              </div>
+          <div className="flex items-center gap-2">
+            <IconFileText
+              className="size-8 text-gopher-500"
+              aria-hidden="true"
+            />
+            <div>
+              <dd className="leading-tight font-medium text-smoke-900 dark:text-smoke-100">
+                {remainingVersions.toLocaleString()}
+              </dd>
+              <dt className="text-smoke-500 dark:text-smoke-400 text-sm">
+                Versions
+              </dt>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
+        </dl>
+      </section>
+    </article>
   );
 };
 
