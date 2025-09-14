@@ -177,7 +177,7 @@ const StorageUsageCard: FC<StorageUsageCardProps> = ({ storageUsage }) => {
               </span>
             </dt>
 
-            <dd className="text-sm font-medium text-smoke-900 dark:text-smoke-100">
+            <dd className="text-sm font-medium text-smoke-900 dark:text-smoke-100 text-right">
               {item.formatted} ({item.percentage}%)
             </dd>
           </div>
