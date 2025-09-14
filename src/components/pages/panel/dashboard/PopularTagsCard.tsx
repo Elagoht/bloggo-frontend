@@ -9,25 +9,26 @@ type PopularTagsCardProps = {
 
 const PopularTagsCard: FC<PopularTagsCardProps> = ({ popularTags }) => {
   return (
-    <div className="bg-smoke-50 dark:bg-smoke-950 rounded-xl border border-smoke-200/60 dark:border-smoke-700/60 p-4">
+    <data className="bg-smoke-50 dark:bg-smoke-950 rounded-xl border border-smoke-200/60 dark:border-smoke-700/60 p-4 flex flex-col">
       <BoxHeader icon={<IconTag />} title="Popular Tags" variant="gopher" />
 
-      <div className="flex flex-wrap gap-2">
-        {!popularTags || popularTags.length === 0 ? (
-          <div className="w-full text-center py-8">
-            <div className="w-12 h-12 bg-smoke-100 dark:bg-smoke-800 rounded-full flex items-center justify-center mx-auto mb-3">
-              <IconTag className="w-4 h-4 text-smoke-400" />
-            </div>
-            <p className="text-smoke-500 text-sm">No tags found</p>
+      {!popularTags || popularTags.length === 0 ? (
+        <div className="grow flex flex-col items-center justify-center gap-2">
+          <div className="w-12 h-12 bg-smoke-100 dark:bg-smoke-800 rounded-full grid place-items-center">
+            <IconTag className="size-5 text-smoke-400" />
           </div>
-        ) : (
-          popularTags.slice(0, 8).map((tag) => (
+
+          <small className="text-smoke-500 text-sm">No tags found</small>
+        </div>
+      ) : (
+        <div className="flex flex-wrap gap-2">
+          {popularTags.slice(0, 8).map((tag) => (
             <div key={tag.id} className="relative">
               <TagChip
                 tag={{
                   id: tag.id,
                   name: tag.name,
-                  slug: tag.name.toLowerCase().replace(/\s+/g, "-"),
+                  slug: tag.slug,
                 }}
                 size="md"
               />
@@ -36,10 +37,10 @@ const PopularTagsCard: FC<PopularTagsCardProps> = ({ popularTags }) => {
                 {tag.usage}
               </span>
             </div>
-          ))
-        )}
-      </div>
-    </div>
+          ))}
+        </div>
+      )}
+    </data>
   );
 };
 

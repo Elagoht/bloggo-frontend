@@ -37,6 +37,7 @@ type DraftsByAuthor = {
 type PopularTag = {
   id: number;
   name: string;
+  slug: string;
   usage: number;
 };
 
