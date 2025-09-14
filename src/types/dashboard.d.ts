@@ -43,9 +43,9 @@ type PopularTag = {
 };
 
 type StorageUsage = {
-  filesystemUsedBytes: number;
-  filesystemFreeBytes: number;
-  bloggoUsedBytes: number;
+  usedByOthersBytes: number;
+  usedByBloggoBytes: number;
+  freeBytes: number;
   fileCount: number;
 };
 

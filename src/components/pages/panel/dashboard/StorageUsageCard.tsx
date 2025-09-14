@@ -38,46 +38,50 @@ const StorageUsageCard: FC<StorageUsageCardProps> = ({ storageUsage }) => {
   }
 
   const totalBytes =
-    storageUsage.filesystemUsedBytes + storageUsage.filesystemFreeBytes;
-  const usedPercentage = calculateStoragePercentage(
-    storageUsage.filesystemUsedBytes,
-    totalBytes
-  );
+    storageUsage.usedByOthersBytes +
+    storageUsage.usedByBloggoBytes +
+    storageUsage.freeBytes;
+  const totalUsedBytes =
+    storageUsage.usedByOthersBytes + storageUsage.usedByBloggoBytes;
+  const usedPercentage = calculateStoragePercentage(totalUsedBytes, totalBytes);
 
-  const usedFormatted = formatBytes(storageUsage.filesystemUsedBytes);
-  const freeFormatted = formatBytes(storageUsage.filesystemFreeBytes);
+  const othersFormatted = formatBytes(storageUsage.usedByOthersBytes);
+  const bloggoFormatted = formatBytes(storageUsage.usedByBloggoBytes);
+  const freeFormatted = formatBytes(storageUsage.freeBytes);
   const totalFormatted = formatBytes(totalBytes);
-  const bloggoFormatted = formatBytes(storageUsage.bloggoUsedBytes);
+  const totalUsedFormatted = formatBytes(totalUsedBytes);
 
-  const remainingImages = calculateRemainingUploads(
-    storageUsage.filesystemFreeBytes
-  );
-  const remainingVersions = calculateRemainingVersions(
-    storageUsage.filesystemFreeBytes
-  );
+  const remainingImages = calculateRemainingUploads(storageUsage.freeBytes);
+  const remainingVersions = calculateRemainingVersions(storageUsage.freeBytes);
 
-  // Prepare data for donut chart with formatted values
+  // Prepare data for donut chart with formatted values - 3 segments
   const chartData = [
     {
-      name: "Used",
-      value: storageUsage.filesystemUsedBytes,
-      formatted: usedFormatted.formatted,
-      percentage: usedPercentage,
-      fill:
-        usedPercentage >= 90
-          ? "#dc2626"
-          : usedPercentage >= 75
-          ? "#ea580c"
-          : "#16a34a",
+      name: "Used by Others",
+      value: storageUsage.usedByOthersBytes,
+      formatted: othersFormatted.formatted,
+      percentage: ((storageUsage.usedByOthersBytes / totalBytes) * 100).toFixed(
+        1
+      ),
+      fill: "#6b7280", // gray-500
     },
     {
-      name: "Free",
-      value: storageUsage.filesystemFreeBytes,
-      formatted: freeFormatted.formatted,
-      percentage: 100 - usedPercentage,
-      fill: "#e5e7eb",
+      name: "Used by Bloggo",
+      value: storageUsage.usedByBloggoBytes,
+      formatted: bloggoFormatted.formatted,
+      percentage: ((storageUsage.usedByBloggoBytes / totalBytes) * 100).toFixed(
+        1
+      ),
+      fill: "#d97706", // gopher color (amber-600)
     },
-  ];
+    {
+      name: "Free Space",
+      value: storageUsage.freeBytes,
+      formatted: freeFormatted.formatted,
+      percentage: ((storageUsage.freeBytes / totalBytes) * 100).toFixed(1),
+      fill: "#e5e7eb", // gray-200
+    },
+  ].filter((item) => item.value > 0); // Only show segments with actual data
 
   // Custom tooltip component
   const CustomTooltip = ({
@@ -95,7 +99,7 @@ const StorageUsageCard: FC<StorageUsageCardProps> = ({ storageUsage }) => {
         <div className="bg-smoke-900 dark:bg-smoke-100 text-smoke-100 dark:text-smoke-900 text-xs px-3 py-2 rounded-lg shadow-lg border border-smoke-700 dark:border-smoke-300">
           <div className="font-semibold">{data.name}</div>
           <div className="text-smoke-400 dark:text-smoke-600">
-            {data.formatted} ({data.percentage.toFixed(1)}%)
+            {data.formatted} ({data.percentage}%)
           </div>
         </div>
       );
@@ -148,26 +152,38 @@ const StorageUsageCard: FC<StorageUsageCardProps> = ({ storageUsage }) => {
             >
               {usedPercentage}%
               <small className="text-sm text-smoke-500 dark:text-smoke-400">
-                {usedFormatted.formatted}/{totalFormatted.formatted}
+                {totalUsedFormatted.formatted}/{totalFormatted.formatted}
               </small>
             </div>
           </div>
         </div>
 
-        {/* Bloggo Usage */}
-        <div className="bg-gopher-50 dark:bg-gopher-950/30 rounded-lg p-2">
-          <small className="font-medium text-gopher-700 dark:text-gopher-300">
-            Bloggo ({storageUsage.fileCount} files)
-          </small>
-          <div className="text-sm font-semibold text-gopher-600 dark:text-gopher-400">
-            {bloggoFormatted.formatted}
-          </div>
+        {/* Storage Breakdown */}
+        <div className="space-y-2">
+          {chartData.map((item, index) => (
+            <div key={index} className="flex items-center justify-between py-1">
+              <div className="flex items-center gap-2">
+                <div
+                  className="w-3 h-3 rounded-full"
+                  style={{ backgroundColor: item.fill }}
+                />
+                <span className="text-sm text-smoke-700 dark:text-smoke-300">
+                  {item.name}
+                  {item.name === "Used by Bloggo" &&
+                    ` (${storageUsage.fileCount} files)`}
+                </span>
+              </div>
+              <div className="text-sm font-medium text-smoke-900 dark:text-smoke-100">
+                {item.formatted} ({item.percentage}%)
+              </div>
+            </div>
+          ))}
         </div>
 
         {/* Estimated Remaining */}
         <div className="border-t border-smoke-200 dark:border-smoke-700 pt-3">
           <h4 className="text-xs font-medium text-smoke-700 dark:text-smoke-300 mb-2">
-            Space Left (~)
+            Approximate Space Left
           </h4>
           <div className="grid grid-cols-2 gap-3">
             <div className="flex items-center space-x-2">
@@ -175,7 +191,7 @@ const StorageUsageCard: FC<StorageUsageCardProps> = ({ storageUsage }) => {
               <div>
                 <small className="font-medium text-smoke-900 dark:text-smoke-100">
                   {remainingImages.toLocaleString()}
-                </small>
+                </small>{" "}
                 <small className="text-smoke-500 dark:text-smoke-400">
                   Images
                 </small>
@@ -186,7 +202,7 @@ const StorageUsageCard: FC<StorageUsageCardProps> = ({ storageUsage }) => {
               <div>
                 <small className="font-medium text-smoke-900 dark:text-smoke-100">
                   {remainingVersions.toLocaleString()}
-                </small>
+                </small>{" "}
                 <small className="text-smoke-500 dark:text-smoke-400">
                   Versions
                 </small>
