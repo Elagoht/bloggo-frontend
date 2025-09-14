@@ -1,7 +1,7 @@
+import { IconBadge } from "@tabler/icons-react";
 import classNames from "classnames";
 import { FC } from "react";
 import Avatar from "../Avatar";
-import { IconBadge } from "@tabler/icons-react";
 
 type PodiumProps = {
   authors: AuthorPerformance[];
