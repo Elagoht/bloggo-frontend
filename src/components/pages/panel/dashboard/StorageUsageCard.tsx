@@ -63,7 +63,7 @@ const StorageUsageCard: FC<StorageUsageCardProps> = ({ storageUsage }) => {
       percentage: ((storageUsage.usedByOthersBytes / totalBytes) * 100).toFixed(
         1
       ),
-      fill: "#6b7280", // gray-500
+      fill: "fill-gopher-500",
     },
     {
       name: "Used by Bloggo",
@@ -72,14 +72,14 @@ const StorageUsageCard: FC<StorageUsageCardProps> = ({ storageUsage }) => {
       percentage: ((storageUsage.usedByBloggoBytes / totalBytes) * 100).toFixed(
         1
       ),
-      fill: "#d97706", // gopher color (amber-600)
+      fill: "fill-green-500",
     },
     {
       name: "Free Space",
       value: storageUsage.freeBytes,
       formatted: freeFormatted.formatted,
       percentage: ((storageUsage.freeBytes / totalBytes) * 100).toFixed(1),
-      fill: "#e5e7eb", // gray-200
+      fill: "fill-smoke-100",
     },
   ].filter((item) => item.value > 0); // Only show segments with actual data
 
@@ -136,12 +136,13 @@ const StorageUsageCard: FC<StorageUsageCardProps> = ({ storageUsage }) => {
                 strokeWidth={0}
               >
                 {chartData.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={entry.fill} />
+                  <Cell key={index} className={entry.fill} />
                 ))}
               </Pie>
               <Tooltip content={CustomTooltip} />
             </RechartsPieChart>
           </ResponsiveContainer>
+
           <figcaption
             className={classNames(
               "absolute inset-0 flex flex-col items-center justify-center text-lg font-bold pointer-events-none",
@@ -162,16 +163,17 @@ const StorageUsageCard: FC<StorageUsageCardProps> = ({ storageUsage }) => {
           <div key={index} className="flex items-center justify-between py-1">
             <dt className="flex items-center gap-2">
               <div
-                className="size-3 rounded-full"
-                style={{ backgroundColor: item.fill }}
+                className={classNames("size-3 rounded-full")}
                 aria-hidden="true"
               />
+
               <span className="text-sm text-smoke-700 dark:text-smoke-300">
                 {item.name}
                 {item.name === "Used by Bloggo" &&
                   ` (${storageUsage.fileCount} files)`}
               </span>
             </dt>
+
             <dd className="text-sm font-medium text-smoke-900 dark:text-smoke-100">
               {item.formatted} ({item.percentage}%)
             </dd>
