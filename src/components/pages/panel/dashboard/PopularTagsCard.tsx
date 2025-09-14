@@ -1,6 +1,6 @@
 import { IconTag } from "@tabler/icons-react";
 import { FC } from "react";
-import TagChip from "../../../common/TagChip";
+import { Link } from "react-router-dom";
 import BoxHeader from "../../../common/BoxHeader";
 
 type PopularTagsCardProps = {
@@ -21,24 +21,23 @@ const PopularTagsCard: FC<PopularTagsCardProps> = ({ popularTags }) => {
           <small className="text-smoke-500 text-sm">No tags found</small>
         </div>
       ) : (
-        <div className="flex flex-wrap gap-2">
-          {popularTags.slice(0, 8).map((tag) => (
-            <div key={tag.id} className="relative">
-              <TagChip
-                tag={{
-                  id: tag.id,
-                  name: tag.name,
-                  slug: tag.slug,
-                }}
-                size="md"
-              />
+        <ol>
+          {popularTags.map((tag, index) => (
+            <Link key={index} to={`/tags/details/${tag.id}`}>
+              <li className="flex gap-2 items-center border-b border-smoke-100 hover:bg-smoke-100 dark:border-smoke-900 dark:hover:bg-smoke-900 transition-all p-1">
+                <span className="bg-gopher-500 size-5 text-sm grid place-items-center text-center rounded-full">
+                  {index + 1}
+                </span>
 
-              <span className="absolute -top-1 -right-1 bg-success-500 text-white text-xs rounded-full  px-1.5 h-4 flex items-center justify-center font-semibold">
-                {tag.usage}
-              </span>
-            </div>
+                <strong className="grow">{tag.name}</strong>
+
+                <data className="bg-smoke-200 dark:bg-smoke-800 rounded-full px-2 text-sm">
+                  {tag.usage}
+                </data>
+              </li>
+            </Link>
           ))}
-        </div>
+        </ol>
       )}
     </data>
   );
