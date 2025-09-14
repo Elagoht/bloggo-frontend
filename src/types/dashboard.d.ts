@@ -18,8 +18,9 @@ type PublishingRate = {
 };
 
 type AuthorPerformance = {
-  authorId: number;
-  authorName: string;
+  id: number;
+  name: string;
+  avatar: string;
   postCount: number;
 };
 
