@@ -93,13 +93,13 @@ const WritePage: FC = () => {
 
   useEffect(() => {
     const handler = (event: BeforeUnloadEvent) => {
-      if (isDirty) event.preventDefault();
+      if (isDirty && !isSubmitting) event.preventDefault();
     };
     window.addEventListener("beforeunload", handler);
     return () => window.removeEventListener("beforeunload", handler);
-  }, [isDirty]);
+  }, [isDirty, isSubmitting]);
 
-  const blocker = useBlocker(isDirty);
+  const blocker = useBlocker(isDirty && !isSubmitting);
 
   useEffect(() => {
     if (blocker.state === "blocked") {
