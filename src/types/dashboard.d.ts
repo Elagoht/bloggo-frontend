@@ -3,6 +3,7 @@ type PendingVersion = {
   title: string;
   authorId: number;
   authorName: string;
+  authorAvatar?: string;
   createdAt: string;
 };
 
@@ -32,6 +33,7 @@ type DraftCount = {
 type DraftsByAuthor = {
   authorId: number;
   authorName: string;
+  authorAvatar?: string;
   draftCount: number;
 };
 

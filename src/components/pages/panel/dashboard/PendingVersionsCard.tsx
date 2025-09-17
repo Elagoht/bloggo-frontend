@@ -2,6 +2,7 @@ import { IconFileText, IconTag } from "@tabler/icons-react";
 import { FC } from "react";
 import { Link } from "react-router-dom";
 import BoxHeader from "../../../common/BoxHeader";
+import MiniAvatar from "../../../common/Avatar/MiniAvatar";
 
 type PendingVersionsCardProps = {
   pendingVersions?: PendingVersion[];
@@ -37,7 +38,10 @@ const PendingVersionsCard: FC<PendingVersionsCardProps> = ({
 
               <data className="text-smoke-500 dark:text-smoke-400 text-xs flex items-center gap-1">
                 <Link to={`/users/details/${version.authorId}`}>
-                  {version.authorName}
+                  <MiniAvatar
+                    name={version.authorName}
+                    avatar={version.authorAvatar}
+                  />
                 </Link>
 
                 <hr className="inline size-1 rounded-full border-none bg-current" />

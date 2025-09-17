@@ -1,6 +1,7 @@
 import { IconFileText } from "@tabler/icons-react";
 import { FC } from "react";
 import BoxHeader from "../../../common/BoxHeader";
+import MiniAvatar from "../../../common/Avatar/MiniAvatar";
 
 type DraftCountCardProps = {
   draftCount?: DraftCount;
@@ -24,6 +25,7 @@ const DraftCountCard: FC<DraftCountCardProps> = ({ draftCount }) => {
             Total Drafts
           </div>
         </div>
+
         <div className="space-y-2">
           {!draftCount?.draftsByAuthor ||
           draftCount.draftsByAuthor.length === 0 ? (
@@ -38,9 +40,11 @@ const DraftCountCard: FC<DraftCountCardProps> = ({ draftCount }) => {
                   key={author.authorId}
                   className="flex justify-between items-center bg-smoke-50 dark:bg-smoke-800/50 rounded-lg p-2 text-sm"
                 >
-                  <span className="text-smoke-900 dark:text-smoke-100 truncate">
-                    {author.authorName}
-                  </span>
+                  <MiniAvatar
+                    name={author.authorName}
+                    avatar={author.authorAvatar}
+                    className="text-smoke-900 dark:text-smoke-100 truncate"
+                  />
                   <span className="text-warning-600 dark:text-warning-400 font-semibold">
                     {author.draftCount}
                   </span>

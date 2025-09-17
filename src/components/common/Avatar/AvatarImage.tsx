@@ -1,7 +1,8 @@
 import { FC, useMemo } from "react";
+import classNames from "classnames";
 import Text from "../../../utilities/Text";
 
-type AvatarSize = "small" | "large";
+type AvatarSize = "mini" | "small" | "large";
 
 type AvatarImageProps = Partial<Pick<UserDetails, "avatar">> &
   Pick<UserDetails, "name"> & {
@@ -22,6 +23,12 @@ const AvatarImage: FC<AvatarImageProps> = ({
   }, [avatar]);
 
   const sizeClasses = {
+    mini: {
+      container: "size-6",
+      text: "text-xs",
+      width: 24,
+      height: 24,
+    },
     small: {
       container: "size-12",
       text: "text-lg",
@@ -44,11 +51,27 @@ const AvatarImage: FC<AvatarImageProps> = ({
       alt={initials}
       width={currentSize.width}
       height={currentSize.height}
-      className={`mx-auto mb-2 place-items-center grid text-center overflow-hidden object-cover object-center rounded-full ${currentSize.text} font-medium from-gopher-700 to-gopher-300 bg-gradient-to-tl ${currentSize.container}`}
+      className={classNames(
+        "place-items-center grid text-center overflow-hidden object-cover object-center rounded-full font-medium from-gopher-700 to-gopher-300 bg-gradient-to-tl",
+        currentSize.text,
+        currentSize.container,
+        {
+          "mx-0 mb-0": size === "mini",
+          "mx-auto mb-2": size !== "mini",
+        }
+      )}
     />
   ) : (
     <div
-      className={`mx-auto mb-2 ${currentSize.text} font-medium bg-gopher-500 rounded-full ${currentSize.container} grid place-items-center`}
+      className={classNames(
+        "font-medium bg-gopher-500 text-white rounded-full grid place-items-center",
+        currentSize.text,
+        currentSize.container,
+        {
+          "mx-0 mb-0": size === "mini",
+          "mx-auto mb-2": size !== "mini",
+        }
+      )}
     >
       {initials}
     </div>
