@@ -79,7 +79,7 @@ const PostTagsManager: FC<PostTagsManagerProps> = ({ post, onTagsUpdated }) => {
       <div className="bg-smoke-50 dark:bg-smoke-950 rounded-xl border border-smoke-200 dark:border-smoke-800 p-3">
         {!isEditingTags && (
           <div className="flex gap-4 flex-wrap justify-between items-start">
-            <div className="flex flex-wrap gap-x-1">
+            <div className="flex flex-wrap gap-1">
               {post.tags && post.tags.length > 0 ? (
                 post.tags.map((tag) => (
                   <TagChip key={tag.id} tag={tag} size="md" />
