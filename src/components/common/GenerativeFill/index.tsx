@@ -10,6 +10,7 @@ type GenerativeFillProps = {
   contentLength: number;
   availableCategories?: CategoryListItem[];
   onCopy?: (field: string, value: string) => void;
+  disabled?: boolean;
 };
 
 type GenerativeFillData = {
@@ -25,6 +26,7 @@ const GenerativeFill: FC<GenerativeFillProps> = ({
   contentLength,
   availableCategories,
   onCopy,
+  disabled = false,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState<GenerativeFillData | null>(null);
@@ -67,18 +69,20 @@ const GenerativeFill: FC<GenerativeFillProps> = ({
       <Button
         type="button"
         iconRight={isLoading ? IconLoader : IconSparkles}
-        disabled={contentLength < 1000 || isLoading}
+        disabled={contentLength < 1000 || isLoading || disabled}
         onClick={handleGenerateFill}
         className="w-full bg-gradient-to-r !from-indigo-500 !via-pink-500 !to-fuchsia-800 !text-pink-200 border-none"
+        title={disabled ? "Save your changes first to generate AI suggestions" : undefined}
       >
         {isLoading ? "Generating..." : "Generate AI Suggestions"}
       </Button>
 
-      {contentLength < 1000 && (
+      {(contentLength < 1000 || disabled) && (
         <small className="text-xs text-smoke-600 text-center block mt-2">
-          Content must be at least 1000 characters to use AI generation.
-          Generation will be perform on saved content. Unsaved content can't be
-          used for suggestions.
+          {disabled
+            ? "Save your changes first. AI suggestions are generated from the saved version of your content."
+            : "Content must be at least 1000 characters to use AI generation. AI suggestions are generated from the saved version of your content."
+          }
         </small>
       )}
 

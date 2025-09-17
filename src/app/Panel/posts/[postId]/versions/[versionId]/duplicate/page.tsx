@@ -285,6 +285,7 @@ const DuplicateVersionPage: FC = () => {
                   versionId={versionId}
                   contentLength={currentContent.length}
                   availableCategories={categories}
+                  disabled={isDirty}
                 />
               </div>
             )}

@@ -10,6 +10,7 @@ import {
 } from "@tabler/icons-react";
 import { FC, useEffect, useState } from "react";
 import { useBlocker, useNavigate, useParams } from "react-router-dom";
+import toast from "react-hot-toast";
 import Dialog from "../../../../../../../components/common/Dialog";
 import GenerativeFill from "../../../../../../../components/common/GenerativeFill";
 import NoCategoriesYet from "../../../../../../../components/common/NoCategoriesYet";
@@ -111,7 +112,9 @@ const EditVersionPage: FC = () => {
 
       if (updateResponse.success) {
         setIsDirty(false);
-        navigate(`/posts/details/${postId}`, { replace: true });
+        toast.success("Version updated successfully");
+        // Reload the version data to get the latest changes
+        await loadVersion();
       } else {
         throw new Error(updateResponse.error.message);
       }
@@ -238,6 +241,7 @@ const EditVersionPage: FC = () => {
                   versionId={versionId}
                   contentLength={currentContent.length}
                   availableCategories={categories}
+                  disabled={isDirty}
                 />
               </div>
             )}
@@ -295,6 +299,13 @@ const EditVersionPage: FC = () => {
               />
             )}
 
+            {isDirty && (
+              <div className="text-warning-600 dark:text-warning-400 text-sm flex items-center gap-2 bg-warning-50 dark:bg-warning-900/20 p-3 rounded-lg border border-warning-200 dark:border-warning-800">
+                <span className="w-2 h-2 bg-warning-500 rounded-full animate-pulse"></span>
+                You have unsaved changes
+              </div>
+            )}
+
             <Button
               type="submit"
               color="success"
@@ -308,6 +319,7 @@ const EditVersionPage: FC = () => {
             {postId && versionId && (
               <>
                 <SectionHeader>Version Actions</SectionHeader>
+
                 <VersionActionsForm
                   postId={parseInt(postId)}
                   versionId={versionId}
@@ -318,6 +330,7 @@ const EditVersionPage: FC = () => {
                     name: version.versionAuthor?.name || "Unknown",
                   }}
                   onSuccess={loadVersion}
+                  disabled={isDirty}
                 />
               </>
             )}

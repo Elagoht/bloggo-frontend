@@ -29,6 +29,7 @@ type VersionActionsFormProps = {
     name: string;
   };
   onSuccess?: () => void;
+  disabled?: boolean;
 };
 
 const VersionActionsForm: FC<VersionActionsFormProps> = ({
@@ -38,6 +39,7 @@ const VersionActionsForm: FC<VersionActionsFormProps> = ({
   versionTitle,
   versionAuthor,
   onSuccess,
+  disabled = false,
 }) => {
   const { profile } = useProfileStore();
   const { hasPermission } = useAuth();
@@ -166,6 +168,8 @@ const VersionActionsForm: FC<VersionActionsFormProps> = ({
           iconRight={IconSend}
           onClick={() => setIsSubmitDialogOpen(true)}
           className="w-full"
+          disabled={disabled}
+          title={disabled ? "Save your changes first" : undefined}
         >
           Submit for Review
         </Button>
@@ -178,6 +182,8 @@ const VersionActionsForm: FC<VersionActionsFormProps> = ({
           iconRight={IconCheck}
           onClick={() => setIsApproveDialogOpen(true)}
           className="w-full"
+          disabled={disabled}
+          title={disabled ? "Save your changes first" : undefined}
         >
           Approve Version
         </Button>
@@ -190,6 +196,8 @@ const VersionActionsForm: FC<VersionActionsFormProps> = ({
           iconRight={IconX}
           onClick={() => setIsRejectDialogOpen(true)}
           className="w-full"
+          disabled={disabled}
+          title={disabled ? "Save your changes first" : undefined}
         >
           Reject Version
         </Button>
@@ -202,6 +210,8 @@ const VersionActionsForm: FC<VersionActionsFormProps> = ({
           iconRight={IconWorldWww}
           onClick={() => setIsPublishDialogOpen(true)}
           className="w-full"
+          disabled={disabled}
+          title={disabled ? "Save your changes first" : undefined}
         >
           Publish Version
         </Button>
