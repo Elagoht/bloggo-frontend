@@ -12,11 +12,25 @@ const PublishingRateCard: FC<PublishingRateCardProps> = ({
 }) => {
   const data = [
     {
+      title: "Today",
+      value: publishingRate?.today || 0,
+      css: "text-success-500",
+    },
+    {
       title: "This week",
       value: publishingRate?.thisWeek || 0,
       css: "text-gopher-500",
     },
-    { title: "This month", value: publishingRate?.thisMonth || 0 },
+    {
+      title: "This month",
+      value: publishingRate?.thisMonth || 0,
+      css: "text-warning-500",
+    },
+    {
+      title: "This year",
+      value: publishingRate?.thisYear || 0,
+      css: "text-smoke-500",
+    },
   ];
 
   return (
@@ -27,12 +41,12 @@ const PublishingRateCard: FC<PublishingRateCardProps> = ({
         variant="success"
       />
 
-      <ul className="grid grid-cols-2 gap-4 grow">
+      <ul className="grid grid-cols-2 gap-2 grow">
         {data.map((datum, index) => (
           <li
             key={index}
             className={classNames(
-              "flex flex-col justify-center text-center bg-smoke-100 dark:bg-smoke-900 p-2 rounded-lg shadow-inner shadow-smoke-200 dark:shadow-smoke-800",
+              "flex flex-col justify-center text-center bg-smoke-100 dark:bg-smoke-900 p-2 rounded-lg",
               datum.css
             )}
           >

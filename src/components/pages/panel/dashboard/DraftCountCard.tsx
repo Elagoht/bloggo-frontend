@@ -38,7 +38,7 @@ const DraftCountCard: FC<DraftCountCardProps> = ({ draftCount }) => {
               .map((author: DraftsByAuthor) => (
                 <div
                   key={author.authorId}
-                  className="flex justify-between items-center bg-smoke-50 dark:bg-smoke-800/50 rounded-lg p-2 text-sm"
+                  className="flex justify-between items-center bg-smoke-50 dark:bg-smoke-900 rounded-lg p-2 text-sm"
                 >
                   <MiniAvatar
                     name={author.authorName}

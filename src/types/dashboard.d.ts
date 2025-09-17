@@ -14,8 +14,10 @@ type RecentActivity = {
 };
 
 type PublishingRate = {
+  today: number;
   thisWeek: number;
   thisMonth: number;
+  thisYear: number;
 };
 
 type AuthorPerformance = {
