@@ -1,4 +1,5 @@
 import { FC } from "react";
+import Calendar from "../../../../utilities/Calendar";
 
 type AuditLog = {
   id: number;
@@ -29,17 +30,6 @@ const AuditLogItem: FC<AuditLogItemProps> = ({ auditLog, users }) => {
     return user ? user.name : `User #${userId}`;
   };
 
-  const formatDateTime = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString("en-US", {
-      month: "short",
-      day: "numeric",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-  };
-
   return (
     <tr className="hover:bg-smoke-50 dark:hover:bg-smoke-800/50">
       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-smoke-900 dark:text-smoke-100">
@@ -57,7 +47,7 @@ const AuditLogItem: FC<AuditLogItemProps> = ({ auditLog, users }) => {
         #{auditLog.entityId}
       </td>
       <td className="px-6 py-4 whitespace-nowrap text-sm text-smoke-500 dark:text-smoke-400">
-        {formatDateTime(auditLog.createdAt)}
+        {Calendar.formatDate(auditLog.createdAt)}
       </td>
     </tr>
   );

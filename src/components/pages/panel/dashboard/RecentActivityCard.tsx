@@ -1,5 +1,6 @@
 import { IconHistory } from "@tabler/icons-react";
 import { FC } from "react";
+import Calendar from "../../../../utilities/Calendar";
 import BoxHeader from "../../../common/BoxHeader";
 
 type RecentActivityCardProps = {
@@ -9,16 +10,6 @@ type RecentActivityCardProps = {
 const RecentActivityCard: FC<RecentActivityCardProps> = ({
   recentActivity,
 }) => {
-  const formatDateTime = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString("en-US", {
-      month: "short",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-  };
-
   return (
     <div className="bg-smoke-50 dark:bg-smoke-950 rounded-xl border border-smoke-200/60 dark:border-smoke-700/60 p-4 lg:col-span-2 xl:col-span-3">
       <BoxHeader
@@ -28,30 +19,36 @@ const RecentActivityCard: FC<RecentActivityCardProps> = ({
       />
 
       {!recentActivity || recentActivity.length === 0 ? (
-        <div className="text-center py-8">
-          <div className="w-12 h-12 bg-smoke-100 dark:bg-smoke-800 rounded-full flex items-center justify-center mx-auto mb-3">
-            <IconHistory className="w-4 h-4 text-smoke-400" />
+        <div className="grow flex flex-col items-center justify-center gap-2">
+          <div className="w-12 h-12 bg-smoke-100 dark:bg-smoke-800 rounded-full grid place-items-center">
+            <IconHistory className="size-5 text-smoke-400" />
           </div>
-          <p className="text-smoke-500 text-sm">No recent activity</p>
+
+          <small className="text-smoke-500 text-sm">
+            No activity recorded yet
+          </small>
         </div>
       ) : (
-        <div className="space-y-3">
-          {recentActivity.slice(0, 5).map((activity) => (
+        <ol className="flex flex-col gap-1">
+          {recentActivity.map((activity) => (
             <div
               key={activity.id}
-              className="bg-smoke-50 dark:bg-smoke-800/50 rounded-lg p-3 hover:bg-smoke-100 dark:hover:bg-smoke-800 transition-colors duration-150"
+              className="bg-smoke-50 dark:bg-smoke-800/50 rounded-lg py-2 px-3 hover:bg-smoke-100 dark:hover:bg-smoke-800 transition-colors duration-150"
             >
-              <div className="font-medium text-smoke-900 dark:text-smoke-100 truncate mb-1">
+              <div className="font-medium text-smoke-900 dark:text-smoke-100 truncate">
                 {activity.title}
               </div>
+
               <div className="text-smoke-500 dark:text-smoke-400 text-xs flex items-center gap-1">
-                <span>Published</span>
-                <span className="w-1 h-1 bg-smoke-400 rounded-full"></span>
-                <span>{formatDateTime(activity.publishedAt)}</span>
+                <span className="text-gopher-500">Published</span>
+
+                <hr className="inline size-1 rounded-full border-none bg-current" />
+
+                <time>{Calendar.formatDate(activity.publishedAt)}</time>
               </div>
             </div>
           ))}
-        </div>
+        </ol>
       )}
     </div>
   );

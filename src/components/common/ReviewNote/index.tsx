@@ -2,6 +2,7 @@ import { IconCheck, IconInfoCircle, IconX } from "@tabler/icons-react";
 import classNames from "classnames";
 import { FC } from "react";
 import { Link } from "react-router-dom";
+import Calendar from "../../../utilities/Calendar";
 
 type ReviewNoteProps = {
   status: number;
@@ -66,16 +67,6 @@ const ReviewNote: FC<ReviewNoteProps> = ({
   const IconComponent = getIcon();
   const title = isApproved ? "Approval Note" : "Rejection Reason";
 
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString(navigator.language, {
-      day: "numeric",
-      month: "short",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-  };
-
   return (
     <div
       className={`flex items-start gap-3 p-3 border rounded-lg ${colors.container}`}
@@ -101,7 +92,7 @@ const ReviewNote: FC<ReviewNoteProps> = ({
             >
               {changedBy.name}
             </Link>{" "}
-            on {formatDate(changedAt)}
+            on <time>{Calendar.formatDate(changedAt)}</time>
           </p>
         )}
       </div>

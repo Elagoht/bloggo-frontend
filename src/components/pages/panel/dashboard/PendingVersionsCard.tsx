@@ -1,8 +1,9 @@
 import { IconFileText, IconTag } from "@tabler/icons-react";
 import { FC } from "react";
 import { Link } from "react-router-dom";
-import BoxHeader from "../../../common/BoxHeader";
+import Calendar from "../../../../utilities/Calendar";
 import MiniAvatar from "../../../common/Avatar/MiniAvatar";
+import BoxHeader from "../../../common/BoxHeader";
 
 type PendingVersionsCardProps = {
   pendingVersions?: PendingVersion[];
@@ -46,7 +47,7 @@ const PendingVersionsCard: FC<PendingVersionsCardProps> = ({
 
                 <hr className="inline size-1 rounded-full border-none bg-current" />
 
-                <span>{formatDate(version.createdAt)}</span>
+                <time>{Calendar.formatDate(version.createdAt)}</time>
               </data>
             </li>
           ))}
@@ -57,16 +58,3 @@ const PendingVersionsCard: FC<PendingVersionsCardProps> = ({
 };
 
 export default PendingVersionsCard;
-
-const formatDate = (input: string | Date | number) => {
-  const date = input instanceof Date ? input : new Date(input);
-  const showYear = date.getFullYear() < new Date().getFullYear();
-
-  return date.toLocaleString(window.navigator.language, {
-    month: "short",
-    day: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-    year: showYear ? "numeric" : undefined,
-  });
-};
