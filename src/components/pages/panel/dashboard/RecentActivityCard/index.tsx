@@ -1,7 +1,7 @@
 import { IconHistory } from "@tabler/icons-react";
 import { FC } from "react";
-import Calendar from "../../../../utilities/Calendar";
-import BoxHeader from "../../../common/BoxHeader";
+import BoxHeader from "../../../../common/BoxHeader";
+import RecentActivityItem from "./RecentActivityItem";
 
 type RecentActivityCardProps = {
   recentActivity?: RecentActivity[];
@@ -29,26 +29,15 @@ const RecentActivityCard: FC<RecentActivityCardProps> = ({
           </small>
         </div>
       ) : (
-        <ol className="flex flex-col gap-1">
-          {recentActivity.map((activity) => (
-            <div
+        <div className="flex flex-col gap-2">
+          {recentActivity.map((activity, index) => (
+            <RecentActivityItem
               key={activity.id}
-              className="bg-smoke-50 dark:bg-smoke-800/50 rounded-lg py-2 px-3 hover:bg-smoke-100 dark:hover:bg-smoke-800 transition-colors duration-150"
-            >
-              <div className="font-medium text-smoke-900 dark:text-smoke-100 truncate">
-                {activity.title}
-              </div>
-
-              <div className="text-smoke-500 dark:text-smoke-400 text-xs flex items-center gap-1">
-                <span className="text-gopher-500">Published</span>
-
-                <hr className="inline size-1 rounded-full border-none bg-current" />
-
-                <time>{Calendar.formatDate(activity.publishedAt)}</time>
-              </div>
-            </div>
+              activity={activity}
+              index={index}
+            />
           ))}
-        </ol>
+        </div>
       )}
     </div>
   );

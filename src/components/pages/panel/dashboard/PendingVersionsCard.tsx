@@ -33,7 +33,7 @@ const PendingVersionsCard: FC<PendingVersionsCardProps> = ({
           {pendingVersions.map((version) => (
             <li
               key={version.id}
-              className="flex flex-col bg-smoke-100 dark:bg-smoke-900 rounded-lg px-2 py-1"
+              className="flex flex-col bg-smoke-100 dark:bg-smoke-900 rounded-lg px-2 py-1 gap-1"
             >
               <strong className="font-medium">{version.title}</strong>
 
