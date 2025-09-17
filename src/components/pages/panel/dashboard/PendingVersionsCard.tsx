@@ -1,5 +1,6 @@
-import { IconFileText } from "@tabler/icons-react";
+import { IconFileText, IconTag } from "@tabler/icons-react";
 import { FC } from "react";
+import { Link } from "react-router-dom";
 import BoxHeader from "../../../common/BoxHeader";
 
 type PendingVersionsCardProps = {
@@ -9,14 +10,6 @@ type PendingVersionsCardProps = {
 const PendingVersionsCard: FC<PendingVersionsCardProps> = ({
   pendingVersions,
 }) => {
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString("en-US", {
-      month: "short",
-      day: "numeric",
-    });
-  };
-
   return (
     <div className="bg-smoke-50 dark:bg-smoke-950 rounded-xl border border-smoke-200/60 dark:border-smoke-700/60 p-4">
       <BoxHeader
@@ -26,31 +19,50 @@ const PendingVersionsCard: FC<PendingVersionsCardProps> = ({
       />
 
       {!pendingVersions || pendingVersions.length === 0 ? (
-        <div className="text-center py-8">
-          <div className="w-12 h-12 bg-smoke-100 dark:bg-smoke-800 rounded-full flex items-center justify-center mx-auto mb-3">
-            <IconFileText className="w-4 h-4 text-smoke-400" />
+        <div className="grow flex flex-col items-center justify-center gap-2">
+          <div className="w-12 h-12 bg-smoke-100 dark:bg-smoke-800 rounded-full grid place-items-center">
+            <IconTag className="size-5 text-smoke-400" />
           </div>
-          <p className="text-smoke-500 text-sm">No pending versions</p>
+
+          <small className="text-smoke-500 text-sm">No pending posts</small>
         </div>
       ) : (
-        pendingVersions.slice(0, 5).map((version) => (
-          <div
-            key={version.id}
-            className="bg-smoke-50 dark:bg-smoke-800/50 rounded-lg p-3 hover:bg-smoke-100 dark:hover:bg-smoke-800 transition-colors duration-150"
-          >
-            <div className="font-medium text-smoke-900 dark:text-smoke-100 truncate mb-1">
-              {version.title}
-            </div>
-            <div className="text-smoke-500 dark:text-smoke-400 text-xs flex items-center gap-1">
-              <span>by {version.authorName}</span>
-              <span className="w-1 h-1 bg-smoke-400 rounded-full"></span>
-              <span>{formatDate(version.createdAt)}</span>
-            </div>
-          </div>
-        ))
+        <ol className="flex flex-col gap-2 overflow-auto">
+          {pendingVersions.map((version) => (
+            <li
+              key={version.id}
+              className="flex flex-col bg-smoke-100 dark:bg-smoke-900 rounded-lg px-2 py-1"
+            >
+              <strong className="font-medium">{version.title}</strong>
+
+              <data className="text-smoke-500 dark:text-smoke-400 text-xs flex items-center gap-1">
+                <Link to={`/users/details/${version.authorId}`}>
+                  {version.authorName}
+                </Link>
+
+                <hr className="inline size-1 rounded-full border-none bg-current" />
+
+                <span>{formatDate(version.createdAt)}</span>
+              </data>
+            </li>
+          ))}
+        </ol>
       )}
     </div>
   );
 };
 
 export default PendingVersionsCard;
+
+const formatDate = (input: string | Date | number) => {
+  const date = input instanceof Date ? input : new Date(input);
+  const showYear = date.getFullYear() < new Date().getFullYear();
+
+  return date.toLocaleString(window.navigator.language, {
+    month: "short",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    year: showYear ? "numeric" : undefined,
+  });
+};
