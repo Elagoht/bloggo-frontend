@@ -1,4 +1,4 @@
-import { IconFileText, IconHistory } from "@tabler/icons-react";
+import { IconFileText, IconHistory, IconTrash } from "@tabler/icons-react";
 import { FC, useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import RouteGuard from "../../../../../components/guards/RouteGuard";
@@ -10,6 +10,9 @@ import CardGrid from "../../../../../components/layout/Container/CardGrid";
 import PostDetails from "../../../../../components/pages/panel/posts/PostDetails";
 import SectionHeader from "../../../../../components/layout/SectionHeader";
 import PostTagsManager from "../../../../../components/pages/panel/posts/PostTagsManager";
+import Button from "../../../../../components/form/Button";
+import PermissionGuard from "../../../../../components/guards/PermissionGuard";
+import RemovalRequestDialog from "../../../../../components/common/RemovalRequestDialog";
 
 const PostDetailsPage: FC = () => {
   const { slug, postId } = useParams<{ slug?: string; postId?: string }>();
@@ -20,6 +23,7 @@ const PostDetailsPage: FC = () => {
     useState<ResponsePostVersions | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
+  const [isRemovalDialogOpen, setIsRemovalDialogOpen] = useState(false);
 
   const fetchPostDetails = useCallback(async () => {
     if (!slug && !postId) return;
@@ -102,6 +106,17 @@ const PostDetailsPage: FC = () => {
           <PageTitleWithIcon icon={IconFileText}>
             Post Details
           </PageTitleWithIcon>
+
+          <PermissionGuard permission="post:delete">
+            <Button
+              onClick={() => setIsRemovalDialogOpen(true)}
+              color="danger"
+              variant="outline"
+            >
+              {<IconTrash size={20} />}
+              <span className="max-sm:hidden ml-2">Request Removal</span>
+            </Button>
+          </PermissionGuard>
         </div>
 
         <PostDetails {...post} />
@@ -134,6 +149,16 @@ const PostDetailsPage: FC = () => {
           </div>
         )}
       </Container>
+
+      <RemovalRequestDialog
+        isOpen={isRemovalDialogOpen}
+        onClose={() => setIsRemovalDialogOpen(false)}
+        postVersionId={post.versionId}
+        postTitle={post.title || "Untitled Post"}
+        onSuccess={() => {
+          // Optionally show a success message or refresh data
+        }}
+      />
     </RouteGuard>
   );
 };

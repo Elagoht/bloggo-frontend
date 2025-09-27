@@ -7,6 +7,7 @@ import {
   IconHistory,
   IconProps,
   IconTag,
+  IconTrash,
   IconUsers,
 } from "@tabler/icons-react";
 import { ForwardRefExoticComponent, RefAttributes } from "react";
@@ -52,6 +53,12 @@ export const asideMenu: Array<{
     icon: IconUsers,
     href: "/users",
     perm: "user:list",
+  },
+  {
+    name: "Removal Requests",
+    icon: IconTrash,
+    href: "/removal-requests",
+    perm: "post:delete",
   },
   {
     name: "Audit Logs",
