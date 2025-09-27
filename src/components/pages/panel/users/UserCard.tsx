@@ -72,19 +72,17 @@ const UserCard: FC<UserCardProps> = ({
       </div>
 
       <div className="flex items-center justify-between pt-2 border-t border-smoke-100 dark:border-smoke-800">
-        <dl className="flex items-center gap-4">
-          <dt className="flex items-center gap-1 text-sm text-smoke-600 dark:text-smoke-400">
+        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-1 text-sm text-smoke-600 dark:text-smoke-400">
             <IconFileText size={14} />
+            <span>{writtenPostCount} written</span>
+          </div>
 
-            <dd>{writtenPostCount} written</dd>
-          </dt>
-
-          <dt className="flex items-center gap-1 text-sm text-smoke-600 dark:text-smoke-400">
+          <div className="flex items-center gap-1 text-sm text-smoke-600 dark:text-smoke-400">
             <IconClock size={14} />
-
-            <dd>{publishedPostCount} published</dd>
-          </dt>
-        </dl>
+            <span>{publishedPostCount} published</span>
+          </div>
+        </div>
       </div>
     </Link>
   );

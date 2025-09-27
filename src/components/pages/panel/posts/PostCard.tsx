@@ -1,7 +1,7 @@
 import { IconCategory, IconClock, IconEye } from "@tabler/icons-react";
 import classNames from "classnames";
 import { FC } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { PostStatus } from "../../../../utilities/PostStatusUtils";
 
 const PostCard: FC<PostCard> = ({
@@ -15,6 +15,7 @@ const PostCard: FC<PostCard> = ({
   updatedAt,
   category,
 }) => {
+  const navigate = useNavigate();
   return (
     <Link
       to={`/posts/details/${postId}`}
@@ -53,15 +54,19 @@ const PostCard: FC<PostCard> = ({
 
         {/* Category - Bottom Left */}
         {category.name && (
-          <Link
-            to={`/categories/details/${category.slug}`}
+          <button
+            type="button"
             className="absolute bottom-1 left-1 flex items-center gap-1.5 pr-2.5 p-1.5 rounded-full rounded-bl-none text-xs font-medium bg-black/50 text-white backdrop-blur-md shadow-lg hover:bg-black/60 transition-colors duration-200"
-            onClick={(e) => e.stopPropagation()}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              navigate(`/categories/details/${category.slug}`);
+            }}
           >
             <IconCategory size={16} />
 
             <span>{category.name}</span>
-          </Link>
+          </button>
         )}
       </figure>
 
@@ -78,10 +83,14 @@ const PostCard: FC<PostCard> = ({
         </div>
 
         <div className="flex items-center justify-between text-sm mt-auto">
-          <Link
-            to={`/users/details/${author.id}`}
+          <button
+            type="button"
             className="flex items-center gap-2 text-smoke-600 dark:text-smoke-400 hover:text-gopher-600 dark:hover:text-gopher-400 transition-colors duration-200"
-            onClick={(e) => e.stopPropagation()}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              navigate(`/users/details/${author.id}`);
+            }}
           >
             {author.avatar ? (
               <img
@@ -95,7 +104,7 @@ const PostCard: FC<PostCard> = ({
               </div>
             )}
             <span className="font-medium text-sm">{author.name}</span>
-          </Link>
+          </button>
 
           <div className="flex items-center gap-1.5 text-xs text-smoke-500 dark:text-smoke-500">
             <IconClock size={16} className="text-gopher-500" />

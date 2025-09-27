@@ -101,12 +101,13 @@ const HourlyViewsChart: FC<HourlyViewsChartProps> = ({ data }) => {
   const CustomDot = (props: {
     cx: number;
     cy: number;
-    payload: { isCurrentHour: boolean };
+    payload: { isCurrentHour: boolean; hour: string };
   }) => {
     const { cx, cy, payload } = props;
     if (payload.isCurrentHour) {
       return (
         <Dot
+          key={`dot-${payload.hour}-current`}
           cx={cx}
           cy={cy}
           r={4}
@@ -116,7 +117,7 @@ const HourlyViewsChart: FC<HourlyViewsChartProps> = ({ data }) => {
         />
       );
     }
-    return <Dot cx={cx} cy={cy} r={2} fill="#3B82F6" />;
+    return <Dot key={`dot-${payload.hour}`} cx={cx} cy={cy} r={2} fill="#3B82F6" />;
   };
 
   return (
