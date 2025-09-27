@@ -30,6 +30,7 @@ import VersionDeleteForm from "../../../../../../../forms/VersionDeleteForm";
 import { getCategoriesList } from "../../../../../../../services/categories";
 import {
   getPostVersion,
+  getPostVersions,
   updatePostVersion,
 } from "../../../../../../../services/posts";
 
@@ -46,6 +47,7 @@ const EditVersionPage: FC = () => {
   const [version, setVersion] = useState<PostVersionDetails | null>(null);
   const [currentContent, setCurrentContent] = useState<string>("");
   const [isDirty, setIsDirty] = useState(false);
+  const [isLastVersion, setIsLastVersion] = useState(false);
 
   // Dialog state
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -56,7 +58,11 @@ const EditVersionPage: FC = () => {
 
   const loadVersion = async () => {
     if (postId && versionId) {
-      const versionResponse = await getPostVersion(parseInt(postId), versionId);
+      const [versionResponse, versionsResponse] = await Promise.all([
+        getPostVersion(parseInt(postId), versionId),
+        getPostVersions(parseInt(postId))
+      ]);
+
       if (versionResponse.success) {
         setVersion(versionResponse.data);
         setCurrentContent(versionResponse.data.content || "");
@@ -64,6 +70,10 @@ const EditVersionPage: FC = () => {
         if (versionResponse.data.coverImage) {
           setCoverPreview(versionResponse.data.coverImage);
         }
+      }
+
+      if (versionsResponse.success) {
+        setIsLastVersion(versionsResponse.data.versions.length === 1);
       }
     }
   };
@@ -341,6 +351,7 @@ const EditVersionPage: FC = () => {
                 versionId={versionId}
                 versionTitle={version.title}
                 versionSlug={version.slug}
+                isLastVersion={isLastVersion}
               />
             )}
           </Sidebar>

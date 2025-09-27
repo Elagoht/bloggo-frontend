@@ -2,6 +2,10 @@ type ResponsePostCreated = {
   id: number;
 };
 
+type ResponseVersionDeleted = {
+  postDeleted?: boolean;
+};
+
 type PostCard = {
   postId: number;
   author: {

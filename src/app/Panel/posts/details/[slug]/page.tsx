@@ -1,6 +1,6 @@
 import { IconFileText, IconHistory } from "@tabler/icons-react";
 import { FC, useCallback, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import RouteGuard from "../../../../../components/guards/RouteGuard";
 import Container from "../../../../../components/layout/Container";
 import PageTitleWithIcon from "../../../../../components/layout/Container/PageTitle";
@@ -13,6 +13,7 @@ import PostTagsManager from "../../../../../components/pages/panel/posts/PostTag
 
 const PostDetailsPage: FC = () => {
   const { slug, postId } = useParams<{ slug?: string; postId?: string }>();
+  const navigate = useNavigate();
 
   const [post, setPost] = useState<PostDetails | null>(null);
   const [versionsResponse, setVersionsResponse] =
@@ -37,13 +38,20 @@ const PostDetailsPage: FC = () => {
         if (versionsResult.success) {
           setVersionsResponse(versionsResult.data);
         }
+      } else {
+        // If post is not found (404 or other error), redirect to posts list
+        if (postResult.status === 404) {
+          navigate("/posts");
+          return;
+        }
+        setError(new Error(postResult.error?.message || "Failed to load post"));
       }
     } catch (err) {
       setError(err as Error);
     } finally {
       setLoading(false);
     }
-  }, [slug, postId]);
+  }, [slug, postId, navigate]);
 
   useEffect(() => {
     fetchPostDetails();

@@ -68,7 +68,7 @@ export const updatePostVersion = (
   );
 
 export const deletePostVersion = (postId: number, versionId: string) =>
-  ApiCall.delete(`/posts/${postId}/versions/${versionId}`);
+  ApiCall.delete<ResponseVersionDeleted>(`/posts/${postId}/versions/${versionId}`);
 
 export const submitVersionForReview = (postId: number, versionId: string) =>
   ApiCall.post(`/posts/${postId}/versions/${versionId}/submit`);

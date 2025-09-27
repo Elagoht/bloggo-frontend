@@ -12,6 +12,7 @@ type VersionDeleteFormProps = {
   versionId: string;
   versionTitle: string;
   versionSlug?: string;
+  isLastVersion?: boolean;
 };
 
 const VersionDeleteForm: FC<VersionDeleteFormProps> = ({
@@ -19,6 +20,7 @@ const VersionDeleteForm: FC<VersionDeleteFormProps> = ({
   versionId,
   versionTitle,
   versionSlug,
+  isLastVersion = false,
 }) => {
   const navigate = useNavigate();
 
@@ -29,12 +31,19 @@ const VersionDeleteForm: FC<VersionDeleteFormProps> = ({
       return toast.error("Couldn't delete the version");
     }
 
-    if (versionSlug) {
-      navigate(`/posts/details/${postId}`);
-    } else {
+    // Check if the entire post was deleted (when it was the last version)
+    if (response.data?.postDeleted) {
       navigate("/posts");
+      toast.success(`Post and all associated data have been deleted (last version removed)`);
+    } else {
+      // Normal version deletion
+      if (versionSlug) {
+        navigate(`/posts/details/${postId}`);
+      } else {
+        navigate("/posts");
+      }
+      toast.success(`Version "${versionTitle}" has been deleted`);
     }
-    toast.success(`Version "${versionTitle}" has been deleted`);
   };
 
   return (
@@ -43,8 +52,18 @@ const VersionDeleteForm: FC<VersionDeleteFormProps> = ({
         Danger Zone
       </SectionHeader>
 
-      <HoldButton color="danger" onClick={handleSubmit}>
-        Hold to Delete Version
+      <HoldButton
+        color="danger"
+        onClick={handleSubmit}
+        confirmTitle={isLastVersion ? "Delete Entire Post" : "Delete Version"}
+        confirmMessage={
+          isLastVersion
+            ? `This is the last version of the post. Deleting it will permanently remove the entire post, including all associated images and data. This action cannot be undone.`
+            : `Are you sure you want to delete version "${versionTitle}"? This action cannot be undone.`
+        }
+        confirmActionText={isLastVersion ? "Delete Post" : "Delete Version"}
+      >
+        {isLastVersion ? "Hold to Delete Post" : "Hold to Delete Version"}
       </HoldButton>
     </FormCard>
   );

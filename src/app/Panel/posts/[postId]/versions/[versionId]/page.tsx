@@ -22,7 +22,7 @@ import Sidebar from "../../../../../../components/layout/Container/Sidebar";
 import SectionHeader from "../../../../../../components/layout/SectionHeader";
 import VersionActionsForm from "../../../../../../forms/VersionActionsForm";
 import VersionDeleteForm from "../../../../../../forms/VersionDeleteForm";
-import { getPostVersion } from "../../../../../../services/posts";
+import { getPostVersion, getPostVersions } from "../../../../../../services/posts";
 import { PostStatus } from "../../../../../../utilities/PostStatusUtils";
 
 const ViewVersionPage: FC = () => {
@@ -32,18 +32,24 @@ const ViewVersionPage: FC = () => {
   }>();
   const [isLoading, setIsLoading] = useState(true);
   const [version, setVersion] = useState<PostVersionDetails | null>(null);
+  const [isLastVersion, setIsLastVersion] = useState(false);
 
   const loadVersion = async () => {
     try {
       setIsLoading(true);
 
       if (postId && versionId) {
-        const versionResponse = await getPostVersion(
-          parseInt(postId),
-          versionId
-        );
+        const [versionResponse, versionsResponse] = await Promise.all([
+          getPostVersion(parseInt(postId), versionId),
+          getPostVersions(parseInt(postId))
+        ]);
+
         if (versionResponse.success) {
           setVersion(versionResponse.data);
+        }
+
+        if (versionsResponse.success) {
+          setIsLastVersion(versionsResponse.data.versions.length === 1);
         }
       }
     } catch (error) {
@@ -206,6 +212,7 @@ const ViewVersionPage: FC = () => {
                 versionId={versionId}
                 versionTitle={version.title}
                 versionSlug={version.slug}
+                isLastVersion={isLastVersion}
               />
             )}
           </PermissionGuard>
