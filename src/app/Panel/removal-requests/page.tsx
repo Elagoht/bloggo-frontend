@@ -32,6 +32,7 @@ const RemovalRequestsPage: FC = () => {
       const result = await getRemovalRequests();
       setRemovalRequests(result.success ? result.data : null);
     } catch (err) {
+      console.error("Error fetching removal requests:", err);
       setError(err as Error);
     } finally {
       setLoading(false);
@@ -41,7 +42,11 @@ const RemovalRequestsPage: FC = () => {
   const filteredRequests = useMemo(() => {
     if (!removalRequests) return [];
 
-    if (statusFilter === null || statusFilter === "" || statusFilter === "all") {
+    if (
+      statusFilter === null ||
+      statusFilter === "" ||
+      statusFilter === "all"
+    ) {
       return removalRequests;
     }
 
@@ -131,20 +136,26 @@ const RemovalRequestsPage: FC = () => {
                 Status
               </label>
               <Select
-                value={statusFilter || REMOVAL_REQUEST_STATUS.PENDING.toString()}
+                value={
+                  statusFilter || REMOVAL_REQUEST_STATUS.PENDING.toString()
+                }
                 onChange={(e) => handleStatusFilterChange(e.target.value)}
-              >
-                <option value="all">All Statuses</option>
-                <option value={REMOVAL_REQUEST_STATUS.PENDING.toString()}>
-                  Pending
-                </option>
-                <option value={REMOVAL_REQUEST_STATUS.APPROVED.toString()}>
-                  Approved
-                </option>
-                <option value={REMOVAL_REQUEST_STATUS.REJECTED.toString()}>
-                  Rejected
-                </option>
-              </Select>
+                options={[
+                  { value: "all", label: "All Statuses" },
+                  {
+                    value: REMOVAL_REQUEST_STATUS.PENDING.toString(),
+                    label: "Pending",
+                  },
+                  {
+                    value: REMOVAL_REQUEST_STATUS.APPROVED.toString(),
+                    label: "Approved",
+                  },
+                  {
+                    value: REMOVAL_REQUEST_STATUS.REJECTED.toString(),
+                    label: "Rejected",
+                  },
+                ]}
+              />
             </div>
           </div>
         </Sidebar>

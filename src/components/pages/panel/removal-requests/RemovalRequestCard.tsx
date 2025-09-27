@@ -1,15 +1,10 @@
-import { IconCalendar, IconUser } from "@tabler/icons-react";
+import { IconCalendar, IconUser, IconClock, IconCheck, IconX } from "@tabler/icons-react";
 import { FC } from "react";
 import { Link } from "react-router-dom";
-import {
-  getRemovalRequestStatusText,
-  getRemovalRequestStatusColor,
-} from "../../../../services/removal-requests";
-import IconBadge from "../../../common/IconBadge";
+import { REMOVAL_REQUEST_STATUS } from "../../../../services/removal-requests";
 
 const RemovalRequestCard: FC<RemovalRequestCard> = ({
   id,
-  postVersionId,
   postTitle,
   requestedBy,
   note,
@@ -18,8 +13,48 @@ const RemovalRequestCard: FC<RemovalRequestCard> = ({
   decidedAt,
   createdAt,
 }) => {
-  const statusText = getRemovalRequestStatusText(status);
-  const statusColor = getRemovalRequestStatusColor(status);
+  const getStatusText = (status: number): string => {
+    switch (status) {
+      case REMOVAL_REQUEST_STATUS.PENDING:
+        return "Pending";
+      case REMOVAL_REQUEST_STATUS.APPROVED:
+        return "Approved";
+      case REMOVAL_REQUEST_STATUS.REJECTED:
+        return "Rejected";
+      default:
+        return "Unknown";
+    }
+  };
+
+  const getStatusColor = (status: number): "warning" | "success" | "danger" => {
+    switch (status) {
+      case REMOVAL_REQUEST_STATUS.PENDING:
+        return "warning";
+      case REMOVAL_REQUEST_STATUS.APPROVED:
+        return "success";
+      case REMOVAL_REQUEST_STATUS.REJECTED:
+        return "danger";
+      default:
+        return "warning";
+    }
+  };
+
+  const getStatusIcon = (status: number) => {
+    switch (status) {
+      case REMOVAL_REQUEST_STATUS.PENDING:
+        return IconClock;
+      case REMOVAL_REQUEST_STATUS.APPROVED:
+        return IconCheck;
+      case REMOVAL_REQUEST_STATUS.REJECTED:
+        return IconX;
+      default:
+        return IconClock;
+    }
+  };
+
+  const statusText = getStatusText(status);
+  const statusColor = getStatusColor(status);
+  const StatusIcon = getStatusIcon(status);
 
   return (
     <Link
@@ -37,11 +72,18 @@ const RemovalRequestCard: FC<RemovalRequestCard> = ({
             </p>
           )}
         </div>
-        <IconBadge
-          color={statusColor as "primary" | "success" | "warning" | "danger"}
+        <div
+          className={`flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${
+            statusColor === "warning"
+              ? "bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-300"
+              : statusColor === "success"
+              ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300"
+              : "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300"
+          }`}
         >
-          {statusText}
-        </IconBadge>
+          <StatusIcon size={14} />
+          <span>{statusText}</span>
+        </div>
       </div>
 
       <div className="flex items-center gap-4 text-sm text-smoke-600 dark:text-smoke-400">

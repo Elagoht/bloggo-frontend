@@ -23,13 +23,20 @@ const RemovalRequestDialog: FC<RemovalRequestDialogProps> = ({
   const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async () => {
+    const trimmedNote = note.trim();
+
+    if (!trimmedNote) {
+      setError("Please provide a reason for the removal request.");
+      return;
+    }
+
     try {
       setIsSubmitting(true);
       setError(null);
 
       const result = await createRemovalRequest({
         postVersionId,
-        note: note.trim() || undefined,
+        note: trimmedNote,
       });
 
       if (result.success) {
@@ -72,7 +79,7 @@ const RemovalRequestDialog: FC<RemovalRequestDialogProps> = ({
           onClick: handleSubmit,
           children: isSubmitting ? "Submitting..." : "Submit Request",
           color: "danger",
-          disabled: isSubmitting,
+          disabled: isSubmitting || !note.trim(),
         },
       ]}
     >
@@ -88,7 +95,7 @@ const RemovalRequestDialog: FC<RemovalRequestDialogProps> = ({
 
         <div>
           <label className="block text-sm font-medium text-smoke-700 dark:text-smoke-300 mb-2">
-            Reason for removal (optional)
+            Reason for removal
           </label>
           <Textarea
             value={note}
@@ -97,6 +104,7 @@ const RemovalRequestDialog: FC<RemovalRequestDialogProps> = ({
             rows={4}
             maxLength={500}
             disabled={isSubmitting}
+            required
           />
           <div className="text-xs text-smoke-500 dark:text-smoke-400 mt-1">
             {note.length}/500 characters
@@ -110,8 +118,8 @@ const RemovalRequestDialog: FC<RemovalRequestDialogProps> = ({
         )}
 
         <div className="text-sm text-smoke-600 dark:text-smoke-400 bg-smoke-50 dark:bg-smoke-900/50 p-3 rounded-lg">
-          <strong>Note:</strong> Once submitted, your request will be reviewed by
-          administrators. You will be notified of the decision.
+          <strong>Note:</strong> Once submitted, your request will be reviewed
+          by editors. You will be notified of the decision.
         </div>
       </div>
     </Dialog>

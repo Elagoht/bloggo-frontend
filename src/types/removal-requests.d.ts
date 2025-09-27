@@ -31,7 +31,7 @@ interface UserInfo {
 
 interface CreateRemovalRequestRequest {
   postVersionId: number;
-  note?: string;
+  note: string;
 }
 
 interface DecideRemovalRequestRequest {

@@ -1,4 +1,4 @@
-import { IconCalendar, IconTrash, IconUser } from "@tabler/icons-react";
+import { IconCalendar, IconTrash, IconUser, IconClock, IconCheck, IconX } from "@tabler/icons-react";
 import { FC, useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import RouteGuard from "../../../../../components/guards/RouteGuard";
@@ -8,16 +8,52 @@ import {
   getRemovalRequestById,
   approveRemovalRequest,
   rejectRemovalRequest,
-  getRemovalRequestStatusText,
-  getRemovalRequestStatusColor,
   REMOVAL_REQUEST_STATUS,
 } from "../../../../../services/removal-requests";
-import IconBadge from "../../../../../components/common/IconBadge";
 import HoldButton from "../../../../../components/form/HoldButton";
 
 const RemovalRequestDetailsPage: FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+
+  const getStatusText = (status: number): string => {
+    switch (status) {
+      case REMOVAL_REQUEST_STATUS.PENDING:
+        return "Pending";
+      case REMOVAL_REQUEST_STATUS.APPROVED:
+        return "Approved";
+      case REMOVAL_REQUEST_STATUS.REJECTED:
+        return "Rejected";
+      default:
+        return "Unknown";
+    }
+  };
+
+  const getStatusColor = (status: number): "warning" | "success" | "danger" => {
+    switch (status) {
+      case REMOVAL_REQUEST_STATUS.PENDING:
+        return "warning";
+      case REMOVAL_REQUEST_STATUS.APPROVED:
+        return "success";
+      case REMOVAL_REQUEST_STATUS.REJECTED:
+        return "danger";
+      default:
+        return "warning";
+    }
+  };
+
+  const getStatusIcon = (status: number) => {
+    switch (status) {
+      case REMOVAL_REQUEST_STATUS.PENDING:
+        return IconClock;
+      case REMOVAL_REQUEST_STATUS.APPROVED:
+        return IconCheck;
+      case REMOVAL_REQUEST_STATUS.REJECTED:
+        return IconX;
+      default:
+        return IconClock;
+    }
+  };
 
   const [removalRequest, setRemovalRequest] =
     useState<RemovalRequestDetails | null>(null);
@@ -119,8 +155,9 @@ const RemovalRequestDetailsPage: FC = () => {
     );
   }
 
-  const statusText = getRemovalRequestStatusText(removalRequest.status);
-  const statusColor = getRemovalRequestStatusColor(removalRequest.status);
+  const statusText = getStatusText(removalRequest.status);
+  const statusColor = getStatusColor(removalRequest.status);
+  const StatusIcon = getStatusIcon(removalRequest.status);
   const isPending = removalRequest.status === REMOVAL_REQUEST_STATUS.PENDING;
 
   return (
@@ -131,11 +168,18 @@ const RemovalRequestDetailsPage: FC = () => {
             Removal Request Details
           </PageTitleWithIcon>
 
-          <IconBadge
-            color={statusColor as "primary" | "success" | "warning" | "danger"}
+          <div
+            className={`flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${
+              statusColor === "warning"
+                ? "bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-300"
+                : statusColor === "success"
+                ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300"
+                : "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300"
+            }`}
           >
-            {statusText}
-          </IconBadge>
+            <StatusIcon size={14} />
+            <span>{statusText}</span>
+          </div>
         </div>
 
         <div className="space-y-6">

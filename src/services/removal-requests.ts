@@ -1,4 +1,4 @@
-import apiCaller from "../utilities/apiCaller";
+import ApiCall from "../utilities/apiCaller";
 
 export const REMOVAL_REQUEST_STATUS = {
   PENDING: 0,
@@ -6,84 +6,24 @@ export const REMOVAL_REQUEST_STATUS = {
   REJECTED: 2,
 } as const;
 
-export const getRemovalRequestStatusText = (status: number): string => {
-  switch (status) {
-    case REMOVAL_REQUEST_STATUS.PENDING:
-      return "Pending";
-    case REMOVAL_REQUEST_STATUS.APPROVED:
-      return "Approved";
-    case REMOVAL_REQUEST_STATUS.REJECTED:
-      return "Rejected";
-    default:
-      return "Unknown";
-  }
-};
+export const createRemovalRequest = (data: CreateRemovalRequestRequest) =>
+  ApiCall.post<number>("/removal-requests", data);
 
-export const getRemovalRequestStatusColor = (status: number): string => {
-  switch (status) {
-    case REMOVAL_REQUEST_STATUS.PENDING:
-      return "warning";
-    case REMOVAL_REQUEST_STATUS.APPROVED:
-      return "success";
-    case REMOVAL_REQUEST_STATUS.REJECTED:
-      return "danger";
-    default:
-      return "primary";
-  }
-};
+export const getRemovalRequests = () =>
+  ApiCall.get<RemovalRequestCard[]>("/removal-requests");
 
-export const createRemovalRequest = async (
-  data: CreateRemovalRequestRequest
-): Promise<APIResponse<number>> => {
-  return await apiCaller<number>("/removal-requests", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  });
-};
+export const getUserRemovalRequests = () =>
+  ApiCall.get<RemovalRequestCard[]>("/removal-requests/mine");
 
-export const getRemovalRequests = async (): Promise<
-  APIResponse<RemovalRequestCard[]>
-> => {
-  return await apiCaller<RemovalRequestCard[]>("/removal-requests");
-};
+export const getRemovalRequestById = (id: number) =>
+  ApiCall.get<RemovalRequestDetails>(`/removal-requests/${id}`);
 
-export const getUserRemovalRequests = async (): Promise<
-  APIResponse<RemovalRequestCard[]>
-> => {
-  return await apiCaller<RemovalRequestCard[]>("/removal-requests/mine");
-};
-
-export const getRemovalRequestById = async (
-  id: number
-): Promise<APIResponse<RemovalRequestDetails>> => {
-  return await apiCaller<RemovalRequestDetails>(`/removal-requests/${id}`);
-};
-
-export const approveRemovalRequest = async (
+export const approveRemovalRequest = (
   id: number,
   data?: DecideRemovalRequestRequest
-): Promise<APIResponse<void>> => {
-  return await apiCaller<void>(`/removal-requests/${id}/approve`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: data ? JSON.stringify(data) : undefined,
-  });
-};
+) => ApiCall.post<void>(`/removal-requests/${id}/approve`, data);
 
-export const rejectRemovalRequest = async (
+export const rejectRemovalRequest = (
   id: number,
   data?: DecideRemovalRequestRequest
-): Promise<APIResponse<void>> => {
-  return await apiCaller<void>(`/removal-requests/${id}/reject`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: data ? JSON.stringify(data) : undefined,
-  });
-};
+) => ApiCall.post<void>(`/removal-requests/${id}/reject`, data);

@@ -107,16 +107,14 @@ const PostDetailsPage: FC = () => {
             Post Details
           </PageTitleWithIcon>
 
-          <PermissionGuard permission="post:delete">
-            <Button
-              onClick={() => setIsRemovalDialogOpen(true)}
-              color="danger"
-              variant="outline"
-            >
-              {<IconTrash size={20} />}
-              <span className="max-sm:hidden ml-2">Request Removal</span>
-            </Button>
-          </PermissionGuard>
+          <Button
+            onClick={() => setIsRemovalDialogOpen(true)}
+            color="danger"
+            variant="outline"
+          >
+            {<IconTrash size={20} />}
+            <span className="max-sm:hidden ml-2">Request Removal</span>
+          </Button>
         </div>
 
         <PostDetails {...post} />
