@@ -1,64 +1,123 @@
-import { IconHistory } from "@tabler/icons-react";
+import { IconHistory, IconFilter } from "@tabler/icons-react";
 import { FC, useCallback, useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import PermissionGuard from "../../../components/guards/PermissionGuard";
 import RouteGuard from "../../../components/guards/RouteGuard";
 import Container from "../../../components/layout/Container";
+import ContentWithSidebar from "../../../components/layout/Container/ContentWithSidebar";
 import PageTitleWithIcon from "../../../components/layout/Container/PageTitle";
 import Pagination from "../../../components/layout/Container/Pagination";
+import Sidebar from "../../../components/layout/Container/Sidebar";
+import SectionHeader from "../../../components/layout/SectionHeader";
 import { getAuditLogs } from "../../../services/audit";
 import { getUsers } from "../../../services/users";
+import { getCategoriesList } from "../../../services/categories";
+import { getTags } from "../../../services/tags";
 import AuditLogTable from "../../../components/pages/panel/audit-logs/AuditLogTable";
+import AuditLogFiltersForm from "../../../forms/AuditLogFiltersForm";
+import NoDataRecorded from "../../../components/common/NoDataRecorded";
 
 const AuditLogsPage: FC = () => {
   const [searchParams] = useSearchParams();
   const [auditLogsResponse, setAuditLogsResponse] =
     useState<AuditLogsResponse | null>(null);
   const [users, setUsers] = useState<Map<number, UserCard>>(new Map());
+  const [categories, setCategories] = useState<CategoryListItem[]>([]);
+  const [tags, setTags] = useState<TagCard[]>([]);
   const [loading, setLoading] = useState(false);
 
   // Create a reactive memo for search params that will trigger resource updates
   const searchFilters = useMemo(
-    () => ({
-      order: searchParams.get("order") || "created_at",
-      dir: searchParams.get("dir") || "desc",
-      page: parseInt(searchParams.get("page") || "1"),
-      take: parseInt(searchParams.get("take") || "20"),
-    }),
+    () => {
+      const parseArrayParam = (paramName: string): string[] => {
+        const param = searchParams.get(paramName);
+        return param ? param.split(',').filter(Boolean) : [];
+      };
+
+      const parseUserIds = (): number[] => {
+        const userIdParams = parseArrayParam('userId');
+        return userIdParams.map(id => parseInt(id)).filter(id => !isNaN(id));
+      };
+
+      // Parse action filters from URL
+      const actionFilters = parseArrayParam('action');
+
+      // Default behavior: if no action filters are specified, exclude login/logout actions
+      // This prevents cluttering the logs with authentication events by default
+      let finalActionFilters = undefined;
+
+      if (actionFilters.length === 0 && !searchParams.has('action')) {
+        // No action filter specified - use all actions except login/logout
+        const allActions = ['created', 'updated', 'deleted', 'submitted', 'approved', 'rejected',
+                           'published', 'unpublished', 'assigned', 'removed', 'requested',
+                           'denied', 'added', 'duplicated_from', 'replaced_published'];
+        finalActionFilters = allActions;
+      } else if (actionFilters.length > 0) {
+        // User explicitly selected actions - use exactly what they selected
+        finalActionFilters = actionFilters;
+      }
+      // If actionFilters is empty array but 'action' param exists (user cleared all), show nothing
+
+      return {
+        order: searchParams.get("order") || "created_at",
+        dir: searchParams.get("dir") || "desc",
+        page: parseInt(searchParams.get("page") || "1"),
+        take: parseInt(searchParams.get("take") || "20"),
+        userId: parseUserIds().length > 0 ? parseUserIds() : undefined,
+        entityType: parseArrayParam('entityType').length > 0 ? parseArrayParam('entityType') : undefined,
+        action: finalActionFilters,
+        categories: parseArrayParam('categories').length > 0 ? parseArrayParam('categories') : undefined,
+        tags: parseArrayParam('tags').length > 0 ? parseArrayParam('tags') : undefined,
+      };
+    },
     [searchParams]
   );
 
-  const fetchAuditLogs = useCallback(async (filters: typeof searchFilters) => {
+  const fetchAuditLogs = useCallback(async (filters: AuditLogFilters) => {
     setLoading(true);
     const result = await getAuditLogs(filters);
     if (result.success) {
       setAuditLogsResponse(result.data);
-
-      // Extract unique user IDs from audit logs
-      const userIds = [
-        ...new Set(
-          result.data.data
-            .map((log) => log.userId)
-            .filter((id): id is number => id !== null)
-        ),
-      ];
-
-      // Fetch user data for all unique user IDs
-      if (userIds.length > 0) {
-        const usersResult = await getUsers({ take: 1000 }); // Get all users
-        if (usersResult.success) {
-          const userMap = new Map<number, UserCard>();
-          usersResult.data.data.forEach((user) => {
-            userMap.set(user.id, user);
-          });
-          setUsers(userMap);
-        }
-      }
     } else {
+      console.error('Failed to fetch audit logs:', result);
       setAuditLogsResponse(null);
     }
     setLoading(false);
   }, []);
+
+  // Fetch all users for filter dropdown
+  const fetchAllUsers = useCallback(async () => {
+    const usersResult = await getUsers({ take: 1000 });
+    if (usersResult.success) {
+      const userMap = new Map<number, UserCard>();
+      usersResult.data.data.forEach((user) => {
+        userMap.set(user.id, user);
+      });
+      setUsers(userMap);
+    }
+  }, []);
+
+  // Fetch all categories for filter dropdown
+  const fetchAllCategories = useCallback(async () => {
+    const categoriesResult = await getCategoriesList();
+    if (categoriesResult.success) {
+      setCategories(categoriesResult.data);
+    }
+  }, []);
+
+  // Fetch all tags for filter dropdown
+  const fetchAllTags = useCallback(async () => {
+    const tagsResult = await getTags({ take: 1000 });
+    if (tagsResult.success) {
+      setTags(tagsResult.data.data);
+    }
+  }, []);
+
+
+  useEffect(() => {
+    fetchAllUsers();
+    fetchAllCategories();
+    fetchAllTags();
+  }, [fetchAllUsers, fetchAllCategories, fetchAllTags]);
 
   useEffect(() => {
     fetchAuditLogs(searchFilters);
@@ -66,29 +125,43 @@ const AuditLogsPage: FC = () => {
 
   return (
     <RouteGuard>
-      <PermissionGuard permission="auditlog:view">
-        <Container size="xl">
+      <ContentWithSidebar>
+        <Container>
           <PageTitleWithIcon icon={IconHistory}>Audit Logs</PageTitleWithIcon>
 
-          {auditLogsResponse && !loading && (
-            <div className="space-y-4">
-              {auditLogsResponse.data.length !== 0 && (
+          {!loading && (
+            <>
+              {auditLogsResponse && auditLogsResponse.logs.length > 0 ? (
                 <>
                   <AuditLogTable
-                    auditLogs={auditLogsResponse.data}
+                    auditLogs={auditLogsResponse.logs}
                     users={users}
                   />
 
                   <Pagination
                     totalItems={auditLogsResponse.total}
-                    itemsPerPage={auditLogsResponse.take}
+                    itemsPerPage={parseInt(searchParams.get("take") || "20")}
                   />
                 </>
+              ) : (
+                <NoDataRecorded
+                  message="No audit logs found"
+                  description="No audit logs match the current filters. Try adjusting your search criteria."
+                />
               )}
-            </div>
+            </>
           )}
         </Container>
-      </PermissionGuard>
+
+        <Sidebar topMargin>
+          <SectionHeader icon={IconFilter}>Filters</SectionHeader>
+          <AuditLogFiltersForm
+            users={users}
+            categories={categories}
+            tags={tags}
+          />
+        </Sidebar>
+      </ContentWithSidebar>
     </RouteGuard>
   );
 };

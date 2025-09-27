@@ -11,7 +11,7 @@ const PanelLayout: FC = () => {
 
       <Aside />
 
-      <main className="mt-16 md:ml-64 flex flex-col items-center p-4 gap-4 flex-1 max-w-full overflow-x-hidden">
+      <main className="mt-16 md:ml-64 flex flex-col items-center p-4 gap-4 flex-1 md:max-w-[calc(100vw-16rem)] overflow-x-hidden">
         <Outlet />
 
         <Footer />

@@ -1,0 +1,249 @@
+import {
+  IconActivity,
+  IconCategory,
+  IconCheck,
+  IconChevronDown,
+  IconChevronRight,
+  IconClock,
+  IconEdit,
+  IconFileText,
+  IconPlus,
+  IconTag,
+  IconTrash,
+  IconUser,
+  IconX,
+} from "@tabler/icons-react";
+import { FC, useState } from "react";
+import Calendar from "../../../../utilities/Calendar";
+
+type AuditLogListItemProps = {
+  auditLog: AuditLog;
+  users: Map<number, UserCard>;
+};
+
+const AuditLogListItem: FC<AuditLogListItemProps> = ({ auditLog, users }) => {
+  const [showDetails, setShowDetails] = useState(false);
+
+  const formatAction = (action: string) => {
+    // Actions are now simple verbs, just capitalize
+    return action.charAt(0).toUpperCase() + action.slice(1);
+  };
+
+  const formatEntityType = (entityType: string) => {
+    return entityType
+      .split("_")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
+  };
+
+  const getUserName = (userId: number | null) => {
+    if (!userId) return "System";
+    const user = users.get(userId);
+    return user ? user.name : `User #${userId}`;
+  };
+
+  const getActionColor = (action: string) => {
+    // Each action gets a unique color
+    if (action === "created") return "text-emerald-600 dark:text-emerald-400";
+    if (action === "added") return "text-green-600 dark:text-green-400";
+    if (action === "approved") return "text-teal-600 dark:text-teal-400";
+    if (action === "published") return "text-lime-600 dark:text-lime-400";
+
+    if (action === "updated") return "text-blue-600 dark:text-blue-400";
+    if (action === "assigned") return "text-indigo-600 dark:text-indigo-400";
+
+    if (action === "submitted") return "text-amber-600 dark:text-amber-400";
+    if (action === "requested") return "text-yellow-600 dark:text-yellow-400";
+
+    if (action === "deleted") return "text-red-600 dark:text-red-400";
+    if (action === "removed") return "text-rose-600 dark:text-rose-400";
+    if (action === "rejected") return "text-pink-600 dark:text-pink-400";
+    if (action === "denied") return "text-fuchsia-600 dark:text-fuchsia-400";
+    if (action === "unpublished") return "text-orange-600 dark:text-orange-400";
+
+    if (action === "login") return "text-cyan-600 dark:text-cyan-400";
+    if (action === "logout") return "text-slate-600 dark:text-slate-400";
+
+    if (action === "duplicated_from") return "text-purple-600 dark:text-purple-400";
+    if (action === "replaced_published") return "text-violet-600 dark:text-violet-400";
+
+    return "text-smoke-900 dark:text-white";
+  };
+
+  const getActionIcon = (action: string, entityType: string) => {
+    // Entity type based icons
+    if (entityType === "auth") return IconUser; // Auth actions like login/logout
+    if (entityType === "user") return IconUser;
+    if (entityType === "post" || entityType === "post_version")
+      return IconFileText;
+    if (entityType === "category") return IconCategory;
+    if (entityType === "tag") return IconTag;
+
+    // Action based icons
+    if (action.includes("created")) return IconPlus;
+    if (action.includes("deleted")) return IconTrash;
+    if (action.includes("updated")) return IconEdit;
+    if (action.includes("approved")) return IconCheck;
+    if (action.includes("rejected") || action.includes("denied")) return IconX;
+    if (action.includes("submitted") || action.includes("requested"))
+      return IconClock;
+
+    return IconActivity;
+  };
+
+  const ActionIcon = getActionIcon(auditLog.action, auditLog.entityType);
+
+  const getActionBgColor = (action: string) => {
+    // Each action gets a unique color
+    if (action === "created") return "bg-emerald-50 dark:bg-emerald-950 border-emerald-200 dark:border-emerald-800";
+    if (action === "added") return "bg-green-50 dark:bg-green-950 border-green-200 dark:border-green-800";
+    if (action === "approved") return "bg-teal-50 dark:bg-teal-950 border-teal-200 dark:border-teal-800";
+    if (action === "published") return "bg-lime-50 dark:bg-lime-950 border-lime-200 dark:border-lime-800";
+
+    if (action === "updated") return "bg-blue-50 dark:bg-blue-950 border-blue-200 dark:border-blue-800";
+    if (action === "assigned") return "bg-indigo-50 dark:bg-indigo-950 border-indigo-200 dark:border-indigo-800";
+
+    if (action === "submitted") return "bg-amber-50 dark:bg-amber-950 border-amber-200 dark:border-amber-800";
+    if (action === "requested") return "bg-yellow-50 dark:bg-yellow-950 border-yellow-200 dark:border-yellow-800";
+
+    if (action === "deleted") return "bg-red-50 dark:bg-red-950 border-red-200 dark:border-red-800";
+    if (action === "removed") return "bg-rose-50 dark:bg-rose-950 border-rose-200 dark:border-rose-800";
+    if (action === "rejected") return "bg-pink-50 dark:bg-pink-950 border-pink-200 dark:border-pink-800";
+    if (action === "denied") return "bg-fuchsia-50 dark:bg-fuchsia-950 border-fuchsia-200 dark:border-fuchsia-800";
+    if (action === "unpublished") return "bg-orange-50 dark:bg-orange-950 border-orange-200 dark:border-orange-800";
+
+    if (action === "login") return "bg-cyan-50 dark:bg-cyan-950 border-cyan-200 dark:border-cyan-800";
+    if (action === "logout") return "bg-slate-50 dark:bg-slate-950 border-slate-200 dark:border-slate-800";
+
+    if (action === "duplicated_from") return "bg-purple-50 dark:bg-purple-950 border-purple-200 dark:border-purple-800";
+    if (action === "replaced_published") return "bg-violet-50 dark:bg-violet-950 border-violet-200 dark:border-violet-800";
+
+    return "bg-white dark:bg-smoke-950 border-smoke-200 dark:border-smoke-800";
+  };
+
+  const renderSentence = () => {
+    const user = getUserName(auditLog.userId);
+    const action = formatAction(auditLog.action).toLowerCase();
+    const entityType = formatEntityType(auditLog.entityType).toLowerCase();
+    const time = Calendar.formatDate(auditLog.createdAt);
+
+    // Special cases for different actions
+    if (auditLog.action === 'login') {
+      return (
+        <>
+          <span className="font-semibold">{user}</span>
+          <span className={`font-medium ml-1 ${getActionColor(auditLog.action)}`}>
+            logged in
+          </span>
+          <span className="text-smoke-500 dark:text-smoke-400 ml-1">
+            at {time}
+          </span>
+        </>
+      );
+    }
+
+    if (auditLog.action === 'logout') {
+      return (
+        <>
+          <span className="font-semibold">{user}</span>
+          <span className={`font-medium ml-1 ${getActionColor(auditLog.action)}`}>
+            logged out
+          </span>
+          <span className="text-smoke-500 dark:text-smoke-400 ml-1">
+            at {time}
+          </span>
+        </>
+      );
+    }
+
+    // For other actions, use entity names when available
+    const entityDisplay = auditLog.entityName
+      ? `${entityType} "${auditLog.entityName}"`
+      : `${entityType} #${auditLog.entityId}`;
+
+    return (
+      <>
+        <span className="font-semibold">{user}</span>
+        <span className={`font-medium ml-1 ${getActionColor(auditLog.action)}`}>
+          {action}
+        </span>
+        <span className="ml-1">
+          {entityDisplay}
+        </span>
+        <span className="text-smoke-500 dark:text-smoke-400 ml-1">
+          at {time}
+        </span>
+      </>
+    );
+  };
+
+  return (
+    <div className={`rounded-lg border hover:border-gopher-300 dark:hover:border-gopher-600 transition-colors duration-150 shadow-sm overflow-hidden ${getActionBgColor(auditLog.action)}`}>
+      {/* Main row layout */}
+      <div className="flex items-center p-3 gap-2">
+        {/* Human readable sentence */}
+        <div className="flex-1 min-w-0">
+          <div className="text-sm text-smoke-900 dark:text-white">
+            {renderSentence()}
+          </div>
+        </div>
+
+        {/* Icon */}
+        <div className="flex-shrink-0">
+          <div className="w-6 h-6 bg-gopher-500 dark:bg-gopher-600 rounded flex items-center justify-center">
+            <ActionIcon className="w-3 h-3 text-white" />
+          </div>
+        </div>
+
+        {/* Details button */}
+        <div className="flex-shrink-0">
+          <button
+            onClick={() => setShowDetails(!showDetails)}
+            className="p-1 text-gopher-600 hover:text-gopher-700 dark:text-gopher-400 dark:hover:text-gopher-300 hover:bg-gopher-50 dark:hover:bg-gopher-900/20 rounded transition-colors"
+          >
+            {showDetails ? (
+              <IconChevronDown className="w-4 h-4" />
+            ) : (
+              <IconChevronRight className="w-4 h-4" />
+            )}
+          </button>
+        </div>
+      </div>
+
+      {/* Expandable details */}
+      {showDetails && (
+        <div className="border-t border-smoke-200 dark:border-smoke-800 bg-smoke-50 dark:bg-smoke-950 p-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
+            {/* Basic Info */}
+            <div>
+              <h4 className="text-sm font-medium text-smoke-900 dark:text-white mb-2">
+                Basic Information
+              </h4>
+              <div className="text-xs bg-white dark:bg-black text-smoke-800 dark:text-smoke-100 p-3 rounded border border-smoke-200 dark:border-smoke-700">
+                <div><strong>ID:</strong> {auditLog.id}</div>
+                <div><strong>User ID:</strong> {auditLog.userId || 'System'}</div>
+                <div><strong>Entity:</strong> {auditLog.entityType}</div>
+                <div><strong>Entity ID:</strong> {auditLog.entityId}</div>
+                <div><strong>Action:</strong> {auditLog.action}</div>
+                <div><strong>Created:</strong> {Calendar.formatDate(auditLog.createdAt)}</div>
+              </div>
+            </div>
+
+            {auditLog.metadata && (
+              <div>
+                <h4 className="text-sm font-medium text-smoke-900 dark:text-white mb-2">
+                  Additional Information
+                </h4>
+                <pre className="text-xs bg-white dark:bg-black text-smoke-800 dark:text-smoke-100 p-3 rounded border border-smoke-200 dark:border-smoke-700 overflow-x-auto max-h-40 overflow-y-auto">
+                  {JSON.stringify(auditLog.metadata, null, 2)}
+                </pre>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default AuditLogListItem;

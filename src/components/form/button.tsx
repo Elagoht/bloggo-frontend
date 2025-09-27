@@ -98,8 +98,6 @@ const Button: FC<ButtonProps> = ({
       // Danger text
       "text-danger-600 dark:text-danger-400 bg-transparent border border-transparent":
         color === "danger" && variant === "text",
-      "hover:bg-danger-50 dark:hover:bg-danger-900/20 focus:ring-1 focus:ring-danger-200 dark:focus:ring-danger-800":
-        color === "danger" && variant === "text" && !props.disabled,
       // Success text
       "text-green-600 dark:text-green-400 bg-green-100 dark:bg-green-900 border border-transparent":
         color === "success" && variant === "text",
