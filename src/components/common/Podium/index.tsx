@@ -63,7 +63,7 @@ const Podium: FC<PodiumProps> = ({ authors }) => {
 
             <div
               className={classNames(
-                "bg-gradient-to-t rounded-t-lg p-3 gap-2 flex flex-col justify-between items-center min-w-20",
+                "bg-gradient-to-t rounded-t-lg p-3 gap-2 flex flex-col justify-between items-center min-w-[4.5rem]",
                 datum.gradientFrom,
                 datum.gradientTo,
                 datum.height
