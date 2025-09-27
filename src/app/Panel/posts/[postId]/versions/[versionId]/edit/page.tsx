@@ -8,7 +8,7 @@ import {
   IconTextCaption,
   IconVersions,
 } from "@tabler/icons-react";
-import { FC, useEffect, useState } from "react";
+import { FC, useCallback, useEffect, useRef, useState } from "react";
 import { useBlocker, useNavigate, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import Dialog from "../../../../../../../components/common/Dialog";
@@ -49,6 +49,26 @@ const EditVersionPage: FC = () => {
   const [isDirty, setIsDirty] = useState(false);
   const [isLastVersion, setIsLastVersion] = useState(false);
 
+  // Track current form values - initialize with empty strings to avoid uncontrolled->controlled warnings
+  const [currentTitle, setCurrentTitle] = useState<string>("");
+  const [currentSpot, setCurrentSpot] = useState<string>("");
+  const [currentDescription, setCurrentDescription] = useState<string>("");
+  const [currentCategoryId, setCurrentCategoryId] = useState<string>("");
+  const [hasCoverChanged, setHasCoverChanged] = useState<boolean>(false);
+
+  // Store initial form values for comparison
+  const initialValues = useRef<{
+    title: string;
+    content: string;
+    spot: string;
+    description: string;
+    categoryId: string;
+    coverImage: string | null;
+  } | null>(null);
+
+  // Debounce timer
+  const debounceTimer = useRef<number | null>(null);
+
   // Dialog state
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [blockerProceed, setBlockerProceed] = useState<null | (() => void)>(
@@ -60,16 +80,37 @@ const EditVersionPage: FC = () => {
     if (postId && versionId) {
       const [versionResponse, versionsResponse] = await Promise.all([
         getPostVersion(parseInt(postId), versionId),
-        getPostVersions(parseInt(postId))
+        getPostVersions(parseInt(postId)),
       ]);
 
       if (versionResponse.success) {
         setVersion(versionResponse.data);
         setCurrentContent(versionResponse.data.content || "");
+        setCurrentTitle(versionResponse.data.title || "");
+        setCurrentSpot(versionResponse.data.spot || "");
+        setCurrentDescription(versionResponse.data.description || "");
+        setCurrentCategoryId(
+          versionResponse.data.category?.id?.toString() || ""
+        );
+        setHasCoverChanged(false);
+
         // Set cover preview if exists
         if (versionResponse.data.coverImage) {
           setCoverPreview(versionResponse.data.coverImage);
         }
+
+        // Store initial values for dirty tracking
+        initialValues.current = {
+          title: versionResponse.data.title || "",
+          content: versionResponse.data.content || "",
+          spot: versionResponse.data.spot || "",
+          description: versionResponse.data.description || "",
+          categoryId: versionResponse.data.category?.id?.toString() || "",
+          coverImage: versionResponse.data.coverImage || "",
+        };
+
+        // Reset dirty state
+        setIsDirty(false);
       }
 
       if (versionsResponse.success) {
@@ -104,9 +145,53 @@ const EditVersionPage: FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [postId, versionId, navigate]);
 
-  const markDirty = () => {
-    if (!isDirty) setIsDirty(true);
-  };
+  const handleVersionActionSuccess = useCallback(() => {
+    // Redirect to version details page after successful submission
+    navigate(`/posts/${postId}/versions/${versionId}`);
+  }, [navigate, postId, versionId]);
+
+  // Debounced function to check if form is dirty
+  const checkIfDirty = useCallback(() => {
+    if (debounceTimer.current) {
+      clearTimeout(debounceTimer.current);
+    }
+
+    debounceTimer.current = setTimeout(() => {
+      if (!initialValues.current) return;
+
+      // Normalize line endings for comparison (convert \r\n to \n)
+      const normalizeLineEndings = (text: string) =>
+        text.replace(/\r\n/g, "\n");
+
+      const titleChanged = currentTitle !== initialValues.current!.title;
+      const contentChanged =
+        normalizeLineEndings(currentContent) !==
+        normalizeLineEndings(initialValues.current!.content);
+      const spotChanged = currentSpot !== initialValues.current!.spot;
+      const descriptionChanged =
+        normalizeLineEndings(currentDescription) !==
+        normalizeLineEndings(initialValues.current!.description);
+      const categoryChanged =
+        currentCategoryId !== initialValues.current!.categoryId;
+
+      const hasChanges =
+        titleChanged ||
+        contentChanged ||
+        spotChanged ||
+        descriptionChanged ||
+        categoryChanged ||
+        hasCoverChanged;
+
+      setIsDirty(hasChanges);
+    }, 300); // 300ms debounce
+  }, [
+    currentTitle,
+    currentContent,
+    currentSpot,
+    currentDescription,
+    currentCategoryId,
+    hasCoverChanged,
+  ]);
 
   const handleFormSubmit = async (data: FormData) => {
     if (isSubmitting || !version || !postId || !versionId) return;
@@ -121,7 +206,6 @@ const EditVersionPage: FC = () => {
       );
 
       if (updateResponse.success) {
-        setIsDirty(false);
         toast.success("Version updated successfully");
         // Reload the version data to get the latest changes
         await loadVersion();
@@ -153,6 +237,20 @@ const EditVersionPage: FC = () => {
       setIsDialogOpen(true);
     }
   }, [blocker]);
+
+  // Check if dirty whenever form values change
+  useEffect(() => {
+    checkIfDirty();
+  }, [checkIfDirty]);
+
+  // Cleanup debounce timer on unmount
+  useEffect(() => {
+    return () => {
+      if (debounceTimer.current) {
+        clearTimeout(debounceTimer.current);
+      }
+    };
+  }, []);
 
   const handleDialogConfirm = () => {
     setIsDialogOpen(false);
@@ -201,9 +299,9 @@ const EditVersionPage: FC = () => {
                 iconLeft={IconHeading}
                 type="text"
                 placeholder="Enter post title..."
-                defaultValue={version.title}
+                value={currentTitle}
                 required
-                onChange={markDirty}
+                onChange={(e) => setCurrentTitle(e.target.value)}
               />
 
               <Input
@@ -213,16 +311,17 @@ const EditVersionPage: FC = () => {
                 accept="image/*"
                 iconLeft={IconPhoto}
                 onChange={async (event) => {
-                  markDirty();
                   const file = event.currentTarget?.files?.[0];
 
                   if (file) {
+                    setHasCoverChanged(true);
                     const reader = new FileReader();
                     reader.onload = (event) => {
                       setCoverPreview(event.target?.result as string);
                     };
                     reader.readAsDataURL(file);
                   } else {
+                    setHasCoverChanged(false);
                     setCoverPreview(version.coverImage || null);
                   }
                 }}
@@ -235,11 +334,8 @@ const EditVersionPage: FC = () => {
                 placeholder="Write your post content using Markdown..."
                 rows={20}
                 className="font-mono"
-                defaultValue={version.content}
-                onChange={(e) => {
-                  markDirty();
-                  setCurrentContent(e.target.value);
-                }}
+                value={currentContent}
+                onChange={(e) => setCurrentContent(e.target.value)}
               />
             </FormCard>
 
@@ -267,8 +363,8 @@ const EditVersionPage: FC = () => {
               type="text"
               placeholder="Short teaser text (max 75 chars)"
               maxLength={75}
-              defaultValue={version.spot || ""}
-              onChange={markDirty}
+              value={currentSpot}
+              onChange={(e) => setCurrentSpot(e.target.value)}
             />
 
             <Textarea
@@ -278,8 +374,8 @@ const EditVersionPage: FC = () => {
               placeholder="Brief description for search engines (max 155 chars)"
               rows={3}
               maxLength={155}
-              defaultValue={version.description || ""}
-              onChange={markDirty}
+              value={currentDescription}
+              onChange={(e) => setCurrentDescription(e.target.value)}
             />
 
             <NoCategoriesYet count={categories.length} />
@@ -289,12 +385,12 @@ const EditVersionPage: FC = () => {
               label="Category"
               icon={IconTag}
               placeholder="Select a category"
+              value={currentCategoryId}
               options={categories.map((category) => ({
                 value: category.id.toString(),
                 label: category.name,
-                selected: category.id === version.category?.id,
               }))}
-              onChange={markDirty}
+              onChange={(e) => setCurrentCategoryId(e.target.value)}
             />
 
             {coverPreview && (
@@ -320,9 +416,9 @@ const EditVersionPage: FC = () => {
               type="submit"
               color="success"
               iconRight={IconDeviceFloppy}
-              disabled={isSubmitting}
+              disabled={isSubmitting || !isDirty}
             >
-              {isSubmitting ? "Updating..." : "Update Version"}
+              {isSubmitting ? "Saving..." : "Save Changes"}
             </Button>
 
             {/* Version Actions */}
@@ -331,6 +427,7 @@ const EditVersionPage: FC = () => {
                 <SectionHeader>Version Actions</SectionHeader>
 
                 <VersionActionsForm
+                  key={`${version.status}-${isDirty}-${version.updatedAt}`}
                   postId={parseInt(postId)}
                   versionId={versionId}
                   currentStatus={version.status}
@@ -339,7 +436,7 @@ const EditVersionPage: FC = () => {
                     id: version.versionAuthor?.id || 0,
                     name: version.versionAuthor?.name || "Unknown",
                   }}
-                  onSuccess={loadVersion}
+                  onSuccess={handleVersionActionSuccess}
                   disabled={isDirty}
                 />
               </>
