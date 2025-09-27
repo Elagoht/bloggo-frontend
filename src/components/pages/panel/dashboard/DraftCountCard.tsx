@@ -1,5 +1,6 @@
 import { IconFileText } from "@tabler/icons-react";
 import { FC } from "react";
+import { Link } from "react-router-dom";
 import BoxHeader from "../../../common/BoxHeader";
 import MiniAvatar from "../../../common/Avatar/MiniAvatar";
 
@@ -36,9 +37,10 @@ const DraftCountCard: FC<DraftCountCardProps> = ({ draftCount }) => {
             draftCount.draftsByAuthor
               ?.slice(0, 3)
               .map((author: DraftsByAuthor) => (
-                <div
+                <Link
                   key={author.authorId}
-                  className="flex justify-between items-center bg-smoke-50 dark:bg-smoke-900 rounded-lg p-2 text-sm"
+                  to={`/users/details/${author.authorId}`}
+                  className="flex justify-between items-center bg-smoke-100 dark:bg-smoke-900 rounded-lg p-2 text-sm hover:bg-smoke-100 dark:hover:bg-smoke-800 transition-colors"
                 >
                   <MiniAvatar
                     name={author.authorName}
@@ -48,7 +50,7 @@ const DraftCountCard: FC<DraftCountCardProps> = ({ draftCount }) => {
                   <span className="text-warning-600 dark:text-warning-400 font-semibold">
                     {author.draftCount}
                   </span>
-                </div>
+                </Link>
               ))
           )}
         </div>
