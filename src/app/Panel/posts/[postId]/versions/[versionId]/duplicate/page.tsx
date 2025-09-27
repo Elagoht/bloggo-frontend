@@ -82,7 +82,6 @@ const DuplicateVersionPage: FC = () => {
           }
         }
       } catch (error) {
-        console.error("Failed to load data:", error);
         alert("Failed to load version data");
         navigate("/posts");
       } finally {
@@ -148,7 +147,6 @@ const DuplicateVersionPage: FC = () => {
         throw new Error(updateResponse.error.message);
       }
     } catch (error) {
-      console.error("Failed to duplicate version:", error);
       alert("Failed to duplicate version: " + (error as Error).message);
     } finally {
       setIsSubmitting(false);

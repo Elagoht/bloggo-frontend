@@ -28,7 +28,7 @@ const PostFiltersForm: FC = () => {
           setCategories(result.data);
         }
       } catch (error) {
-        console.error("Failed to fetch categories:", error);
+        // Handle error silently
       }
     };
 

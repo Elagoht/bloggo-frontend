@@ -6,8 +6,6 @@ type AuditLog = {
   entityId: number;
   entityName?: string | null;
   action: string;
-  oldValues?: Record<string, any> | null;
-  newValues?: Record<string, any> | null;
   metadata?: Record<string, any> | null;
   createdAt: string;
 };

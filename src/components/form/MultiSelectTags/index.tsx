@@ -39,12 +39,12 @@ const MultiSelectTags: FC<MultiSelectTagsProps> = ({
 
   return (
     <div className="flex flex-wrap gap-1">
-      {sortedOptions.map((option) => {
+      {sortedOptions.map((option, index) => {
         const isSelected = values.includes(option.value);
 
         return (
           <button
-            key={option.value}
+            key={index}
             type="button"
             onClick={() => handleToggle(option.value)}
             disabled={option.disabled}
@@ -63,9 +63,7 @@ const MultiSelectTags: FC<MultiSelectTagsProps> = ({
               }
             `}
           >
-            {isSelected && (
-              <IconCheck className="w-2.5 h-2.5" />
-            )}
+            {isSelected && <IconCheck className="w-2.5 h-2.5" />}
             {option.label}
           </button>
         );

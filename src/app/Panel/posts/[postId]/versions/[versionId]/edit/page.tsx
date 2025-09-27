@@ -133,7 +133,6 @@ const EditVersionPage: FC = () => {
         // Load version data
         await loadVersion();
       } catch (error) {
-        console.error("Failed to load data:", error);
         alert("Failed to load version data");
         navigate("/posts");
       } finally {
@@ -213,7 +212,6 @@ const EditVersionPage: FC = () => {
         throw new Error(updateResponse.error.message);
       }
     } catch (error) {
-      console.error("Failed to update version:", error);
       alert("Failed to update version: " + (error as Error).message);
     } finally {
       setIsSubmitting(false);

@@ -1,22 +1,38 @@
-import { IconClearAll, IconFilter, IconUser, IconCategory, IconActivity, IconTag } from "@tabler/icons-react";
-import { FC, useState, useEffect, useCallback } from "react";
-import { useSearchParams, useNavigate, useLocation } from "react-router-dom";
+import { IconClearAll, IconFilter } from "@tabler/icons-react";
 import qs from "qs";
+import { FC, useEffect, useState } from "react";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import Button from "../components/form/Button";
 import ButtonGroup from "../components/form/ButtonGroup";
 import Form from "../components/form/Form";
 import FormSection from "../components/form/FormSection";
-import MultiSelectTags from "../components/form/MultiSelectTags";
 import MultiSelectActions from "../components/form/MultiSelectActions";
+import MultiSelectTags from "../components/form/MultiSelectTags";
 import RadioGroup from "../components/form/RadioButton/RadioGroup";
 
 interface AuditLogFiltersFormProps {
   users?: Map<number, UserCard>;
-  categories?: CategoryListItem[];
+  categories?: CategoryCard[];
   tags?: TagCard[];
 }
 
-const AuditLogFiltersForm: FC<AuditLogFiltersFormProps> = ({ users, categories, tags }) => {
+interface QueryParams {
+  order: string;
+  dir: string;
+  page: number;
+  take: number;
+  userId?: string[];
+  entityType?: string[];
+  action?: string[];
+  categories?: string[];
+  tags?: string[];
+}
+
+const AuditLogFiltersForm: FC<AuditLogFiltersFormProps> = ({
+  users,
+  categories,
+  tags,
+}) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const location = useLocation();
@@ -33,14 +49,14 @@ const AuditLogFiltersForm: FC<AuditLogFiltersFormProps> = ({ users, categories, 
   useEffect(() => {
     const parseArrayParam = (paramName: string): string[] => {
       const param = searchParams.get(paramName);
-      return param ? param.split(',').filter(Boolean) : [];
+      return param ? param.split(",").filter(Boolean) : [];
     };
 
-    setSelectedUsers(parseArrayParam('userId'));
-    setSelectedEntityTypes(parseArrayParam('entityType'));
-    setSelectedActions(parseArrayParam('action'));
-    setSelectedCategories(parseArrayParam('categories'));
-    setSelectedTags(parseArrayParam('tags'));
+    setSelectedUsers(parseArrayParam("userId"));
+    setSelectedEntityTypes(parseArrayParam("entityType"));
+    setSelectedActions(parseArrayParam("action"));
+    setSelectedCategories(parseArrayParam("categories"));
+    setSelectedTags(parseArrayParam("tags"));
     setIsInitialized(true);
   }, [searchParams]);
 
@@ -85,75 +101,70 @@ const AuditLogFiltersForm: FC<AuditLogFiltersFormProps> = ({ users, categories, 
       }))
     : [];
 
-  const entityTypeOptions = entityTypes.map(type => ({
+  const entityTypeOptions = entityTypes.map((type) => ({
     value: type.value,
     label: type.label,
   }));
 
-  const actionOptions = actionTypes.map(action => ({
+  const actionOptions = actionTypes.map((action) => ({
     value: action.value,
     label: action.label,
   }));
 
   const categoryOptions = categories
-    ? categories.map(category => ({
+    ? categories.map((category) => ({
         value: category.slug,
         label: category.name,
       }))
     : [];
 
   const tagOptions = tags
-    ? tags.map(tag => ({
+    ? tags.map((tag) => ({
         value: tag.slug,
         label: tag.name,
       }))
     : [];
 
-  // Auto-update filters when selections change (but not on initial load)
   useEffect(() => {
     if (isInitialized) {
-      const queryParams: any = {
+      const queryParams: QueryParams = {
         order: searchParams.get("order") || "created_at",
         dir: searchParams.get("dir") || "desc",
         page: 1,
         take: 20,
       };
 
-      // Add filters only if they have values - pass arrays directly to qs
-      if (selectedUsers.length > 0) {
-        queryParams.userId = selectedUsers;
-      }
-
-      if (selectedEntityTypes.length > 0) {
+      if (selectedUsers.length > 0) queryParams.userId = selectedUsers;
+      if (selectedEntityTypes.length > 0)
         queryParams.entityType = selectedEntityTypes;
-      }
-
-      if (selectedActions.length > 0) {
-        queryParams.action = selectedActions;
-      }
-
-      if (selectedCategories.length > 0) {
+      if (selectedActions.length > 0) queryParams.action = selectedActions;
+      if (selectedCategories.length > 0)
         queryParams.categories = selectedCategories;
-      }
-
-      if (selectedTags.length > 0) {
-        queryParams.tags = selectedTags;
-      }
+      if (selectedTags.length > 0) queryParams.tags = selectedTags;
 
       const queryString = qs.stringify(queryParams, {
-        arrayFormat: 'comma',
-        encode: true
+        arrayFormat: "comma",
+        encode: true,
       });
-      console.log('Generated query string:', queryString);
-      console.log('Full URL:', `${location.pathname}?${queryString}`);
+
       navigate(`${location.pathname}?${queryString}`, { replace: true });
     }
-  }, [selectedUsers, selectedEntityTypes, selectedActions, selectedCategories, selectedTags, isInitialized, navigate, location.pathname, searchParams]);
+  }, [
+    selectedUsers,
+    selectedEntityTypes,
+    selectedActions,
+    selectedCategories,
+    selectedTags,
+    isInitialized,
+    navigate,
+    location.pathname,
+    searchParams,
+  ]);
 
   const handleSubmit = async (data: FormData) => {
     const [order, dir] = (data.get("sort") as string).split(":");
 
-    const queryParams: any = {
+    const queryParams: QueryParams = {
       order,
       dir,
       page: 1,
@@ -182,8 +193,8 @@ const AuditLogFiltersForm: FC<AuditLogFiltersFormProps> = ({ users, categories, 
     }
 
     const queryString = qs.stringify(queryParams, {
-      arrayFormat: 'comma',
-      encode: true
+      arrayFormat: "comma",
+      encode: true,
     });
     navigate(`${location.pathname}?${queryString}`, { replace: true });
   };
@@ -197,13 +208,14 @@ const AuditLogFiltersForm: FC<AuditLogFiltersFormProps> = ({ users, categories, 
     setSelectedTags([]);
 
     // Reset sort option
-    const sortInput = form.querySelector("[value='created_at:desc']") as HTMLInputElement;
+    const sortInput = form.querySelector(
+      "[value='created_at:desc']"
+    ) as HTMLInputElement;
     if (sortInput) sortInput.checked = true;
 
     const newParams = new URLSearchParams();
     setSearchParams(newParams, { replace: true });
   };
-
 
   return (
     <Form handle={handleSubmit} reset={handleReset}>

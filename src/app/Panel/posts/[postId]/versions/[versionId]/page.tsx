@@ -53,7 +53,7 @@ const ViewVersionPage: FC = () => {
         }
       }
     } catch (error) {
-      console.error("Failed to load version:", error);
+      // Handle error silently
     } finally {
       setIsLoading(false);
     }

@@ -38,7 +38,7 @@ const PostTagsManager: FC<PostTagsManagerProps> = ({ post, onTagsUpdated }) => {
         setAllTags(response.data.data);
       }
     } catch (error) {
-      console.error("Failed to load tags:", error);
+      // Handle error silently
     } finally {
       setIsLoadingTags(false);
     }
@@ -65,7 +65,6 @@ const PostTagsManager: FC<PostTagsManagerProps> = ({ post, onTagsUpdated }) => {
         toast.error("Failed to update tags");
       }
     } catch (error) {
-      console.error("Failed to save tags:", error);
       toast.error("Failed to update tags");
     } finally {
       setIsSavingTags(false);

@@ -2,8 +2,6 @@ import {
   IconActivity,
   IconCategory,
   IconCheck,
-  IconChevronDown,
-  IconChevronRight,
   IconClock,
   IconEdit,
   IconFileText,
@@ -13,7 +11,7 @@ import {
   IconUser,
   IconX,
 } from "@tabler/icons-react";
-import { FC, useState } from "react";
+import { FC } from "react";
 import Calendar from "../../../../utilities/Calendar";
 
 type AuditLogListItemProps = {
@@ -22,7 +20,6 @@ type AuditLogListItemProps = {
 };
 
 const AuditLogListItem: FC<AuditLogListItemProps> = ({ auditLog, users }) => {
-  const [showDetails, setShowDetails] = useState(false);
 
   const formatAction = (action: string) => {
     // Actions are now simple verbs, just capitalize
@@ -194,54 +191,7 @@ const AuditLogListItem: FC<AuditLogListItemProps> = ({ auditLog, users }) => {
             <ActionIcon className="w-3 h-3 text-white" />
           </div>
         </div>
-
-        {/* Details button */}
-        <div className="flex-shrink-0">
-          <button
-            onClick={() => setShowDetails(!showDetails)}
-            className="p-1 text-gopher-600 hover:text-gopher-700 dark:text-gopher-400 dark:hover:text-gopher-300 hover:bg-gopher-50 dark:hover:bg-gopher-900/20 rounded transition-colors"
-          >
-            {showDetails ? (
-              <IconChevronDown className="w-4 h-4" />
-            ) : (
-              <IconChevronRight className="w-4 h-4" />
-            )}
-          </button>
-        </div>
       </div>
-
-      {/* Expandable details */}
-      {showDetails && (
-        <div className="border-t border-smoke-200 dark:border-smoke-800 bg-smoke-50 dark:bg-smoke-950 p-4">
-          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
-            {/* Basic Info */}
-            <div>
-              <h4 className="text-sm font-medium text-smoke-900 dark:text-white mb-2">
-                Basic Information
-              </h4>
-              <div className="text-xs bg-white dark:bg-black text-smoke-800 dark:text-smoke-100 p-3 rounded border border-smoke-200 dark:border-smoke-700">
-                <div><strong>ID:</strong> {auditLog.id}</div>
-                <div><strong>User ID:</strong> {auditLog.userId || 'System'}</div>
-                <div><strong>Entity:</strong> {auditLog.entityType}</div>
-                <div><strong>Entity ID:</strong> {auditLog.entityId}</div>
-                <div><strong>Action:</strong> {auditLog.action}</div>
-                <div><strong>Created:</strong> {Calendar.formatDate(auditLog.createdAt)}</div>
-              </div>
-            </div>
-
-            {auditLog.metadata && (
-              <div>
-                <h4 className="text-sm font-medium text-smoke-900 dark:text-white mb-2">
-                  Additional Information
-                </h4>
-                <pre className="text-xs bg-white dark:bg-black text-smoke-800 dark:text-smoke-100 p-3 rounded border border-smoke-200 dark:border-smoke-700 overflow-x-auto max-h-40 overflow-y-auto">
-                  {JSON.stringify(auditLog.metadata, null, 2)}
-                </pre>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
     </div>
   );
 };

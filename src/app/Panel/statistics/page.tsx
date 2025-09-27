@@ -128,11 +128,9 @@ const StatisticsPage: FC = () => {
       if (result.success) {
         setUsers(result.data);
         setUsersFetched(true);
-      } else {
-        console.error("Users API failed:", result.error);
       }
     } catch (err) {
-      console.error("Failed to load users:", err);
+      // Handle error silently
     } finally {
       setLoadingUsers(false);
     }

@@ -84,7 +84,6 @@ const WritePage: FC = () => {
         throw new Error(response.error.message);
       }
     } catch (error) {
-      console.error("Failed to create post:", error);
       alert("Failed to create post: " + (error as Error).message);
     } finally {
       setIsSubmitting(false);

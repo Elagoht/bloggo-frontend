@@ -10,7 +10,7 @@ import Sidebar from "../../../components/layout/Container/Sidebar";
 import SectionHeader from "../../../components/layout/SectionHeader";
 import { getAuditLogs } from "../../../services/audit";
 import { getUsers } from "../../../services/users";
-import { getCategoriesList } from "../../../services/categories";
+import { getCategories } from "../../../services/categories";
 import { getTags } from "../../../services/tags";
 import AuditLogTable from "../../../components/pages/panel/audit-logs/AuditLogTable";
 import AuditLogFiltersForm from "../../../forms/AuditLogFiltersForm";
@@ -21,7 +21,7 @@ const AuditLogsPage: FC = () => {
   const [auditLogsResponse, setAuditLogsResponse] =
     useState<AuditLogsResponse | null>(null);
   const [users, setUsers] = useState<Map<number, UserCard>>(new Map());
-  const [categories, setCategories] = useState<CategoryListItem[]>([]);
+  const [categories, setCategories] = useState<CategoryCard[]>([]);
   const [tags, setTags] = useState<TagCard[]>([]);
   const [loading, setLoading] = useState(false);
 
@@ -78,7 +78,6 @@ const AuditLogsPage: FC = () => {
     if (result.success) {
       setAuditLogsResponse(result.data);
     } else {
-      console.error('Failed to fetch audit logs:', result);
       setAuditLogsResponse(null);
     }
     setLoading(false);
@@ -98,9 +97,9 @@ const AuditLogsPage: FC = () => {
 
   // Fetch all categories for filter dropdown
   const fetchAllCategories = useCallback(async () => {
-    const categoriesResult = await getCategoriesList();
+    const categoriesResult = await getCategories({ take: 1000 });
     if (categoriesResult.success) {
-      setCategories(categoriesResult.data);
+      setCategories(categoriesResult.data.data);
     }
   }, []);
 
