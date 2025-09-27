@@ -83,14 +83,8 @@ const MultiSelectActions: FC<MultiSelectActionsProps> = ({
       : "bg-white dark:bg-smoke-900 text-smoke-700 dark:text-smoke-300 border-smoke-200 dark:border-smoke-700 hover:bg-smoke-50 dark:hover:bg-smoke-800";
   };
 
-  // Sort options: selected items first, then alphabetically
+  // Sort options alphabetically only
   const sortedOptions = [...options].sort((a, b) => {
-    const aSelected = values.includes(a.value);
-    const bSelected = values.includes(b.value);
-
-    if (aSelected && !bSelected) return -1;
-    if (!aSelected && bSelected) return 1;
-
     return a.label.localeCompare(b.label);
   });
 

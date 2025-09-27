@@ -118,6 +118,34 @@ const AuditLogListItem: FC<AuditLogListItemProps> = ({ auditLog, users }) => {
     return "bg-white dark:bg-smoke-950 border-smoke-200 dark:border-smoke-800";
   };
 
+  const getIconBgColor = (action: string) => {
+    // Icon background colors that match the action colors
+    if (action === "created") return "bg-emerald-500 dark:bg-emerald-600";
+    if (action === "added") return "bg-green-500 dark:bg-green-600";
+    if (action === "approved") return "bg-teal-500 dark:bg-teal-600";
+    if (action === "published") return "bg-lime-500 dark:bg-lime-600";
+
+    if (action === "updated") return "bg-blue-500 dark:bg-blue-600";
+    if (action === "assigned") return "bg-indigo-500 dark:bg-indigo-600";
+
+    if (action === "submitted") return "bg-amber-500 dark:bg-amber-600";
+    if (action === "requested") return "bg-yellow-500 dark:bg-yellow-600";
+
+    if (action === "deleted") return "bg-red-500 dark:bg-red-600";
+    if (action === "removed") return "bg-rose-500 dark:bg-rose-600";
+    if (action === "rejected") return "bg-pink-500 dark:bg-pink-600";
+    if (action === "denied") return "bg-fuchsia-500 dark:bg-fuchsia-600";
+    if (action === "unpublished") return "bg-orange-500 dark:bg-orange-600";
+
+    if (action === "login") return "bg-cyan-500 dark:bg-cyan-600";
+    if (action === "logout") return "bg-slate-500 dark:bg-slate-600";
+
+    if (action === "duplicated_from") return "bg-purple-500 dark:bg-purple-600";
+    if (action === "replaced_published") return "bg-violet-500 dark:bg-violet-600";
+
+    return "bg-smoke-500 dark:bg-smoke-600";
+  };
+
   const renderSentence = () => {
     const user = getUserName(auditLog.userId);
     const action = formatAction(auditLog.action).toLowerCase();
@@ -187,7 +215,7 @@ const AuditLogListItem: FC<AuditLogListItemProps> = ({ auditLog, users }) => {
 
         {/* Icon */}
         <div className="flex-shrink-0">
-          <div className="w-6 h-6 bg-gopher-500 dark:bg-gopher-600 rounded flex items-center justify-center">
+          <div className={`w-6 h-6 ${getIconBgColor(auditLog.action)} rounded flex items-center justify-center`}>
             <ActionIcon className="w-3 h-3 text-white" />
           </div>
         </div>

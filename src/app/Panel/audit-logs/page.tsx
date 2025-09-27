@@ -41,21 +41,14 @@ const AuditLogsPage: FC = () => {
       // Parse action filters from URL
       const actionFilters = parseArrayParam('action');
 
-      // Default behavior: if no action filters are specified, exclude login/logout actions
-      // This prevents cluttering the logs with authentication events by default
+      // Send action filters only if explicitly specified by user
       let finalActionFilters = undefined;
 
-      if (actionFilters.length === 0 && !searchParams.has('action')) {
-        // No action filter specified - use all actions except login/logout
-        const allActions = ['created', 'updated', 'deleted', 'submitted', 'approved', 'rejected',
-                           'published', 'unpublished', 'assigned', 'removed', 'requested',
-                           'denied', 'added', 'duplicated_from', 'replaced_published'];
-        finalActionFilters = allActions;
-      } else if (actionFilters.length > 0) {
+      if (actionFilters.length > 0) {
         // User explicitly selected actions - use exactly what they selected
         finalActionFilters = actionFilters;
       }
-      // If actionFilters is empty array but 'action' param exists (user cleared all), show nothing
+      // If no action filters specified, send undefined to get all actions from backend
 
       return {
         order: searchParams.get("order") || "created_at",

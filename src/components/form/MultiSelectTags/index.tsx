@@ -26,14 +26,8 @@ const MultiSelectTags: FC<MultiSelectTagsProps> = ({
     }
   };
 
-  // Sort options: selected items first, then alphabetically
+  // Sort options alphabetically only
   const sortedOptions = [...options].sort((a, b) => {
-    const aSelected = values.includes(a.value);
-    const bSelected = values.includes(b.value);
-
-    if (aSelected && !bSelected) return -1;
-    if (!aSelected && bSelected) return 1;
-
     return a.label.localeCompare(b.label);
   });
 

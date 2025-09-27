@@ -1,6 +1,6 @@
 import { IconClearAll, IconFilter } from "@tabler/icons-react";
 import qs from "qs";
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useState, useRef } from "react";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import Button from "../components/form/Button";
 import ButtonGroup from "../components/form/ButtonGroup";
@@ -44,6 +44,7 @@ const AuditLogFiltersForm: FC<AuditLogFiltersFormProps> = ({
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [isInitialized, setIsInitialized] = useState(false);
+  const currentSearchParamsRef = useRef(searchParams);
 
   // Initialize state from URL parameters
   useEffect(() => {
@@ -58,6 +59,9 @@ const AuditLogFiltersForm: FC<AuditLogFiltersFormProps> = ({
     setSelectedCategories(parseArrayParam("categories"));
     setSelectedTags(parseArrayParam("tags"));
     setIsInitialized(true);
+
+    // Update the ref to track current searchParams
+    currentSearchParamsRef.current = searchParams;
   }, [searchParams]);
 
   const entityTypes: { value: AuditEntityType; label: string }[] = [
@@ -127,9 +131,13 @@ const AuditLogFiltersForm: FC<AuditLogFiltersFormProps> = ({
 
   useEffect(() => {
     if (isInitialized) {
+      // Get current sort settings to preserve them (using ref to avoid dependency loop)
+      const currentOrder = currentSearchParamsRef.current.get("order") || "created_at";
+      const currentDir = currentSearchParamsRef.current.get("dir") || "desc";
+
       const queryParams: QueryParams = {
-        order: searchParams.get("order") || "created_at",
-        dir: searchParams.get("dir") || "desc",
+        order: currentOrder,
+        dir: currentDir,
         page: 1,
         take: 20,
       };
@@ -158,7 +166,6 @@ const AuditLogFiltersForm: FC<AuditLogFiltersFormProps> = ({
     isInitialized,
     navigate,
     location.pathname,
-    searchParams,
   ]);
 
   const handleSubmit = async (data: FormData) => {
