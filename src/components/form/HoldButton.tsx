@@ -4,7 +4,7 @@ import Dialog from "../common/Dialog";
 
 type HoldButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   color?: "primary" | "danger" | "success";
-  onClick?: (e: MouseEvent | TouchEvent | KeyboardEvent) => void;
+  onClick?: (e?: MouseEvent | TouchEvent | KeyboardEvent) => void;
   confirmTitle?: string;
   confirmMessage?: string;
   confirmActionText?: string;
@@ -89,15 +89,17 @@ const HoldButton: FC<HoldButtonProps> = ({
   };
 
   const handleDialogConfirm = () => {
-    if (onClick && holdEventRef.current) {
-      onClick(holdEventRef.current);
+    if (onClick) {
+      onClick(holdEventRef.current || undefined);
     }
     setIsDialogOpen(false);
+    isHoldingRef.current = false;
     reset();
   };
 
   const handleDialogCancel = () => {
     setIsDialogOpen(false);
+    isHoldingRef.current = false;
     reset();
   };
 
