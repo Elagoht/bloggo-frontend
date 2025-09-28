@@ -6,6 +6,7 @@ import {
   IconCheck,
   IconX,
   IconPaperclip,
+  IconCertificate,
 } from "@tabler/icons-react";
 import { FC, useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -194,49 +195,59 @@ const RemovalRequestDetailsPage: FC = () => {
         {/* Post Information */}
         <div className="bg-white dark:bg-smoke-950 rounded-xl border border-smoke-200 dark:border-smoke-800 p-4 gap-4 flex flex-col">
           <SectionHeader icon={IconPaperclip}>Post Information</SectionHeader>
-          <div>
-            <h4 className="font-medium text-smoke-900 dark:text-smoke-100 mb-2">
-              {removalRequest.postTitle}
-            </h4>
 
-            {removalRequest.postCoverUrl && (
-              <div className="mb-3">
+          <div className="flex flex-col md:flex-row gap-4">
+            {/* Cover Image */}
+            <div className="w-full md:w-48 md:flex-shrink-0">
+              {removalRequest.postCoverUrl ? (
                 <img
                   src={
                     import.meta.env.VITE_API_URL + removalRequest.postCoverUrl
                   }
                   alt="Post cover"
-                  className="w-full h-32 object-cover rounded-lg"
+                  className="w-full aspect-video object-cover rounded-lg"
                 />
-              </div>
-            )}
-
-            <div className="flex items-center gap-2 text-sm">
-              <div className="flex items-center gap-2">
-                {removalRequest.postWriter.avatar ? (
-                  <img
-                    src={
-                      import.meta.env.VITE_API_URL +
-                      removalRequest.postWriter.avatar
-                    }
-                    alt="Writer avatar"
-                    className="w-6 h-6 rounded-full"
+              ) : (
+                <div className="w-full aspect-video bg-smoke-100 dark:bg-smoke-800 rounded-lg flex items-center justify-center">
+                  <IconPaperclip
+                    size={24}
+                    className="text-smoke-400 dark:text-smoke-600"
                   />
-                ) : (
-                  <IconUser size={20} />
-                )}
-                <span className="font-medium text-smoke-900 dark:text-smoke-100">
-                  {removalRequest.postWriter.name}
-                </span>
-              </div>
+                </div>
+              )}
+            </div>
 
-              {removalRequest.postCategory && (
-                <div className="flex items-center gap-2 text-smoke-600 dark:text-smoke-400">
+            {/* Post Details */}
+            <div className="flex-1 min-w-0">
+              <h4 className="font-medium text-smoke-900 dark:text-smoke-100 mb-3 line-clamp-2">
+                {removalRequest.postTitle}
+              </h4>
+
+              <div className="flex items-center gap-4 text-sm">
+                <div className="flex items-center gap-2">
+                  {removalRequest.postWriter.avatar ? (
+                    <img
+                      src={
+                        import.meta.env.VITE_API_URL +
+                        removalRequest.postWriter.avatar
+                      }
+                      alt="Writer avatar"
+                      className="w-5 h-5 rounded-full"
+                    />
+                  ) : (
+                    <IconUser size={16} />
+                  )}
+                  <span className="font-medium text-smoke-900 dark:text-smoke-100">
+                    {removalRequest.postWriter.name}
+                  </span>
+                </div>
+
+                {removalRequest.postCategory && (
                   <span className="px-2 py-1 bg-gopher-100 dark:bg-gopher-900/30 text-gopher-800 dark:text-gopher-300 rounded-md text-xs font-medium">
                     {removalRequest.postCategory}
                   </span>
-                </div>
-              )}
+                )}
+              </div>
             </div>
           </div>
         </div>
@@ -245,84 +256,74 @@ const RemovalRequestDetailsPage: FC = () => {
         <div className="bg-white dark:bg-smoke-950 rounded-xl border border-smoke-200 dark:border-smoke-800 flex flex-col gap-4 p-4">
           <SectionHeader icon={IconUser}>Request Information</SectionHeader>
 
-          <div className="flex items-center gap-4 text-sm">
-            <div className="flex items-center gap-2">
-              {removalRequest.requestedBy.avatar ? (
-                <img
-                  src={
-                    import.meta.env.VITE_API_URL +
-                    removalRequest.requestedBy.avatar
-                  }
-                  alt="Avatar"
-                  className="w-6 h-6 rounded-full"
-                />
-              ) : (
-                <IconUser size={20} />
-              )}
-              <span className="font-medium">
-                {removalRequest.requestedBy.name}
-              </span>
-            </div>
-
-            <div className="flex items-center gap-2 text-smoke-600 dark:text-smoke-400">
-              <IconCalendar size={16} />
-              <span>
-                {new Date(removalRequest.createdAt).toLocaleDateString()}
-              </span>
-            </div>
+          <div className="flex items-center gap-2 text-sm text-smoke-700 dark:text-smoke-300">
+            {removalRequest.requestedBy.avatar ? (
+              <img
+                src={
+                  import.meta.env.VITE_API_URL +
+                  removalRequest.requestedBy.avatar
+                }
+                alt="Avatar"
+                className="w-5 h-5 rounded-full"
+              />
+            ) : (
+              <IconUser size={16} />
+            )}
+            <span className="font-medium text-smoke-900 dark:text-smoke-100">
+              {removalRequest.requestedBy.name}
+            </span>
+            <span>requested removal on</span>
+            <span className="font-medium">
+              {new Date(removalRequest.createdAt).toLocaleDateString()}
+            </span>
           </div>
 
           {removalRequest.note && (
-            <div>
-              <h4 className="font-medium text-smoke-900 dark:text-smoke-100 mb-2">
-                Reason for removal:
-              </h4>
-              <p className="text-sm text-smoke-600 dark:text-smoke-400 bg-smoke-50 dark:bg-smoke-900 p-3 rounded-lg">
-                {removalRequest.note}
-              </p>
+            <div className="text-sm text-smoke-600 dark:text-smoke-400 bg-smoke-50 dark:bg-smoke-900 p-3 rounded-lg">
+              <span className="font-medium text-smoke-900 dark:text-smoke-100">
+                Reason:
+              </span>
+              <span className="ml-2">"{removalRequest.note}"</span>
             </div>
           )}
         </div>
 
         {/* Decision Information */}
         {removalRequest.decidedBy && removalRequest.decidedAt && (
-          <div className="bg-white dark:bg-smoke-950 rounded-xl border border-smoke-200 dark:border-smoke-800 p-4">
-            <h3 className="text-lg font-semibold text-smoke-900 dark:text-smoke-100 mb-4">
+          <div className="bg-white dark:bg-smoke-950 rounded-xl border border-smoke-200 dark:border-smoke-800 p-4 gap-4 flex flex-col">
+            <SectionHeader icon={IconCertificate}>
               Decision Information
-            </h3>
+            </SectionHeader>
 
-            <div className="flex items-center gap-4 text-sm">
-              <div className="flex items-center gap-2">
-                {removalRequest.decidedBy.avatar ? (
-                  <img
-                    src={
-                      import.meta.env.VITE_API_URL +
-                      removalRequest.decidedBy.avatar
-                    }
-                    alt="Avatar"
-                    className="w-6 h-6 rounded-full"
-                  />
-                ) : (
-                  <IconUser size={20} />
-                )}
-                <span className="font-medium">
-                  {removalRequest.decidedBy.name}
-                </span>
-              </div>
-
-              <div className="flex items-center gap-2 text-smoke-600 dark:text-smoke-400">
-                <IconCalendar size={16} />
-                <span>
-                  {new Date(removalRequest.decidedAt).toLocaleDateString()}
-                </span>
-              </div>
+            <div className="flex items-center gap-2 text-sm text-smoke-700 dark:text-smoke-300">
+              {removalRequest.decidedBy.avatar ? (
+                <img
+                  src={
+                    import.meta.env.VITE_API_URL +
+                    removalRequest.decidedBy.avatar
+                  }
+                  alt="Avatar"
+                  className="w-5 h-5 rounded-full"
+                />
+              ) : (
+                <IconUser size={16} />
+              )}
+              <span className="font-medium text-smoke-900 dark:text-smoke-100">
+                {removalRequest.decidedBy.name}
+              </span>
+              <span>
+                {removalRequest.status === 1 ? "approved" : "rejected"} this request on
+              </span>
+              <span className="font-medium">
+                {new Date(removalRequest.decidedAt).toLocaleDateString()}
+              </span>
             </div>
           </div>
         )}
 
         {/* Action Buttons */}
         {isPending && (
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 gap-2">
             <HoldButton
               color="success"
               onClick={handleApprove}
