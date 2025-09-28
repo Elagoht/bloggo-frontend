@@ -8,11 +8,11 @@ type AuditLogListProps = {
 
 const AuditLogList: FC<AuditLogListProps> = ({ auditLogs, users }) => {
   return (
-    <div className="space-y-1">
+    <ul className="grid gap-2">
       {auditLogs.map((log) => (
         <AuditLogListItem key={log.id} auditLog={log} users={users} />
       ))}
-    </div>
+    </ul>
   );
 };
 
