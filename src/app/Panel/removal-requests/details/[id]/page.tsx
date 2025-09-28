@@ -113,7 +113,7 @@ const RemovalRequestDetailsPage: FC = () => {
     try {
       setActionLoading("approve");
       const result = await approveRemovalRequest(removalRequest.id, {
-        decisionNote: decisionNote.trim() || undefined,
+        decisionNote: decisionNote.trim(),
       });
       if (result.success) {
         setShowDecisionNoteDialog(null);
@@ -137,7 +137,7 @@ const RemovalRequestDetailsPage: FC = () => {
     try {
       setActionLoading("reject");
       const result = await rejectRemovalRequest(removalRequest.id, {
-        decisionNote: decisionNote.trim() || undefined,
+        decisionNote: decisionNote.trim(),
       });
       if (result.success) {
         setShowDecisionNoteDialog(null);
@@ -402,14 +402,14 @@ const RemovalRequestDetailsPage: FC = () => {
                 : (showDecisionNoteDialog === "approve" ? "Approve" : "Reject"),
               color: showDecisionNoteDialog === "approve" ? "success" : "danger",
               onClick: showDecisionNoteDialog === "approve" ? handleApprove : handleReject,
-              disabled: actionLoading !== null,
+              disabled: actionLoading !== null || decisionNote.trim() === "",
             },
           ]}
         >
           <div className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-smoke-700 dark:text-smoke-300 mb-2">
-                Decision Note (Optional)
+                Decision Note
               </label>
               <textarea
                 value={decisionNote}

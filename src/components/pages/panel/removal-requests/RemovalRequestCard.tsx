@@ -62,22 +62,13 @@ const RemovalRequestCard: FC<RemovalRequestCard> = ({
       to={`/removal-requests/details/${id}`}
       className="block p-4 bg-white dark:bg-smoke-950 rounded-xl border border-smoke-200 dark:border-smoke-800 hover:border-gopher-200 dark:hover:border-gopher-800 transition-colors duration-200"
     >
-      <div className="flex items-start justify-between mb-3">
-        <div className="flex-1 min-w-0">
-          <h3 className="font-medium text-smoke-900 dark:text-smoke-100 truncate">
-            {postTitle}
-          </h3>
-          {note && (
-            <p className="text-sm text-smoke-600 dark:text-smoke-400 mt-1 line-clamp-2">
-              <span className="font-medium">Request:</span> {note}
-            </p>
-          )}
-          {decisionNote && (
-            <p className="text-sm text-smoke-600 dark:text-smoke-400 mt-1 line-clamp-2">
-              <span className="font-medium">Decision:</span> {decisionNote}
-            </p>
-          )}
-        </div>
+      {/* Title - Full width */}
+      <h3 className="font-medium text-smoke-900 dark:text-smoke-100 mb-3 line-clamp-2">
+        {postTitle}
+      </h3>
+
+      {/* Status and Time - Justified between */}
+      <div className="flex items-center justify-between mb-3">
         <div
           className={`flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${
             statusColor === "warning"
@@ -90,10 +81,16 @@ const RemovalRequestCard: FC<RemovalRequestCard> = ({
           <StatusIcon size={14} />
           <span>{statusText}</span>
         </div>
+
+        <div className="flex items-center gap-1 text-sm text-smoke-600 dark:text-smoke-400">
+          <IconCalendar size={16} />
+          <span>{new Date(createdAt).toLocaleDateString()}</span>
+        </div>
       </div>
 
-      <div className="flex items-center gap-4 text-sm text-smoke-600 dark:text-smoke-400">
-        <div className="flex items-center gap-1">
+      {/* Requester and Note */}
+      <div className="mb-3">
+        <div className="flex items-center gap-2 text-sm text-smoke-700 dark:text-smoke-300 mb-2">
           {requestedBy.avatar ? (
             <img
               src={import.meta.env.VITE_API_URL + requestedBy.avatar}
@@ -103,20 +100,41 @@ const RemovalRequestCard: FC<RemovalRequestCard> = ({
           ) : (
             <IconUser size={16} />
           )}
-          <span>{requestedBy.name}</span>
+          <span className="font-medium">{requestedBy.name}</span>
+          <span className="text-smoke-500 dark:text-smoke-500">requested removal</span>
         </div>
-
-        <div className="flex items-center gap-1">
-          <IconCalendar size={16} />
-          <span>{new Date(createdAt).toLocaleDateString()}</span>
-        </div>
-
-        {decidedBy && decidedAt && (
-          <div className="flex items-center gap-1 text-xs">
-            <span>Decided by {decidedBy.name}</span>
-          </div>
+        {note && (
+          <p className="text-sm text-smoke-600 dark:text-smoke-400 line-clamp-2 ml-6">
+            "{note}"
+          </p>
         )}
       </div>
+
+      {/* Decision maker and Note (if available) */}
+      {decidedBy && decidedAt && (
+        <div>
+          <div className="flex items-center gap-2 text-sm text-smoke-700 dark:text-smoke-300 mb-2">
+            {decidedBy.avatar ? (
+              <img
+                src={import.meta.env.VITE_API_URL + decidedBy.avatar}
+                alt="Avatar"
+                className="w-4 h-4 rounded-full"
+              />
+            ) : (
+              <IconUser size={16} />
+            )}
+            <span className="font-medium">{decidedBy.name}</span>
+            <span className="text-smoke-500 dark:text-smoke-500">
+              {status === REMOVAL_REQUEST_STATUS.APPROVED ? "approved" : "rejected"}
+            </span>
+          </div>
+          {decisionNote && (
+            <p className="text-sm text-smoke-600 dark:text-smoke-400 line-clamp-2 ml-6">
+              "{decisionNote}"
+            </p>
+          )}
+        </div>
+      )}
     </Link>
   );
 };

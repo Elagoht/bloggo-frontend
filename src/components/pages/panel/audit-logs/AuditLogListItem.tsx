@@ -140,90 +140,60 @@ const AuditLogListItem: FC<AuditLogListItemProps> = ({ auditLog, users }) => {
 
   const getIconBgColor = (action: string) => {
     // Icon background colors that match the action colors
-    if (action === "created") return "bg-emerald-500 dark:bg-emerald-600";
-    if (action === "added") return "bg-green-500 dark:bg-green-600";
-    if (action === "approved") return "bg-teal-500 dark:bg-teal-600";
-    if (action === "published") return "bg-lime-500 dark:bg-lime-600";
+    if (action === "created") return "text-emerald-500 dark:text-emerald-600";
+    if (action === "added") return "text-green-500 dark:text-green-600";
+    if (action === "approved") return "text-teal-500 dark:text-teal-600";
+    if (action === "published") return "text-lime-500 dark:text-lime-600";
 
-    if (action === "updated") return "bg-blue-500 dark:bg-blue-600";
-    if (action === "assigned") return "bg-indigo-500 dark:bg-indigo-600";
+    if (action === "updated") return "text-blue-500 dark:text-blue-600";
+    if (action === "assigned") return "text-indigo-500 dark:text-indigo-600";
 
-    if (action === "submitted") return "bg-amber-500 dark:bg-amber-600";
-    if (action === "requested") return "bg-yellow-500 dark:bg-yellow-600";
+    if (action === "submitted") return "text-amber-500 dark:text-amber-600";
+    if (action === "requested") return "text-yellow-500 dark:text-yellow-600";
 
-    if (action === "deleted") return "bg-red-500 dark:bg-red-600";
-    if (action === "removed") return "bg-rose-500 dark:bg-rose-600";
-    if (action === "rejected") return "bg-pink-500 dark:bg-pink-600";
-    if (action === "denied") return "bg-fuchsia-500 dark:bg-fuchsia-600";
-    if (action === "unpublished") return "bg-orange-500 dark:bg-orange-600";
+    if (action === "deleted") return "text-red-500 dark:text-red-600";
+    if (action === "removed") return "text-rose-500 dark:text-rose-600";
+    if (action === "rejected") return "text-pink-500 dark:text-pink-600";
+    if (action === "denied") return "text-fuchsia-500 dark:text-fuchsia-600";
+    if (action === "unpublished") return "text-orange-500 dark:text-orange-600";
 
-    if (action === "login") return "bg-cyan-500 dark:bg-cyan-600";
-    if (action === "logout") return "bg-slate-500 dark:bg-slate-600";
+    if (action === "login") return "text-cyan-500 dark:text-cyan-600";
+    if (action === "logout") return "text-slate-500 dark:text-slate-600";
 
-    if (action === "duplicated_from") return "bg-purple-500 dark:bg-purple-600";
+    if (action === "duplicated_from")
+      return "text-purple-500 dark:text-purple-600";
     if (action === "replaced_published")
-      return "bg-violet-500 dark:bg-violet-600";
+      return "text-violet-500 dark:text-violet-600";
 
-    return "bg-smoke-500 dark:bg-smoke-600";
+    return "text-smoke-500 dark:text-smoke-600";
   };
 
   const renderSentence = () => {
     const user = getUserName(auditLog.userId);
-    const action = formatAction(auditLog.action).toLowerCase();
     const entityType = formatEntityType(auditLog.entityType).toLowerCase();
     const time = Calendar.formatDate(auditLog.createdAt);
 
-    // Special cases for different actions
-    if (auditLog.action === "login") {
-      return (
-        <span>
-          <Link to={`/users/details/${user}`} className="font-semibold">
-            {user}
-          </Link>
-          <span
-            className={`font-medium ml-1 ${getActionColor(auditLog.action)}`}
-          >
-            logged in
-          </span>
-          <span className="text-smoke-500 dark:text-smoke-400 ml-1">
-            at {time}
-          </span>
-        </span>
-      );
-    }
-
-    if (auditLog.action === "logout") {
-      return (
-        <>
-          <span className="font-semibold">{user}</span>
-          <span
-            className={`font-medium ml-1 ${getActionColor(auditLog.action)}`}
-          >
-            logged out
-          </span>
-          <span className="text-smoke-500 dark:text-smoke-400 ml-1">
-            at {time}
-          </span>
-        </>
-      );
-    }
+    const action =
+      auditLog.action === "login"
+        ? "logged in"
+        : auditLog.action === "logout"
+        ? "logged out"
+        : formatAction(auditLog.action).toLowerCase();
 
     // For other actions, use entity names when available
-    const entityDisplay = auditLog.entityName
-      ? `${entityType} "${auditLog.entityName}"`
-      : `${entityType} #${auditLog.entityId}`;
+    const entityDisplay =
+      auditLog.entityType === "auth"
+        ? ""
+        : auditLog.entityName
+        ? `${entityType} "${auditLog.entityName}"`
+        : `${entityType} #${auditLog.entityId}`;
 
     return (
-      <>
-        <span className="font-semibold">{user}</span>
-        <span className={`font-medium ml-1 ${getActionColor(auditLog.action)}`}>
-          {action}
-        </span>
-        <span className="ml-1">{entityDisplay}</span>
-        <span className="text-smoke-500 dark:text-smoke-400 ml-1">
-          at {time}
-        </span>
-      </>
+      <span>
+        <span className="font-semibold">{user}</span>{" "}
+        <strong className={getActionColor(auditLog.action)}>{action}</strong>{" "}
+        {entityDisplay} <time className="text-smoke-500">at {time}</time>
+      </span>
     );
   };
 
@@ -234,7 +204,12 @@ const AuditLogListItem: FC<AuditLogListItemProps> = ({ auditLog, users }) => {
         getActionBgColor(auditLog.action)
       )}
     >
-      <ActionIcon className="size-4 shrink-0" />
+      <ActionIcon
+        className={classNames(
+          "size-4 shrink-0",
+          getIconBgColor(auditLog.action)
+        )}
+      />
 
       {renderSentence()}
     </li>
