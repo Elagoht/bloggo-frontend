@@ -6,7 +6,7 @@ import Container from "../../../components/layout/Container";
 import PageTitleWithIcon from "../../../components/layout/Container/PageTitle";
 import { getDashboardStats } from "../../../services/dashboard";
 import PendingVersionsCard from "../../../components/pages/panel/dashboard/PendingVersionsCard";
-import RecentActivityCard from "../../../components/pages/panel/dashboard/RecentActivityCard";
+import DashboardAuditLogCard from "../../../components/pages/panel/dashboard/DashboardAuditLogCard";
 import PublishingRateCard from "../../../components/pages/panel/dashboard/PublishingRateCard";
 import AuthorPerformanceCard from "../../../components/pages/panel/dashboard/AuthorPerformanceCard";
 import DraftCountCard from "../../../components/pages/panel/dashboard/DraftCountCard";
@@ -125,7 +125,7 @@ const DashboardPage: FC = () => {
 
             {/* Recent Activity */}
             <PermissionGuard permission="auditlog:view">
-              <RecentActivityCard recentActivity={stats?.recentActivity} />
+              <DashboardAuditLogCard />
             </PermissionGuard>
           </div>
         )}

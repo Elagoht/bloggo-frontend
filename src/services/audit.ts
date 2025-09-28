@@ -4,7 +4,7 @@ import ApiCall from "../utilities/apiCaller";
 export const getAuditLogs = async (filters: AuditLogFilters = {}) => {
   const queryString = QueryString.stringify(filters, {
     addQueryPrefix: true,
-    arrayFormat: 'comma'
+    arrayFormat: "comma",
   });
   return ApiCall.get<AuditLogsResponse>(`/audit-logs${queryString}`);
 };
@@ -25,5 +25,7 @@ export const getAuditLogsByUser = async (
   filters: AuditLogFilters = {}
 ) => {
   const queryString = QueryString.stringify(filters, { addQueryPrefix: true });
-  return ApiCall.get<AuditLogsResponse>(`/audit-logs/user/${userId}${queryString}`);
+  return ApiCall.get<AuditLogsResponse>(
+    `/audit-logs/user/${userId}${queryString}`
+  );
 };
