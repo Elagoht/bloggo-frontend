@@ -1,26 +1,25 @@
 import {
-  IconCalendar,
+  IconCertificate,
+  IconCheck,
+  IconClock,
+  IconPaperclip,
   IconTrash,
   IconUser,
-  IconClock,
-  IconCheck,
   IconX,
-  IconPaperclip,
-  IconCertificate,
 } from "@tabler/icons-react";
 import { FC, useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import HoldButton from "../../../../../components/form/HoldButton";
 import RouteGuard from "../../../../../components/guards/RouteGuard";
 import Container from "../../../../../components/layout/Container";
 import PageTitleWithIcon from "../../../../../components/layout/Container/PageTitle";
+import SectionHeader from "../../../../../components/layout/SectionHeader";
 import {
-  getRemovalRequestById,
   approveRemovalRequest,
+  getRemovalRequestById,
   rejectRemovalRequest,
   REMOVAL_REQUEST_STATUS,
 } from "../../../../../services/removal-requests";
-import HoldButton from "../../../../../components/form/HoldButton";
-import SectionHeader from "../../../../../components/layout/SectionHeader";
 
 const RemovalRequestDetailsPage: FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -312,7 +311,8 @@ const RemovalRequestDetailsPage: FC = () => {
                 {removalRequest.decidedBy.name}
               </span>
               <span>
-                {removalRequest.status === 1 ? "approved" : "rejected"} this request on
+                {removalRequest.status === 1 ? "approved" : "rejected"} this
+                request on
               </span>
               <span className="font-medium">
                 {new Date(removalRequest.decidedAt).toLocaleDateString()}
