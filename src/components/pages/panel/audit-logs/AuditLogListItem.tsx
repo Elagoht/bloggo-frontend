@@ -13,6 +13,7 @@ import {
 } from "@tabler/icons-react";
 import classNames from "classnames";
 import { FC } from "react";
+import { Link } from "react-router-dom";
 import Calendar from "../../../../utilities/Calendar";
 
 type AuditLogListItemProps = {
@@ -24,7 +25,17 @@ const AuditLogListItem: FC<AuditLogListItemProps> = ({ auditLog, users }) => {
   const getUserName = (userId: number | null) => {
     if (!userId) return "System";
     const user = users.get(userId);
-    return user ? user.name : `User #${userId}`;
+    if (user) {
+      return (
+        <Link
+          to={`/users/details/${userId}`}
+          className="text-gopher-600 dark:text-gopher-400 hover:underline"
+        >
+          {user.name}
+        </Link>
+      );
+    }
+    return `User #${userId}`;
   };
 
   const ActionIcon = getActionIcon(auditLog.action, auditLog.entityType);
