@@ -9,6 +9,7 @@ import {
 } from "@tabler/icons-react";
 import { FC, useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import Dialog from "../../../../../components/common/Dialog";
 import HoldButton from "../../../../../components/form/HoldButton";
 import RouteGuard from "../../../../../components/guards/RouteGuard";
 import Container from "../../../../../components/layout/Container";
@@ -69,6 +70,8 @@ const RemovalRequestDetailsPage: FC = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
   const [actionLoading, setActionLoading] = useState<string | null>(null);
+  const [showDecisionNoteDialog, setShowDecisionNoteDialog] = useState<"approve" | "reject" | null>(null);
+  const [decisionNote, setDecisionNote] = useState("");
 
   const fetchRemovalRequestDetails = useCallback(async () => {
     if (!id) return;
@@ -96,13 +99,25 @@ const RemovalRequestDetailsPage: FC = () => {
     }
   }, [id, navigate]);
 
+  const handleApproveConfirmed = () => {
+    setShowDecisionNoteDialog("approve");
+  };
+
+  const handleRejectConfirmed = () => {
+    setShowDecisionNoteDialog("reject");
+  };
+
   const handleApprove = async () => {
     if (!removalRequest) return;
 
     try {
       setActionLoading("approve");
-      const result = await approveRemovalRequest(removalRequest.id);
+      const result = await approveRemovalRequest(removalRequest.id, {
+        decisionNote: decisionNote.trim() || undefined,
+      });
       if (result.success) {
+        setShowDecisionNoteDialog(null);
+        setDecisionNote("");
         await fetchRemovalRequestDetails();
       } else {
         setError(
@@ -121,8 +136,12 @@ const RemovalRequestDetailsPage: FC = () => {
 
     try {
       setActionLoading("reject");
-      const result = await rejectRemovalRequest(removalRequest.id);
+      const result = await rejectRemovalRequest(removalRequest.id, {
+        decisionNote: decisionNote.trim() || undefined,
+      });
       if (result.success) {
+        setShowDecisionNoteDialog(null);
+        setDecisionNote("");
         await fetchRemovalRequestDetails();
       } else {
         setError(
@@ -318,6 +337,15 @@ const RemovalRequestDetailsPage: FC = () => {
                 {new Date(removalRequest.decidedAt).toLocaleDateString()}
               </span>
             </div>
+
+            {removalRequest.decisionNote && (
+              <div className="text-sm text-smoke-600 dark:text-smoke-400 bg-smoke-50 dark:bg-smoke-900 p-3 rounded-lg">
+                <span className="font-medium text-smoke-900 dark:text-smoke-100">
+                  Decision Note:
+                </span>
+                <span className="ml-2">"{removalRequest.decisionNote}"</span>
+              </div>
+            )}
           </div>
         )}
 
@@ -326,29 +354,77 @@ const RemovalRequestDetailsPage: FC = () => {
           <div className="grid grid-cols-2 gap-2">
             <HoldButton
               color="success"
-              onClick={handleApprove}
+              onClick={handleApproveConfirmed}
               disabled={actionLoading !== null}
               confirmTitle="Approve Removal Request"
               confirmMessage="Are you sure you want to approve this removal request? This action will permanently delete the post."
               confirmActionText="Approve"
               className="flex-1"
             >
-              {actionLoading === "approve" ? "Approving..." : "Approve"}
+              Approve
             </HoldButton>
 
             <HoldButton
               color="danger"
-              onClick={handleReject}
+              onClick={handleRejectConfirmed}
               disabled={actionLoading !== null}
               confirmTitle="Reject Removal Request"
               confirmMessage="Are you sure you want to reject this removal request?"
               confirmActionText="Reject"
               className="flex-1"
             >
-              {actionLoading === "reject" ? "Rejecting..." : "Reject"}
+              Reject
             </HoldButton>
           </div>
         )}
+
+        {/* Decision Note Dialog */}
+        <Dialog
+          isOpen={showDecisionNoteDialog !== null}
+          onClose={() => {
+            setShowDecisionNoteDialog(null);
+            setDecisionNote("");
+          }}
+          title={`${showDecisionNoteDialog === "approve" ? "Approve" : "Reject"} Removal Request`}
+          actions={[
+            {
+              children: "Cancel",
+              variant: "outlined",
+              onClick: () => {
+                setShowDecisionNoteDialog(null);
+                setDecisionNote("");
+              },
+              disabled: actionLoading !== null,
+            },
+            {
+              children: actionLoading !== null
+                ? (showDecisionNoteDialog === "approve" ? "Approving..." : "Rejecting...")
+                : (showDecisionNoteDialog === "approve" ? "Approve" : "Reject"),
+              color: showDecisionNoteDialog === "approve" ? "success" : "danger",
+              onClick: showDecisionNoteDialog === "approve" ? handleApprove : handleReject,
+              disabled: actionLoading !== null,
+            },
+          ]}
+        >
+          <div className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-smoke-700 dark:text-smoke-300 mb-2">
+                Decision Note (Optional)
+              </label>
+              <textarea
+                value={decisionNote}
+                onChange={(e) => setDecisionNote(e.target.value)}
+                placeholder="Explain your decision..."
+                className="w-full px-3 py-2 border border-smoke-300 dark:border-smoke-700 rounded-lg bg-white dark:bg-smoke-900 text-smoke-900 dark:text-smoke-100 placeholder-smoke-400 dark:placeholder-smoke-500 focus:ring-2 focus:ring-gopher-500 focus:border-transparent resize-none"
+                rows={4}
+                maxLength={500}
+              />
+              <div className="text-xs text-smoke-500 dark:text-smoke-400 mt-1">
+                {decisionNote.length}/500 characters
+              </div>
+            </div>
+          </div>
+        </Dialog>
       </Container>
     </RouteGuard>
   );

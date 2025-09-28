@@ -6,6 +6,7 @@ interface RemovalRequestCard {
   note?: string;
   status: number;
   decidedBy?: UserInfo;
+  decisionNote?: string;
   decidedAt?: string;
   createdAt: string;
 }
@@ -21,6 +22,7 @@ interface RemovalRequestDetails {
   note?: string;
   status: number;
   decidedBy?: UserInfo;
+  decisionNote?: string;
   decidedAt?: string;
   createdAt: string;
 }
@@ -37,7 +39,7 @@ interface CreateRemovalRequestRequest {
 }
 
 interface DecideRemovalRequestRequest {
-  note?: string;
+  decisionNote?: string;
 }
 
 // Constants for removal request status

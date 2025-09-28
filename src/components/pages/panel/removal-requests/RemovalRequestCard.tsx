@@ -10,6 +10,7 @@ const RemovalRequestCard: FC<RemovalRequestCard> = ({
   note,
   status,
   decidedBy,
+  decisionNote,
   decidedAt,
   createdAt,
 }) => {
@@ -68,7 +69,12 @@ const RemovalRequestCard: FC<RemovalRequestCard> = ({
           </h3>
           {note && (
             <p className="text-sm text-smoke-600 dark:text-smoke-400 mt-1 line-clamp-2">
-              {note}
+              <span className="font-medium">Request:</span> {note}
+            </p>
+          )}
+          {decisionNote && (
+            <p className="text-sm text-smoke-600 dark:text-smoke-400 mt-1 line-clamp-2">
+              <span className="font-medium">Decision:</span> {decisionNote}
             </p>
           )}
         </div>
