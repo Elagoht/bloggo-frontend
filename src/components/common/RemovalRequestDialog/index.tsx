@@ -1,4 +1,5 @@
 import { FC, useState } from "react";
+import toast from "react-hot-toast";
 import Dialog from "../Dialog";
 import Textarea from "../../form/Textarea";
 import { createRemovalRequest } from "../../../services/removal-requests";
@@ -20,19 +21,17 @@ const RemovalRequestDialog: FC<RemovalRequestDialogProps> = ({
 }) => {
   const [note, setNote] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async () => {
     const trimmedNote = note.trim();
 
     if (!trimmedNote) {
-      setError("Please provide a reason for the removal request.");
+      toast.error("Please provide a reason for the removal request");
       return;
     }
 
     try {
       setIsSubmitting(true);
-      setError(null);
 
       const result = await createRemovalRequest({
         postVersionId,
@@ -40,14 +39,23 @@ const RemovalRequestDialog: FC<RemovalRequestDialogProps> = ({
       });
 
       if (result.success) {
+        toast.success("Removal request submitted successfully");
         onSuccess?.();
         onClose();
         setNote("");
       } else {
-        setError(result.error?.message || "Failed to create removal request");
+        if (result.status === 409) {
+          toast.error(
+            "You already have a pending removal request for this post"
+          );
+        } else {
+          toast.error(
+            result.error?.message || "Failed to create removal request"
+          );
+        }
       }
-    } catch (err) {
-      setError("An unexpected error occurred");
+    } catch {
+      toast.error("An unexpected error occurred");
     } finally {
       setIsSubmitting(false);
     }
@@ -57,7 +65,6 @@ const RemovalRequestDialog: FC<RemovalRequestDialogProps> = ({
     if (!isSubmitting) {
       onClose();
       setNote("");
-      setError(null);
     }
   };
 
@@ -110,12 +117,6 @@ const RemovalRequestDialog: FC<RemovalRequestDialogProps> = ({
             {note.length}/500 characters
           </div>
         </div>
-
-        {error && (
-          <div className="text-sm text-danger-600 dark:text-danger-400 bg-danger-50 dark:bg-danger-900/20 p-3 rounded-lg">
-            {error}
-          </div>
-        )}
 
         <div className="text-sm text-smoke-600 dark:text-smoke-400 bg-smoke-50 dark:bg-smoke-900/50 p-3 rounded-lg">
           <strong>Note:</strong> Once submitted, your request will be reviewed
