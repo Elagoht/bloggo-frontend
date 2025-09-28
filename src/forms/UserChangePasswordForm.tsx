@@ -1,9 +1,5 @@
-import {
-  IconChevronDown,
-  IconExclamationCircle,
-  IconKey,
-  IconLock,
-} from "@tabler/icons-react";
+import { IconExclamationCircle, IconKey, IconLock } from "@tabler/icons-react";
+import classNames from "classnames";
 import { FC, useState } from "react";
 import toast from "react-hot-toast";
 import Button from "../components/form/Button";
@@ -12,7 +8,6 @@ import Input from "../components/form/Input";
 import FormCard from "../components/layout/Container/FormCard";
 import SectionHeader from "../components/layout/SectionHeader";
 import { patchUserChangePassword } from "../services/users";
-import classNames from "classnames";
 
 type UserChangePasswordFormProps = {
   user: UserDetails;
