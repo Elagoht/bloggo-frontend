@@ -91,7 +91,7 @@ const SearchDropdown: FC<SearchDropdownProps> = ({
       } finally {
         setIsLoading(false);
       }
-    }, 300); // 300ms debounce
+    }, 500); // 500ms debounce
 
     return () => {
       if (debounceRef.current) {
@@ -128,7 +128,7 @@ const SearchDropdown: FC<SearchDropdownProps> = ({
       case "category":
         return `/categories/details/${result.slug}`;
       case "post":
-        return `/posts/${result.slug}`;
+        return `/posts/details/${result.id}`;
       case "user":
         return `/users/details/${result.id}`;
       default:
