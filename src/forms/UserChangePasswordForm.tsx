@@ -65,6 +65,7 @@ const UserChangePasswordForm: FC<UserChangePasswordFormProps> = ({
 
       <Form handle={handleSubmit}>
         <Input
+          name="newPassword"
           label="New Password"
           type="password"
           required
@@ -74,6 +75,7 @@ const UserChangePasswordForm: FC<UserChangePasswordFormProps> = ({
         />
 
         <Input
+          name="confirmPassword"
           label="Confirm New Password"
           type="password"
           required
