@@ -44,6 +44,7 @@ const AuditLogFiltersForm: FC<AuditLogFiltersFormProps> = ({
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [isInitialized, setIsInitialized] = useState(false);
+  const [hasFilterChanged, setHasFilterChanged] = useState(false);
   const currentSearchParamsRef = useRef(searchParams);
 
   // Initialize state from URL parameters
@@ -130,16 +131,17 @@ const AuditLogFiltersForm: FC<AuditLogFiltersFormProps> = ({
     : [];
 
   useEffect(() => {
-    if (isInitialized) {
-      // Get current sort settings to preserve them (using ref to avoid dependency loop)
+    if (isInitialized && hasFilterChanged) {
+      // Get current sort and pagination settings to preserve them
       const currentOrder = currentSearchParamsRef.current.get("order") || "created_at";
       const currentDir = currentSearchParamsRef.current.get("dir") || "desc";
+      const currentTake = parseInt(currentSearchParamsRef.current.get("take") || "20");
 
       const queryParams: QueryParams = {
         order: currentOrder,
         dir: currentDir,
-        page: 1,
-        take: 20,
+        page: 1, // Reset to page 1 when filters change
+        take: currentTake,
       };
 
       if (selectedUsers.length > 0) queryParams.userId = selectedUsers;
@@ -156,6 +158,7 @@ const AuditLogFiltersForm: FC<AuditLogFiltersFormProps> = ({
       });
 
       navigate(`${location.pathname}?${queryString}`, { replace: true });
+      setHasFilterChanged(false);
     }
   }, [
     selectedUsers,
@@ -164,6 +167,7 @@ const AuditLogFiltersForm: FC<AuditLogFiltersFormProps> = ({
     selectedCategories,
     selectedTags,
     isInitialized,
+    hasFilterChanged,
     navigate,
     location.pathname,
   ]);
@@ -229,7 +233,10 @@ const AuditLogFiltersForm: FC<AuditLogFiltersFormProps> = ({
       <FormSection legend="Users">
         <MultiSelectTags
           values={selectedUsers}
-          onChange={setSelectedUsers}
+          onChange={(value) => {
+            setSelectedUsers(value);
+            setHasFilterChanged(true);
+          }}
           options={userOptions}
         />
       </FormSection>
@@ -237,7 +244,10 @@ const AuditLogFiltersForm: FC<AuditLogFiltersFormProps> = ({
       <FormSection legend="Entity Types">
         <MultiSelectTags
           values={selectedEntityTypes}
-          onChange={setSelectedEntityTypes}
+          onChange={(value) => {
+            setSelectedEntityTypes(value);
+            setHasFilterChanged(true);
+          }}
           options={entityTypeOptions}
         />
       </FormSection>
@@ -245,7 +255,10 @@ const AuditLogFiltersForm: FC<AuditLogFiltersFormProps> = ({
       <FormSection legend="Actions">
         <MultiSelectActions
           values={selectedActions}
-          onChange={setSelectedActions}
+          onChange={(value) => {
+            setSelectedActions(value);
+            setHasFilterChanged(true);
+          }}
           options={actionOptions}
         />
       </FormSection>
@@ -253,7 +266,10 @@ const AuditLogFiltersForm: FC<AuditLogFiltersFormProps> = ({
       <FormSection legend="Categories">
         <MultiSelectTags
           values={selectedCategories}
-          onChange={setSelectedCategories}
+          onChange={(value) => {
+            setSelectedCategories(value);
+            setHasFilterChanged(true);
+          }}
           options={categoryOptions}
         />
       </FormSection>
@@ -261,7 +277,10 @@ const AuditLogFiltersForm: FC<AuditLogFiltersFormProps> = ({
       <FormSection legend="Tags">
         <MultiSelectTags
           values={selectedTags}
-          onChange={setSelectedTags}
+          onChange={(value) => {
+            setSelectedTags(value);
+            setHasFilterChanged(true);
+          }}
           options={tagOptions}
         />
       </FormSection>
@@ -277,12 +296,6 @@ const AuditLogFiltersForm: FC<AuditLogFiltersFormProps> = ({
           options={[
             { value: "created_at:asc", label: "First Created" },
             { value: "created_at:desc", label: "Last Created" },
-            { value: "user_id:asc", label: "User A-Z" },
-            { value: "user_id:desc", label: "User Z-A" },
-            { value: "entity_type:asc", label: "Entity Type A-Z" },
-            { value: "entity_type:desc", label: "Entity Type Z-A" },
-            { value: "action:asc", label: "Action A-Z" },
-            { value: "action:desc", label: "Action Z-A" },
           ]}
         />
       </FormSection>
