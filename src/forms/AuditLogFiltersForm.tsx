@@ -24,9 +24,7 @@ interface QueryParams {
   action?: string[];
 }
 
-const AuditLogFiltersForm: FC<AuditLogFiltersFormProps> = ({
-  users,
-}) => {
+const AuditLogFiltersForm: FC<AuditLogFiltersFormProps> = ({ users }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const location = useLocation();
@@ -98,8 +96,6 @@ const AuditLogFiltersForm: FC<AuditLogFiltersFormProps> = ({
     value: action.value,
     label: action.label,
   }));
-
-
 
   const handleSubmit = async (data: FormData) => {
     const [order, dir] = (data.get("sort") as string).split(":");
@@ -173,7 +169,6 @@ const AuditLogFiltersForm: FC<AuditLogFiltersFormProps> = ({
         />
       </FormSection>
 
-
       <FormSection legend="Sort By">
         <RadioGroup
           name="sort"
@@ -183,8 +178,8 @@ const AuditLogFiltersForm: FC<AuditLogFiltersFormProps> = ({
               : "created_at:desc"
           }
           options={[
-            { value: "created_at:asc", label: "First Created" },
-            { value: "created_at:desc", label: "Last Created" },
+            { value: "created_at:desc", label: "Most Recent" },
+            { value: "created_at:asc", label: "Least Recent" },
           ]}
         />
       </FormSection>
