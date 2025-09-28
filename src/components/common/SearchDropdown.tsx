@@ -124,13 +124,13 @@ const SearchDropdown: FC<SearchDropdownProps> = ({
   const getResultLink = (result: SearchResult): string => {
     switch (result.type) {
       case "tag":
-        return `/tags/${result.slug}`;
+        return `/tags/details/${result.slug}`;
       case "category":
-        return `/categories/${result.slug}`;
+        return `/categories/details/${result.slug}`;
       case "post":
         return `/posts/${result.slug}`;
       case "user":
-        return `/users/${result.id}`;
+        return `/users/details/${result.id}`;
       default:
         return "#";
     }
@@ -140,7 +140,7 @@ const SearchDropdown: FC<SearchDropdownProps> = ({
     if (result.avatarUrl && result.type === "user") {
       return (
         <img
-          src={result.avatarUrl}
+          src={import.meta.env.VITE_API_URL + result.avatarUrl}
           alt={result.title}
           className="w-8 h-8 rounded-full object-cover"
         />
@@ -153,7 +153,7 @@ const SearchDropdown: FC<SearchDropdownProps> = ({
     ) {
       return (
         <img
-          src={result.coverUrl}
+          src={import.meta.env.VITE_API_URL + result.coverUrl}
           alt={result.title}
           className="w-8 h-8 rounded object-cover"
         />
@@ -224,12 +224,9 @@ const SearchDropdown: FC<SearchDropdownProps> = ({
                 >
                   {getResultImage(result)}
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2">
-                      {getResultIcon(result.type)}
-                      <span className="font-medium text-smoke-900 dark:text-smoke-100 truncate">
-                        {result.title}
-                      </span>
-                    </div>
+                    <span className="font-medium text-smoke-900 dark:text-smoke-100 truncate block">
+                      {result.title}
+                    </span>
                     <div className="text-xs text-smoke-500 dark:text-smoke-400 capitalize">
                       {result.type}
                     </div>
