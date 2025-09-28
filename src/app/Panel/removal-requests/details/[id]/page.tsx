@@ -1,4 +1,12 @@
-import { IconCalendar, IconTrash, IconUser, IconClock, IconCheck, IconX } from "@tabler/icons-react";
+import {
+  IconCalendar,
+  IconTrash,
+  IconUser,
+  IconClock,
+  IconCheck,
+  IconX,
+  IconPaperclip,
+} from "@tabler/icons-react";
 import { FC, useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import RouteGuard from "../../../../../components/guards/RouteGuard";
@@ -11,6 +19,7 @@ import {
   REMOVAL_REQUEST_STATUS,
 } from "../../../../../services/removal-requests";
 import HoldButton from "../../../../../components/form/HoldButton";
+import SectionHeader from "../../../../../components/layout/SectionHeader";
 
 const RemovalRequestDetailsPage: FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -182,143 +191,163 @@ const RemovalRequestDetailsPage: FC = () => {
           </div>
         </div>
 
-        <div className="space-y-6">
-          {/* Post Information */}
-          <div className="bg-white dark:bg-smoke-950 rounded-xl border border-smoke-200 dark:border-smoke-800 p-6">
-            <h3 className="text-lg font-semibold text-smoke-900 dark:text-smoke-100 mb-4">
-              Post Information
-            </h3>
+        {/* Post Information */}
+        <div className="bg-white dark:bg-smoke-950 rounded-xl border border-smoke-200 dark:border-smoke-800 p-4 gap-4 flex flex-col">
+          <SectionHeader icon={IconPaperclip}>Post Information</SectionHeader>
+          <div>
+            <h4 className="font-medium text-smoke-900 dark:text-smoke-100 mb-2">
+              {removalRequest.postTitle}
+            </h4>
 
-            <div className="space-y-4">
-              <div>
-                <h4 className="font-medium text-smoke-900 dark:text-smoke-100 mb-2">
-                  {removalRequest.postTitle}
-                </h4>
-                <div className="text-sm text-smoke-600 dark:text-smoke-400 bg-smoke-50 dark:bg-smoke-900 p-3 rounded-lg">
-                  <div className="line-clamp-3">{removalRequest.postContent}</div>
-                </div>
+            {removalRequest.postCoverUrl && (
+              <div className="mb-3">
+                <img
+                  src={
+                    import.meta.env.VITE_API_URL + removalRequest.postCoverUrl
+                  }
+                  alt="Post cover"
+                  className="w-full h-32 object-cover rounded-lg"
+                />
               </div>
-            </div>
-          </div>
+            )}
 
-          {/* Request Information */}
-          <div className="bg-white dark:bg-smoke-950 rounded-xl border border-smoke-200 dark:border-smoke-800 p-6">
-            <h3 className="text-lg font-semibold text-smoke-900 dark:text-smoke-100 mb-4">
-              Request Information
-            </h3>
+            <div className="flex items-center gap-2 text-sm">
+              <div className="flex items-center gap-2">
+                {removalRequest.postWriter.avatar ? (
+                  <img
+                    src={
+                      import.meta.env.VITE_API_URL +
+                      removalRequest.postWriter.avatar
+                    }
+                    alt="Writer avatar"
+                    className="w-6 h-6 rounded-full"
+                  />
+                ) : (
+                  <IconUser size={20} />
+                )}
+                <span className="font-medium text-smoke-900 dark:text-smoke-100">
+                  {removalRequest.postWriter.name}
+                </span>
+              </div>
 
-            <div className="space-y-4">
-              <div className="flex items-center gap-4 text-sm">
-                <div className="flex items-center gap-2">
-                  {removalRequest.requestedBy.avatar ? (
-                    <img
-                      src={
-                        import.meta.env.VITE_API_URL +
-                        removalRequest.requestedBy.avatar
-                      }
-                      alt="Avatar"
-                      className="w-6 h-6 rounded-full"
-                    />
-                  ) : (
-                    <IconUser size={20} />
-                  )}
-                  <span className="font-medium">
-                    {removalRequest.requestedBy.name}
-                  </span>
-                </div>
-
+              {removalRequest.postCategory && (
                 <div className="flex items-center gap-2 text-smoke-600 dark:text-smoke-400">
-                  <IconCalendar size={16} />
-                  <span>
-                    {new Date(removalRequest.createdAt).toLocaleDateString()}
+                  <span className="px-2 py-1 bg-gopher-100 dark:bg-gopher-900/30 text-gopher-800 dark:text-gopher-300 rounded-md text-xs font-medium">
+                    {removalRequest.postCategory}
                   </span>
-                </div>
-              </div>
-
-              {removalRequest.note && (
-                <div>
-                  <h4 className="font-medium text-smoke-900 dark:text-smoke-100 mb-2">
-                    Reason for removal:
-                  </h4>
-                  <p className="text-sm text-smoke-600 dark:text-smoke-400 bg-smoke-50 dark:bg-smoke-900 p-3 rounded-lg">
-                    {removalRequest.note}
-                  </p>
                 </div>
               )}
             </div>
           </div>
+        </div>
 
-          {/* Decision Information */}
-          {removalRequest.decidedBy && removalRequest.decidedAt && (
-            <div className="bg-white dark:bg-smoke-950 rounded-xl border border-smoke-200 dark:border-smoke-800 p-6">
-              <h3 className="text-lg font-semibold text-smoke-900 dark:text-smoke-100 mb-4">
-                Decision Information
-              </h3>
+        {/* Request Information */}
+        <div className="bg-white dark:bg-smoke-950 rounded-xl border border-smoke-200 dark:border-smoke-800 flex flex-col gap-4 p-4">
+          <SectionHeader icon={IconUser}>Request Information</SectionHeader>
 
-              <div className="flex items-center gap-4 text-sm">
-                <div className="flex items-center gap-2">
-                  {removalRequest.decidedBy.avatar ? (
-                    <img
-                      src={
-                        import.meta.env.VITE_API_URL +
-                        removalRequest.decidedBy.avatar
-                      }
-                      alt="Avatar"
-                      className="w-6 h-6 rounded-full"
-                    />
-                  ) : (
-                    <IconUser size={20} />
-                  )}
-                  <span className="font-medium">
-                    {removalRequest.decidedBy.name}
-                  </span>
-                </div>
-
-                <div className="flex items-center gap-2 text-smoke-600 dark:text-smoke-400">
-                  <IconCalendar size={16} />
-                  <span>
-                    {new Date(removalRequest.decidedAt).toLocaleDateString()}
-                  </span>
-                </div>
-              </div>
+          <div className="flex items-center gap-4 text-sm">
+            <div className="flex items-center gap-2">
+              {removalRequest.requestedBy.avatar ? (
+                <img
+                  src={
+                    import.meta.env.VITE_API_URL +
+                    removalRequest.requestedBy.avatar
+                  }
+                  alt="Avatar"
+                  className="w-6 h-6 rounded-full"
+                />
+              ) : (
+                <IconUser size={20} />
+              )}
+              <span className="font-medium">
+                {removalRequest.requestedBy.name}
+              </span>
             </div>
-          )}
 
-          {/* Action Buttons */}
-          {isPending && (
-            <div className="bg-white dark:bg-smoke-950 rounded-xl border border-smoke-200 dark:border-smoke-800 p-6">
-              <h3 className="text-lg font-semibold text-smoke-900 dark:text-smoke-100 mb-4">
-                Actions
-              </h3>
+            <div className="flex items-center gap-2 text-smoke-600 dark:text-smoke-400">
+              <IconCalendar size={16} />
+              <span>
+                {new Date(removalRequest.createdAt).toLocaleDateString()}
+              </span>
+            </div>
+          </div>
 
-              <div className="flex gap-4">
-                <HoldButton
-                  color="success"
-                  onClick={handleApprove}
-                  disabled={actionLoading !== null}
-                  confirmTitle="Approve Removal Request"
-                  confirmMessage="Are you sure you want to approve this removal request? This action will permanently delete the post."
-                  confirmActionText="Approve"
-                  className="flex-1"
-                >
-                  {actionLoading === "approve" ? "Approving..." : "Approve"}
-                </HoldButton>
-
-                <HoldButton
-                  color="danger"
-                  onClick={handleReject}
-                  disabled={actionLoading !== null}
-                  confirmTitle="Reject Removal Request"
-                  confirmMessage="Are you sure you want to reject this removal request?"
-                  confirmActionText="Reject"
-                  className="flex-1"
-                >
-                  {actionLoading === "reject" ? "Rejecting..." : "Reject"}
-                </HoldButton>
-              </div>
+          {removalRequest.note && (
+            <div>
+              <h4 className="font-medium text-smoke-900 dark:text-smoke-100 mb-2">
+                Reason for removal:
+              </h4>
+              <p className="text-sm text-smoke-600 dark:text-smoke-400 bg-smoke-50 dark:bg-smoke-900 p-3 rounded-lg">
+                {removalRequest.note}
+              </p>
             </div>
           )}
         </div>
+
+        {/* Decision Information */}
+        {removalRequest.decidedBy && removalRequest.decidedAt && (
+          <div className="bg-white dark:bg-smoke-950 rounded-xl border border-smoke-200 dark:border-smoke-800 p-4">
+            <h3 className="text-lg font-semibold text-smoke-900 dark:text-smoke-100 mb-4">
+              Decision Information
+            </h3>
+
+            <div className="flex items-center gap-4 text-sm">
+              <div className="flex items-center gap-2">
+                {removalRequest.decidedBy.avatar ? (
+                  <img
+                    src={
+                      import.meta.env.VITE_API_URL +
+                      removalRequest.decidedBy.avatar
+                    }
+                    alt="Avatar"
+                    className="w-6 h-6 rounded-full"
+                  />
+                ) : (
+                  <IconUser size={20} />
+                )}
+                <span className="font-medium">
+                  {removalRequest.decidedBy.name}
+                </span>
+              </div>
+
+              <div className="flex items-center gap-2 text-smoke-600 dark:text-smoke-400">
+                <IconCalendar size={16} />
+                <span>
+                  {new Date(removalRequest.decidedAt).toLocaleDateString()}
+                </span>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Action Buttons */}
+        {isPending && (
+          <div className="grid grid-cols-2 gap-4">
+            <HoldButton
+              color="success"
+              onClick={handleApprove}
+              disabled={actionLoading !== null}
+              confirmTitle="Approve Removal Request"
+              confirmMessage="Are you sure you want to approve this removal request? This action will permanently delete the post."
+              confirmActionText="Approve"
+              className="flex-1"
+            >
+              {actionLoading === "approve" ? "Approving..." : "Approve"}
+            </HoldButton>
+
+            <HoldButton
+              color="danger"
+              onClick={handleReject}
+              disabled={actionLoading !== null}
+              confirmTitle="Reject Removal Request"
+              confirmMessage="Are you sure you want to reject this removal request?"
+              confirmActionText="Reject"
+              className="flex-1"
+            >
+              {actionLoading === "reject" ? "Rejecting..." : "Reject"}
+            </HoldButton>
+          </div>
+        )}
       </Container>
     </RouteGuard>
   );

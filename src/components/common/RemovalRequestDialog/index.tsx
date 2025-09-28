@@ -9,7 +9,6 @@ interface RemovalRequestDialogProps {
   onClose: () => void;
   postVersionId: number;
   postTitle: string;
-  onSuccess?: () => void;
 }
 
 const RemovalRequestDialog: FC<RemovalRequestDialogProps> = ({
@@ -17,7 +16,6 @@ const RemovalRequestDialog: FC<RemovalRequestDialogProps> = ({
   onClose,
   postVersionId,
   postTitle,
-  onSuccess,
 }) => {
   const [note, setNote] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -40,7 +38,6 @@ const RemovalRequestDialog: FC<RemovalRequestDialogProps> = ({
 
       if (result.success) {
         toast.success("Removal request submitted successfully");
-        onSuccess?.();
         onClose();
         setNote("");
       } else {

@@ -1,18 +1,17 @@
 import { IconFileText, IconHistory, IconTrash } from "@tabler/icons-react";
 import { FC, useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import RemovalRequestDialog from "../../../../../components/common/RemovalRequestDialog";
+import Button from "../../../../../components/form/Button";
 import RouteGuard from "../../../../../components/guards/RouteGuard";
 import Container from "../../../../../components/layout/Container";
+import CardGrid from "../../../../../components/layout/Container/CardGrid";
 import PageTitleWithIcon from "../../../../../components/layout/Container/PageTitle";
+import SectionHeader from "../../../../../components/layout/SectionHeader";
+import PostDetails from "../../../../../components/pages/panel/posts/PostDetails";
+import PostTagsManager from "../../../../../components/pages/panel/posts/PostTagsManager";
 import PostVersionCard from "../../../../../components/pages/panel/posts/PostVersionCard";
 import { getPost, getPostVersions } from "../../../../../services/posts";
-import CardGrid from "../../../../../components/layout/Container/CardGrid";
-import PostDetails from "../../../../../components/pages/panel/posts/PostDetails";
-import SectionHeader from "../../../../../components/layout/SectionHeader";
-import PostTagsManager from "../../../../../components/pages/panel/posts/PostTagsManager";
-import Button from "../../../../../components/form/Button";
-import PermissionGuard from "../../../../../components/guards/PermissionGuard";
-import RemovalRequestDialog from "../../../../../components/common/RemovalRequestDialog";
 
 const PostDetailsPage: FC = () => {
   const { slug, postId } = useParams<{ slug?: string; postId?: string }>();
@@ -153,9 +152,6 @@ const PostDetailsPage: FC = () => {
         onClose={() => setIsRemovalDialogOpen(false)}
         postVersionId={post.versionId}
         postTitle={post.title || "Untitled Post"}
-        onSuccess={() => {
-          // Optionally show a success message or refresh data
-        }}
       />
     </RouteGuard>
   );

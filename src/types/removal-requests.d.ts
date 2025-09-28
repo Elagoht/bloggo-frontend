@@ -14,7 +14,9 @@ interface RemovalRequestDetails {
   id: number;
   postVersionId: number;
   postTitle: string;
-  postContent: string;
+  postWriter: UserInfo;
+  postCoverUrl?: string;
+  postCategory?: string;
   requestedBy: UserInfo;
   note?: string;
   status: number;
