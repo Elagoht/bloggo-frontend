@@ -1,6 +1,6 @@
 import { IconClearAll, IconFilter } from "@tabler/icons-react";
 import qs from "qs";
-import { FC, useEffect, useState, useRef } from "react";
+import { FC, useEffect, useState } from "react";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import Button from "../components/form/Button";
 import ButtonGroup from "../components/form/ButtonGroup";
@@ -35,9 +35,6 @@ const AuditLogFiltersForm: FC<AuditLogFiltersFormProps> = ({
   const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
   const [selectedEntityTypes, setSelectedEntityTypes] = useState<string[]>([]);
   const [selectedActions, setSelectedActions] = useState<string[]>([]);
-  const [isInitialized, setIsInitialized] = useState(false);
-  const [hasFilterChanged, setHasFilterChanged] = useState(false);
-  const currentSearchParamsRef = useRef(searchParams);
 
   // Initialize state from URL parameters
   useEffect(() => {
@@ -49,10 +46,6 @@ const AuditLogFiltersForm: FC<AuditLogFiltersFormProps> = ({
     setSelectedUsers(parseArrayParam("userId"));
     setSelectedEntityTypes(parseArrayParam("entityType"));
     setSelectedActions(parseArrayParam("action"));
-    setIsInitialized(true);
-
-    // Update the ref to track current searchParams
-    currentSearchParamsRef.current = searchParams;
   }, [searchParams]);
 
   const entityTypes: { value: AuditEntityType; label: string }[] = [
@@ -107,42 +100,6 @@ const AuditLogFiltersForm: FC<AuditLogFiltersFormProps> = ({
   }));
 
 
-  useEffect(() => {
-    if (isInitialized && hasFilterChanged) {
-      // Get current sort and pagination settings to preserve them
-      const currentOrder = currentSearchParamsRef.current.get("order") || "created_at";
-      const currentDir = currentSearchParamsRef.current.get("dir") || "desc";
-      const currentTake = parseInt(currentSearchParamsRef.current.get("take") || "20");
-
-      const queryParams: QueryParams = {
-        order: currentOrder,
-        dir: currentDir,
-        page: 1, // Reset to page 1 when filters change
-        take: currentTake,
-      };
-
-      if (selectedUsers.length > 0) queryParams.userId = selectedUsers;
-      if (selectedEntityTypes.length > 0)
-        queryParams.entityType = selectedEntityTypes;
-      if (selectedActions.length > 0) queryParams.action = selectedActions;
-
-      const queryString = qs.stringify(queryParams, {
-        arrayFormat: "comma",
-        encode: true,
-      });
-
-      navigate(`${location.pathname}?${queryString}`, { replace: true });
-      setHasFilterChanged(false);
-    }
-  }, [
-    selectedUsers,
-    selectedEntityTypes,
-    selectedActions,
-    isInitialized,
-    hasFilterChanged,
-    navigate,
-    location.pathname,
-  ]);
 
   const handleSubmit = async (data: FormData) => {
     const [order, dir] = (data.get("sort") as string).split(":");
@@ -151,10 +108,10 @@ const AuditLogFiltersForm: FC<AuditLogFiltersFormProps> = ({
       order,
       dir,
       page: 1,
-      take: 20,
+      take: parseInt(searchParams.get("take") || "20"), // Preserve current take value
     };
 
-    // Add filters only if they have values - pass arrays directly to qs
+    // Add filters only if they have values
     if (selectedUsers.length > 0) {
       queryParams.userId = selectedUsers;
     }
@@ -195,10 +152,7 @@ const AuditLogFiltersForm: FC<AuditLogFiltersFormProps> = ({
       <FormSection legend="Users">
         <MultiSelectTags
           values={selectedUsers}
-          onChange={(value) => {
-            setSelectedUsers(value);
-            setHasFilterChanged(true);
-          }}
+          onChange={setSelectedUsers}
           options={userOptions}
         />
       </FormSection>
@@ -206,10 +160,7 @@ const AuditLogFiltersForm: FC<AuditLogFiltersFormProps> = ({
       <FormSection legend="Entity Types">
         <MultiSelectTags
           values={selectedEntityTypes}
-          onChange={(value) => {
-            setSelectedEntityTypes(value);
-            setHasFilterChanged(true);
-          }}
+          onChange={setSelectedEntityTypes}
           options={entityTypeOptions}
         />
       </FormSection>
@@ -217,10 +168,7 @@ const AuditLogFiltersForm: FC<AuditLogFiltersFormProps> = ({
       <FormSection legend="Actions">
         <MultiSelectActions
           values={selectedActions}
-          onChange={(value) => {
-            setSelectedActions(value);
-            setHasFilterChanged(true);
-          }}
+          onChange={setSelectedActions}
           options={actionOptions}
         />
       </FormSection>
