@@ -55,9 +55,9 @@ export const asideMenu: Array<{
     perm: "user:list",
   },
   {
-    name: "Removal Reqs",
+    name: "Removals",
     icon: IconTrash,
-    href: "/removal-requests",
+    href: "/removal-requests?status=0",
     perm: "post:delete",
   },
   {

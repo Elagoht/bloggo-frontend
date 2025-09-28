@@ -6,31 +6,43 @@ import Container from "../../../components/layout/Container";
 import CardGrid from "../../../components/layout/Container/CardGrid";
 import ContentWithSidebar from "../../../components/layout/Container/ContentWithSidebar";
 import PageTitleWithIcon from "../../../components/layout/Container/PageTitle";
+import Pagination from "../../../components/layout/Container/Pagination";
 import Sidebar from "../../../components/layout/Container/Sidebar";
 import SectionHeader from "../../../components/layout/SectionHeader";
 import RemovalRequestCard from "../../../components/pages/panel/removal-requests/RemovalRequestCard";
-import {
-  getRemovalRequests,
-  REMOVAL_REQUEST_STATUS,
-} from "../../../services/removal-requests";
-import Select from "../../../components/form/Select";
+import RemovalRequestFiltersForm from "../../../forms/RemovalRequestFiltersForm";
+import { getRemovalRequests } from "../../../services/removal-requests";
 
 const RemovalRequestsPage: FC = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const [removalRequests, setRemovalRequests] = useState<
-    RemovalRequestCard[] | null
-  >(null);
+  const [searchParams] = useSearchParams();
+  const [removalRequestsResponse, setRemovalRequestsResponse] = useState<{
+    data: RemovalRequestCard[];
+    total: number;
+    page: number;
+    take: number;
+  }>();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
 
-  const statusFilter = searchParams.get("status");
+  // Create a reactive memo for search params that will trigger resource updates
+  const searchFilters = useMemo(
+    () => ({
+      q: searchParams.get("q") || undefined,
+      order: searchParams.get("order") || "created_at",
+      dir: (searchParams.get("dir") as "asc" | "desc") || "desc",
+      page: parseInt(searchParams.get("page") || "1"),
+      take: parseInt(searchParams.get("take") || "12"),
+      status: searchParams.get("status") ? parseInt(searchParams.get("status")!) : undefined,
+    }),
+    [searchParams]
+  );
 
-  const fetchRemovalRequests = useCallback(async () => {
+  const fetchRemovalRequests = useCallback(async (filters: typeof searchFilters) => {
     try {
       setLoading(true);
       setError(null);
-      const result = await getRemovalRequests();
-      setRemovalRequests(result.success ? result.data : null);
+      const result = await getRemovalRequests(filters);
+      setRemovalRequestsResponse(result.success ? result.data : undefined);
     } catch (err) {
       console.error("Error fetching removal requests:", err);
       setError(err as Error);
@@ -39,43 +51,9 @@ const RemovalRequestsPage: FC = () => {
     }
   }, []);
 
-  const filteredRequests = useMemo(() => {
-    if (!removalRequests) return [];
-
-    if (
-      statusFilter === null ||
-      statusFilter === "" ||
-      statusFilter === "all"
-    ) {
-      return removalRequests;
-    }
-
-    const statusValue = parseInt(statusFilter);
-    return removalRequests.filter((request) => request.status === statusValue);
-  }, [removalRequests, statusFilter]);
-
   useEffect(() => {
-    fetchRemovalRequests();
-  }, [fetchRemovalRequests]);
-
-  const handleStatusFilterChange = (value: string) => {
-    const newParams = new URLSearchParams(searchParams);
-    if (value === "all") {
-      newParams.delete("status");
-    } else {
-      newParams.set("status", value);
-    }
-    setSearchParams(newParams);
-  };
-
-  // Auto-filter to show pending by default if no filter is set
-  useEffect(() => {
-    if (!statusFilter) {
-      const newParams = new URLSearchParams(searchParams);
-      newParams.set("status", REMOVAL_REQUEST_STATUS.PENDING.toString());
-      setSearchParams(newParams);
-    }
-  }, [statusFilter, searchParams, setSearchParams]);
+    fetchRemovalRequests(searchFilters);
+  }, [fetchRemovalRequests, searchFilters]);
 
   return (
     <RouteGuard permission="post:delete" redirectTo="/dashboard">
@@ -87,29 +65,38 @@ const RemovalRequestsPage: FC = () => {
             </PageTitleWithIcon>
           </div>
 
-          {!loading && !error && (
-            <CardGrid>
-              {filteredRequests.length > 0 ? (
-                filteredRequests.map((request) => (
-                  <RemovalRequestCard key={request.id} {...request} />
-                ))
-              ) : (
-                <div className="col-span-full text-center py-12">
-                  <IconTrash
-                    size={48}
-                    className="mx-auto mb-4 text-smoke-400 dark:text-smoke-500"
-                  />
-                  <h3 className="text-lg font-medium text-smoke-900 dark:text-smoke-100 mb-2">
-                    No removal requests found
-                  </h3>
-                  <p className="text-smoke-600 dark:text-smoke-400">
-                    {statusFilter === REMOVAL_REQUEST_STATUS.PENDING.toString()
-                      ? "There are no pending removal requests."
-                      : "No removal requests match the current filter."}
-                  </p>
-                </div>
+          {!loading && !error && removalRequestsResponse && (
+            <>
+              <CardGrid>
+                {removalRequestsResponse.data.length > 0 ? (
+                  removalRequestsResponse.data.map((request) => (
+                    <RemovalRequestCard key={request.id} {...request} />
+                  ))
+                ) : (
+                  <div className="col-span-full text-center py-12">
+                    <IconTrash
+                      size={48}
+                      className="mx-auto mb-4 text-smoke-400 dark:text-smoke-500"
+                    />
+                    <h3 className="text-lg font-medium text-smoke-900 dark:text-smoke-100 mb-2">
+                      No removal requests found
+                    </h3>
+                    <p className="text-smoke-600 dark:text-smoke-400">
+                      {searchFilters.q
+                        ? "No removal requests match your search criteria."
+                        : "There are no removal requests yet."}
+                    </p>
+                  </div>
+                )}
+              </CardGrid>
+
+              {Math.ceil(removalRequestsResponse.total / removalRequestsResponse.take) > 1 && (
+                <Pagination
+                  totalItems={removalRequestsResponse.total}
+                  itemsPerPage={removalRequestsResponse.take}
+                />
               )}
-            </CardGrid>
+            </>
           )}
 
           {loading && (
@@ -129,35 +116,7 @@ const RemovalRequestsPage: FC = () => {
 
         <Sidebar topMargin>
           <SectionHeader icon={IconFilter}>Filters</SectionHeader>
-
-          <div className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-smoke-700 dark:text-smoke-300 mb-2">
-                Status
-              </label>
-              <Select
-                value={
-                  statusFilter || REMOVAL_REQUEST_STATUS.PENDING.toString()
-                }
-                onChange={(e) => handleStatusFilterChange(e.target.value)}
-                options={[
-                  { value: "all", label: "All Statuses" },
-                  {
-                    value: REMOVAL_REQUEST_STATUS.PENDING.toString(),
-                    label: "Pending",
-                  },
-                  {
-                    value: REMOVAL_REQUEST_STATUS.APPROVED.toString(),
-                    label: "Approved",
-                  },
-                  {
-                    value: REMOVAL_REQUEST_STATUS.REJECTED.toString(),
-                    label: "Rejected",
-                  },
-                ]}
-              />
-            </div>
-          </div>
+          <RemovalRequestFiltersForm />
         </Sidebar>
       </ContentWithSidebar>
     </RouteGuard>
