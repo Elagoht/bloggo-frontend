@@ -12,8 +12,6 @@ import SectionHeader from "../../../components/layout/SectionHeader";
 import AuditLogList from "../../../components/pages/panel/audit-logs/AuditLogList";
 import AuditLogFiltersForm from "../../../forms/AuditLogFiltersForm";
 import { getAuditLogs } from "../../../services/audit";
-import { getCategories } from "../../../services/categories";
-import { getTags } from "../../../services/tags";
 import { getUsers } from "../../../services/users";
 
 const AuditLogsPage: FC = () => {
@@ -21,8 +19,6 @@ const AuditLogsPage: FC = () => {
   const [auditLogsResponse, setAuditLogsResponse] =
     useState<AuditLogsResponse | null>(null);
   const [users, setUsers] = useState<Map<number, UserCard>>(new Map());
-  const [categories, setCategories] = useState<CategoryCard[]>([]);
-  const [tags, setTags] = useState<TagCard[]>([]);
   const [loading, setLoading] = useState(false);
 
   // Create a reactive memo for search params that will trigger resource updates
@@ -60,14 +56,6 @@ const AuditLogsPage: FC = () => {
           ? parseArrayParam("entityType")
           : undefined,
       action: finalActionFilters,
-      categories:
-        parseArrayParam("categories").length > 0
-          ? parseArrayParam("categories")
-          : undefined,
-      tags:
-        parseArrayParam("tags").length > 0
-          ? parseArrayParam("tags")
-          : undefined,
     };
   }, [searchParams]);
 
@@ -94,27 +82,10 @@ const AuditLogsPage: FC = () => {
     }
   }, []);
 
-  // Fetch all categories for filter dropdown
-  const fetchAllCategories = useCallback(async () => {
-    const categoriesResult = await getCategories({ take: 1000 });
-    if (categoriesResult.success) {
-      setCategories(categoriesResult.data.data);
-    }
-  }, []);
-
-  // Fetch all tags for filter dropdown
-  const fetchAllTags = useCallback(async () => {
-    const tagsResult = await getTags({ take: 1000 });
-    if (tagsResult.success) {
-      setTags(tagsResult.data.data);
-    }
-  }, []);
 
   useEffect(() => {
     fetchAllUsers();
-    fetchAllCategories();
-    fetchAllTags();
-  }, [fetchAllUsers, fetchAllCategories, fetchAllTags]);
+  }, [fetchAllUsers]);
 
   useEffect(() => {
     fetchAuditLogs(searchFilters);
@@ -154,8 +125,6 @@ const AuditLogsPage: FC = () => {
           <SectionHeader icon={IconFilter}>Filters</SectionHeader>
           <AuditLogFiltersForm
             users={users}
-            categories={categories}
-            tags={tags}
           />
         </Sidebar>
       </ContentWithSidebar>

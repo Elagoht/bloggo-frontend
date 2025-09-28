@@ -24,8 +24,6 @@ type AuditLogFilters = {
   entityType?: string | string[];
   action?: string | string[];
   excludeActions?: string[];
-  categories?: string[];
-  tags?: string[];
 };
 
 // Action constants for filtering

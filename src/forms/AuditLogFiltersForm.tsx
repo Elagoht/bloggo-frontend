@@ -12,8 +12,6 @@ import RadioGroup from "../components/form/RadioButton/RadioGroup";
 
 interface AuditLogFiltersFormProps {
   users?: Map<number, UserCard>;
-  categories?: CategoryCard[];
-  tags?: TagCard[];
 }
 
 interface QueryParams {
@@ -24,14 +22,10 @@ interface QueryParams {
   userId?: string[];
   entityType?: string[];
   action?: string[];
-  categories?: string[];
-  tags?: string[];
 }
 
 const AuditLogFiltersForm: FC<AuditLogFiltersFormProps> = ({
   users,
-  categories,
-  tags,
 }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
@@ -41,8 +35,6 @@ const AuditLogFiltersForm: FC<AuditLogFiltersFormProps> = ({
   const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
   const [selectedEntityTypes, setSelectedEntityTypes] = useState<string[]>([]);
   const [selectedActions, setSelectedActions] = useState<string[]>([]);
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-  const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [isInitialized, setIsInitialized] = useState(false);
   const [hasFilterChanged, setHasFilterChanged] = useState(false);
   const currentSearchParamsRef = useRef(searchParams);
@@ -57,8 +49,6 @@ const AuditLogFiltersForm: FC<AuditLogFiltersFormProps> = ({
     setSelectedUsers(parseArrayParam("userId"));
     setSelectedEntityTypes(parseArrayParam("entityType"));
     setSelectedActions(parseArrayParam("action"));
-    setSelectedCategories(parseArrayParam("categories"));
-    setSelectedTags(parseArrayParam("tags"));
     setIsInitialized(true);
 
     // Update the ref to track current searchParams
@@ -116,19 +106,6 @@ const AuditLogFiltersForm: FC<AuditLogFiltersFormProps> = ({
     label: action.label,
   }));
 
-  const categoryOptions = categories
-    ? categories.map((category) => ({
-        value: category.slug,
-        label: category.name,
-      }))
-    : [];
-
-  const tagOptions = tags
-    ? tags.map((tag) => ({
-        value: tag.slug,
-        label: tag.name,
-      }))
-    : [];
 
   useEffect(() => {
     if (isInitialized && hasFilterChanged) {
@@ -148,9 +125,6 @@ const AuditLogFiltersForm: FC<AuditLogFiltersFormProps> = ({
       if (selectedEntityTypes.length > 0)
         queryParams.entityType = selectedEntityTypes;
       if (selectedActions.length > 0) queryParams.action = selectedActions;
-      if (selectedCategories.length > 0)
-        queryParams.categories = selectedCategories;
-      if (selectedTags.length > 0) queryParams.tags = selectedTags;
 
       const queryString = qs.stringify(queryParams, {
         arrayFormat: "comma",
@@ -164,8 +138,6 @@ const AuditLogFiltersForm: FC<AuditLogFiltersFormProps> = ({
     selectedUsers,
     selectedEntityTypes,
     selectedActions,
-    selectedCategories,
-    selectedTags,
     isInitialized,
     hasFilterChanged,
     navigate,
@@ -195,14 +167,6 @@ const AuditLogFiltersForm: FC<AuditLogFiltersFormProps> = ({
       queryParams.action = selectedActions;
     }
 
-    if (selectedCategories.length > 0) {
-      queryParams.categories = selectedCategories;
-    }
-
-    if (selectedTags.length > 0) {
-      queryParams.tags = selectedTags;
-    }
-
     const queryString = qs.stringify(queryParams, {
       arrayFormat: "comma",
       encode: true,
@@ -215,8 +179,6 @@ const AuditLogFiltersForm: FC<AuditLogFiltersFormProps> = ({
     setSelectedUsers([]);
     setSelectedEntityTypes([]);
     setSelectedActions([]);
-    setSelectedCategories([]);
-    setSelectedTags([]);
 
     // Reset sort option
     const sortInput = form.querySelector(
@@ -263,27 +225,6 @@ const AuditLogFiltersForm: FC<AuditLogFiltersFormProps> = ({
         />
       </FormSection>
 
-      <FormSection legend="Categories">
-        <MultiSelectTags
-          values={selectedCategories}
-          onChange={(value) => {
-            setSelectedCategories(value);
-            setHasFilterChanged(true);
-          }}
-          options={categoryOptions}
-        />
-      </FormSection>
-
-      <FormSection legend="Tags">
-        <MultiSelectTags
-          values={selectedTags}
-          onChange={(value) => {
-            setSelectedTags(value);
-            setHasFilterChanged(true);
-          }}
-          options={tagOptions}
-        />
-      </FormSection>
 
       <FormSection legend="Sort By">
         <RadioGroup
