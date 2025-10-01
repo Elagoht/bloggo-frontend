@@ -22,14 +22,8 @@ const PostFiltersForm: FC = () => {
 
   useEffect(() => {
     const fetchCategories = async () => {
-      try {
-        const result = await getCategoriesList();
-        if (result.success) {
-          setCategories(result.data);
-        }
-      } catch (error) {
-        // Handle error silently
-      }
+      const result = await getCategoriesList();
+      if (result.success) setCategories(result.data);
     };
 
     fetchCategories();
@@ -119,10 +113,16 @@ const PostFiltersForm: FC = () => {
           name="categoryId"
           defaultValue={searchParams.get("categoryId") || ""}
           options={[
-            { value: "", label: "All Categories" },
+            {
+              value: "",
+              label: "All Categories",
+              selected: !searchParams.get("categoryId"),
+            },
             ...categories.map((category) => ({
-              value: category.id,
+              value: category.id.toString(),
               label: category.name,
+              selected:
+                searchParams.get("categoryId") === category.id.toString(),
             })),
           ]}
         />

@@ -16,7 +16,19 @@ const CategoryDeleteForm: FC<CategoryDeleteFormProps> = ({ category }) => {
   const handleSubmit = async () => {
     const response = await deleteCategory(category.slug);
 
-    if (!response.success) return toast.error("Couln't delete the category");
+    if (!response.success) {
+      if (
+        response.error?.message ===
+        "Cannot delete category with published blogs."
+      ) {
+        toast.error(
+          `Cannot delete ${category.name} because it has published blogs`
+        );
+        navigate(`/posts?categoryId=${category.id}`);
+        return;
+      }
+      return toast.error("Couln't delete the category");
+    }
 
     navigate("/categories");
     toast.success(`${category.name} has been deleted`);
