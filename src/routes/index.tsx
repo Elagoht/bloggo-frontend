@@ -10,10 +10,6 @@ const CreatePost = lazy(() => import("../app/panel/posts/create/page"));
 const PostDetails = lazy(
   () => import("../app/panel/posts/details/[slug]/page")
 );
-const DuplicateVersion = lazy(
-  () =>
-    import("../app/panel/posts/[postId]/versions/[versionId]/duplicate/page")
-);
 const ViewVersion = lazy(
   () => import("../app/panel/posts/[postId]/versions/[versionId]/page")
 );
@@ -68,7 +64,6 @@ export const routes = [
                 path: ":postId/versions/:versionId",
                 children: [
                   { index: true, element: <ViewVersion /> },
-                  { path: "duplicate", element: <DuplicateVersion /> },
                   { path: "edit", element: <EditVersion /> },
                 ],
               },

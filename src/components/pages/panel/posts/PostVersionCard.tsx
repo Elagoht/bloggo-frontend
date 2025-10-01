@@ -6,12 +6,15 @@ import {
   IconVersions,
 } from "@tabler/icons-react";
 import classNames from "classnames";
-import { FC } from "react";
-import { Link } from "react-router-dom";
+import { FC, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useProfileStore } from "../../../../stores/profile";
 import { PostStatus } from "../../../../utilities/PostStatusUtils";
 import Button from "../../../form/Button";
 import PermissionGuard from "../../../guards/PermissionGuard";
+import { createVersionFromSpecificVersion } from "../../../../services/posts";
+import toast from "react-hot-toast";
+import Dialog from "../../../common/Dialog";
 
 type PostVersionCardProps = {
   version: PostVersionCard;
@@ -25,8 +28,32 @@ const PostVersionCard: FC<PostVersionCardProps> = ({
   isPublished,
 }) => {
   const { profile } = useProfileStore();
+  const navigate = useNavigate();
+  const [isDuplicating, setIsDuplicating] = useState(false);
+  const [isDuplicateDialogOpen, setIsDuplicateDialogOpen] = useState(false);
   const isDraft = version.status === 0;
   const canEdit = isDraft && profile?.id === version.versionAuthor.id;
+
+  const handleDuplicateConfirm = async () => {
+    setIsDuplicating(true);
+    try {
+      const response = await createVersionFromSpecificVersion(
+        parseInt(version.id)
+      );
+      if (response.success) {
+        toast.success("Version duplicated successfully");
+        setIsDuplicateDialogOpen(false);
+        // Redirect to the edit page of the newly created version
+        navigate(`/posts/${postId}/versions/${response.data.id}/edit`);
+      } else {
+        toast.error(response.error?.message || "Failed to duplicate version");
+      }
+    } catch {
+      toast.error("Failed to duplicate version");
+    } finally {
+      setIsDuplicating(false);
+    }
+  };
 
   const data = [
     {
@@ -189,7 +216,7 @@ const PostVersionCard: FC<PostVersionCardProps> = ({
         ) : (
           <PermissionGuard permission="post:create">
             <Button
-              href={`/posts/${postId}/versions/${version.id}/duplicate`}
+              onClick={() => setIsDuplicateDialogOpen(true)}
               color="success"
               iconRight={IconCopy}
               className="flex-1"
@@ -199,6 +226,33 @@ const PostVersionCard: FC<PostVersionCardProps> = ({
           </PermissionGuard>
         )}
       </div>
+
+      {/* Duplicate Confirmation Dialog */}
+      <Dialog
+        isOpen={isDuplicateDialogOpen}
+        onClose={() => setIsDuplicateDialogOpen(false)}
+        title="Duplicate Version"
+        actions={[
+          {
+            children: "Cancel",
+            color: "danger",
+            variant: "outline",
+            onClick: () => setIsDuplicateDialogOpen(false),
+          },
+          {
+            children: isDuplicating ? "Duplicating..." : "Duplicate",
+            color: "success",
+            iconRight: IconCopy,
+            onClick: handleDuplicateConfirm,
+            disabled: isDuplicating,
+          },
+        ]}
+      >
+        <p>
+          Create a new draft version based on "{version.title}"? You will be
+          redirected to modify it.
+        </p>
+      </Dialog>
     </div>
   );
 };
