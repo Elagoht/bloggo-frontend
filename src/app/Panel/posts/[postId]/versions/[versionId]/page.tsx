@@ -153,9 +153,15 @@ const ViewVersionPage: FC = () => {
           {/* Category */}
           {version.category && (
             <DetailsItem icon={IconTag} title="Category">
-              <Link to={`/categories/details/${version.category.slug}`}>
-                {version.category.name}
-              </Link>
+              {version.category.deletedAt ? (
+                <span className="line-through opacity-60">
+                  {version.category.name} (deleted)
+                </span>
+              ) : (
+                <Link to={`/categories/details/${version.category.slug}`}>
+                  {version.category.name}
+                </Link>
+              )}
             </DetailsItem>
           )}
 

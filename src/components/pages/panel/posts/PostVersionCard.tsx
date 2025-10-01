@@ -52,8 +52,12 @@ const PostVersionCard: FC<PostVersionCardProps> = ({
           {
             icon: <IconTag size={20} />,
             title: "Category",
-            href: `/categories/details/${version.category.slug}`,
-            value: version.category.name,
+            href: version.category.deletedAt
+              ? undefined
+              : `/categories/details/${version.category.slug}`,
+            value: version.category.deletedAt
+              ? `${version.category.name} (deleted)`
+              : version.category.name,
           },
         ]
       : []),
@@ -140,7 +144,13 @@ const PostVersionCard: FC<PostVersionCardProps> = ({
               <div>
                 <div className="text-xs opacity-75">{datum.title}</div>
 
-                <div className="font-medium line-clamp-1 text-xs">
+                <div
+                  className={`font-medium line-clamp-1 text-xs ${
+                    datum.title === "Category" && version.category?.deletedAt
+                      ? "line-through opacity-60"
+                      : ""
+                  }`}
+                >
                   {datum.value}
                 </div>
               </div>

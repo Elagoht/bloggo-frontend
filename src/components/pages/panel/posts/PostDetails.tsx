@@ -26,8 +26,12 @@ const PostDetails: FC<PostDetails> = (post) => {
     {
       icon: <IconCategory size={20} />,
       title: "Category",
-      value: post.category.name,
-      href: post.category.slug
+      value: post.category.deletedAt
+        ? `${post.category.name} (deleted)`
+        : post.category.name,
+      href: post.category.deletedAt
+        ? undefined
+        : post.category.slug
         ? `/categories/details/${post.category.slug}`
         : undefined,
     },
@@ -84,7 +88,11 @@ const PostDetails: FC<PostDetails> = (post) => {
                 <div>
                   <div className="text-xs opacity-75">{datum.title}</div>
 
-                  <div className="font-medium">{datum.value || "N/A"}</div>
+                  <div className={`font-medium ${
+                    datum.title === "Category" && post.category.deletedAt
+                      ? "line-through opacity-60"
+                      : ""
+                  }`}>{datum.value || "N/A"}</div>
                 </div>
               </div>
             );

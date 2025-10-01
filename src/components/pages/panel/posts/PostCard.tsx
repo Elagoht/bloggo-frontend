@@ -54,19 +54,27 @@ const PostCard: FC<PostCard> = ({
 
         {/* Category - Bottom Left */}
         {category.name && (
-          <button
-            type="button"
-            className="absolute bottom-1 left-1 flex items-center gap-1.5 pr-2.5 p-1.5 rounded-full rounded-bl-none text-xs font-medium bg-black/50 text-white backdrop-blur-md shadow-lg hover:bg-black/60 transition-colors duration-200"
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              navigate(`/categories/details/${category.slug}`);
-            }}
-          >
-            <IconCategory size={16} />
-
-            <span>{category.name}</span>
-          </button>
+          category.deletedAt ? (
+            <div className="absolute bottom-1 left-1 flex items-center gap-1.5 pr-2.5 p-1.5 rounded-full rounded-bl-none text-xs font-medium bg-black/30 text-white/60 backdrop-blur-md shadow-lg">
+              <IconCategory size={16} />
+              <span className="line-through">
+                {category.name} (deleted)
+              </span>
+            </div>
+          ) : (
+            <button
+              type="button"
+              className="absolute bottom-1 left-1 flex items-center gap-1.5 pr-2.5 p-1.5 rounded-full rounded-bl-none text-xs font-medium bg-black/50 text-white backdrop-blur-md shadow-lg hover:bg-black/60 transition-colors duration-200"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                navigate(`/categories/details/${category.slug}`);
+              }}
+            >
+              <IconCategory size={16} />
+              <span>{category.name}</span>
+            </button>
+          )
         )}
       </figure>
 

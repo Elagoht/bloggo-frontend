@@ -25,6 +25,7 @@ type PostCard = {
     id?: number;
     name?: string;
     slug?: string;
+    deletedAt?: string;
   };
 };
 
@@ -50,6 +51,7 @@ type PostDetails = {
     id?: number;
     name?: string;
     slug?: string;
+    deletedAt?: string;
   };
   tags: {
     id: number;
@@ -93,6 +95,7 @@ type PostVersionCard = {
     id?: number;
     name?: string;
     slug?: string;
+    deletedAt?: string;
   };
 };
 
@@ -135,6 +138,7 @@ type PostVersionDetails = {
     id: number;
     name: string;
     slug: string;
+    deletedAt?: string;
   };
   tags: {
     id: number;
