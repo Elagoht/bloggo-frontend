@@ -40,8 +40,8 @@ const AsideMenuItem: FC<AsideMenuItemProps> = ({
 
   const isActive = (href: string) =>
     href === "/"
-      ? location.pathname === href
-      : location.pathname.startsWith(href);
+      ? location.pathname === href.split("?")[0]
+      : location.pathname.startsWith(href.split("?")[0]);
 
   useEffect(() => {
     if (!shortcutKey) return;
