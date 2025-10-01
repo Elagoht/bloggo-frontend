@@ -1,5 +1,6 @@
 import {
   Icon,
+  IconApi,
   IconBlockquote,
   IconCategory,
   IconChartPie,
@@ -65,5 +66,10 @@ export const asideMenu: Array<{
     icon: IconHistory,
     href: "/audit-logs?order=created_at&dir=desc&page=1&take=20&entityType=removal_request%2Cpost%2Ccategory%2Cpost_version%2Ctag%2Cuser&action=approved%2Cassigned%2Cadded%2Ccreated%2Cpublished%2Cdenied%2Cdeleted%2Crejected%2Cremoved%2Crequested%2Csubmitted%2Cunpublished%2Cupdated",
     perm: "auditlog:view",
+  },
+  {
+    name: "API Docs",
+    icon: IconApi,
+    href: "/api-docs",
   },
 ];
