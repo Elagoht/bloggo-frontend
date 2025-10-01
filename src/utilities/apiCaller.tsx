@@ -119,7 +119,10 @@ class ApiCall {
       return {
         success: false,
         status: res.status,
-        error: { message: result?.message ?? "Unknown Error" },
+        error: {
+          message: result?.message ?? "Unknown Error",
+          details: result?.details,
+        },
       };
     }
 

@@ -56,6 +56,11 @@ const VersionActionsForm: FC<VersionActionsFormProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [categories, setCategories] = useState<CategoryListItem[]>([]);
   const [selectedCategoryId, setSelectedCategoryId] = useState<string>("");
+  const [validationErrors, setValidationErrors] = useState<
+    Array<{ field: string; message: string }>
+  >([]);
+  const [isValidationErrorDialogOpen, setIsValidationErrorDialogOpen] =
+    useState(false);
 
   // Load categories for the category selection modal
   useEffect(() => {
@@ -81,7 +86,16 @@ const VersionActionsForm: FC<VersionActionsFormProps> = ({
         setIsSubmitDialogOpen(false);
         onSuccess?.();
       } else {
-        toast.error("Failed to submit version for review");
+        // Check if there are validation errors
+        if (response.error?.details && response.error.details.length > 0) {
+          setValidationErrors(response.error.details);
+          setIsSubmitDialogOpen(false);
+          setIsValidationErrorDialogOpen(true);
+        } else {
+          toast.error(
+            response.error?.message || "Failed to submit version for review"
+          );
+        }
       }
     } catch {
       toast.error("Failed to submit version for review");
@@ -186,7 +200,9 @@ const VersionActionsForm: FC<VersionActionsFormProps> = ({
         setSelectedCategoryId("");
         onSuccess?.();
       } else {
-        toast.error(response.error?.message || "Failed to update category and publish");
+        toast.error(
+          response.error?.message || "Failed to update category and publish"
+        );
       }
     } catch {
       toast.error("Failed to update category and publish");
@@ -453,6 +469,58 @@ const VersionActionsForm: FC<VersionActionsFormProps> = ({
               ))}
             </select>
           </div>
+        </div>
+      </Dialog>
+
+      {/* Validation Error Dialog */}
+      <Dialog
+        isOpen={isValidationErrorDialogOpen}
+        onClose={() => {
+          setIsValidationErrorDialogOpen(false);
+          setValidationErrors([]);
+        }}
+        title="Cannot Submit for Review"
+        size="lg"
+        actions={[
+          {
+            children: "Close",
+            color: "primary",
+            onClick: () => {
+              setIsValidationErrorDialogOpen(false);
+              setValidationErrors([]);
+            },
+          },
+        ]}
+      >
+        <div className="space-y-3">
+          <p className="text-smoke-600 dark:text-smoke-400">
+            The following fields must be completed before submitting this
+            version for review:
+          </p>
+
+          <ul className="space-y-2">
+            {validationErrors.map((error, index) => (
+              <li
+                key={index}
+                className="flex items-start gap-2 p-3 bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-800 rounded-lg"
+              >
+                <span className="text-red-500 font-bold mt-0.5">•</span>
+                <div className="flex-1">
+                  <span className="font-semibold text-red-700 dark:text-red-400">
+                    {error.field}:
+                  </span>{" "}
+                  <span className="text-red-600 dark:text-red-300">
+                    {error.message}
+                  </span>
+                </div>
+              </li>
+            ))}
+          </ul>
+
+          <p className="text-sm text-smoke-500 dark:text-smoke-500 pt-2">
+            Please edit the version and complete all required fields before
+            submitting for review.
+          </p>
         </div>
       </Dialog>
     </div>
