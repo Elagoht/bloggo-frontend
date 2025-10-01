@@ -5,7 +5,7 @@ import {
   IconWorldWww,
   IconX,
 } from "@tabler/icons-react";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import Dialog from "../components/common/Dialog";
 import Button from "../components/form/Button";
@@ -17,7 +17,9 @@ import {
   publishVersion,
   rejectVersion,
   submitVersionForReview,
+  updateVersionCategory,
 } from "../services/posts";
+import { getCategoriesList } from "../services/categories";
 
 type VersionActionsFormProps = {
   postId: number;
@@ -47,10 +49,28 @@ const VersionActionsForm: FC<VersionActionsFormProps> = ({
   const [isApproveDialogOpen, setIsApproveDialogOpen] = useState(false);
   const [isRejectDialogOpen, setIsRejectDialogOpen] = useState(false);
   const [isPublishDialogOpen, setIsPublishDialogOpen] = useState(false);
+  const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
 
   const [note, setNote] = useState("");
   const [publishedAt, setPublishedAt] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [categories, setCategories] = useState<CategoryListItem[]>([]);
+  const [selectedCategoryId, setSelectedCategoryId] = useState<string>("");
+
+  // Load categories for the category selection modal
+  useEffect(() => {
+    const loadCategories = async () => {
+      try {
+        const response = await getCategoriesList();
+        if (response.success && response.data) {
+          setCategories(response.data);
+        }
+      } catch {
+        // Silently fail - categories will be empty
+      }
+    };
+    loadCategories();
+  }, []);
 
   const handleSubmit = async () => {
     setIsLoading(true);
@@ -132,10 +152,44 @@ const VersionActionsForm: FC<VersionActionsFormProps> = ({
         setPublishedAt("");
         onSuccess?.();
       } else {
-        toast.error("Failed to publish version");
+        // Check if the error is 428 (category deleted)
+        if (response.status === 428) {
+          setIsPublishDialogOpen(false);
+          setIsCategoryModalOpen(true);
+        } else {
+          toast.error(response.error?.message || "Failed to publish version");
+        }
       }
     } catch {
       toast.error("Failed to publish version");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleCategoryUpdate = async () => {
+    if (!selectedCategoryId) {
+      toast.error("Please select a category");
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const response = await updateVersionCategory(
+        postId,
+        versionId,
+        parseInt(selectedCategoryId)
+      );
+      if (response.success) {
+        toast.success("Version published successfully");
+        setIsCategoryModalOpen(false);
+        setSelectedCategoryId("");
+        onSuccess?.();
+      } else {
+        toast.error(response.error?.message || "Failed to update category and publish");
+      }
+    } catch {
+      toast.error("Failed to update category and publish");
     } finally {
       setIsLoading(false);
     }
@@ -343,6 +397,63 @@ const VersionActionsForm: FC<VersionActionsFormProps> = ({
           Publish the version "{versionTitle}"? This will make it live and
           visible to readers.
         </p>
+      </Dialog>
+
+      {/* Category Selection Modal (when category is deleted) */}
+      <Dialog
+        isOpen={isCategoryModalOpen}
+        onClose={() => {
+          setIsCategoryModalOpen(false);
+          setSelectedCategoryId("");
+        }}
+        title="Update Category"
+        size="lg"
+        actions={[
+          {
+            children: "Cancel",
+            variant: "outline",
+            onClick: () => {
+              setIsCategoryModalOpen(false);
+              setSelectedCategoryId("");
+            },
+          },
+          {
+            children: "Update Category",
+            color: "primary",
+            onClick: handleCategoryUpdate,
+            disabled: isLoading || !selectedCategoryId,
+          },
+        ]}
+      >
+        <div className="space-y-4">
+          <p className="text-smoke-600">
+            This version's category has been deleted. Please select a new
+            category before publishing.
+          </p>
+
+          <div>
+            <label
+              htmlFor="category-select"
+              className="block text-sm font-medium text-smoke-700 dark:text-smoke-300 mb-2"
+            >
+              Select New Category <span className="text-red-500 ml-1">*</span>
+            </label>
+            <select
+              id="category-select"
+              value={selectedCategoryId}
+              onChange={(e) => setSelectedCategoryId(e.target.value)}
+              required
+              className="w-full px-3 py-2 text-sm bg-smoke-50 dark:bg-smoke-900 border border-smoke-200 dark:border-smoke-700 rounded-lg transition-all duration-200 focus:outline-none focus:border-gopher-400 dark:focus:border-gopher-500 focus:ring-1 focus:ring-gopher-200 dark:focus:ring-gopher-800/50 text-smoke-900 dark:text-smoke-100"
+            >
+              <option value="">Choose a category...</option>
+              {categories.map((category) => (
+                <option key={category.id} value={category.id}>
+                  {category.name}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
       </Dialog>
     </div>
   );

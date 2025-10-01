@@ -127,3 +127,12 @@ export const getGenerativeFill = (
 
 export const assignTagsToPost = (postId: number, tagIds: number[]) =>
   ApiCall.post(`/posts/${postId}/tags`, { tagIds });
+
+export const updateVersionCategory = (
+  postId: number,
+  versionId: string,
+  categoryId: number
+) =>
+  ApiCall.patch(`/posts/${postId}/versions/${versionId}/category`, {
+    categoryId,
+  });
