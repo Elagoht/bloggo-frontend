@@ -1,4 +1,5 @@
 import { Icon, IconProps } from "@tabler/icons-react";
+import classNames from "classnames";
 import { FC, ForwardRefExoticComponent, RefAttributes } from "react";
 
 type StatCardProps = {
@@ -37,7 +38,9 @@ const StatCard: FC<StatCardProps> = ({
         <div className="flex-1">
           <div className="flex items-center gap-3 mb-2">
             {Icon && (
-              <div className={`p-2 rounded-lg ${colorClasses[color]}`}>
+              <div
+                className={classNames("p-2 rounded-lg", colorClasses[color])}
+              >
                 <Icon size={20} />
               </div>
             )}
@@ -53,11 +56,15 @@ const StatCard: FC<StatCardProps> = ({
 
             {trend && (
               <span
-                className={`text-xs font-medium px-2 py-1 rounded-full ${
-                  trend.isPositive
-                    ? "text-green-700 bg-green-100 dark:text-green-300 dark:bg-green-900"
-                    : "text-red-700 bg-red-100 dark:text-red-300 dark:bg-red-900"
-                }`}
+                className={classNames(
+                  "text-xs font-medium px-2 py-1 rounded-full",
+                  {
+                    "text-green-700 bg-green-100 dark:text-green-300 dark:bg-green-900":
+                      trend.isPositive,
+                    "text-red-700 bg-red-100 dark:text-red-300 dark:bg-red-900":
+                      !trend.isPositive,
+                  }
+                )}
               >
                 {trend.isPositive ? "+" : ""}
                 {trend.value}%

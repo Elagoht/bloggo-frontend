@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import { FC } from "react";
 
 type TableColumn = {
@@ -17,9 +18,10 @@ const AuditLogTableHeader: FC<AuditLogTableHeaderProps> = ({ columns }) => {
         {columns.map((column) => (
           <th
             key={column.key}
-            className={`px-6 py-3 text-left text-xs font-medium text-smoke-700 dark:text-white uppercase tracking-wider ${
-              column.className || ""
-            }`}
+            className={classNames(
+              "px-6 py-3 text-left text-xs font-medium text-smoke-700 dark:text-white uppercase tracking-wider",
+              column.className
+            )}
           >
             {column.label}
           </th>

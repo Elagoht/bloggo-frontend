@@ -7,6 +7,7 @@ import {
   IconUser,
   IconX,
 } from "@tabler/icons-react";
+import classNames from "classnames";
 import { FC, useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Dialog from "../../../../../components/common/Dialog";
@@ -70,7 +71,9 @@ const RemovalRequestDetailsPage: FC = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
   const [actionLoading, setActionLoading] = useState<string | null>(null);
-  const [showDecisionNoteDialog, setShowDecisionNoteDialog] = useState<"approve" | "reject" | null>(null);
+  const [showDecisionNoteDialog, setShowDecisionNoteDialog] = useState<
+    "approve" | "reject" | null
+  >(null);
   const [decisionNote, setDecisionNote] = useState("");
 
   const fetchRemovalRequestDetails = useCallback(async () => {
@@ -197,13 +200,17 @@ const RemovalRequestDetailsPage: FC = () => {
           </PageTitleWithIcon>
 
           <div
-            className={`flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${
-              statusColor === "warning"
-                ? "bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-300"
-                : statusColor === "success"
-                ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300"
-                : "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300"
-            }`}
+            className={classNames(
+              "flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium",
+              {
+                "bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-300":
+                  statusColor === "warning",
+                "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300":
+                  statusColor === "success",
+                "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300":
+                  statusColor === "danger",
+              }
+            )}
           >
             <StatusIcon size={14} />
             <span>{statusText}</span>
@@ -385,11 +392,13 @@ const RemovalRequestDetailsPage: FC = () => {
             setShowDecisionNoteDialog(null);
             setDecisionNote("");
           }}
-          title={`${showDecisionNoteDialog === "approve" ? "Approve" : "Reject"} Removal Request`}
+          title={`${
+            showDecisionNoteDialog === "approve" ? "Approve" : "Reject"
+          } Removal Request`}
           actions={[
             {
               children: "Cancel",
-              variant: "outlined",
+              variant: "outline",
               onClick: () => {
                 setShowDecisionNoteDialog(null);
                 setDecisionNote("");
@@ -397,11 +406,20 @@ const RemovalRequestDetailsPage: FC = () => {
               disabled: actionLoading !== null,
             },
             {
-              children: actionLoading !== null
-                ? (showDecisionNoteDialog === "approve" ? "Approving..." : "Rejecting...")
-                : (showDecisionNoteDialog === "approve" ? "Approve" : "Reject"),
-              color: showDecisionNoteDialog === "approve" ? "success" : "danger",
-              onClick: showDecisionNoteDialog === "approve" ? handleApprove : handleReject,
+              children:
+                actionLoading !== null
+                  ? showDecisionNoteDialog === "approve"
+                    ? "Approving..."
+                    : "Rejecting..."
+                  : showDecisionNoteDialog === "approve"
+                  ? "Approve"
+                  : "Reject",
+              color:
+                showDecisionNoteDialog === "approve" ? "success" : "danger",
+              onClick:
+                showDecisionNoteDialog === "approve"
+                  ? handleApprove
+                  : handleReject,
               disabled: actionLoading !== null || decisionNote.trim() === "",
             },
           ]}

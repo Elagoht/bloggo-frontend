@@ -88,11 +88,14 @@ const PostDetails: FC<PostDetails> = (post) => {
                 <div>
                   <div className="text-xs opacity-75">{datum.title}</div>
 
-                  <div className={`font-medium ${
-                    datum.title === "Category" && post.category.deletedAt
-                      ? "line-through opacity-60"
-                      : ""
-                  }`}>{datum.value || "N/A"}</div>
+                  <div
+                    className={classNames("font-medium", {
+                      "line-through opacity-60":
+                        datum.title === "Category" && post.category.deletedAt,
+                    })}
+                  >
+                    {datum.value || "N/A"}
+                  </div>
                 </div>
               </div>
             );

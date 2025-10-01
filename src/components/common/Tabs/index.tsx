@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import { FC, ReactNode, useState } from "react";
 
 type TabItem = {
@@ -31,7 +32,10 @@ const Tabs: FC<TabsProps> = ({
   return (
     <div className={className}>
       <div
-        className={`flex border-b border-smoke-200 dark:border-smoke-700 mb-6 ${tabListClassName}`}
+        className={classNames(
+          "flex border-b border-smoke-200 dark:border-smoke-700 mb-6",
+          tabListClassName
+        )}
       >
         {tabs.map(({ value, label, disabled = false }) => {
           const isActive = activeTab === value;
@@ -39,16 +43,18 @@ const Tabs: FC<TabsProps> = ({
             <button
               key={value}
               onClick={() => !disabled && setActiveTab(value)}
-              className={`
-                px-4 py-2 font-medium text-sm transition-colors relative
-                ${
-                  isActive
-                    ? "text-gopher-500 dark:text-gopher-400 border-b-2 border-gopher-500 dark:border-gopher-400"
-                    : "text-smoke-600 dark:text-smoke-300 hover:text-gopher-500 dark:hover:text-gopher-400"
+              className={classNames(
+                "px-4 py-2 font-medium text-sm transition-colors relative",
+                tabClassName,
+                {
+                  "text-gopher-500 dark:text-gopher-400 border-b-2 border-gopher-500 dark:border-gopher-400":
+                    isActive,
+                  "text-smoke-600 dark:text-smoke-300 hover:text-gopher-500 dark:hover:text-gopher-400":
+                    !isActive,
+                  "opacity-50 cursor-not-allowed": disabled,
+                  "cursor-pointer": !disabled,
                 }
-                ${disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}
-                ${tabClassName}
-              `}
+              )}
               disabled={disabled}
             >
               {label}

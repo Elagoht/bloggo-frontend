@@ -1,4 +1,11 @@
-import { IconCalendar, IconUser, IconClock, IconCheck, IconX } from "@tabler/icons-react";
+import {
+  IconCalendar,
+  IconUser,
+  IconClock,
+  IconCheck,
+  IconX,
+} from "@tabler/icons-react";
+import classNames from "classnames";
 import { FC } from "react";
 import { Link } from "react-router-dom";
 import { REMOVAL_REQUEST_STATUS } from "../../../../services/removal-requests";
@@ -70,13 +77,17 @@ const RemovalRequestCard: FC<RemovalRequestCard> = ({
       {/* Status and Time - Justified between */}
       <div className="flex items-center justify-between mb-3">
         <div
-          className={`flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${
-            statusColor === "warning"
-              ? "bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-300"
-              : statusColor === "success"
-              ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300"
-              : "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300"
-          }`}
+          className={classNames(
+            "flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium",
+            {
+              "bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-300":
+                statusColor === "warning",
+              "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300":
+                statusColor === "success",
+              "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300":
+                statusColor === "danger",
+            }
+          )}
         >
           <StatusIcon size={14} />
           <span>{statusText}</span>
@@ -101,7 +112,9 @@ const RemovalRequestCard: FC<RemovalRequestCard> = ({
             <IconUser size={16} />
           )}
           <span className="font-medium">{requestedBy.name}</span>
-          <span className="text-smoke-500 dark:text-smoke-500">requested removal</span>
+          <span className="text-smoke-500 dark:text-smoke-500">
+            requested removal
+          </span>
         </div>
         {note && (
           <p className="text-sm text-smoke-600 dark:text-smoke-400 line-clamp-2 ml-6">
@@ -125,7 +138,9 @@ const RemovalRequestCard: FC<RemovalRequestCard> = ({
             )}
             <span className="font-medium">{decidedBy.name}</span>
             <span className="text-smoke-500 dark:text-smoke-500">
-              {status === REMOVAL_REQUEST_STATUS.APPROVED ? "approved" : "rejected"}
+              {status === REMOVAL_REQUEST_STATUS.APPROVED
+                ? "approved"
+                : "rejected"}
             </span>
           </div>
           {decisionNote && (

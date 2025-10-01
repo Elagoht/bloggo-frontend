@@ -1,5 +1,6 @@
 import { FC, useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
+import classNames from "classnames";
 import {
   IconSearch,
   IconTag,
@@ -182,7 +183,7 @@ const SearchDropdown: FC<SearchDropdownProps> = ({
   };
 
   return (
-    <div ref={searchRef} className={`relative ${className}`}>
+    <div ref={searchRef} className={classNames("relative", className)}>
       <div className="relative">
         <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-smoke-400 dark:text-smoke-500">
           {isLoading ? (

@@ -69,7 +69,10 @@ const ReviewNote: FC<ReviewNoteProps> = ({
 
   return (
     <div
-      className={`flex items-start gap-3 p-3 border rounded-lg ${colors.container}`}
+      className={classNames(
+        "flex items-start gap-3 p-3 border rounded-lg",
+        colors.container
+      )}
     >
       <span className={classNames("flex-shrink-0 p-1 rounded", colors.icon)}>
         <IconComponent size={16} />
@@ -84,7 +87,7 @@ const ReviewNote: FC<ReviewNoteProps> = ({
           {note}
         </p>
         {changedBy && changedAt && (
-          <p className={`text-xs opacity-75 ${colors.text}`}>
+          <p className={classNames("text-xs opacity-75", colors.text)}>
             By{" "}
             <Link
               to={`/users/details/${changedBy.id}`}

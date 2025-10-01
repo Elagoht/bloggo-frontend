@@ -22,8 +22,12 @@ import Sidebar from "../../../../../../components/layout/Container/Sidebar";
 import SectionHeader from "../../../../../../components/layout/SectionHeader";
 import VersionActionsForm from "../../../../../../forms/VersionActionsForm";
 import VersionDeleteForm from "../../../../../../forms/VersionDeleteForm";
-import { getPostVersion, getPostVersions } from "../../../../../../services/posts";
+import {
+  getPostVersion,
+  getPostVersions,
+} from "../../../../../../services/posts";
 import { PostStatus } from "../../../../../../utilities/PostStatusUtils";
+import classNames from "classnames";
 
 const ViewVersionPage: FC = () => {
   const { postId, versionId } = useParams<{
@@ -41,7 +45,7 @@ const ViewVersionPage: FC = () => {
       if (postId && versionId) {
         const [versionResponse, versionsResponse] = await Promise.all([
           getPostVersion(parseInt(postId), versionId),
-          getPostVersions(parseInt(postId))
+          getPostVersions(parseInt(postId)),
         ]);
 
         if (versionResponse.success) {
@@ -127,10 +131,10 @@ const ViewVersionPage: FC = () => {
           {/* Status */}
           <DetailsItem icon={IconVersions} title="Status">
             <span
-              className={`text-xs ${PostStatus.getStatusColor(
-                version.status,
-                "text"
-              )}`}
+              className={classNames(
+                "text-xs",
+                PostStatus.getStatusColor(version.status, "text")
+              )}
             >
               {PostStatus.getStatusText(version.status)}
             </span>

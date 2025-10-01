@@ -1,4 +1,5 @@
 import { IconChartBar } from "@tabler/icons-react";
+import classNames from "classnames";
 import { FC } from "react";
 
 type NoDataRecordedProps = {
@@ -14,7 +15,10 @@ const NoDataRecorded: FC<NoDataRecordedProps> = ({
 }) => {
   return (
     <div
-      className={`flex flex-col items-center justify-center py-8 px-4 text-center ${className}`}
+      className={classNames(
+        "flex flex-col items-center justify-center py-8 px-4 text-center",
+        className
+      )}
     >
       <div className="p-3 rounded-full bg-smoke-100 dark:bg-smoke-800 text-smoke-400 dark:text-smoke-500 mb-3">
         <IconChartBar size={32} />

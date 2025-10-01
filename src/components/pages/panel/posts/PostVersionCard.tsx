@@ -145,11 +145,10 @@ const PostVersionCard: FC<PostVersionCardProps> = ({
                 <div className="text-xs opacity-75">{datum.title}</div>
 
                 <div
-                  className={`font-medium line-clamp-1 text-xs ${
-                    datum.title === "Category" && version.category?.deletedAt
-                      ? "line-through opacity-60"
-                      : ""
-                  }`}
+                  className={classNames("font-medium line-clamp-1 text-xs", {
+                    "line-through opacity-60":
+                      datum.title === "Category" && version.category?.deletedAt,
+                  })}
                 >
                   {datum.value}
                 </div>

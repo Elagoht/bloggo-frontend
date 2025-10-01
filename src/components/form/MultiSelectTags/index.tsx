@@ -1,5 +1,6 @@
 import { FC } from "react";
 import { IconCheck } from "@tabler/icons-react";
+import classNames from "classnames";
 
 type MultiSelectTagsProps = {
   values?: string[];
@@ -42,20 +43,17 @@ const MultiSelectTags: FC<MultiSelectTagsProps> = ({
             type="button"
             onClick={() => handleToggle(option.value)}
             disabled={option.disabled}
-            className={`
-              inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium
-              transition-all duration-150 border
-              ${
-                isSelected
-                  ? "bg-gopher-100 dark:bg-gopher-900 text-gopher-800 dark:text-gopher-200 border-gopher-300 dark:border-gopher-700 shadow-sm"
-                  : "bg-white dark:bg-smoke-900 text-smoke-700 dark:text-smoke-300 border-smoke-200 dark:border-smoke-700 hover:bg-smoke-50 dark:hover:bg-smoke-800"
+            className={classNames(
+              "inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium transition-all duration-150 border",
+              {
+                "bg-gopher-100 dark:bg-gopher-900 text-gopher-800 dark:text-gopher-200 border-gopher-300 dark:border-gopher-700 shadow-sm":
+                  isSelected,
+                "bg-white dark:bg-smoke-900 text-smoke-700 dark:text-smoke-300 border-smoke-200 dark:border-smoke-700 hover:bg-smoke-50 dark:hover:bg-smoke-800":
+                  isSelected,
+                "opacity-50 cursor-not-allowed": option.disabled,
+                "cursor-pointer hover:shadow-sm": !option.disabled,
               }
-              ${
-                option.disabled
-                  ? "opacity-50 cursor-not-allowed"
-                  : "cursor-pointer hover:shadow-sm"
-              }
-            `}
+            )}
           >
             {isSelected && <IconCheck className="w-2.5 h-2.5" />}
             {option.label}
