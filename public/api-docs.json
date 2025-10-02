@@ -76,18 +76,38 @@
                   "properties": {
                     "slug": { "type": "string", "example": "my-first-post" },
                     "title": { "type": "string", "example": "My First Post" },
-                    "description": { "type": "string", "nullable": true, "example": "A brief description" },
-                    "spot": { "type": "string", "nullable": true, "example": "Short tagline" },
-                    "coverImage": { "type": "string", "nullable": true, "example": "/uploads/cover/image" },
+                    "description": {
+                      "type": "string",
+                      "nullable": true,
+                      "example": "A brief description"
+                    },
+                    "spot": {
+                      "type": "string",
+                      "nullable": true,
+                      "example": "Short tagline"
+                    },
+                    "coverImage": {
+                      "type": "string",
+                      "nullable": true,
+                      "example": "/uploads/cover/image"
+                    },
                     "readCount": { "type": "integer", "example": 150 },
                     "readTime": { "type": "integer", "example": 5 },
-                    "publishedAt": { "type": "string", "format": "date-time", "example": "2024-01-15T10:00:00Z" },
+                    "publishedAt": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "2024-01-15T10:00:00Z"
+                    },
                     "author": {
                       "type": "object",
                       "properties": {
                         "id": { "type": "integer", "example": 1 },
                         "name": { "type": "string", "example": "John Doe" },
-                        "avatar": { "type": "string", "nullable": true, "example": "/uploads/avatar/1_abc123" }
+                        "avatar": {
+                          "type": "string",
+                          "nullable": true,
+                          "example": "/uploads/avatar/1_abc123"
+                        }
                       }
                     },
                     "category": {
@@ -144,7 +164,7 @@
             "properties": {
               "slug": { "type": "string", "example": "my-first-post" },
               "title": { "type": "string", "example": "My First Post" },
-              "content": { "type": "string", "example": "<p>Full HTML content...</p>" },
+              "content": { "type": "string", "example": "Full content..." },
               "description": { "type": "string", "nullable": true },
               "spot": { "type": "string", "nullable": true },
               "coverImage": { "type": "string", "nullable": true },
@@ -239,8 +259,16 @@
                   "properties": {
                     "slug": { "type": "string", "example": "technology" },
                     "name": { "type": "string", "example": "Technology" },
-                    "description": { "type": "string", "nullable": true, "example": "Tech-related posts" },
-                    "spot": { "type": "string", "nullable": true, "example": "Latest in tech" },
+                    "description": {
+                      "type": "string",
+                      "nullable": true,
+                      "example": "Tech-related posts"
+                    },
+                    "spot": {
+                      "type": "string",
+                      "nullable": true,
+                      "example": "Latest in tech"
+                    },
                     "postCount": { "type": "integer", "example": 25 }
                   }
                 }
@@ -363,9 +391,17 @@
                   "properties": {
                     "id": { "type": "integer", "example": 1 },
                     "name": { "type": "string", "example": "John Doe" },
-                    "avatar": { "type": "string", "nullable": true, "example": "/uploads/avatar/1_abc123" },
+                    "avatar": {
+                      "type": "string",
+                      "nullable": true,
+                      "example": "/uploads/avatar/1_abc123"
+                    },
                     "publishedPostCount": { "type": "integer", "example": 15 },
-                    "memberSince": { "type": "string", "format": "date-time", "example": "2023-06-01T00:00:00Z" }
+                    "memberSince": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "2023-06-01T00:00:00Z"
+                    }
                   }
                 }
               }
