@@ -223,24 +223,23 @@ const KeyValuePage: FC = () => {
     }
   }, [rows]);
 
-  const getRowClassName = useCallback(
+  const getCellClassName = useCallback(
     (row: KeyValueRow) => {
-      if (row.status === "new" && (row.key.trim() || row.value.trim())) {
-        return "bg-green-100 dark:bg-green-800/40";
+      // Duplicate keys take priority
+      if (duplicateKeys.has(row.key) && row.key.trim()) {
+        return "border-red-400 dark:border-red-600 bg-red-100 dark:bg-red-900/40 ring-1 ring-red-300 dark:ring-red-700";
       }
-      if (row.status === "edited") {
-        return "bg-blue-100 dark:bg-blue-800/40";
-      }
-      return "";
-    },
-    []
-  );
 
-  const getKeyCellClassName = useCallback(
-    (row: KeyValueRow) => {
-      if (duplicateKeys.has(row.key)) {
-        return "bg-red-200 dark:bg-red-800/50";
+      // New row
+      if (row.status === "new" && (row.key.trim() || row.value.trim())) {
+        return "border-green-400 dark:border-green-600 bg-green-100 dark:bg-green-900/40";
       }
+
+      // Edited row
+      if (row.status === "edited") {
+        return "border-blue-400 dark:border-blue-600 bg-blue-100 dark:bg-blue-900/40";
+      }
+
       return "";
     },
     [duplicateKeys]
@@ -270,61 +269,66 @@ const KeyValuePage: FC = () => {
           </Button>
         </div>
 
-        <div className="overflow-x-auto">
-          <table className="w-full border-collapse border border-gray-300 dark:border-gray-700">
-            <thead>
-              <tr className="bg-gray-100 dark:bg-gray-800">
-                <th className="border border-gray-300 dark:border-gray-700 px-4 py-2 text-center w-16">
+        <div className="space-y-1.5">
+          {/* Header Row */}
+          <div className="grid grid-cols-[auto_1fr_2fr] gap-2 px-0.5 mb-2">
+            <div className="w-9"></div>
+            <div className="text-xs font-semibold text-smoke-600 dark:text-smoke-400 uppercase tracking-wide">
+              Key
+            </div>
+            <div className="text-xs font-semibold text-smoke-600 dark:text-smoke-400 uppercase tracking-wide">
+              Value
+            </div>
+          </div>
 
-                </th>
-                <th className="border border-gray-300 dark:border-gray-700 px-4 py-2 text-left w-1/3">
-                  Key
-                </th>
-                <th className="border border-gray-300 dark:border-gray-700 px-4 py-2 text-left w-2/3">
-                  Value
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {rows.map((row) => (
-                <tr key={row.id} className={getRowClassName(row)}>
-                  <td className="border border-gray-300 dark:border-gray-700 px-2 py-2 text-center">
-                    <button
-                      onClick={() => handleRemove(row.id)}
-                      className="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300"
-                      title="Remove row"
-                    >
-                      <IconTrash size={18} />
-                    </button>
-                  </td>
-                  <td
-                    className={`border border-gray-300 dark:border-gray-700 px-4 py-2 ${getKeyCellClassName(
-                      row
-                    )}`}
-                  >
-                    <input
-                      type="text"
-                      value={row.key}
-                      onChange={(e) => handleKeyChange(row.id, e.target.value)}
-                      className="w-full border-none outline-none bg-transparent"
-                      placeholder="Enter key"
-                    />
-                  </td>
-                  <td className="border border-gray-300 dark:border-gray-700 px-4 py-2">
-                    <input
-                      type="text"
-                      value={row.value}
-                      onChange={(e) =>
-                        handleValueChange(row.id, e.target.value)
-                      }
-                      className="w-full border-none outline-none bg-transparent"
-                      placeholder="Enter value"
-                    />
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          {/* Data Rows */}
+          {rows.map((row) => (
+            <div
+              key={row.id}
+              className="grid grid-cols-[auto_1fr_2fr] gap-2 items-center"
+            >
+              {/* Remove Button */}
+              <div className="flex items-center justify-center">
+                <button
+                  onClick={() => handleRemove(row.id)}
+                  className="p-1.5 rounded-md text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+                  title="Remove row"
+                >
+                  <IconTrash size={16} />
+                </button>
+              </div>
+
+              {/* Key Input */}
+              <div
+                className={`rounded-md border px-3 py-2 transition-all hover:shadow-sm focus-within:ring-1 focus-within:ring-gopher-500 ${
+                  getCellClassName(row) || "border-gray-300 dark:border-gray-600 bg-white dark:bg-smoke-900 hover:border-gray-400 dark:hover:border-gray-500 focus-within:border-gopher-500"
+                }`}
+              >
+                <input
+                  type="text"
+                  value={row.key}
+                  onChange={(e) => handleKeyChange(row.id, e.target.value)}
+                  className="w-full border-none outline-none bg-transparent text-sm text-smoke-900 dark:text-smoke-100 placeholder-smoke-400 dark:placeholder-smoke-500"
+                  placeholder="Enter key"
+                />
+              </div>
+
+              {/* Value Input */}
+              <div
+                className={`rounded-md border px-3 py-2 transition-all hover:shadow-sm focus-within:ring-1 focus-within:ring-gopher-500 ${
+                  getCellClassName(row) || "border-gray-300 dark:border-gray-600 bg-white dark:bg-smoke-900 hover:border-gray-400 dark:hover:border-gray-500 focus-within:border-gopher-500"
+                }`}
+              >
+                <input
+                  type="text"
+                  value={row.value}
+                  onChange={(e) => handleValueChange(row.id, e.target.value)}
+                  className="w-full border-none outline-none bg-transparent text-sm text-smoke-900 dark:text-smoke-100 placeholder-smoke-400 dark:placeholder-smoke-500"
+                  placeholder="Enter value"
+                />
+              </div>
+            </div>
+          ))}
         </div>
       </Container>
     </RouteGuard>
