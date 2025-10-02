@@ -84,7 +84,7 @@ export const ResponsesSection: FC<ResponsesSectionProps> = ({ responses }) => {
                 </Button>
               </div>
               {showJson ? (
-                <pre className="bg-smoke-900 text-green-400 p-3 rounded text-xs overflow-x-auto">
+                <pre className="bg-smoke-950 text-green-400 p-3 rounded text-xs overflow-x-auto">
                   {JSON.stringify(
                     generateJsonExample(responses[selectedStatus].schema!),
                     null,
