@@ -1,7 +1,9 @@
 import { IconApi, IconLock } from "@tabler/icons-react";
 import { FC, useEffect, useState } from "react";
+import { Navigate } from "react-router-dom";
 import Button from "../../../components/form/Button";
 import ButtonGroup from "../../../components/form/ButtonGroup";
+import PermissionGuard from "../../../components/guards/PermissionGuard";
 import Container from "../../../components/layout/Container";
 import FormCard from "../../../components/layout/Container/FormCard";
 import PageTitleWithIcon from "../../../components/layout/Container/PageTitle";
@@ -37,59 +39,61 @@ const APIDocsPage: FC = () => {
     : apiDocs.endpoints;
 
   return (
-    <Container>
-      <PageTitleWithIcon icon={IconApi}>
-        {apiDocs.info.title} <small>Version {apiDocs.info.version}</small>
-      </PageTitleWithIcon>
+    <PermissionGuard permission="auditlog:view" fallback={<Navigate to="/" />}>
+      <Container>
+        <PageTitleWithIcon icon={IconApi}>
+          {apiDocs.info.title} <small>Version {apiDocs.info.version}</small>
+        </PageTitleWithIcon>
 
-      <p>{apiDocs.info.description}</p>
+        <p>{apiDocs.info.description}</p>
 
-      <FormCard color="warning">
-        <SectionHeader icon={IconLock} color="warning">
-          Authentication Required
-        </SectionHeader>
+        <FormCard color="warning">
+          <SectionHeader icon={IconLock} color="warning">
+            Authentication Required
+          </SectionHeader>
 
-        <small className="px-2">{apiDocs.authentication.description}</small>
+          <small className="px-2">{apiDocs.authentication.description}</small>
 
-        <code className="bg-warning-100 dark:bg-warning-900/40 px-3 py-1 rounded text-sm text-warning-900 dark:text-warning-100">
-          {apiDocs.authentication.header}: your-trusted-frontend-key
-        </code>
-      </FormCard>
+          <code className="bg-warning-100 dark:bg-warning-900/40 px-3 py-1 rounded text-sm text-warning-900 dark:text-warning-100">
+            {apiDocs.authentication.header}: your-trusted-frontend-key
+          </code>
+        </FormCard>
 
-      <ButtonGroup>
-        <Button
-          onClick={() => setSelectedTag(null)}
-          color="primary"
-          variant={selectedTag === null ? "default" : "outline"}
-        >
-          All Endpoints ({apiDocs.endpoints.length})
-        </Button>
+        <ButtonGroup>
+          <Button
+            onClick={() => setSelectedTag(null)}
+            color="primary"
+            variant={selectedTag === null ? "default" : "outline"}
+          >
+            All Endpoints ({apiDocs.endpoints.length})
+          </Button>
 
-        {tags.map((tag) => {
-          const count = apiDocs.endpoints.filter((e) => e.tag === tag).length;
-          return (
-            <Button
-              key={tag}
-              onClick={() => setSelectedTag(tag)}
-              variant={selectedTag === tag ? "default" : "outline"}
-            >
-              {tag} ({count})
-            </Button>
-          );
-        })}
-      </ButtonGroup>
+          {tags.map((tag) => {
+            const count = apiDocs.endpoints.filter((e) => e.tag === tag).length;
+            return (
+              <Button
+                key={tag}
+                onClick={() => setSelectedTag(tag)}
+                variant={selectedTag === tag ? "default" : "outline"}
+              >
+                {tag} ({count})
+              </Button>
+            );
+          })}
+        </ButtonGroup>
 
-      {/* Endpoints */}
-      <div className="flex flex-col gap-2">
-        {filteredEndpoints.map((endpoint, index) => (
-          <EndpointCard
-            key={`${endpoint.method}-${endpoint.path}-${index}`}
-            endpoint={endpoint}
-            baseUrl={apiDocs.baseUrl}
-          />
-        ))}
-      </div>
-    </Container>
+        {/* Endpoints */}
+        <div className="flex flex-col gap-2">
+          {filteredEndpoints.map((endpoint, index) => (
+            <EndpointCard
+              key={`${endpoint.method}-${endpoint.path}-${index}`}
+              endpoint={endpoint}
+              baseUrl={apiDocs.baseUrl}
+            />
+          ))}
+        </div>
+      </Container>
+    </PermissionGuard>
   );
 };
 

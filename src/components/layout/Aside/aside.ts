@@ -71,5 +71,6 @@ export const asideMenu: Array<{
     name: "API Docs",
     icon: IconApi,
     href: "/api-docs",
+    perm: "auditlog:view",
   },
 ];

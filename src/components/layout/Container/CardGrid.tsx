@@ -10,7 +10,7 @@ const CardGrid: FC<CardGridProps> = ({ children, compact }) => {
     <div
       className={classNames("grid grid-cols-1 gap-4", {
         "xl:grid-cols-2 2xl:grid-cols-3": !compact,
-        "lg:grid-cols-3 2xl:grid-cols-4": compact,
+        "lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4": compact,
       })}
     >
       {children}

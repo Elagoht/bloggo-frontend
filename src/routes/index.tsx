@@ -33,8 +33,12 @@ const CreateTag = lazy(() => import("../app/panel/tags/create/page"));
 const EditTag = lazy(() => import("../app/panel/tags/details/[slug]/page"));
 const Statistics = lazy(() => import("../app/panel/statistics/page"));
 const AuditLogs = lazy(() => import("../app/panel/audit-logs/page"));
-const RemovalRequests = lazy(() => import("../app/panel/removal-requests/page"));
-const RemovalRequestDetails = lazy(() => import("../app/panel/removal-requests/details/[id]/page"));
+const RemovalRequests = lazy(
+  () => import("../app/panel/removal-requests/page")
+);
+const RemovalRequestDetails = lazy(
+  () => import("../app/panel/removal-requests/details/[id]/page")
+);
 const APIDocs = lazy(() => import("../app/panel/api-docs"));
 const NotFound = lazy(() => import("../app/panel/404/page"));
 
