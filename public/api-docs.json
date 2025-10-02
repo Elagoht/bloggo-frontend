@@ -443,6 +443,50 @@
         "401": { "description": "Unauthorized" },
         "404": { "description": "Author not found" }
       }
+    },
+    {
+      "path": "/key-values",
+      "method": "GET",
+      "tag": "Key-Values",
+      "summary": "Get key-value pairs",
+      "description": "Retrieve key-value configuration pairs. Returns all pairs by default, or filter by specific key or prefix.",
+      "parameters": [
+        {
+          "name": "key",
+          "in": "query",
+          "type": "string",
+          "required": false,
+          "description": "Get a specific key-value pair by exact key match"
+        },
+        {
+          "name": "starting",
+          "in": "query",
+          "type": "string",
+          "required": false,
+          "description": "Get all key-value pairs where key starts with this prefix"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Successful response - returns an array of key-value objects",
+          "schema": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "key": { "type": "string", "example": "site_name" },
+                "value": { "type": "string", "example": "My Awesome Blog" }
+              }
+            },
+            "example": [
+              { "key": "site_name", "value": "My Awesome Blog" },
+              { "key": "site_description", "value": "A blog about tech" },
+              { "key": "contact_email", "value": "hello@example.com" }
+            ]
+          }
+        },
+        "401": { "description": "Unauthorized" }
+      }
     }
   ]
 }
