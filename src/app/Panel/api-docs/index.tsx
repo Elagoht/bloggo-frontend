@@ -1,4 +1,4 @@
-import { IconApi, IconLock } from "@tabler/icons-react";
+import { IconApi, IconFilterX, IconLock } from "@tabler/icons-react";
 import { FC, useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import Button from "../../../components/form/Button";
@@ -59,11 +59,12 @@ const APIDocsPage: FC = () => {
           </code>
         </FormCard>
 
-        <ButtonGroup>
+        <ButtonGroup wrap>
           <Button
             onClick={() => setSelectedTag(null)}
             color="primary"
             variant={selectedTag === null ? "default" : "outline"}
+            iconLeft={IconFilterX}
           >
             All Endpoints ({apiDocs.endpoints.length})
           </Button>

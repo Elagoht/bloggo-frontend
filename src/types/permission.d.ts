@@ -25,7 +25,9 @@ type Permission =
   | "statistics:view-total"
   | "statistics:view-others"
   | "statistics:view-self"
-  | "auditlog:view";
+  | "auditlog:view"
+  | "apidoc:view"
+  | "keyvalue:manage";
 
 type RoutePermissionConfig = {
   path: string;
