@@ -6,6 +6,7 @@ import {
   IconChartPie,
   IconDashboard,
   IconHistory,
+  IconKey,
   IconProps,
   IconTag,
   IconTrash,
@@ -68,9 +69,15 @@ export const asideMenu: Array<{
     perm: "auditlog:view",
   },
   {
+    name: "Key-Value",
+    icon: IconKey,
+    href: "/key-value",
+    perm: "keyvalue:manage",
+  },
+  {
     name: "API Docs",
     icon: IconApi,
     href: "/api-docs",
-    perm: "auditlog:view",
+    perm: "apidoc:view",
   },
 ];

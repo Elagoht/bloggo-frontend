@@ -40,6 +40,7 @@ const RemovalRequestDetails = lazy(
   () => import("../app/panel/removal-requests/details/[id]/page")
 );
 const APIDocs = lazy(() => import("../app/panel/api-docs"));
+const KeyValue = lazy(() => import("../app/panel/key-value/page"));
 const NotFound = lazy(() => import("../app/panel/404/page"));
 
 export const routes = [
@@ -123,6 +124,8 @@ export const routes = [
           },
 
           { path: "api-docs", element: <APIDocs /> },
+
+          { path: "key-value", element: <KeyValue /> },
 
           // Catch-all 404
           { path: "*", element: <NotFound /> },

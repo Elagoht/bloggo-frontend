@@ -39,7 +39,7 @@ const APIDocsPage: FC = () => {
     : apiDocs.endpoints;
 
   return (
-    <PermissionGuard permission="auditlog:view" fallback={<Navigate to="/" />}>
+    <PermissionGuard permission="apidoc:view" fallback={<Navigate to="/" />}>
       <Container>
         <PageTitleWithIcon icon={IconApi}>
           {apiDocs.info.title} <small>Version {apiDocs.info.version}</small>
