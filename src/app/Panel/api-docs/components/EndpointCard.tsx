@@ -50,7 +50,7 @@ export const EndpointCard: FC<EndpointCardProps> = ({ endpoint, baseUrl }) => {
   const colors = methodColors[endpoint.method];
 
   return (
-    <Container className="!gap-0 rounded-lg overflow-hidden bg-white dark:bg-smoke-900 shadow-lg hover:shadow-xl transition-all">
+    <Container className="!gap-0 rounded-lg overflow-hidden bg-white dark:bg-smoke-900 shadow">
       {/* Header */}
       <button
         onClick={() => setIsExpanded(!isExpanded)}
