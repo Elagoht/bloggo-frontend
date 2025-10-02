@@ -1,6 +1,7 @@
-import { IconChevronDown, IconChevronUp } from "@tabler/icons-react";
+import { IconChevronUp } from "@tabler/icons-react";
 import classNames from "classnames";
 import { FC, useState } from "react";
+import Container from "../../../../components/layout/Container";
 import { Endpoint } from "../types";
 import { ParametersSection } from "./ParametersSection";
 import { RequestBodySection } from "./RequestBodySection";
@@ -49,19 +50,19 @@ export const EndpointCard: FC<EndpointCardProps> = ({ endpoint, baseUrl }) => {
   const colors = methodColors[endpoint.method];
 
   return (
-    <div className="border border-smoke-400 dark:border-smoke-600 rounded-lg overflow-hidden bg-white dark:bg-smoke-900 shadow-lg hover:shadow-xl transition-all">
+    <Container className="!gap-0 rounded-lg overflow-hidden bg-white dark:bg-smoke-900 shadow-lg hover:shadow-xl transition-all">
       {/* Header */}
       <button
         onClick={() => setIsExpanded(!isExpanded)}
         className={classNames(
-          "w-full px-6 py-4 flex items-center gap-4 transition-all",
+          "w-full p-2 flex items-center gap-2 transition-all shadow",
           colors.headerBg,
           "hover:opacity-95"
         )}
       >
         <span
           className={classNames(
-            "px-4 py-1.5 rounded-md text-xs font-bold uppercase shadow-md",
+            "px-2 py-1 rounded text-xs font-bold uppercase shadow-md",
             colors.bg,
             colors.text,
             "border border-transparent"
@@ -75,37 +76,43 @@ export const EndpointCard: FC<EndpointCardProps> = ({ endpoint, baseUrl }) => {
           {endpoint.path}
         </code>
 
-        <div className="text-right flex-shrink-0 hidden sm:block">
-          <div className="text-sm font-medium text-smoke-900 dark:text-smoke-100">
-            {endpoint.summary}
-          </div>
-          <div className="text-xs text-smoke-500 dark:text-smoke-400">
-            {endpoint.tag}
-          </div>
+        <div className="text-right flex-shrink-0 hidden sm:block text-xs font-medium text-smoke-900 dark:text-smoke-100">
+          {endpoint.summary}
         </div>
 
-        {isExpanded ? (
-          <IconChevronUp
-            size={20}
-            className="text-smoke-500 flex-shrink-0"
-          />
-        ) : (
-          <IconChevronDown
-            size={20}
-            className="text-smoke-500 flex-shrink-0"
-          />
-        )}
+        <IconChevronUp
+          size={18}
+          className={classNames(
+            "text-smoke-500 flex-shrink-0 transition-transform",
+            {
+              "rotate-180": isExpanded,
+            }
+          )}
+        />
       </button>
 
       {/* Expanded Content */}
-      {isExpanded && (
-        <div className="border-t border-smoke-400 dark:border-smoke-600 p-6 space-y-6 bg-smoke-100/50 dark:bg-smoke-950/80">
+      <div
+        className={classNames(
+          "bg-smoke-100/50 dark:bg-smoke-950/80 grid transition-all duration-300 ease-in-out",
+          {
+            "grid-rows-[1fr]": isExpanded,
+            "grid-rows-[0fr]": !isExpanded,
+          }
+        )}
+      >
+        <div
+          className={classNames(
+            "flex flex-col gap-4 overflow-hidden px-4 transition-all duration-300 ease-in-out",
+            { "py-4": isExpanded, "opacity-0": !isExpanded }
+          )}
+        >
           {/* Description */}
           <div>
-            <h4 className="text-sm font-bold text-smoke-800 dark:text-smoke-200 mb-2 uppercase tracking-wide">
+            <h4 className="text-xs font-bold text-smoke-800 dark:text-smoke-200 mb-1 uppercase tracking-wide">
               Description
             </h4>
-            <p className="text-sm text-smoke-600 dark:text-smoke-400">
+            <p className="text-xs text-smoke-600 dark:text-smoke-400">
               {endpoint.description}
             </p>
           </div>
@@ -123,7 +130,7 @@ export const EndpointCard: FC<EndpointCardProps> = ({ endpoint, baseUrl }) => {
           {/* Responses */}
           <ResponsesSection responses={endpoint.responses} />
         </div>
-      )}
-    </div>
+      </div>
+    </Container>
   );
 };

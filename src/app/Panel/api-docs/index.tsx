@@ -1,5 +1,11 @@
 import { IconApi, IconLock } from "@tabler/icons-react";
 import { FC, useEffect, useState } from "react";
+import Button from "../../../components/form/Button";
+import ButtonGroup from "../../../components/form/ButtonGroup";
+import Container from "../../../components/layout/Container";
+import FormCard from "../../../components/layout/Container/FormCard";
+import PageTitleWithIcon from "../../../components/layout/Container/PageTitle";
+import SectionHeader from "../../../components/layout/SectionHeader";
 import { EndpointCard } from "./components/EndpointCard";
 import { APIDocumentation } from "./types";
 
@@ -31,73 +37,50 @@ const APIDocsPage: FC = () => {
     : apiDocs.endpoints;
 
   return (
-    <div className="max-w-7xl mx-auto p-6 space-y-6">
-      {/* Header */}
-      <div className="bg-gradient-to-r from-gopher-500 to-gopher-600 dark:from-gopher-700 dark:to-gopher-800 rounded-xl p-8 text-white shadow-lg">
-        <div className="flex items-center gap-3 mb-3">
-          <IconApi size={32} strokeWidth={2} />
-          <h1 className="text-3xl font-bold">{apiDocs.info.title}</h1>
-        </div>
-        <p className="text-gopher-50 mb-4">{apiDocs.info.description}</p>
-        <div className="flex items-center gap-2 text-sm bg-white/10 rounded-lg px-4 py-2 inline-flex">
-          <IconLock size={16} />
-          <span>Version {apiDocs.info.version}</span>
-        </div>
-      </div>
+    <Container>
+      <PageTitleWithIcon icon={IconApi}>
+        {apiDocs.info.title} <small>Version {apiDocs.info.version}</small>
+      </PageTitleWithIcon>
 
-      {/* Authentication Info */}
-      <div className="bg-warning-50 dark:bg-warning-900/20 border border-warning-200 dark:border-warning-800 rounded-lg p-6">
-        <div className="flex items-start gap-3">
-          <IconLock
-            size={24}
-            className="text-warning-600 dark:text-warning-400 flex-shrink-0 mt-1"
-          />
-          <div>
-            <h3 className="font-semibold text-warning-900 dark:text-warning-100 mb-2">
-              Authentication Required
-            </h3>
-            <p className="text-warning-800 dark:text-warning-200 text-sm mb-2">
-              {apiDocs.authentication.description}
-            </p>
-            <code className="bg-warning-100 dark:bg-warning-900/40 px-3 py-1 rounded text-sm text-warning-900 dark:text-warning-100">
-              {apiDocs.authentication.header}: your-trusted-frontend-key
-            </code>
-          </div>
-        </div>
-      </div>
+      <p>{apiDocs.info.description}</p>
 
-      {/* Tag Filters */}
-      <div className="flex flex-wrap gap-2">
-        <button
+      <FormCard color="warning">
+        <SectionHeader icon={IconLock} color="warning">
+          Authentication Required
+        </SectionHeader>
+
+        <small className="px-2">{apiDocs.authentication.description}</small>
+
+        <code className="bg-warning-100 dark:bg-warning-900/40 px-3 py-1 rounded text-sm text-warning-900 dark:text-warning-100">
+          {apiDocs.authentication.header}: your-trusted-frontend-key
+        </code>
+      </FormCard>
+
+      <ButtonGroup>
+        <Button
           onClick={() => setSelectedTag(null)}
-          className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-            selectedTag === null
-              ? "bg-gopher-500 text-white shadow-sm"
-              : "bg-smoke-100 dark:bg-smoke-800 text-smoke-700 dark:text-smoke-300 hover:bg-smoke-200 dark:hover:bg-smoke-700"
-          }`}
+          color="primary"
+          variant={selectedTag === null ? "default" : "outline"}
         >
           All Endpoints ({apiDocs.endpoints.length})
-        </button>
+        </Button>
+
         {tags.map((tag) => {
           const count = apiDocs.endpoints.filter((e) => e.tag === tag).length;
           return (
-            <button
+            <Button
               key={tag}
               onClick={() => setSelectedTag(tag)}
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                selectedTag === tag
-                  ? "bg-gopher-500 text-white shadow-sm"
-                  : "bg-smoke-100 dark:bg-smoke-800 text-smoke-700 dark:text-smoke-300 hover:bg-smoke-200 dark:hover:bg-smoke-700"
-              }`}
+              variant={selectedTag === tag ? "default" : "outline"}
             >
               {tag} ({count})
-            </button>
+            </Button>
           );
         })}
-      </div>
+      </ButtonGroup>
 
       {/* Endpoints */}
-      <div className="space-y-4">
+      <div className="flex flex-col gap-2">
         {filteredEndpoints.map((endpoint, index) => (
           <EndpointCard
             key={`${endpoint.method}-${endpoint.path}-${index}`}
@@ -106,7 +89,7 @@ const APIDocsPage: FC = () => {
           />
         ))}
       </div>
-    </div>
+    </Container>
   );
 };
 

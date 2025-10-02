@@ -29,7 +29,7 @@ export interface Parameter {
   in: "query" | "path" | "header";
   type: string;
   required: boolean;
-  default?: any;
+  default?: unknown;
   description: string;
 }
 
@@ -49,7 +49,7 @@ export interface Schema {
   items?: Schema;
   required?: boolean;
   nullable?: boolean;
-  example?: any;
+  example?: unknown;
   maxLength?: number;
   format?: string;
   description?: string;
@@ -58,7 +58,7 @@ export interface Schema {
 export interface SchemaProperty {
   type: string;
   nullable?: boolean;
-  example?: any;
+  example?: unknown;
   items?: Schema;
   properties?: Record<string, SchemaProperty>;
   required?: boolean;

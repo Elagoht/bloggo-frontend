@@ -145,7 +145,7 @@ const UserProfileEditForm: FC<UserProfileEditFormProps> = ({ profile }) => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="flex flex-col gap-6">
       {/* Avatar Section */}
       <FormCard>
         <SectionHeader icon={IconCamera}>Profile Picture</SectionHeader>
@@ -219,7 +219,7 @@ const UserProfileEditForm: FC<UserProfileEditFormProps> = ({ profile }) => {
       <FormCard>
         <SectionHeader icon={IconUser}>Basic Information</SectionHeader>
 
-        <div className="space-y-4">
+        <div className="flex flex-col gap-4">
           <div>
             <small className="block text-sm font-medium text-smoke-700 dark:text-smoke-300 mb-2">
               Full Name
