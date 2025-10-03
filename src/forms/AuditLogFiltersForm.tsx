@@ -54,6 +54,7 @@ const AuditLogFiltersForm: FC<AuditLogFiltersFormProps> = ({ users }) => {
     { value: "category", label: "Category" },
     { value: "tag", label: "Tag" },
     { value: "removal_request", label: "Removal Request" },
+    { value: "webhook", label: "Webhook" },
   ];
 
   const actionTypes: { value: AuditActionType; label: string }[] = [
@@ -77,6 +78,11 @@ const AuditLogFiltersForm: FC<AuditLogFiltersFormProps> = ({ users }) => {
     { value: "added", label: "Added" },
     { value: "login", label: "Login" },
     { value: "logout", label: "Logout" },
+
+    // Webhook actions
+    { value: "config_updated", label: "Config Updated" },
+    { value: "headers_updated", label: "Headers Updated" },
+    { value: "manual_fire", label: "Manual Fire" },
   ];
 
   // Create options arrays for checkboxes

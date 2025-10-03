@@ -31,6 +31,7 @@ type AuditActionType =
   | "created" | "updated" | "deleted" | "login" | "logout"
   | "submitted" | "approved" | "rejected" | "published" | "unpublished"
   | "assigned" | "removed" | "requested" | "denied" | "added"
-  | "duplicated_from" | "replaced_published";
+  | "duplicated_from" | "replaced_published"
+  | "config_updated" | "headers_updated" | "manual_fire";
 
-type AuditEntityType = "user" | "post" | "post_version" | "category" | "tag" | "removal_request" | "auth";
+type AuditEntityType = "user" | "post" | "post_version" | "category" | "tag" | "removal_request" | "auth" | "webhook";

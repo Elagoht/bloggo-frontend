@@ -9,6 +9,7 @@ import {
   IconTag,
   IconTrash,
   IconUser,
+  IconWebhook,
   IconX,
 } from "@tabler/icons-react";
 import classNames from "classnames";
@@ -44,16 +45,25 @@ const AuditLogListItem: FC<AuditLogListItemProps> = ({ auditLog, users }) => {
     const user = getUserName(auditLog.userId);
     const entityType = formatEntityType(auditLog.entityType).toLowerCase();
 
-    const action =
-      auditLog.action === "login"
-        ? "logged in"
-        : auditLog.action === "logout"
-        ? "logged out"
-        : formatAction(auditLog.action).toLowerCase();
+    // Handle special action formatting
+    let action: string;
+    if (auditLog.action === "login") {
+      action = "logged in";
+    } else if (auditLog.action === "logout") {
+      action = "logged out";
+    } else if (auditLog.action === "config_updated") {
+      action = "updated webhook configuration";
+    } else if (auditLog.action === "headers_updated") {
+      action = "updated webhook headers";
+    } else if (auditLog.action === "manual_fire") {
+      action = "manually fired webhook";
+    } else {
+      action = formatAction(auditLog.action).toLowerCase();
+    }
 
-    // For other actions, use entity names when available
+    // For auth and webhook actions, don't show entity display
     const entityDisplay =
-      auditLog.entityType === "auth"
+      auditLog.entityType === "auth" || auditLog.entityType === "webhook"
         ? ""
         : auditLog.entityName
         ? `${entityType} "${auditLog.entityName}"`
@@ -136,12 +146,18 @@ const getActionColor = (action: string) => {
   if (action === "replaced_published")
     return "text-violet-600 dark:text-violet-400";
 
+  // Webhook actions
+  if (action === "config_updated") return "text-sky-600 dark:text-sky-400";
+  if (action === "headers_updated") return "text-sky-600 dark:text-sky-400";
+  if (action === "manual_fire") return "text-sky-600 dark:text-sky-400";
+
   return "text-smoke-900 dark:text-white";
 };
 
 const getActionIcon = (action: string, entityType: string) => {
   // Entity type based icons
   if (entityType === "auth") return IconUser; // Auth actions like login/logout
+  if (entityType === "webhook") return IconWebhook; // Webhook actions
   if (entityType === "user") return IconUser;
   if (entityType === "post" || entityType === "post_version")
     return IconFileText;
@@ -202,6 +218,14 @@ const getActionBgColor = (action: string) => {
   if (action === "replaced_published")
     return "bg-violet-50 dark:bg-violet-950 border-violet-200 dark:border-violet-800";
 
+  // Webhook actions
+  if (action === "config_updated")
+    return "bg-sky-50 dark:bg-sky-950 border-sky-200 dark:border-sky-800";
+  if (action === "headers_updated")
+    return "bg-sky-50 dark:bg-sky-950 border-sky-200 dark:border-sky-800";
+  if (action === "manual_fire")
+    return "bg-sky-50 dark:bg-sky-950 border-sky-200 dark:border-sky-800";
+
   return "bg-white dark:bg-smoke-950 border-smoke-200 dark:border-smoke-800";
 };
 
@@ -231,6 +255,11 @@ const getIconBgColor = (action: string) => {
     return "text-purple-500 dark:text-purple-600";
   if (action === "replaced_published")
     return "text-violet-500 dark:text-violet-600";
+
+  // Webhook actions
+  if (action === "config_updated") return "text-sky-500 dark:text-sky-600";
+  if (action === "headers_updated") return "text-sky-500 dark:text-sky-600";
+  if (action === "manual_fire") return "text-sky-500 dark:text-sky-600";
 
   return "text-smoke-500 dark:text-smoke-600";
 };
