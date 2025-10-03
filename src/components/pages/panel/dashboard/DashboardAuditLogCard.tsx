@@ -29,6 +29,7 @@ const DashboardAuditLogCard: FC = () => {
             "tag",
             "user",
             "removal_request",
+            "keyvalue",
           ],
           action: [
             "created",

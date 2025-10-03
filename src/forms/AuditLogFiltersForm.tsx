@@ -55,6 +55,7 @@ const AuditLogFiltersForm: FC<AuditLogFiltersFormProps> = ({ users }) => {
     { value: "tag", label: "Tag" },
     { value: "removal_request", label: "Removal Request" },
     { value: "webhook", label: "Webhook" },
+    { value: "keyvalue", label: "Key-Value" },
   ];
 
   const actionTypes: { value: AuditActionType; label: string }[] = [

@@ -6,6 +6,7 @@ import {
   IconEdit,
   IconFileText,
   IconPlus,
+  IconSettings,
   IconTag,
   IconTrash,
   IconUser,
@@ -57,13 +58,15 @@ const AuditLogListItem: FC<AuditLogListItemProps> = ({ auditLog, users }) => {
       action = "updated webhook headers";
     } else if (auditLog.action === "manual_fire") {
       action = "manually fired webhook";
+    } else if (auditLog.entityType === "keyvalue" && auditLog.action === "updated") {
+      action = "updated system configuration";
     } else {
       action = formatAction(auditLog.action).toLowerCase();
     }
 
-    // For auth and webhook actions, don't show entity display
+    // For auth, webhook, and keyvalue actions, don't show entity display
     const entityDisplay =
-      auditLog.entityType === "auth" || auditLog.entityType === "webhook"
+      auditLog.entityType === "auth" || auditLog.entityType === "webhook" || auditLog.entityType === "keyvalue"
         ? ""
         : auditLog.entityName
         ? `${entityType} "${auditLog.entityName}"`
@@ -158,6 +161,7 @@ const getActionIcon = (action: string, entityType: string) => {
   // Entity type based icons
   if (entityType === "auth") return IconUser; // Auth actions like login/logout
   if (entityType === "webhook") return IconWebhook; // Webhook actions
+  if (entityType === "keyvalue") return IconSettings; // Key-value configuration
   if (entityType === "user") return IconUser;
   if (entityType === "post" || entityType === "post_version")
     return IconFileText;

@@ -34,4 +34,4 @@ type AuditActionType =
   | "duplicated_from" | "replaced_published"
   | "config_updated" | "headers_updated" | "manual_fire";
 
-type AuditEntityType = "user" | "post" | "post_version" | "category" | "tag" | "removal_request" | "auth" | "webhook";
+type AuditEntityType = "user" | "post" | "post_version" | "category" | "tag" | "removal_request" | "auth" | "webhook" | "keyvalue";
