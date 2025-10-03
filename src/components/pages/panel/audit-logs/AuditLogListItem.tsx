@@ -31,7 +31,7 @@ const AuditLogListItem: FC<AuditLogListItemProps> = ({ auditLog, users }) => {
       return (
         <Link
           to={`/users/details/${userId}`}
-          className="text-gopher-600 dark:text-gopher-400 hover:underline"
+          className="hover:underline font-medium"
         >
           {user.name}
         </Link>
@@ -58,7 +58,10 @@ const AuditLogListItem: FC<AuditLogListItemProps> = ({ auditLog, users }) => {
       action = "updated webhook headers";
     } else if (auditLog.action === "manual_fire") {
       action = "manually fired webhook";
-    } else if (auditLog.entityType === "keyvalue" && auditLog.action === "updated") {
+    } else if (
+      auditLog.entityType === "keyvalue" &&
+      auditLog.action === "updated"
+    ) {
       action = "updated system configuration";
     } else {
       action = formatAction(auditLog.action).toLowerCase();
@@ -66,7 +69,9 @@ const AuditLogListItem: FC<AuditLogListItemProps> = ({ auditLog, users }) => {
 
     // For auth, webhook, and keyvalue actions, don't show entity display
     const entityDisplay =
-      auditLog.entityType === "auth" || auditLog.entityType === "webhook" || auditLog.entityType === "keyvalue"
+      auditLog.entityType === "auth" ||
+      auditLog.entityType === "webhook" ||
+      auditLog.entityType === "keyvalue"
         ? ""
         : auditLog.entityName
         ? `${entityType} "${auditLog.entityName}"`
