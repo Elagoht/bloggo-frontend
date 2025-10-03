@@ -42,11 +42,7 @@ const Aside: FC = () => {
       >
         <nav className="flex flex-col gap-1">
           {asideMenu.map((item, index) => (
-            <AsideMenuItem
-              shortcutKey={`ctrlOrCmd+${index + 1}`}
-              {...item}
-              key={index}
-            />
+            <AsideMenuItem {...item} key={index} />
           ))}
         </nav>
       </aside>

@@ -41,6 +41,11 @@ const RemovalRequestDetails = lazy(
 );
 const APIDocs = lazy(() => import("../app/panel/api-docs"));
 const KeyValue = lazy(() => import("../app/panel/key-value/page"));
+const Webhook = lazy(() => import("../app/panel/webhook/page"));
+const WebhookRequests = lazy(() => import("../app/panel/webhook/requests/page"));
+const WebhookRequestDetails = lazy(
+  () => import("../app/panel/webhook/requests/[id]/page")
+);
 const NotFound = lazy(() => import("../app/panel/404/page"));
 
 export const routes = [
@@ -126,6 +131,16 @@ export const routes = [
           { path: "api-docs", element: <APIDocs /> },
 
           { path: "key-value", element: <KeyValue /> },
+
+          { path: "webhook", element: <Webhook /> },
+
+          {
+            path: "webhook/requests",
+            children: [
+              { index: true, element: <WebhookRequests /> },
+              { path: ":id", element: <WebhookRequestDetails /> },
+            ],
+          },
 
           // Catch-all 404
           { path: "*", element: <NotFound /> },

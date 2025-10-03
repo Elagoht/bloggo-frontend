@@ -11,6 +11,7 @@ import {
   IconTag,
   IconTrash,
   IconUsers,
+  IconWebhook,
 } from "@tabler/icons-react";
 import { ForwardRefExoticComponent, RefAttributes } from "react";
 
@@ -79,5 +80,11 @@ export const asideMenu: Array<{
     icon: IconApi,
     href: "/api-docs",
     perm: "apidoc:view",
+  },
+  {
+    name: "Webhook",
+    icon: IconWebhook,
+    href: "/webhook",
+    perm: "webhook:manage",
   },
 ];

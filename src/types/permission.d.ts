@@ -27,7 +27,8 @@ type Permission =
   | "statistics:view-self"
   | "auditlog:view"
   | "apidoc:view"
-  | "keyvalue:manage";
+  | "keyvalue:manage"
+  | "webhook:manage";
 
 type RoutePermissionConfig = {
   path: string;

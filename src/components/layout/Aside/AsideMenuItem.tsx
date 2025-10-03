@@ -5,32 +5,20 @@ import {
   FC,
   ForwardRefExoticComponent,
   RefAttributes,
-  useEffect,
 } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useMobileStore } from "../../../stores/mobile";
-import { keyAliases } from "../../form/Shortcuts";
-import ShortcutLabel from "../../form/Shortcuts/ShortcutLabel";
 import PermissionGuard from "../../guards/PermissionGuard";
 
 type AsideMenuItemProps = {
   name: string;
   href: string;
   icon: ForwardRefExoticComponent<IconProps & RefAttributes<Icon>>;
-  shortcutKey: string;
   perm?: Permission | Permission[];
 };
 
-const AsideMenuItem: FC<AsideMenuItemProps> = ({
-  href,
-  name,
-  perm,
-  icon,
-  shortcutKey,
-}) => {
+const AsideMenuItem: FC<AsideMenuItemProps> = ({ href, name, perm, icon }) => {
   const { closeMobileMenu } = useMobileStore();
-
-  const navigate = useNavigate();
 
   const handleLinkClick = () => {
     if (window.innerWidth < 768) {
@@ -42,45 +30,6 @@ const AsideMenuItem: FC<AsideMenuItemProps> = ({
     href === "/"
       ? location.pathname === href.split("?")[0]
       : location.pathname.startsWith(href.split("?")[0]);
-
-  useEffect(() => {
-    if (!shortcutKey) return;
-
-    const parts = shortcutKey.split("+").map((p) => p.toLowerCase());
-    const key = parts.pop()!;
-    const modifiers = new Set(parts);
-
-    const handleKeyDown = (event: KeyboardEvent) => {
-      let actualKey = event.key.toLowerCase();
-      if (actualKey === "dead") {
-        actualKey = event.code.replace("Key", "").toLowerCase();
-      }
-
-      const ctrlOrCmd = modifiers.has("ctrlorcmd")
-        ? event.ctrlKey || event.metaKey
-        : true;
-      const altOrOption = modifiers.has("altoroption") ? event.altKey : true;
-
-      if (
-        actualKey === (keyAliases[key] ?? key) &&
-        (modifiers.has("ctrl") ? event.ctrlKey : true) &&
-        (modifiers.has("cmd") || modifiers.has("meta")
-          ? event.metaKey
-          : true) &&
-        (modifiers.has("alt") || modifiers.has("option")
-          ? event.altKey
-          : true) &&
-        (modifiers.has("shift") ? event.shiftKey : true) &&
-        ctrlOrCmd &&
-        altOrOption
-      ) {
-        navigate(href);
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [shortcutKey, href, navigate]);
 
   const MenuItem = (
     <Link
@@ -115,8 +64,6 @@ const AsideMenuItem: FC<AsideMenuItemProps> = ({
       </span>
 
       <span className="text-sm grow">{name}</span>
-
-      <ShortcutLabel shortcut={shortcutKey} />
     </Link>
   );
 
