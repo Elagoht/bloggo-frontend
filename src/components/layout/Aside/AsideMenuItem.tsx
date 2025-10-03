@@ -6,9 +6,9 @@ import {
   ForwardRefExoticComponent,
   RefAttributes,
 } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useMobileStore } from "../../../stores/mobile";
-import PermissionGuard from "../../guards/PermissionGuard";
+import PermissionGuard from "../../Guards/PermissionGuard";
 
 type AsideMenuItemProps = {
   name: string;
@@ -19,6 +19,7 @@ type AsideMenuItemProps = {
 
 const AsideMenuItem: FC<AsideMenuItemProps> = ({ href, name, perm, icon }) => {
   const { closeMobileMenu } = useMobileStore();
+  const location = useLocation();
 
   const handleLinkClick = () => {
     if (window.innerWidth < 768) {
