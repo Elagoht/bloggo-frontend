@@ -33,9 +33,14 @@ const PendingVersionsCard: FC<PendingVersionsCardProps> = ({
           {pendingVersions.map((version) => (
             <li
               key={version.id}
-              className="flex flex-col bg-smoke-100 dark:bg-smoke-900 rounded-lg px-2 py-1 gap-1"
+              className="flex flex-col bg-smoke-100 dark:bg-smoke-900 rounded-lg p-2 pt-1 gap-1"
             >
-              <strong className="font-medium">{version.title}</strong>
+              <Link
+                to={`/posts/${version.postId}/versions/${version.id}`}
+                className="font-medium leading-snug hover:text-gopher-600 dark:hover:text-gopher-400 transition-colors"
+              >
+                {version.title}
+              </Link>
 
               <data className="text-smoke-500 dark:text-smoke-400 text-xs flex items-center gap-1">
                 <Link to={`/users/details/${version.authorId}`}>

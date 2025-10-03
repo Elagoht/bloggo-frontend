@@ -1,5 +1,6 @@
 type PendingVersion = {
   id: number;
+  postId: number;
   title: string;
   authorId: number;
   authorName: string;
