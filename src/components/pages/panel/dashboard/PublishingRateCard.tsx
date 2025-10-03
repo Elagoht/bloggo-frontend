@@ -50,9 +50,9 @@ const PublishingRateCard: FC<PublishingRateCardProps> = ({
               datum.css
             )}
           >
-            <small className="text-smoke-500">{datum.title}</small>
+            <strong className="text-4xl">{datum.value}</strong>
 
-            <strong className="text-3xl">{datum.value}</strong>
+            <small className="text-smoke-500">{datum.title}</small>
           </li>
         ))}
       </ul>
