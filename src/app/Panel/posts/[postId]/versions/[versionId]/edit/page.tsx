@@ -346,6 +346,23 @@ const EditVersionPage: FC = () => {
                   contentLength={currentContent.length}
                   availableCategories={categories}
                   disabled={isDirty}
+                  onCopy={(field, value) => {
+                    if (field === "title") {
+                      setCurrentTitle(value);
+                    } else if (field === "spot (teaser)") {
+                      setCurrentSpot(value);
+                    } else if (field === "meta description") {
+                      setCurrentDescription(value);
+                    } else if (field === "suggested category") {
+                      // Find the matching category by name
+                      const matchingCategory = categories.find(
+                        (cat) => cat.name.toLowerCase() === value.toLowerCase()
+                      );
+                      if (matchingCategory) {
+                        setCurrentCategoryId(matchingCategory.id.toString());
+                      }
+                    }
+                  }}
                 />
               </div>
             )}

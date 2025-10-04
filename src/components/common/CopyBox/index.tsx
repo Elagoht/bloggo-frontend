@@ -1,4 +1,4 @@
-import { IconCopy, IconCopyCheck } from "@tabler/icons-react";
+import { IconArrowRight, IconCheck } from "@tabler/icons-react";
 import { FC, useEffect, useState } from "react";
 
 type CopyBoxProps = {
@@ -39,9 +39,9 @@ const CopyBox: FC<CopyBoxProps> = ({ label, value, onCopy }) => {
           className="p-1 hover:bg-smoke-100 rounded transition-colors"
         >
           {isCopied ? (
-            <IconCopyCheck className="h-4 w-4 text-green-500" />
+            <IconCheck className="h-4 w-4 text-green-500" />
           ) : (
-            <IconCopy className="h-4 w-4 text-smoke-500" />
+            <IconArrowRight className="h-4 w-4 text-smoke-500" />
           )}
         </button>
       </div>

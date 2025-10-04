@@ -1,5 +1,6 @@
 import { IconDeviceFloppy, IconTag, IconX } from "@tabler/icons-react";
 import { FC } from "react";
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import Button from "../../../../components/form/Button";
 import ButtonGroup from "../../../../components/form/ButtonGroup";
@@ -21,6 +22,7 @@ const TagCreatePage: FC = () => {
 
     if (!response.success) return;
 
+    toast.success(`${name} has been created`);
     navigate("/tags");
   };
 

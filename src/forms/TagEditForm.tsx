@@ -1,5 +1,6 @@
 import { IconDeviceFloppy, IconTag, IconX } from "@tabler/icons-react";
 import { FC, ReactNode } from "react";
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import Button from "../components/form/Button";
 import ButtonGroup from "../components/form/ButtonGroup";
@@ -22,6 +23,7 @@ const TagEditForm: FC<TagEditFormProps> = ({ tag }) => {
 
     if (!response.success) return;
 
+    toast.success(`${name} has been updated`);
     navigate("/tags");
   };
 

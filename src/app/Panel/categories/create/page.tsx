@@ -7,6 +7,7 @@ import {
   IconX,
 } from "@tabler/icons-react";
 import { FC, useState } from "react";
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import Button from "../../../../components/form/Button";
 import ButtonGroup from "../../../../components/form/ButtonGroup";
@@ -33,6 +34,7 @@ const CategoryCreatePage: FC = () => {
 
     if (!response.success) return;
 
+    toast.success(`${name} has been created`);
     navigate("/categories");
   };
 
@@ -71,7 +73,7 @@ const CategoryCreatePage: FC = () => {
                         const spotInput = form.querySelector(
                           '[name="spot"]'
                         ) as HTMLInputElement;
-                        if (spotInput && !spotInput.value) {
+                        if (spotInput) {
                           spotInput.value = value;
                           spotInput.dispatchEvent(
                             new Event("input", { bubbles: true })
@@ -81,7 +83,7 @@ const CategoryCreatePage: FC = () => {
                         const descInput = form.querySelector(
                           '[name="description"]'
                         ) as HTMLTextAreaElement;
-                        if (descInput && !descInput.value) {
+                        if (descInput) {
                           descInput.value = value;
                           descInput.dispatchEvent(
                             new Event("input", { bubbles: true })

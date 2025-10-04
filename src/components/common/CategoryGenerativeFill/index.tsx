@@ -45,11 +45,12 @@ const CategoryGenerativeFill: FC<CategoryGenerativeFillProps> = ({
   };
 
   return (
-    <div>
+    <div className="w-full">
       <Button
         type="button"
-        iconRight={isLoading ? IconLoader : IconSparkles}
-        disabled={!categoryName.trim() || isLoading}
+        iconRight={IconSparkles}
+        disabled={!categoryName.trim()}
+        loading={isLoading}
         onClick={handleGenerateFill}
         className="w-full bg-gradient-to-r !from-indigo-500 !via-pink-500 !to-fuchsia-800 !text-pink-200 border-none"
       >

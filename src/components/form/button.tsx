@@ -1,4 +1,4 @@
-import { Icon, IconProps } from "@tabler/icons-react";
+import { Icon, IconLoader, IconProps } from "@tabler/icons-react";
 import classNames from "classnames";
 import {
   ButtonHTMLAttributes,
@@ -23,6 +23,7 @@ export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> &
     iconLeft?: ForwardRefExoticComponent<IconProps & RefAttributes<Icon>>;
     iconRight?: ForwardRefExoticComponent<IconProps & RefAttributes<Icon>>;
     shortcutKey?: string;
+    loading?: boolean;
   };
 
 const Button: FC<ButtonProps> = ({
@@ -35,6 +36,7 @@ const Button: FC<ButtonProps> = ({
   children,
   className,
   shortcutKey,
+  loading = false,
   ...props
 }) => {
   const navigate = useNavigate();
@@ -45,8 +47,8 @@ const Button: FC<ButtonProps> = ({
     {
       "gap-2": !iconLeft && !iconRight,
       "gap-1.5": iconLeft || iconRight,
-      "cursor-pointer": !props.disabled,
-      "cursor-not-allowed opacity-50": props.disabled,
+      "cursor-pointer": !props.disabled && !loading,
+      "cursor-not-allowed opacity-50": props.disabled || loading,
     },
     className,
     {
@@ -165,9 +167,11 @@ const Button: FC<ButtonProps> = ({
         </span>
       )}
 
-      {iconRight &&
-        createElement(iconRight, {
-          className: "flex-shrink-0 flex items-center",
+      {(iconRight || loading) &&
+        createElement(loading ? IconLoader : iconRight!, {
+          className: classNames("flex-shrink-0 flex items-center", {
+            "animate-spin": loading,
+          }),
           size: 20,
         })}
     </>
@@ -178,7 +182,13 @@ const Button: FC<ButtonProps> = ({
       {buttonContent}
     </Link>
   ) : (
-    <button ref={buttonRef} {...props} type={type} className={classes}>
+    <button
+      ref={buttonRef}
+      {...props}
+      type={type}
+      className={classes}
+      disabled={props.disabled || loading}
+    >
       {buttonContent}
     </button>
   );
