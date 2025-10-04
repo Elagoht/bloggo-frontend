@@ -74,7 +74,8 @@ const CategoryCreatePage: FC = () => {
                           '[name="spot"]'
                         ) as HTMLInputElement;
                         if (spotInput) {
-                          spotInput.value = value;
+                          // Truncate to max 75 characters
+                          spotInput.value = value.substring(0, 75);
                           spotInput.dispatchEvent(
                             new Event("input", { bubbles: true })
                           );
@@ -84,7 +85,8 @@ const CategoryCreatePage: FC = () => {
                           '[name="description"]'
                         ) as HTMLTextAreaElement;
                         if (descInput) {
-                          descInput.value = value;
+                          // Truncate to max 500 characters
+                          descInput.value = value.substring(0, 500);
                           descInput.dispatchEvent(
                             new Event("input", { bubbles: true })
                           );

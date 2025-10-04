@@ -350,9 +350,11 @@ const EditVersionPage: FC = () => {
                     if (field === "title") {
                       setCurrentTitle(value);
                     } else if (field === "spot (teaser)") {
-                      setCurrentSpot(value);
+                      // Truncate to max 75 characters
+                      setCurrentSpot(value.substring(0, 75));
                     } else if (field === "meta description") {
-                      setCurrentDescription(value);
+                      // Truncate to max 155 characters
+                      setCurrentDescription(value.substring(0, 155));
                     } else if (field === "suggested category") {
                       // Find the matching category by name
                       const matchingCategory = categories.find(
