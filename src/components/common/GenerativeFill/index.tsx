@@ -50,7 +50,10 @@ const GenerativeFill: FC<GenerativeFillProps> = ({
       if (response.success) {
         setData(response.data);
       } else {
-        const errorMessage = response.error.message;
+        const errorMessage =
+          response.status === 412
+            ? "Gemini API key is not configured. Please contact the administrator."
+            : response.error.message;
         setError(errorMessage);
         toast.error(errorMessage);
       }
