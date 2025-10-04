@@ -62,7 +62,7 @@ const AuditLogListItem: FC<AuditLogListItemProps> = ({ auditLog, users }) => {
       auditLog.entityType === "keyvalue" &&
       auditLog.action === "updated"
     ) {
-      action = "updated system configuration";
+      action = "updated key-values";
     } else {
       action = formatAction(auditLog.action).toLowerCase();
     }
