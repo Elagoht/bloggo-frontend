@@ -35,7 +35,7 @@ const ProfileMenu: FC<ProfileMenuProps> = ({ name = "?" }) => {
       >
         {profile?.avatar ? (
           <img
-            src={import.meta.env.VITE_API_URL + profile.avatar}
+            src={profile.avatar}
             alt="Profile Avatar"
             width={28}
             height={28}

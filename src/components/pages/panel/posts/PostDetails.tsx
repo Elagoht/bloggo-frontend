@@ -12,7 +12,7 @@ const PostDetails: FC<PostDetails> = (post) => {
           height={20}
           alt="Avatar"
           className="rounded-full"
-          src={import.meta.env.VITE_API_URL + post.author.avatar}
+          src={post.author.avatar}
         />
       ) : (
         <span className="size-6 text-smoke-50 rounded-full bg-gopher-500 grid place-items-center text-sm font-semibold">
@@ -47,11 +47,7 @@ const PostDetails: FC<PostDetails> = (post) => {
     <div className="bg-smoke-50 dark:bg-smoke-950 rounded-xl border border-smoke-200 dark:border-smoke-800 flex max-lg:flex-col">
       <figure className="lg:w-56 max-lg:h-32 shrink-0 items-center justify-center flex bg-gradient-to-br from-gopher-400 to-gopher-600 lg:rounded-l-xl max-lg:rounded-t-xl overflow-clip">
         <img
-          src={
-            post.coverImage
-              ? import.meta.env.VITE_API_URL + post.coverImage
-              : "/assets/placeholder.webp"
-          }
+          src={post.coverImage ? post.coverImage : "/assets/placeholder.webp"}
           alt="Post cover"
           className="object-cover w-full h-full"
         />

@@ -226,9 +226,7 @@ const RemovalRequestDetailsPage: FC = () => {
             <div className="w-full md:w-48 md:flex-shrink-0">
               {removalRequest.postCoverUrl ? (
                 <img
-                  src={
-                    import.meta.env.VITE_API_URL + removalRequest.postCoverUrl
-                  }
+                  src={removalRequest.postCoverUrl}
                   alt="Post cover"
                   className="w-full aspect-video object-cover rounded-lg"
                 />
@@ -252,10 +250,7 @@ const RemovalRequestDetailsPage: FC = () => {
                 <div className="flex items-center gap-2">
                   {removalRequest.postWriter.avatar ? (
                     <img
-                      src={
-                        import.meta.env.VITE_API_URL +
-                        removalRequest.postWriter.avatar
-                      }
+                      src={removalRequest.postWriter.avatar}
                       alt="Writer avatar"
                       className="w-5 h-5 rounded-full"
                     />
@@ -284,10 +279,7 @@ const RemovalRequestDetailsPage: FC = () => {
           <div className="flex items-center gap-2 text-sm text-smoke-700 dark:text-smoke-300">
             {removalRequest.requestedBy.avatar ? (
               <img
-                src={
-                  import.meta.env.VITE_API_URL +
-                  removalRequest.requestedBy.avatar
-                }
+                src={removalRequest.requestedBy.avatar}
                 alt="Avatar"
                 className="w-5 h-5 rounded-full"
               />
@@ -323,10 +315,7 @@ const RemovalRequestDetailsPage: FC = () => {
             <div className="flex items-center gap-2 text-sm text-smoke-700 dark:text-smoke-300">
               {removalRequest.decidedBy.avatar ? (
                 <img
-                  src={
-                    import.meta.env.VITE_API_URL +
-                    removalRequest.decidedBy.avatar
-                  }
+                  src={removalRequest.decidedBy.avatar}
                   alt="Avatar"
                   className="w-5 h-5 rounded-full"
                 />

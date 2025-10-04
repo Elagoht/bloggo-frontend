@@ -63,7 +63,7 @@ const PostVersionCard: FC<PostVersionCardProps> = ({
           height={20}
           className="rounded-full"
           alt="Avatar"
-          src={import.meta.env.VITE_API_URL + version.versionAuthor.avatar}
+          src={version.versionAuthor.avatar}
         />
       ) : (
         <span className="size-6 text-smoke-50 rounded-full bg-gopher-500 grid place-items-center text-sm font-semibold">
@@ -126,7 +126,7 @@ const PostVersionCard: FC<PostVersionCardProps> = ({
           <img
             src={
               version.coverImage
-                ? import.meta.env.VITE_API_URL + version.coverImage
+                ? version.coverImage
                 : "/assets/placeholder.webp"
             }
             alt={version.title || "Cover image"}

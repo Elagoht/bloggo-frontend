@@ -104,7 +104,7 @@ const RemovalRequestCard: FC<RemovalRequestCard> = ({
         <div className="flex items-center gap-2 text-sm text-smoke-700 dark:text-smoke-300 mb-2">
           {requestedBy.avatar ? (
             <img
-              src={import.meta.env.VITE_API_URL + requestedBy.avatar}
+              src={requestedBy.avatar}
               alt="Avatar"
               className="w-4 h-4 rounded-full"
             />
@@ -129,7 +129,7 @@ const RemovalRequestCard: FC<RemovalRequestCard> = ({
           <div className="flex items-center gap-2 text-sm text-smoke-700 dark:text-smoke-300 mb-2">
             {decidedBy.avatar ? (
               <img
-                src={import.meta.env.VITE_API_URL + decidedBy.avatar}
+                src={decidedBy.avatar}
                 alt="Avatar"
                 className="w-4 h-4 rounded-full"
               />

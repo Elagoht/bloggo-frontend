@@ -1,6 +1,4 @@
 class ApiCall {
-  private static apiUrl =
-    import.meta.env.VITE_API_URL || "http://localhost:8723";
   private static authToken: string | null = null;
   private static isRefreshing: boolean = false;
   private static refreshPromise: Promise<boolean> | null = null;
@@ -39,7 +37,7 @@ class ApiCall {
 
   private static async performRefresh(): Promise<boolean> {
     try {
-      const refreshRes = await fetch(`${this.apiUrl}${this.formatPath("/session/refresh")}`, {
+      const refreshRes = await fetch(this.formatPath("/session/refresh"), {
         method: "POST",
         credentials: "include",
       });
@@ -80,7 +78,7 @@ class ApiCall {
       headers["Authorization"] = `Bearer ${this.authToken}`;
     }
 
-    const res = await fetch(`${this.apiUrl}${this.formatPath(path)}`, {
+    const res = await fetch(this.formatPath(path), {
       method,
       headers,
       body: finalBody,

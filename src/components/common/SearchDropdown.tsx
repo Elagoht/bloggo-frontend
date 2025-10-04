@@ -141,7 +141,7 @@ const SearchDropdown: FC<SearchDropdownProps> = ({
     if (result.avatarUrl && result.type === "user") {
       return (
         <img
-          src={import.meta.env.VITE_API_URL + result.avatarUrl}
+          src={result.avatarUrl}
           alt={result.title}
           className="w-8 h-8 rounded-full object-cover"
         />
@@ -154,7 +154,7 @@ const SearchDropdown: FC<SearchDropdownProps> = ({
     ) {
       return (
         <img
-          src={import.meta.env.VITE_API_URL + result.coverUrl}
+          src={result.coverUrl}
           alt={result.title}
           className="w-8 h-8 rounded object-cover"
         />

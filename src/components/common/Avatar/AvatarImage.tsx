@@ -1,5 +1,5 @@
-import { FC, useMemo } from "react";
 import classNames from "classnames";
+import { FC } from "react";
 import Text from "../../../utilities/Text";
 
 type AvatarSize = "mini" | "small" | "large";
@@ -15,12 +15,6 @@ const AvatarImage: FC<AvatarImageProps> = ({
   avatar,
 }) => {
   const initials = Text.getInitialLetters(name);
-
-  const avatarSrc = useMemo(() => {
-    if (!avatar) return "";
-    if (avatar.startsWith("data:image")) return avatar;
-    return import.meta.env.VITE_API_URL + avatar;
-  }, [avatar]);
 
   const sizeClasses = {
     mini: {
@@ -47,7 +41,7 @@ const AvatarImage: FC<AvatarImageProps> = ({
 
   return avatar ? (
     <img
-      src={avatarSrc}
+      src={avatar}
       alt={initials}
       width={currentSize.width}
       height={currentSize.height}

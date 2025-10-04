@@ -97,7 +97,7 @@ const ViewVersionPage: FC = () => {
           {/* Cover Image */}
           {version.coverImage && (
             <img
-              src={import.meta.env.VITE_API_URL + version.coverImage}
+              src={version.coverImage}
               alt={version.title}
               className="w-full h-full aspect-video object-cover rounded-lg"
             />
@@ -142,7 +142,7 @@ const ViewVersionPage: FC = () => {
 
           {/* Author */}
           <DetailsItem
-            image={import.meta.env.VITE_API_URL + version.versionAuthor?.avatar}
+            image={version.versionAuthor?.avatar}
             icon={IconUser}
             title="Author"
           >

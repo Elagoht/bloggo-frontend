@@ -25,11 +25,7 @@ const PostCard: FC<PostCard> = ({
 
       <figure className="relative aspect-video w-full bg-smoke-100 dark:bg-smoke-900 overflow-hidden">
         <img
-          src={
-            coverImage
-              ? import.meta.env.VITE_API_URL + coverImage
-              : "/assets/placeholder.webp"
-          }
+          src={coverImage ? coverImage : "/assets/placeholder.webp"}
           alt="Blog post cover"
           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 ease-out"
         />
@@ -53,13 +49,11 @@ const PostCard: FC<PostCard> = ({
         </div>
 
         {/* Category - Bottom Left */}
-        {category.name && (
-          category.deletedAt ? (
+        {category.name &&
+          (category.deletedAt ? (
             <div className="absolute bottom-1 left-1 flex items-center gap-1.5 pr-2.5 p-1.5 rounded-full rounded-bl-none text-xs font-medium bg-black/30 text-white/60 backdrop-blur-md shadow-lg">
               <IconCategory size={16} />
-              <span className="line-through">
-                {category.name} (deleted)
-              </span>
+              <span className="line-through">{category.name} (deleted)</span>
             </div>
           ) : (
             <button
@@ -74,8 +68,7 @@ const PostCard: FC<PostCard> = ({
               <IconCategory size={16} />
               <span>{category.name}</span>
             </button>
-          )
-        )}
+          ))}
       </figure>
 
       <div className="relative flex flex-col p-3 gap-3 flex-1">
@@ -102,7 +95,7 @@ const PostCard: FC<PostCard> = ({
           >
             {author.avatar ? (
               <img
-                src={import.meta.env.VITE_API_URL + author.avatar}
+                src={author.avatar}
                 alt={author.name}
                 className="w-5 h-5 rounded-full object-cover border border-smoke-200 dark:border-smoke-700"
               />

@@ -4,7 +4,7 @@ import {
   IconShield,
   IconUser,
 } from "@tabler/icons-react";
-import { FC, useMemo } from "react";
+import { FC } from "react";
 import { Link } from "react-router-dom";
 
 type UserCardProps = {
@@ -26,12 +26,6 @@ const UserCard: FC<UserCardProps> = ({
   writtenPostCount,
   publishedPostCount,
 }) => {
-  const avatarSrc = useMemo(() => {
-    if (!avatar) return "";
-    if (avatar.startsWith("data:image")) return avatar;
-    if (avatar.startsWith("/")) return import.meta.env.VITE_API_URL + avatar;
-    return import.meta.env.VITE_API_URL + avatar;
-  }, [avatar]);
   return (
     <Link
       to={`/users/details/${id}`}
@@ -42,7 +36,7 @@ const UserCard: FC<UserCardProps> = ({
           <figure className="relative flex-shrink-0">
             {avatar ? (
               <img
-                src={avatarSrc}
+                src={avatar}
                 alt={name}
                 className="w-10 h-10 rounded-lg object-cover border border-smoke-200 dark:border-smoke-700"
               />
