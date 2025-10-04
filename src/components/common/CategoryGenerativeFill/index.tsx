@@ -1,5 +1,6 @@
-import { IconLoader, IconSparkles } from "@tabler/icons-react";
+import { IconSparkles } from "@tabler/icons-react";
 import { FC, useState } from "react";
+import toast from "react-hot-toast";
 import { getCategoryGenerativeFill } from "../../../services/categories";
 import Button from "../../form/Button";
 import CopyBox from "../CopyBox";
@@ -29,10 +30,14 @@ const CategoryGenerativeFill: FC<CategoryGenerativeFillProps> = ({
       if (response.success) {
         setData(response.data);
       } else {
-        setError(response.error.message);
+        const errorMessage = response.error.message;
+        setError(errorMessage);
+        toast.error(errorMessage);
       }
     } catch {
-      setError("Failed to generate content suggestions");
+      const errorMessage = "Failed to generate content suggestions";
+      setError(errorMessage);
+      toast.error(errorMessage);
     } finally {
       setIsLoading(false);
     }

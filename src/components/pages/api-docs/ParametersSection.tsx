@@ -1,8 +1,7 @@
 import { FC } from "react";
-import { Parameter } from "../types";
 
 interface ParametersSectionProps {
-  parameters: Parameter[];
+  parameters: APIParameter[];
 }
 
 export const ParametersSection: FC<ParametersSectionProps> = ({

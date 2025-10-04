@@ -39,10 +39,12 @@ const RemovalRequests = lazy(
 const RemovalRequestDetails = lazy(
   () => import("../app/panel/removal-requests/details/[id]/page")
 );
-const APIDocs = lazy(() => import("../app/panel/api-docs"));
+const APIDocs = lazy(() => import("../app/panel/api-docs/page"));
 const KeyValue = lazy(() => import("../app/panel/key-value/page"));
 const Webhook = lazy(() => import("../app/panel/webhook/page"));
-const WebhookRequests = lazy(() => import("../app/panel/webhook/requests/page"));
+const WebhookRequests = lazy(
+  () => import("../app/panel/webhook/requests/page")
+);
 const WebhookRequestDetails = lazy(
   () => import("../app/panel/webhook/requests/[id]/page")
 );

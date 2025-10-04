@@ -3,13 +3,12 @@ import { FC, useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import Button from "../../../components/form/Button";
 import ButtonGroup from "../../../components/form/ButtonGroup";
-import PermissionGuard from "../../../components/guards/PermissionGuard";
+import PermissionGuard from "../../../components/Guards/PermissionGuard";
 import Container from "../../../components/layout/Container";
 import FormCard from "../../../components/layout/Container/FormCard";
 import PageTitleWithIcon from "../../../components/layout/Container/PageTitle";
 import SectionHeader from "../../../components/layout/SectionHeader";
-import { EndpointCard } from "./components/EndpointCard";
-import { APIDocumentation } from "./types";
+import { EndpointCard } from "../../../components/pages/api-docs/EndpointCard";
 
 const APIDocsPage: FC = () => {
   const [apiDocs, setApiDocs] = useState<APIDocumentation | null>(null);

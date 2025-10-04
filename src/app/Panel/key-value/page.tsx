@@ -2,7 +2,7 @@ import { IconKey, IconTrash } from "@tabler/icons-react";
 import { FC, useState, useMemo, useCallback, useEffect } from "react";
 import toast from "react-hot-toast";
 import Button from "../../../components/form/Button";
-import RouteGuard from "../../../components/guards/RouteGuard";
+import RouteGuard from "../../../components/Guards/RouteGuard";
 import Container from "../../../components/layout/Container";
 import PageTitleWithIcon from "../../../components/layout/Container/PageTitle";
 import {
@@ -34,14 +34,16 @@ const KeyValuePage: FC = () => {
       try {
         const response = await getKeyValues();
         if (response.success && response.data) {
-          const loadedRows: KeyValueRow[] = response.data.map((kv: KeyValue) => ({
-            id: crypto.randomUUID(),
-            key: kv.key,
-            value: kv.value,
-            status: "saved" as const,
-            originalKey: kv.key,
-            originalValue: kv.value,
-          }));
+          const loadedRows: KeyValueRow[] = response.data.map(
+            (kv: KeyValue) => ({
+              id: crypto.randomUUID(),
+              key: kv.key,
+              value: kv.value,
+              status: "saved" as const,
+              originalKey: kv.key,
+              originalValue: kv.value,
+            })
+          );
           // Add an empty row at the end
           loadedRows.push({
             id: crypto.randomUUID(),
@@ -74,101 +76,99 @@ const KeyValuePage: FC = () => {
     );
   }, [rows]);
 
-  const handleKeyChange = useCallback(
-    (id: string, newKey: string) => {
-      setRows((prevRows) => {
-        const newRows = prevRows.map((row) => {
-          if (row.id !== id) return row;
+  const handleKeyChange = useCallback((id: string, newKey: string) => {
+    setRows((prevRows) => {
+      const newRows = prevRows.map((row) => {
+        if (row.id !== id) return row;
 
-          // Determine status based on whether values match originals
-          let newStatus = row.status;
-          if (row.originalKey !== undefined && row.originalValue !== undefined) {
-            // This was a saved row, check if it matches original
-            if (newKey === row.originalKey && row.value === row.originalValue) {
-              newStatus = "saved";
-            } else {
-              newStatus = "edited";
-            }
+        // Determine status based on whether values match originals
+        let newStatus = row.status;
+        if (row.originalKey !== undefined && row.originalValue !== undefined) {
+          // This was a saved row, check if it matches original
+          if (newKey === row.originalKey && row.value === row.originalValue) {
+            newStatus = "saved";
+          } else {
+            newStatus = "edited";
           }
-
-          return {
-            ...row,
-            key: newKey,
-            status: newStatus,
-          };
-        });
-
-        // Auto-create new row if this is the last row and now has a key or value
-        const lastRow = newRows[newRows.length - 1];
-        if (
-          lastRow.id === id &&
-          (newKey.trim() || lastRow.value.trim()) &&
-          lastRow.status === "new"
-        ) {
-          newRows.push({
-            id: crypto.randomUUID(),
-            key: "",
-            value: "",
-            status: "new",
-          });
         }
 
-        return newRows;
+        return {
+          ...row,
+          key: newKey,
+          status: newStatus,
+        };
       });
-    },
-    []
-  );
 
-  const handleValueChange = useCallback(
-    (id: string, newValue: string) => {
-      setRows((prevRows) => {
-        const newRows = prevRows.map((row) => {
-          if (row.id !== id) return row;
-
-          // Determine status based on whether values match originals
-          let newStatus = row.status;
-          if (row.originalKey !== undefined && row.originalValue !== undefined) {
-            // This was a saved row, check if it matches original
-            if (row.key === row.originalKey && newValue === row.originalValue) {
-              newStatus = "saved";
-            } else {
-              newStatus = "edited";
-            }
-          }
-
-          return {
-            ...row,
-            value: newValue,
-            status: newStatus,
-          };
+      // Auto-create new row if this is the last row and now has a key or value
+      const lastRow = newRows[newRows.length - 1];
+      if (
+        lastRow.id === id &&
+        (newKey.trim() || lastRow.value.trim()) &&
+        lastRow.status === "new"
+      ) {
+        newRows.push({
+          id: crypto.randomUUID(),
+          key: "",
+          value: "",
+          status: "new",
         });
+      }
 
-        // Auto-create new row if this is the last row and now has a key or value
-        const lastRow = newRows[newRows.length - 1];
-        if (
-          lastRow.id === id &&
-          (newValue.trim() || lastRow.key.trim()) &&
-          lastRow.status === "new"
-        ) {
-          newRows.push({
-            id: crypto.randomUUID(),
-            key: "",
-            value: "",
-            status: "new",
-          });
+      return newRows;
+    });
+  }, []);
+
+  const handleValueChange = useCallback((id: string, newValue: string) => {
+    setRows((prevRows) => {
+      const newRows = prevRows.map((row) => {
+        if (row.id !== id) return row;
+
+        // Determine status based on whether values match originals
+        let newStatus = row.status;
+        if (row.originalKey !== undefined && row.originalValue !== undefined) {
+          // This was a saved row, check if it matches original
+          if (row.key === row.originalKey && newValue === row.originalValue) {
+            newStatus = "saved";
+          } else {
+            newStatus = "edited";
+          }
         }
 
-        return newRows;
+        return {
+          ...row,
+          value: newValue,
+          status: newStatus,
+        };
       });
-    },
-    []
-  );
+
+      // Auto-create new row if this is the last row and now has a key or value
+      const lastRow = newRows[newRows.length - 1];
+      if (
+        lastRow.id === id &&
+        (newValue.trim() || lastRow.key.trim()) &&
+        lastRow.status === "new"
+      ) {
+        newRows.push({
+          id: crypto.randomUUID(),
+          key: "",
+          value: "",
+          status: "new",
+        });
+      }
+
+      return newRows;
+    });
+  }, []);
 
   const handleRemove = useCallback((id: string) => {
     setRows((prevRows) => {
       const filtered = prevRows.filter((row) => row.id !== id);
       // Ensure there's always at least one empty row at the end
-      if (filtered.length === 0 || filtered[filtered.length - 1].key.trim() || filtered[filtered.length - 1].value.trim()) {
+      if (
+        filtered.length === 0 ||
+        filtered[filtered.length - 1].key.trim() ||
+        filtered[filtered.length - 1].value.trim()
+      ) {
         filtered.push({
           id: crypto.randomUUID(),
           key: "",
@@ -190,7 +190,9 @@ const KeyValuePage: FC = () => {
     const keys = itemsToSave.map((item) => item.key);
     const uniqueKeys = new Set(keys);
     if (keys.length !== uniqueKeys.size) {
-      toast.error("Cannot save: Duplicate keys detected. Please remove duplicates.");
+      toast.error(
+        "Cannot save: Duplicate keys detected. Please remove duplicates."
+      );
       return;
     }
 
@@ -209,11 +211,15 @@ const KeyValuePage: FC = () => {
               originalKey: item.key,
               originalValue: item.value,
             }))
-            .concat([{ id: crypto.randomUUID(), key: "", value: "", status: "new" }])
+            .concat([
+              { id: crypto.randomUUID(), key: "", value: "", status: "new" },
+            ])
         );
         toast.success("Key-value pairs saved successfully!");
       } else {
-        toast.error(response.error?.message || "Failed to save key-value pairs.");
+        toast.error(
+          response.error?.message || "Failed to save key-value pairs."
+        );
       }
     } catch (error) {
       console.error("Failed to save key-values:", error);
@@ -301,7 +307,8 @@ const KeyValuePage: FC = () => {
               {/* Key Input */}
               <div
                 className={`rounded-md border px-3 py-2 transition-all hover:shadow-sm focus-within:ring-1 focus-within:ring-gopher-500 ${
-                  getCellClassName(row) || "border-gray-300 dark:border-gray-600 bg-white dark:bg-smoke-900 hover:border-gray-400 dark:hover:border-gray-500 focus-within:border-gopher-500"
+                  getCellClassName(row) ||
+                  "border-gray-300 dark:border-gray-600 bg-white dark:bg-smoke-900 hover:border-gray-400 dark:hover:border-gray-500 focus-within:border-gopher-500"
                 }`}
               >
                 <input
@@ -316,7 +323,8 @@ const KeyValuePage: FC = () => {
               {/* Value Input */}
               <div
                 className={`rounded-md border px-3 py-2 transition-all hover:shadow-sm focus-within:ring-1 focus-within:ring-gopher-500 ${
-                  getCellClassName(row) || "border-gray-300 dark:border-gray-600 bg-white dark:bg-smoke-900 hover:border-gray-400 dark:hover:border-gray-500 focus-within:border-gopher-500"
+                  getCellClassName(row) ||
+                  "border-gray-300 dark:border-gray-600 bg-white dark:bg-smoke-900 hover:border-gray-400 dark:hover:border-gray-500 focus-within:border-gopher-500"
                 }`}
               >
                 <input

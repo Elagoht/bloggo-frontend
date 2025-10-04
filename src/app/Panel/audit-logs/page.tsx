@@ -2,7 +2,7 @@ import { IconFilter, IconHistory } from "@tabler/icons-react";
 import { FC, useCallback, useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import NoDataRecorded from "../../../components/common/NoDataRecorded";
-import RouteGuard from "../../../components/guards/RouteGuard";
+import RouteGuard from "../../../components/Guards/RouteGuard";
 import Container from "../../../components/layout/Container";
 import ContentWithSidebar from "../../../components/layout/Container/ContentWithSidebar";
 import PageTitleWithIcon from "../../../components/layout/Container/PageTitle";
@@ -82,7 +82,6 @@ const AuditLogsPage: FC = () => {
     }
   }, []);
 
-
   useEffect(() => {
     fetchAllUsers();
   }, [fetchAllUsers]);
@@ -123,9 +122,7 @@ const AuditLogsPage: FC = () => {
 
         <Sidebar topMargin>
           <SectionHeader icon={IconFilter}>Filters</SectionHeader>
-          <AuditLogFiltersForm
-            users={users}
-          />
+          <AuditLogFiltersForm users={users} />
         </Sidebar>
       </ContentWithSidebar>
     </RouteGuard>

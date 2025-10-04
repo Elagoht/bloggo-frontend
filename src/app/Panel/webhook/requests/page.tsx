@@ -11,7 +11,7 @@ import classNames from "classnames";
 import { FC, useCallback, useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import NoDataRecorded from "../../../../components/common/NoDataRecorded";
-import RouteGuard from "../../../../components/guards/RouteGuard";
+import RouteGuard from "../../../../components/Guards/RouteGuard";
 import Container from "../../../../components/layout/Container";
 import PageTitleWithIcon from "../../../../components/layout/Container/PageTitle";
 import Pagination from "../../../../components/layout/Container/Pagination";
@@ -161,7 +161,15 @@ const WebhookRequestsPage: FC = () => {
                 <table className="w-full">
                   <thead className="bg-smoke-50 dark:bg-smoke-900 border-b border-smoke-200 dark:border-smoke-800">
                     <tr>
-                      {["ID", "Event", "Entity", "Status", "Attempts", "Created", "Actions"].map((header) => (
+                      {[
+                        "ID",
+                        "Event",
+                        "Entity",
+                        "Status",
+                        "Attempts",
+                        "Created",
+                        "Actions",
+                      ].map((header) => (
                         <th
                           key={header}
                           className="px-4 py-3 text-left text-xs font-semibold text-smoke-600 dark:text-smoke-400 uppercase tracking-wide"

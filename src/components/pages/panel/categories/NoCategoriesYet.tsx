@@ -1,7 +1,7 @@
 import { IconCategory, IconPlus } from "@tabler/icons-react";
 import { FC } from "react";
 import Button from "../../../form/Button";
-import PermissionGuard from "../../../guards/PermissionGuard";
+import PermissionGuard from "../../../Guards/PermissionGuard";
 
 const NoCategoriesYet: FC = () => {
   return (

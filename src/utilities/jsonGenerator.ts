@@ -1,12 +1,10 @@
-import { Schema, SchemaProperty } from "../types";
-
-export function generateJsonExample(schema: Schema): any {
+export function generateJsonExample(schema: APISchema): unknown {
   if (schema.example !== undefined) {
     return schema.example;
   }
 
   if (schema.type === "object" && schema.properties) {
-    const result: any = {};
+    const result: Record<PropertyKey, unknown> = {};
     Object.entries(schema.properties).forEach(([key, prop]) => {
       result[key] = generatePropertyExample(prop);
     });
@@ -20,13 +18,13 @@ export function generateJsonExample(schema: Schema): any {
   return getDefaultValue(schema.type);
 }
 
-function generatePropertyExample(prop: SchemaProperty): any {
+function generatePropertyExample(prop: APISchemaProperty): unknown {
   if (prop.example !== undefined) {
     return prop.example;
   }
 
   if (prop.type === "object" && prop.properties) {
-    const result: any = {};
+    const result: Record<PropertyKey, unknown> = {};
     Object.entries(prop.properties).forEach(([key, nestedProp]) => {
       result[key] = generatePropertyExample(nestedProp);
     });
@@ -35,7 +33,7 @@ function generatePropertyExample(prop: SchemaProperty): any {
 
   if (prop.type === "array" && prop.items) {
     if (prop.items.properties) {
-      const itemResult: any = {};
+      const itemResult: Record<PropertyKey, unknown> = {};
       Object.entries(prop.items.properties).forEach(([key, itemProp]) => {
         itemResult[key] = generatePropertyExample(itemProp);
       });
@@ -51,7 +49,7 @@ function generatePropertyExample(prop: SchemaProperty): any {
   return getDefaultValue(prop.type, prop.format);
 }
 
-function getDefaultValue(type: string, format?: string): any {
+function getDefaultValue(type: string, format?: string): unknown {
   switch (type) {
     case "string":
       if (format === "date-time") {

@@ -7,14 +7,14 @@ import {
 } from "@tabler/icons-react";
 import classNames from "classnames";
 import { FC, useState } from "react";
+import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
+import { createVersionFromSpecificVersion } from "../../../../services/posts";
 import { useProfileStore } from "../../../../stores/profile";
 import { PostStatus } from "../../../../utilities/PostStatusUtils";
-import Button from "../../../form/Button";
-import PermissionGuard from "../../../guards/PermissionGuard";
-import { createVersionFromSpecificVersion } from "../../../../services/posts";
-import toast from "react-hot-toast";
 import Dialog from "../../../common/Dialog";
+import Button from "../../../form/Button";
+import PermissionGuard from "../../../Guards/PermissionGuard";
 
 type PostVersionCardProps = {
   version: PostVersionCard;

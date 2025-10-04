@@ -6,7 +6,7 @@ type AuditLog = {
   entityId: number;
   entityName?: string | null;
   action: string;
-  metadata?: Record<string, any> | null;
+  metadata?: Record<string, unknown> | null;
   createdAt: string;
 };
 
@@ -28,10 +28,34 @@ type AuditLogFilters = {
 
 // Action constants for filtering
 type AuditActionType =
-  | "created" | "updated" | "deleted" | "login" | "logout"
-  | "submitted" | "approved" | "rejected" | "published" | "unpublished"
-  | "assigned" | "removed" | "requested" | "denied" | "added"
-  | "duplicated_from" | "replaced_published"
-  | "config_updated" | "headers_updated" | "manual_fire";
+  | "created"
+  | "updated"
+  | "deleted"
+  | "login"
+  | "logout"
+  | "submitted"
+  | "approved"
+  | "rejected"
+  | "published"
+  | "unpublished"
+  | "assigned"
+  | "removed"
+  | "requested"
+  | "denied"
+  | "added"
+  | "duplicated_from"
+  | "replaced_published"
+  | "config_updated"
+  | "headers_updated"
+  | "manual_fire";
 
-type AuditEntityType = "user" | "post" | "post_version" | "category" | "tag" | "removal_request" | "auth" | "webhook" | "keyvalue";
+type AuditEntityType =
+  | "user"
+  | "post"
+  | "post_version"
+  | "category"
+  | "tag"
+  | "removal_request"
+  | "auth"
+  | "webhook"
+  | "keyvalue";

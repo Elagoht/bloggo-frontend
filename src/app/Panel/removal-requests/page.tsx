@@ -1,7 +1,7 @@
 import { IconFilter, IconTrash } from "@tabler/icons-react";
 import { FC, useCallback, useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import RouteGuard from "../../../components/guards/RouteGuard";
+import RouteGuard from "../../../components/Guards/RouteGuard";
 import Container from "../../../components/layout/Container";
 import CardGrid from "../../../components/layout/Container/CardGrid";
 import ContentWithSidebar from "../../../components/layout/Container/ContentWithSidebar";
@@ -32,24 +32,29 @@ const RemovalRequestsPage: FC = () => {
       dir: (searchParams.get("dir") as "asc" | "desc") || "desc",
       page: parseInt(searchParams.get("page") || "1"),
       take: parseInt(searchParams.get("take") || "12"),
-      status: searchParams.get("status") ? parseInt(searchParams.get("status")!) : undefined,
+      status: searchParams.get("status")
+        ? parseInt(searchParams.get("status")!)
+        : undefined,
     }),
     [searchParams]
   );
 
-  const fetchRemovalRequests = useCallback(async (filters: typeof searchFilters) => {
-    try {
-      setLoading(true);
-      setError(null);
-      const result = await getRemovalRequests(filters);
-      setRemovalRequestsResponse(result.success ? result.data : undefined);
-    } catch (err) {
-      console.error("Error fetching removal requests:", err);
-      setError(err as Error);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+  const fetchRemovalRequests = useCallback(
+    async (filters: typeof searchFilters) => {
+      try {
+        setLoading(true);
+        setError(null);
+        const result = await getRemovalRequests(filters);
+        setRemovalRequestsResponse(result.success ? result.data : undefined);
+      } catch (err) {
+        console.error("Error fetching removal requests:", err);
+        setError(err as Error);
+      } finally {
+        setLoading(false);
+      }
+    },
+    []
+  );
 
   useEffect(() => {
     fetchRemovalRequests(searchFilters);
@@ -90,7 +95,9 @@ const RemovalRequestsPage: FC = () => {
                 )}
               </CardGrid>
 
-              {Math.ceil(removalRequestsResponse.total / removalRequestsResponse.take) > 1 && (
+              {Math.ceil(
+                removalRequestsResponse.total / removalRequestsResponse.take
+              ) > 1 && (
                 <Pagination
                   totalItems={removalRequestsResponse.total}
                   itemsPerPage={removalRequestsResponse.take}

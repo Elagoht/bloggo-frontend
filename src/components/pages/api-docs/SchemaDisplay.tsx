@@ -1,8 +1,7 @@
 import { FC } from "react";
-import { Schema, SchemaProperty } from "../types";
 
 interface SchemaDisplayProps {
-  schema: Schema;
+  schema: APISchema;
   level?: number;
 }
 
@@ -12,7 +11,7 @@ export const SchemaDisplay: FC<SchemaDisplayProps> = ({
 }) => {
   const renderProperty = (
     key: string,
-    prop: SchemaProperty,
+    prop: APISchemaProperty,
     currentLevel: number
   ) => {
     const indent = currentLevel;

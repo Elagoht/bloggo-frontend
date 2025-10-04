@@ -132,7 +132,7 @@ const EditVersionPage: FC = () => {
 
         // Load version data
         await loadVersion();
-      } catch (error) {
+      } catch {
         alert("Failed to load version data");
         navigate("/posts");
       } finally {

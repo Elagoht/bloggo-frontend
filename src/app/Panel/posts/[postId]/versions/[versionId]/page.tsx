@@ -6,6 +6,7 @@ import {
   IconUser,
   IconVersions,
 } from "@tabler/icons-react";
+import classNames from "classnames";
 import { marked } from "marked";
 import { FC, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
@@ -13,8 +14,8 @@ import ActivityDates from "../../../../../../components/common/ActivityDates";
 import DetailsItem from "../../../../../../components/common/DetailsItem";
 import ReviewNote from "../../../../../../components/common/ReviewNote";
 import TagChip from "../../../../../../components/common/TagChip";
-import PermissionGuard from "../../../../../../components/guards/PermissionGuard";
-import RouteGuard from "../../../../../../components/guards/RouteGuard";
+import PermissionGuard from "../../../../../../components/Guards/PermissionGuard";
+import RouteGuard from "../../../../../../components/Guards/RouteGuard";
 import Container from "../../../../../../components/layout/Container";
 import ContentWithSidebar from "../../../../../../components/layout/Container/ContentWithSidebar";
 import PageTitleWithIcon from "../../../../../../components/layout/Container/PageTitle";
@@ -27,7 +28,6 @@ import {
   getPostVersions,
 } from "../../../../../../services/posts";
 import { PostStatus } from "../../../../../../utilities/PostStatusUtils";
-import classNames from "classnames";
 
 const ViewVersionPage: FC = () => {
   const { postId, versionId } = useParams<{
@@ -56,7 +56,7 @@ const ViewVersionPage: FC = () => {
           setIsLastVersion(versionsResponse.data.versions.length === 1);
         }
       }
-    } catch (error) {
+    } catch {
       // Handle error silently
     } finally {
       setIsLoading(false);

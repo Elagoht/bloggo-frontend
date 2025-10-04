@@ -10,7 +10,7 @@ import {
 import classNames from "classnames";
 import { FC, useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import RouteGuard from "../../../../../components/guards/RouteGuard";
+import RouteGuard from "../../../../../components/Guards/RouteGuard";
 import Container from "../../../../../components/layout/Container";
 import PageTitleWithIcon from "../../../../../components/layout/Container/PageTitle";
 import SectionHeader from "../../../../../components/layout/SectionHeader";
@@ -179,7 +179,8 @@ const WebhookRequestDetailsPage: FC = () => {
                   "text-red-600 dark:text-red-400": request.attemptCount > 3,
                 })}
               >
-                {request.attemptCount} attempt{request.attemptCount !== 1 ? "s" : ""}
+                {request.attemptCount} attempt
+                {request.attemptCount !== 1 ? "s" : ""}
               </div>
             </div>
 

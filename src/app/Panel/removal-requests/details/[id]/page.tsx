@@ -12,7 +12,7 @@ import { FC, useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Dialog from "../../../../../components/common/Dialog";
 import HoldButton from "../../../../../components/form/HoldButton";
-import RouteGuard from "../../../../../components/guards/RouteGuard";
+import RouteGuard from "../../../../../components/Guards/RouteGuard";
 import Container from "../../../../../components/layout/Container";
 import PageTitleWithIcon from "../../../../../components/layout/Container/PageTitle";
 import SectionHeader from "../../../../../components/layout/SectionHeader";

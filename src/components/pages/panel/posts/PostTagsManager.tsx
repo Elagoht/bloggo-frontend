@@ -9,7 +9,7 @@ import { FC, useState } from "react";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 import Button from "../../../form/Button";
-import PermissionGuard from "../../../guards/PermissionGuard";
+import PermissionGuard from "../../../Guards/PermissionGuard";
 import SectionHeader from "../../../layout/SectionHeader";
 import TagChip from "../../../common/TagChip";
 import ButtonGroup from "../../../form/ButtonGroup";
@@ -37,7 +37,7 @@ const PostTagsManager: FC<PostTagsManagerProps> = ({ post, onTagsUpdated }) => {
       if (response.success) {
         setAllTags(response.data.data);
       }
-    } catch (error) {
+    } catch {
       // Handle error silently
     } finally {
       setIsLoadingTags(false);
@@ -64,7 +64,7 @@ const PostTagsManager: FC<PostTagsManagerProps> = ({ post, onTagsUpdated }) => {
       } else {
         toast.error("Failed to update tags");
       }
-    } catch (error) {
+    } catch {
       toast.error("Failed to update tags");
     } finally {
       setIsSavingTags(false);

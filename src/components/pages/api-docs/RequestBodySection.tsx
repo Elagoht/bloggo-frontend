@@ -1,12 +1,11 @@
 import { IconCode, IconSchema } from "@tabler/icons-react";
 import { FC, useState } from "react";
-import Button from "../../../../components/form/Button";
-import { RequestBody } from "../types";
-import { generateJsonExample } from "../utils/jsonGenerator";
+import { generateJsonExample } from "../../../utilities/jsonGenerator";
+import Button from "../../form/Button";
 import { SchemaDisplay } from "./SchemaDisplay";
 
 interface RequestBodySectionProps {
-  requestBody: RequestBody;
+  requestBody: APIRequestBody;
 }
 
 export const RequestBodySection: FC<RequestBodySectionProps> = ({

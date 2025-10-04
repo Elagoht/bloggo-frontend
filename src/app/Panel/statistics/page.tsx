@@ -1,6 +1,6 @@
 import { IconChartBar, IconUsers } from "@tabler/icons-react";
 import { FC, useEffect, useState } from "react";
-import RouteGuard from "../../../components/guards/RouteGuard";
+import RouteGuard from "../../../components/Guards/RouteGuard";
 import Container from "../../../components/layout/Container";
 import PageTitleWithIcon from "../../../components/layout/Container/PageTitle";
 import StatisticsDisplay from "../../../components/pages/Statistics/StatisticsDisplay";
@@ -129,7 +129,7 @@ const StatisticsPage: FC = () => {
         setUsers(result.data);
         setUsersFetched(true);
       }
-    } catch (err) {
+    } catch {
       // Handle error silently
     } finally {
       setLoadingUsers(false);

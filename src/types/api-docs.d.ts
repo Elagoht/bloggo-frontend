@@ -1,4 +1,4 @@
-export interface APIDocumentation {
+type APIDocumentation = {
   info: {
     title: string;
     version: string;
@@ -10,59 +10,59 @@ export interface APIDocumentation {
     header: string;
     description: string;
   };
-  endpoints: Endpoint[];
-}
+  endpoints: APIEndpoint[];
+};
 
-export interface Endpoint {
+type APIEndpoint = {
   path: string;
   method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
   tag: string;
   summary: string;
   description: string;
-  parameters?: Parameter[];
-  requestBody?: RequestBody;
-  responses: Record<string, Response>;
-}
+  parameters?: APIParameter[];
+  requestBody?: APIRequestBody;
+  responses: Record<string, APIResponse>;
+};
 
-export interface Parameter {
+type APIParameter = {
   name: string;
   in: "query" | "path" | "header";
   type: string;
   required: boolean;
   default?: unknown;
   description: string;
-}
+};
 
-export interface RequestBody {
+type APIRequestBody = {
   required: boolean;
-  schema: Schema;
-}
+  schema: APISchema;
+};
 
-export interface Response {
+type APIResponse = {
   description: string;
-  schema?: Schema;
-}
+  schema?: APISchema;
+};
 
-export interface Schema {
+type APISchema = {
   type: string;
-  properties?: Record<string, SchemaProperty>;
-  items?: Schema;
+  properties?: Record<string, APISchemaProperty>;
+  items?: APISchema;
   required?: boolean;
   nullable?: boolean;
   example?: unknown;
   maxLength?: number;
   format?: string;
   description?: string;
-}
+};
 
-export interface SchemaProperty {
+type APISchemaProperty = {
   type: string;
   nullable?: boolean;
   example?: unknown;
-  items?: Schema;
-  properties?: Record<string, SchemaProperty>;
+  items?: APISchema;
+  properties?: Record<string, APISchemaProperty>;
   required?: boolean;
   maxLength?: number;
   format?: string;
   description?: string;
-}
+};

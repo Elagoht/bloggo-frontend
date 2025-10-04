@@ -3,7 +3,7 @@ import { FC, useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import RemovalRequestDialog from "../../../../../components/common/RemovalRequestDialog";
 import Button from "../../../../../components/form/Button";
-import RouteGuard from "../../../../../components/guards/RouteGuard";
+import RouteGuard from "../../../../../components/Guards/RouteGuard";
 import Container from "../../../../../components/layout/Container";
 import CardGrid from "../../../../../components/layout/Container/CardGrid";
 import PageTitleWithIcon from "../../../../../components/layout/Container/PageTitle";

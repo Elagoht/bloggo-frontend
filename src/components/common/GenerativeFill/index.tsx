@@ -1,5 +1,6 @@
-import { IconArrowRight, IconLoader, IconSparkles } from "@tabler/icons-react";
+import { IconArrowRight, IconSparkles } from "@tabler/icons-react";
 import { FC, useState } from "react";
+import toast from "react-hot-toast";
 import { getGenerativeFill } from "../../../services/posts";
 import Button from "../../form/Button";
 import CopyBox from "../CopyBox";
@@ -49,10 +50,14 @@ const GenerativeFill: FC<GenerativeFillProps> = ({
       if (response.success) {
         setData(response.data);
       } else {
-        setError(response.error.message);
+        const errorMessage = response.error.message;
+        setError(errorMessage);
+        toast.error(errorMessage);
       }
     } catch {
-      setError("Failed to generate content suggestions");
+      const errorMessage = "Failed to generate content suggestions";
+      setError(errorMessage);
+      toast.error(errorMessage);
     } finally {
       setIsLoading(false);
     }
@@ -73,7 +78,11 @@ const GenerativeFill: FC<GenerativeFillProps> = ({
         loading={isLoading}
         onClick={handleGenerateFill}
         className="w-full bg-gradient-to-r !from-indigo-500 !via-pink-500 !to-fuchsia-800 !text-pink-200 border-none"
-        title={disabled ? "Save your changes first to generate AI suggestions" : undefined}
+        title={
+          disabled
+            ? "Save your changes first to generate AI suggestions"
+            : undefined
+        }
       >
         {isLoading ? "Generating..." : "Generate AI Suggestions"}
       </Button>
@@ -82,8 +91,7 @@ const GenerativeFill: FC<GenerativeFillProps> = ({
         <small className="text-xs text-smoke-600 text-center block mt-2">
           {disabled
             ? "Save your changes first. AI suggestions are generated from the saved version of your content."
-            : "Content must be at least 1000 characters to use AI generation. AI suggestions are generated from the saved version of your content."
-          }
+            : "Content must be at least 1000 characters to use AI generation. AI suggestions are generated from the saved version of your content."}
         </small>
       )}
 
@@ -130,7 +138,9 @@ const GenerativeFill: FC<GenerativeFillProps> = ({
                   </small>
                   <button
                     type="button"
-                    onClick={() => handleCopy("suggested category", data.suggestedCategory)}
+                    onClick={() =>
+                      handleCopy("suggested category", data.suggestedCategory)
+                    }
                     className="p-1 hover:bg-smoke-100 rounded transition-colors"
                   >
                     <IconArrowRight className="h-4 w-4 text-smoke-500" />

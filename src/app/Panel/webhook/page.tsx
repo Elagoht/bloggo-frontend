@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import Button from "../../../components/form/Button";
 import Input from "../../../components/form/Input";
-import RouteGuard from "../../../components/guards/RouteGuard";
+import RouteGuard from "../../../components/Guards/RouteGuard";
 import Container from "../../../components/layout/Container";
 import PageTitleWithIcon from "../../../components/layout/Container/PageTitle";
 import FormCard from "../../../components/layout/Container/FormCard";

@@ -1,14 +1,13 @@
 import { IconChevronUp } from "@tabler/icons-react";
 import classNames from "classnames";
 import { FC, useState } from "react";
-import Container from "../../../../components/layout/Container";
-import { Endpoint } from "../types";
+import Container from "../../layout/Container";
 import { ParametersSection } from "./ParametersSection";
 import { RequestBodySection } from "./RequestBodySection";
 import { ResponsesSection } from "./ResponsesSection";
 
 interface EndpointCardProps {
-  endpoint: Endpoint;
+  endpoint: APIEndpoint;
   baseUrl: string;
 }
 
