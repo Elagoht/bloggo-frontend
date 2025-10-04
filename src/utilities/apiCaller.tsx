@@ -9,6 +9,16 @@ class ApiCall {
     this.authToken = token;
   }
 
+  // Add /internal prefix to non-API paths
+  private static formatPath(path: string): string {
+    // If path already starts with /api, return as-is
+    if (path.startsWith("/api")) {
+      return path;
+    }
+    // Otherwise, prefix with /internal
+    return `/internal${path}`;
+  }
+
   private static async refreshToken(): Promise<boolean> {
     if (this.isRefreshing) {
       // If already refreshing, wait for the existing promise
@@ -29,7 +39,7 @@ class ApiCall {
 
   private static async performRefresh(): Promise<boolean> {
     try {
-      const refreshRes = await fetch(`${this.apiUrl}/session/refresh`, {
+      const refreshRes = await fetch(`${this.apiUrl}${this.formatPath("/session/refresh")}`, {
         method: "POST",
         credentials: "include",
       });
@@ -70,7 +80,7 @@ class ApiCall {
       headers["Authorization"] = `Bearer ${this.authToken}`;
     }
 
-    const res = await fetch(`${this.apiUrl}${path}`, {
+    const res = await fetch(`${this.apiUrl}${this.formatPath(path)}`, {
       method,
       headers,
       body: finalBody,
