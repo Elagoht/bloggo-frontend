@@ -22,6 +22,7 @@ import {
   fireWebhook,
 } from "../../../services/webhook";
 import { WebhookHeader } from "../../../types/webhook";
+import { generateUUID } from "../../../utilities/uuid";
 
 interface HeaderRow {
   id: string;
@@ -37,7 +38,7 @@ const WebhookPage: FC = () => {
   const [webhookUrl, setWebhookUrl] = useState("");
   const [originalUrl, setOriginalUrl] = useState("");
   const [rows, setRows] = useState<HeaderRow[]>([
-    { id: crypto.randomUUID(), key: "", value: "", status: "new" },
+    { id: generateUUID(), key: "", value: "", status: "new" },
   ]);
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -61,7 +62,7 @@ const WebhookPage: FC = () => {
         if (headersResponse.success && headersResponse.data) {
           const loadedRows: HeaderRow[] = headersResponse.data.map(
             (header: WebhookHeader) => ({
-              id: crypto.randomUUID(),
+              id: generateUUID(),
               key: header.key,
               value: header.value,
               status: "saved" as const,
@@ -71,7 +72,7 @@ const WebhookPage: FC = () => {
           );
           // Add an empty row at the end
           loadedRows.push({
-            id: crypto.randomUUID(),
+            id: generateUUID(),
             key: "",
             value: "",
             status: "new",
@@ -147,7 +148,7 @@ const WebhookPage: FC = () => {
         lastRow.status === "new"
       ) {
         newRows.push({
-          id: crypto.randomUUID(),
+          id: generateUUID(),
           key: "",
           value: "",
           status: "new",
@@ -186,7 +187,7 @@ const WebhookPage: FC = () => {
         lastRow.status === "new"
       ) {
         newRows.push({
-          id: crypto.randomUUID(),
+          id: generateUUID(),
           key: "",
           value: "",
           status: "new",
@@ -206,7 +207,7 @@ const WebhookPage: FC = () => {
         filtered[filtered.length - 1].value.trim()
       ) {
         filtered.push({
-          id: crypto.randomUUID(),
+          id: generateUUID(),
           key: "",
           value: "",
           status: "new",
@@ -266,7 +267,7 @@ const WebhookPage: FC = () => {
         // Reset all rows to saved state
         setRows([
           ...itemsToSave.map((item) => ({
-            id: crypto.randomUUID(),
+            id: generateUUID(),
             key: item.key,
             value: item.value,
             status: "saved" as const,
@@ -274,7 +275,7 @@ const WebhookPage: FC = () => {
             originalValue: item.value,
           })),
           {
-            id: crypto.randomUUID(),
+            id: generateUUID(),
             key: "",
             value: "",
             status: "new" as const,

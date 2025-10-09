@@ -10,6 +10,7 @@ import {
   bulkUpsertKeyValues,
   KeyValue,
 } from "../../../services/keyvalue";
+import { generateUUID } from "../../../utilities/uuid";
 
 interface KeyValueRow {
   id: string;
@@ -22,7 +23,7 @@ interface KeyValueRow {
 
 const KeyValuePage: FC = () => {
   const [rows, setRows] = useState<KeyValueRow[]>([
-    { id: crypto.randomUUID(), key: "", value: "", status: "new" },
+    { id: generateUUID(), key: "", value: "", status: "new" },
   ]);
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -36,7 +37,7 @@ const KeyValuePage: FC = () => {
         if (response.success && response.data) {
           const loadedRows: KeyValueRow[] = response.data.map(
             (kv: KeyValue) => ({
-              id: crypto.randomUUID(),
+              id: generateUUID(),
               key: kv.key,
               value: kv.value,
               status: "saved" as const,
@@ -46,7 +47,7 @@ const KeyValuePage: FC = () => {
           );
           // Add an empty row at the end
           loadedRows.push({
-            id: crypto.randomUUID(),
+            id: generateUUID(),
             key: "",
             value: "",
             status: "new",
@@ -107,7 +108,7 @@ const KeyValuePage: FC = () => {
         lastRow.status === "new"
       ) {
         newRows.push({
-          id: crypto.randomUUID(),
+          id: generateUUID(),
           key: "",
           value: "",
           status: "new",
@@ -149,7 +150,7 @@ const KeyValuePage: FC = () => {
         lastRow.status === "new"
       ) {
         newRows.push({
-          id: crypto.randomUUID(),
+          id: generateUUID(),
           key: "",
           value: "",
           status: "new",
@@ -170,7 +171,7 @@ const KeyValuePage: FC = () => {
         filtered[filtered.length - 1].value.trim()
       ) {
         filtered.push({
-          id: crypto.randomUUID(),
+          id: generateUUID(),
           key: "",
           value: "",
           status: "new",
@@ -201,20 +202,17 @@ const KeyValuePage: FC = () => {
       const response = await bulkUpsertKeyValues(itemsToSave);
       if (response.success) {
         // Reset all rows to saved state
-        setRows(
-          itemsToSave
-            .map((item) => ({
-              id: crypto.randomUUID(),
-              key: item.key,
-              value: item.value,
-              status: "saved" as const,
-              originalKey: item.key,
-              originalValue: item.value,
-            }))
-            .concat([
-              { id: crypto.randomUUID(), key: "", value: "", status: "new" },
-            ])
-        );
+        setRows([
+          ...itemsToSave.map((item) => ({
+            id: generateUUID(),
+            key: item.key,
+            value: item.value,
+            status: "saved" as const,
+            originalKey: item.key,
+            originalValue: item.value,
+          })),
+          { id: generateUUID(), key: "", value: "", status: "new" as const },
+        ]);
         toast.success("Key-value pairs saved successfully!");
       } else {
         toast.error(
