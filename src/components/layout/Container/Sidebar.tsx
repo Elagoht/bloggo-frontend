@@ -9,10 +9,13 @@ type SidebarProps = PropsWithChildren & {
 const Sidebar: FC<SidebarProps> = ({ children, topMargin }) => {
   return (
     <Container
-      size="sm"
-      className={classNames("flex flex-col gap-2 w-full lg:max-w-80", {
-        "lg:mt-14": topMargin,
-      })}
+      className={classNames(
+        "flex flex-col gap-2 w-full lg:max-w-80 lg:sticky lg:self-start",
+        {
+          "lg:top-[8.5rem]": topMargin,
+          "lg:top-4": !topMargin,
+        }
+      )}
     >
       {children}
     </Container>
