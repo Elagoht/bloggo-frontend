@@ -1,4 +1,4 @@
-import { FC, FormEvent, FormHTMLAttributes, PropsWithChildren } from "react";
+import { forwardRef, FormEvent, FormHTMLAttributes, PropsWithChildren } from "react";
 
 type FormProps = FormHTMLAttributes<HTMLFormElement> &
   PropsWithChildren & {
@@ -6,7 +6,7 @@ type FormProps = FormHTMLAttributes<HTMLFormElement> &
     reset?: (form: HTMLFormElement) => void;
   };
 
-const Form: FC<FormProps> = ({ handle, reset, children, ...props }) => {
+const Form = forwardRef<HTMLFormElement, FormProps>(({ handle, reset, children, ...props }, ref) => {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const form = event.currentTarget as HTMLFormElement;
@@ -52,6 +52,7 @@ const Form: FC<FormProps> = ({ handle, reset, children, ...props }) => {
 
   return (
     <form
+      ref={ref}
       className="flex flex-col gap-4"
       {...props}
       onReset={handleReset}
@@ -60,6 +61,8 @@ const Form: FC<FormProps> = ({ handle, reset, children, ...props }) => {
       {children}
     </form>
   );
-};
+});
+
+Form.displayName = "Form";
 
 export default Form;

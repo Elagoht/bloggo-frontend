@@ -2,7 +2,8 @@ import QueryString from "qs";
 import ApiCall from "../utilities/apiCaller";
 
 type PostCreatedResponse = {
-  id: number;
+  postId: number;
+  versionId: number;
 };
 
 export const getPosts = (filters?: RequestPostFilters) =>
@@ -68,7 +69,9 @@ export const updatePostVersion = (
   );
 
 export const deletePostVersion = (postId: number, versionId: string) =>
-  ApiCall.delete<ResponseVersionDeleted>(`/posts/${postId}/versions/${versionId}`);
+  ApiCall.delete<ResponseVersionDeleted>(
+    `/posts/${postId}/versions/${versionId}`
+  );
 
 export const submitVersionForReview = (postId: number, versionId: string) =>
   ApiCall.post(`/posts/${postId}/versions/${versionId}/submit`);

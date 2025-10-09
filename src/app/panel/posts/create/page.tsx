@@ -12,6 +12,7 @@ import {
 } from "@tabler/icons-react";
 import { FC, useEffect, useState } from "react";
 import { useBlocker, useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 import Dialog from "../../../../components/common/Dialog";
 import NoCategoriesYet from "../../../../components/common/NoCategoriesYet";
 import Button from "../../../../components/form/Button";
@@ -79,7 +80,11 @@ const WritePage: FC = () => {
 
       if (response.success) {
         setIsDirty(false);
-        navigate("/posts", { replace: true });
+        toast.success("Post created successfully!");
+        navigate(
+          `/posts/${response.data.postId}/versions/${response.data.versionId}/edit`,
+          { replace: true }
+        );
       } else {
         throw new Error(response.error.message);
       }

@@ -76,6 +76,9 @@ const EditVersionPage: FC = () => {
   );
   const [blockerReset, setBlockerReset] = useState<null | (() => void)>(null);
 
+  // Form ref for programmatic submission
+  const formRef = useRef<HTMLFormElement>(null);
+
   const loadVersion = async () => {
     if (postId && versionId) {
       const [versionResponse, versionsResponse] = await Promise.all([
@@ -250,6 +253,24 @@ const EditVersionPage: FC = () => {
     };
   }, []);
 
+  // Handle Cmd+S / Ctrl+S keyboard shortcut
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      // Check for Cmd+S (Mac) or Ctrl+S (Windows/Linux)
+      if ((event.metaKey || event.ctrlKey) && event.key === "s") {
+        event.preventDefault(); // Prevent browser's default save dialog
+
+        // Only submit if there are unsaved changes and not currently submitting
+        if (isDirty && !isSubmitting && formRef.current) {
+          formRef.current.requestSubmit(); // Trigger form validation and submission
+        }
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isDirty, isSubmitting]);
+
   const handleDialogConfirm = () => {
     setIsDialogOpen(false);
     blockerProceed?.();
@@ -282,7 +303,7 @@ const EditVersionPage: FC = () => {
 
   return (
     <>
-      <Form handle={handleFormSubmit} className="w-full mx-auto">
+      <Form ref={formRef} handle={handleFormSubmit} className="w-full mx-auto">
         <ContentWithSidebar>
           <Container size="lg">
             <PageTitleWithIcon icon={IconVersions}>

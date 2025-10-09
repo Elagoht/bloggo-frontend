@@ -1,5 +1,6 @@
 type ResponsePostCreated = {
-  id: number;
+  postId: number;
+  versionId: number;
 };
 
 type ResponseVersionDeleted = {
