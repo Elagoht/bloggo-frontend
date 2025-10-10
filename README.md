@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="../bloggo.webp" width="196" height="196" />
+  <img src="./public/assets/bloggo.webp" width="196" height="196" />
 
 # Bloggo Frontend
 
