@@ -35,6 +35,11 @@ const UserChangePasswordForm: FC<UserChangePasswordFormProps> = ({
       return;
     }
 
+    if (newPassword.length > 100) {
+      toast.error("Password must not exceed 100 characters!");
+      return;
+    }
+
     try {
       setLoading(true);
       const response = await patchUserChangePassword(user.id, {
@@ -85,6 +90,7 @@ const UserChangePasswordForm: FC<UserChangePasswordFormProps> = ({
               type="password"
               required
               minLength={12}
+              maxLength={100}
               iconLeft={IconLock}
               placeholder="Enter new password (minimum 12 characters)"
               disabled={!isExpanded}
@@ -96,6 +102,7 @@ const UserChangePasswordForm: FC<UserChangePasswordFormProps> = ({
               type="password"
               required
               minLength={12}
+              maxLength={100}
               iconLeft={IconLock}
               placeholder="Confirm new password"
               disabled={!isExpanded}

@@ -123,8 +123,13 @@ const UserProfileEditForm: FC<UserProfileEditFormProps> = ({ profile }) => {
       return;
     }
 
-    if (newPassword.length < 8) {
-      toast.error("Password must be at least 8 characters long");
+    if (newPassword.length < 12) {
+      toast.error("Password must be at least 12 characters long");
+      return;
+    }
+
+    if (newPassword.length > 100) {
+      toast.error("Password must not exceed 100 characters");
       return;
     }
 
@@ -287,7 +292,8 @@ const UserProfileEditForm: FC<UserProfileEditFormProps> = ({ profile }) => {
               label="New Password"
               iconLeft={IconKey}
               placeholder="Enter your new password"
-              minLength={8}
+              minLength={12}
+              maxLength={100}
               required
             />
 
@@ -297,7 +303,8 @@ const UserProfileEditForm: FC<UserProfileEditFormProps> = ({ profile }) => {
               label="Confirm New Password"
               iconLeft={IconKey}
               placeholder="Confirm your new password"
-              minLength={8}
+              minLength={12}
+              maxLength={100}
               required
             />
 
