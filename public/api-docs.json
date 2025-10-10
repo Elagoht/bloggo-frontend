@@ -241,6 +241,28 @@
       }
     },
     {
+      "path": "/posts/views",
+      "method": "GET",
+      "tag": "Posts",
+      "summary": "Get all view counts",
+      "description": "Retrieve view counts for all published posts as a map of slug to count",
+      "responses": {
+        "200": {
+          "description": "Successful response",
+          "schema": {
+            "type": "object",
+            "example": {
+              "my-first-post": 123,
+              "another-post": 5123,
+              "third-post": 0
+            },
+            "description": "Object with post slugs as keys and view counts as values"
+          }
+        },
+        "401": { "description": "Unauthorized" }
+      }
+    },
+    {
       "path": "/categories",
       "method": "GET",
       "tag": "Categories",
