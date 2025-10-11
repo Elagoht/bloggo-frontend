@@ -184,7 +184,7 @@ const StatisticsDisplay: FC<StatisticsDisplayProps> = ({
             { key: "title", title: "Title" },
             ...(!isUserStats ? [{ key: "author", title: "Author" }] : []),
             {
-              key: "read_time",
+              key: "readTime",
               title: "Read Time",
               render: (value) => `${value} min`,
             },

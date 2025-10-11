@@ -60,8 +60,7 @@ export const asideMenu: Array<{
   {
     name: "Removals",
     icon: IconTrash,
-    href: "/removal-requests?status=0",
-    perm: "post:delete",
+    href: "/removal-requests",
   },
   {
     name: "Audit Logs",

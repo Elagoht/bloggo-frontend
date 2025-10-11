@@ -12,7 +12,6 @@ import { FC, useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Dialog from "../../../../../components/common/Dialog";
 import HoldButton from "../../../../../components/form/HoldButton";
-import RouteGuard from "../../../../../components/Guards/RouteGuard";
 import Container from "../../../../../components/layout/Container";
 import PageTitleWithIcon from "../../../../../components/layout/Container/PageTitle";
 import SectionHeader from "../../../../../components/layout/SectionHeader";
@@ -22,10 +21,14 @@ import {
   rejectRemovalRequest,
   REMOVAL_REQUEST_STATUS,
 } from "../../../../../services/removal-requests";
+import { useAuth } from "../../../../../hooks/useAuth";
 
 const RemovalRequestDetailsPage: FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const { hasPermission } = useAuth();
+
+  const canManageRequests = hasPermission("post:delete");
 
   const getStatusText = (status: number): string => {
     switch (status) {
@@ -87,7 +90,7 @@ const RemovalRequestDetailsPage: FC = () => {
       if (result.success) {
         setRemovalRequest(result.data);
       } else {
-        if (result.status === 404) {
+        if (result.status === 404 || result.status === 403) {
           navigate("/removal-requests");
           return;
         }
@@ -164,25 +167,21 @@ const RemovalRequestDetailsPage: FC = () => {
 
   if (loading) {
     return (
-      <RouteGuard permission="post:delete" redirectTo="/dashboard">
-        <Container>
-          <div className="flex items-center justify-center py-12">
-            <div className="text-smoke-500 dark:text-smoke-400">Loading...</div>
-          </div>
-        </Container>
-      </RouteGuard>
+      <Container>
+        <div className="flex items-center justify-center py-12">
+          <div className="text-smoke-500 dark:text-smoke-400">Loading...</div>
+        </div>
+      </Container>
     );
   }
 
   if (error || !removalRequest) {
     return (
-      <RouteGuard permission="post:delete" redirectTo="/dashboard">
-        <Container>
-          <div className="flex items-center justify-center py-12">
-            <div className="text-red-500">Error loading removal request</div>
-          </div>
-        </Container>
-      </RouteGuard>
+      <Container>
+        <div className="flex items-center justify-center py-12">
+          <div className="text-red-500">Error loading removal request</div>
+        </div>
+      </Container>
     );
   }
 
@@ -192,94 +191,129 @@ const RemovalRequestDetailsPage: FC = () => {
   const isPending = removalRequest.status === REMOVAL_REQUEST_STATUS.PENDING;
 
   return (
-    <RouteGuard permission="post:delete" redirectTo="/dashboard">
-      <Container>
-        <div className="flex items-center justify-between">
-          <PageTitleWithIcon icon={IconTrash}>
-            Removal Request Details
-          </PageTitleWithIcon>
+    <Container>
+      <div className="flex items-center justify-between">
+        <PageTitleWithIcon icon={IconTrash}>
+          Removal Request Details
+        </PageTitleWithIcon>
 
-          <div
-            className={classNames(
-              "flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium",
-              {
-                "bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-300":
-                  statusColor === "warning",
-                "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300":
-                  statusColor === "success",
-                "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300":
-                  statusColor === "danger",
-              }
-            )}
-          >
-            <StatusIcon size={14} />
-            <span>{statusText}</span>
-          </div>
+        <div
+          className={classNames(
+            "flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium",
+            {
+              "bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-300":
+                statusColor === "warning",
+              "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300":
+                statusColor === "success",
+              "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300":
+                statusColor === "danger",
+            }
+          )}
+        >
+          <StatusIcon size={14} />
+          <span>{statusText}</span>
         </div>
+      </div>
 
-        {/* Post Information */}
-        <div className="bg-white dark:bg-smoke-950 rounded-xl border border-smoke-200 dark:border-smoke-800 p-4 gap-4 flex flex-col">
-          <SectionHeader icon={IconPaperclip}>Post Information</SectionHeader>
+      {/* Post Information */}
+      <div className="bg-white dark:bg-smoke-950 rounded-xl border border-smoke-200 dark:border-smoke-800 p-4 gap-4 flex flex-col">
+        <SectionHeader icon={IconPaperclip}>Post Information</SectionHeader>
 
-          <div className="flex flex-col md:flex-row gap-4">
-            {/* Cover Image */}
-            <div className="w-full md:w-48 md:flex-shrink-0">
-              {removalRequest.postCoverUrl ? (
-                <img
-                  src={removalRequest.postCoverUrl}
-                  alt="Post cover"
-                  className="w-full aspect-video object-cover rounded-lg"
+        <div className="flex flex-col md:flex-row gap-4">
+          {/* Cover Image */}
+          <div className="w-full md:w-48 md:flex-shrink-0">
+            {removalRequest.postCoverUrl ? (
+              <img
+                src={removalRequest.postCoverUrl}
+                alt="Post cover"
+                className="w-full aspect-video object-cover rounded-lg"
+              />
+            ) : (
+              <div className="w-full aspect-video bg-smoke-100 dark:bg-smoke-800 rounded-lg flex items-center justify-center">
+                <IconPaperclip
+                  size={24}
+                  className="text-smoke-400 dark:text-smoke-600"
                 />
-              ) : (
-                <div className="w-full aspect-video bg-smoke-100 dark:bg-smoke-800 rounded-lg flex items-center justify-center">
-                  <IconPaperclip
-                    size={24}
-                    className="text-smoke-400 dark:text-smoke-600"
+              </div>
+            )}
+          </div>
+
+          {/* Post Details */}
+          <div className="flex-1 min-w-0">
+            <h4 className="font-medium text-smoke-900 dark:text-smoke-100 mb-3 line-clamp-2">
+              {removalRequest.postTitle}
+            </h4>
+
+            <div className="flex items-center gap-4 text-sm">
+              <div className="flex items-center gap-2">
+                {removalRequest.postWriter.avatar ? (
+                  <img
+                    src={removalRequest.postWriter.avatar}
+                    alt="Writer avatar"
+                    className="w-5 h-5 rounded-full"
                   />
-                </div>
+                ) : (
+                  <IconUser size={16} />
+                )}
+                <span className="font-medium text-smoke-900 dark:text-smoke-100">
+                  {removalRequest.postWriter.name}
+                </span>
+              </div>
+
+              {removalRequest.postCategory && (
+                <span className="px-2 py-1 bg-gopher-100 dark:bg-gopher-900/30 text-gopher-800 dark:text-gopher-300 rounded-md text-xs font-medium">
+                  {removalRequest.postCategory}
+                </span>
               )}
             </div>
-
-            {/* Post Details */}
-            <div className="flex-1 min-w-0">
-              <h4 className="font-medium text-smoke-900 dark:text-smoke-100 mb-3 line-clamp-2">
-                {removalRequest.postTitle}
-              </h4>
-
-              <div className="flex items-center gap-4 text-sm">
-                <div className="flex items-center gap-2">
-                  {removalRequest.postWriter.avatar ? (
-                    <img
-                      src={removalRequest.postWriter.avatar}
-                      alt="Writer avatar"
-                      className="w-5 h-5 rounded-full"
-                    />
-                  ) : (
-                    <IconUser size={16} />
-                  )}
-                  <span className="font-medium text-smoke-900 dark:text-smoke-100">
-                    {removalRequest.postWriter.name}
-                  </span>
-                </div>
-
-                {removalRequest.postCategory && (
-                  <span className="px-2 py-1 bg-gopher-100 dark:bg-gopher-900/30 text-gopher-800 dark:text-gopher-300 rounded-md text-xs font-medium">
-                    {removalRequest.postCategory}
-                  </span>
-                )}
-              </div>
-            </div>
           </div>
         </div>
+      </div>
 
-        {/* Request Information */}
-        <div className="bg-white dark:bg-smoke-950 rounded-xl border border-smoke-200 dark:border-smoke-800 flex flex-col gap-4 p-4">
-          <SectionHeader icon={IconUser}>Request Information</SectionHeader>
+      {/* Request Information */}
+      <div className="bg-white dark:bg-smoke-950 rounded-xl border border-smoke-200 dark:border-smoke-800 flex flex-col gap-4 p-4">
+        <SectionHeader icon={IconUser}>Request Information</SectionHeader>
+
+        <div className="flex items-center gap-2 text-sm text-smoke-700 dark:text-smoke-300">
+          {removalRequest.requestedBy.avatar ? (
+            <img
+              src={removalRequest.requestedBy.avatar}
+              alt="Avatar"
+              className="w-5 h-5 rounded-full"
+            />
+          ) : (
+            <IconUser size={16} />
+          )}
+          <span className="font-medium text-smoke-900 dark:text-smoke-100">
+            {removalRequest.requestedBy.name}
+          </span>
+          <span>requested removal on</span>
+          <span className="font-medium">
+            {new Date(removalRequest.createdAt).toLocaleDateString()}
+          </span>
+        </div>
+
+        {removalRequest.note && (
+          <div className="text-sm text-smoke-600 dark:text-smoke-400 bg-smoke-50 dark:bg-smoke-900 p-3 rounded-lg">
+            <span className="font-medium text-smoke-900 dark:text-smoke-100">
+              Reason:
+            </span>
+            <span className="ml-2">"{removalRequest.note}"</span>
+          </div>
+        )}
+      </div>
+
+      {/* Decision Information */}
+      {removalRequest.decidedBy && removalRequest.decidedAt && (
+        <div className="bg-white dark:bg-smoke-950 rounded-xl border border-smoke-200 dark:border-smoke-800 p-4 gap-4 flex flex-col">
+          <SectionHeader icon={IconCertificate}>
+            Decision Information
+          </SectionHeader>
 
           <div className="flex items-center gap-2 text-sm text-smoke-700 dark:text-smoke-300">
-            {removalRequest.requestedBy.avatar ? (
+            {removalRequest.decidedBy.avatar ? (
               <img
-                src={removalRequest.requestedBy.avatar}
+                src={removalRequest.decidedBy.avatar}
                 alt="Avatar"
                 className="w-5 h-5 rounded-full"
               />
@@ -287,66 +321,33 @@ const RemovalRequestDetailsPage: FC = () => {
               <IconUser size={16} />
             )}
             <span className="font-medium text-smoke-900 dark:text-smoke-100">
-              {removalRequest.requestedBy.name}
+              {removalRequest.decidedBy.name}
             </span>
-            <span>requested removal on</span>
+            <span>
+              {removalRequest.status === 1 ? "approved" : "rejected"} this
+              request on
+            </span>
             <span className="font-medium">
-              {new Date(removalRequest.createdAt).toLocaleDateString()}
+              {new Date(removalRequest.decidedAt).toLocaleDateString()}
             </span>
           </div>
 
-          {removalRequest.note && (
+          {removalRequest.decisionNote && (
             <div className="text-sm text-smoke-600 dark:text-smoke-400 bg-smoke-50 dark:bg-smoke-900 p-3 rounded-lg">
               <span className="font-medium text-smoke-900 dark:text-smoke-100">
-                Reason:
+                Decision Note:
               </span>
-              <span className="ml-2">"{removalRequest.note}"</span>
+              <span className="ml-2">"{removalRequest.decisionNote}"</span>
             </div>
           )}
         </div>
+      )}
 
-        {/* Decision Information */}
-        {removalRequest.decidedBy && removalRequest.decidedAt && (
-          <div className="bg-white dark:bg-smoke-950 rounded-xl border border-smoke-200 dark:border-smoke-800 p-4 gap-4 flex flex-col">
-            <SectionHeader icon={IconCertificate}>
-              Decision Information
-            </SectionHeader>
+      {/* Action Buttons */}
+      {isPending && canManageRequests && (
+        <div className="bg-white dark:bg-smoke-950 rounded-xl border border-smoke-200 dark:border-smoke-800 p-4 gap-4 flex flex-col">
+          <SectionHeader icon={IconCheck}>Actions</SectionHeader>
 
-            <div className="flex items-center gap-2 text-sm text-smoke-700 dark:text-smoke-300">
-              {removalRequest.decidedBy.avatar ? (
-                <img
-                  src={removalRequest.decidedBy.avatar}
-                  alt="Avatar"
-                  className="w-5 h-5 rounded-full"
-                />
-              ) : (
-                <IconUser size={16} />
-              )}
-              <span className="font-medium text-smoke-900 dark:text-smoke-100">
-                {removalRequest.decidedBy.name}
-              </span>
-              <span>
-                {removalRequest.status === 1 ? "approved" : "rejected"} this
-                request on
-              </span>
-              <span className="font-medium">
-                {new Date(removalRequest.decidedAt).toLocaleDateString()}
-              </span>
-            </div>
-
-            {removalRequest.decisionNote && (
-              <div className="text-sm text-smoke-600 dark:text-smoke-400 bg-smoke-50 dark:bg-smoke-900 p-3 rounded-lg">
-                <span className="font-medium text-smoke-900 dark:text-smoke-100">
-                  Decision Note:
-                </span>
-                <span className="ml-2">"{removalRequest.decisionNote}"</span>
-              </div>
-            )}
-          </div>
-        )}
-
-        {/* Action Buttons */}
-        {isPending && (
           <div className="grid grid-cols-2 gap-2">
             <HoldButton
               color="success"
@@ -372,68 +373,67 @@ const RemovalRequestDetailsPage: FC = () => {
               Reject
             </HoldButton>
           </div>
-        )}
+        </div>
+      )}
 
-        {/* Decision Note Dialog */}
-        <Dialog
-          isOpen={showDecisionNoteDialog !== null}
-          onClose={() => {
-            setShowDecisionNoteDialog(null);
-            setDecisionNote("");
-          }}
-          title={`${
-            showDecisionNoteDialog === "approve" ? "Approve" : "Reject"
-          } Removal Request`}
-          actions={[
-            {
-              children: "Cancel",
-              variant: "outline",
-              onClick: () => {
-                setShowDecisionNoteDialog(null);
-                setDecisionNote("");
-              },
-              disabled: actionLoading !== null,
+      {/* Decision Note Dialog */}
+      <Dialog
+        isOpen={showDecisionNoteDialog !== null}
+        onClose={() => {
+          setShowDecisionNoteDialog(null);
+          setDecisionNote("");
+        }}
+        title={`${
+          showDecisionNoteDialog === "approve" ? "Approve" : "Reject"
+        } Removal Request`}
+        actions={[
+          {
+            children: "Cancel",
+            variant: "outline",
+            onClick: () => {
+              setShowDecisionNoteDialog(null);
+              setDecisionNote("");
             },
-            {
-              children:
-                actionLoading !== null
-                  ? showDecisionNoteDialog === "approve"
-                    ? "Approving..."
-                    : "Rejecting..."
-                  : showDecisionNoteDialog === "approve"
-                  ? "Approve"
-                  : "Reject",
-              color:
-                showDecisionNoteDialog === "approve" ? "success" : "danger",
-              onClick:
-                showDecisionNoteDialog === "approve"
-                  ? handleApprove
-                  : handleReject,
-              disabled: actionLoading !== null || decisionNote.trim() === "",
-            },
-          ]}
-        >
-          <div className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-smoke-700 dark:text-smoke-300 mb-2">
-                Decision Note
-              </label>
-              <textarea
-                value={decisionNote}
-                onChange={(e) => setDecisionNote(e.target.value)}
-                placeholder="Explain your decision..."
-                className="w-full px-3 py-2 border border-smoke-300 dark:border-smoke-700 rounded-lg bg-white dark:bg-smoke-900 text-smoke-900 dark:text-smoke-100 placeholder-smoke-400 dark:placeholder-smoke-500 focus:ring-2 focus:ring-gopher-500 focus:border-transparent resize-none"
-                rows={4}
-                maxLength={500}
-              />
-              <div className="text-xs text-smoke-500 dark:text-smoke-400 mt-1">
-                {decisionNote.length}/500 characters
-              </div>
+            disabled: actionLoading !== null,
+          },
+          {
+            children:
+              actionLoading !== null
+                ? showDecisionNoteDialog === "approve"
+                  ? "Approving..."
+                  : "Rejecting..."
+                : showDecisionNoteDialog === "approve"
+                ? "Approve"
+                : "Reject",
+            color: showDecisionNoteDialog === "approve" ? "success" : "danger",
+            onClick:
+              showDecisionNoteDialog === "approve"
+                ? handleApprove
+                : handleReject,
+            disabled: actionLoading !== null || decisionNote.trim() === "",
+          },
+        ]}
+      >
+        <div className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-smoke-700 dark:text-smoke-300 mb-2">
+              Decision Note
+            </label>
+            <textarea
+              value={decisionNote}
+              onChange={(e) => setDecisionNote(e.target.value)}
+              placeholder="Explain your decision..."
+              className="w-full px-3 py-2 border border-smoke-300 dark:border-smoke-700 rounded-lg bg-white dark:bg-smoke-900 text-smoke-900 dark:text-smoke-100 placeholder-smoke-400 dark:placeholder-smoke-500 focus:ring-2 focus:ring-gopher-500 focus:border-transparent resize-none"
+              rows={4}
+              maxLength={500}
+            />
+            <div className="text-xs text-smoke-500 dark:text-smoke-400 mt-1">
+              {decisionNote.length}/500 characters
             </div>
           </div>
-        </Dialog>
-      </Container>
-    </RouteGuard>
+        </div>
+      </Dialog>
+    </Container>
   );
 };
 
