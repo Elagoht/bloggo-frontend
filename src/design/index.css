@@ -15,3 +15,14 @@ select:-webkit-autofill:focus {
   background-color: white !important;
   -webkit-text-fill-color: black !important;
 }
+
+/* Fix code block overflow issues */
+.prose pre {
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+.prose code {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}

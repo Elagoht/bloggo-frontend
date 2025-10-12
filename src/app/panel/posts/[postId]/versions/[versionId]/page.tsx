@@ -197,22 +197,20 @@ const ViewVersionPage: FC = () => {
           />
 
           {/* Version Actions - Show if user can perform any action */}
-          {postId && versionId && (
-            <>
-              <SectionHeader>Version Actions</SectionHeader>
-              <VersionActionsForm
-                postId={parseInt(postId)}
-                versionId={versionId}
-                currentStatus={version.status}
-                versionTitle={version.title}
-                versionAuthor={{
-                  id: version.versionAuthor?.id || 0,
-                  name: version.versionAuthor?.name || "Unknown",
-                }}
-                onSuccess={loadVersion}
-              />
-            </>
-          )}
+          <VersionActionsForm
+            postId={parseInt(postId!)}
+            versionId={versionId!}
+            currentStatus={version.status}
+            versionTitle={version.title}
+            versionAuthor={{
+              id: version.versionAuthor?.id || 0,
+              name: version.versionAuthor?.name || "Unknown",
+            }}
+            onSuccess={loadVersion}
+            renderSectionHeader={(hasActions: boolean) =>
+              hasActions ? <SectionHeader>Version Actions</SectionHeader> : null
+            }
+          />
 
           {/* Delete Button for users with post:delete permission */}
           <PermissionGuard permission="post:delete">

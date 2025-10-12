@@ -5,7 +5,7 @@ import {
   IconWorldWww,
   IconX,
 } from "@tabler/icons-react";
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useState, ReactNode } from "react";
 import toast from "react-hot-toast";
 import Dialog from "../components/common/Dialog";
 import Button from "../components/form/Button";
@@ -32,6 +32,7 @@ type VersionActionsFormProps = {
   };
   onSuccess?: () => void;
   disabled?: boolean;
+  renderSectionHeader?: (hasActions: boolean) => ReactNode;
 };
 
 const VersionActionsForm: FC<VersionActionsFormProps> = ({
@@ -42,6 +43,7 @@ const VersionActionsForm: FC<VersionActionsFormProps> = ({
   versionAuthor,
   onSuccess,
   disabled = false,
+  renderSectionHeader,
 }) => {
   const { profile } = useProfileStore();
   const { hasPermission } = useAuth();
@@ -230,7 +232,9 @@ const VersionActionsForm: FC<VersionActionsFormProps> = ({
   }
 
   return (
-    <div className="flex flex-col gap-2">
+    <>
+      {renderSectionHeader?.(hasAnyAction)}
+      <div className="flex flex-col gap-2">
       {/* Submit for Review */}
       {canSubmit && (
         <Button
@@ -524,6 +528,7 @@ const VersionActionsForm: FC<VersionActionsFormProps> = ({
         </div>
       </Dialog>
     </div>
+    </>
   );
 };
 

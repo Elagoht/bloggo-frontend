@@ -24,7 +24,7 @@ const Aside: FC = () => {
       {/* Mobile overlay */}
       {isMobileMenuOpen && (
         <div
-          className="fixed inset-0 top-16 bg-black/50 z-30 md:hidden"
+          className="fixed inset-0 top-16 bg-black/50 z-20 md:hidden"
           onClick={closeMobileMenu}
         />
       )}
@@ -33,7 +33,7 @@ const Aside: FC = () => {
         className={classNames(
           "flex flex-col w-64 p-4 bg-smoke-50/60 dark:bg-smoke-950/60 backdrop-blur h-[calc(100dvh-4rem)] overflow-auto border-r border-smoke-200/70 dark:border-smoke-800/70 transition-transform duration-300 ease-in-out",
           // Both mobile and desktop: fixed positioned
-          "fixed top-16 left-0 z-40",
+          "fixed top-16 left-0 z-30",
           // Mobile: sliding behavior
           isMobileMenuOpen
             ? "translate-x-0"
