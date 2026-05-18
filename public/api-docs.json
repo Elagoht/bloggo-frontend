@@ -91,6 +91,11 @@
                       "nullable": true,
                       "example": "/uploads/cover/image"
                     },
+                    "audioFile": {
+                      "type": "string",
+                      "nullable": true,
+                      "example": "/uploads/audio/uuid"
+                    },
                     "readCount": { "type": "integer", "example": 150 },
                     "readTime": { "type": "integer", "example": 5 },
                     "publishedAt": {
@@ -168,6 +173,7 @@
               "description": { "type": "string", "nullable": true },
               "spot": { "type": "string", "nullable": true },
               "coverImage": { "type": "string", "nullable": true },
+              "audioFile": { "type": "string", "nullable": true },
               "readCount": { "type": "integer" },
               "readTime": { "type": "integer" },
               "publishedAt": { "type": "string", "format": "date-time" },
