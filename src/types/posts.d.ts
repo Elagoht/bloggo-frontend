@@ -46,6 +46,7 @@ type PostDetails = {
   spot?: string;
   status: number;
   readCount: number;
+  audioFile?: string;
   createdAt?: string;
   updatedAt?: string;
   category: {

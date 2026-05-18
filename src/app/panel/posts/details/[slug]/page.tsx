@@ -10,6 +10,7 @@ import PageTitleWithIcon from "../../../../../components/layout/Container/PageTi
 import SectionHeader from "../../../../../components/layout/SectionHeader";
 import PostDetails from "../../../../../components/pages/panel/posts/PostDetails";
 import PostTagsManager from "../../../../../components/pages/panel/posts/PostTagsManager";
+import PostAudioManager from "../../../../../components/pages/panel/posts/PostAudioManager";
 import PostVersionCard from "../../../../../components/pages/panel/posts/PostVersionCard";
 import { getPost, getPostVersions } from "../../../../../services/posts";
 
@@ -119,6 +120,8 @@ const PostDetailsPage: FC = () => {
         <PostDetails {...post} />
 
         <PostTagsManager post={post} onTagsUpdated={fetchPostDetails} />
+
+	        <PostAudioManager post={post} onAudioUpdated={fetchPostDetails} />
 
         <SectionHeader icon={IconHistory}>
           Version History{" "}

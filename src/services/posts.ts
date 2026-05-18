@@ -139,3 +139,15 @@ export const updateVersionCategory = (
   ApiCall.patch(`/posts/${postId}/versions/${versionId}/category`, {
     categoryId,
   });
+
+export const uploadPostAudio = (postId: number, file: File) => {
+  const formData = new FormData();
+  formData.append("audio", file);
+  return ApiCall.post<{ message: string; audioFile: string }>(
+    `/posts/${postId}/audio`,
+    formData
+  );
+};
+
+export const deletePostAudio = (postId: number) =>
+  ApiCall.delete(`/posts/${postId}/audio`);
